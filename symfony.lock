@@ -84,6 +84,9 @@
     "egulias/email-validator": {
         "version": "2.1.18"
     },
+    "heroku/heroku-buildpack-php": {
+        "version": "v178"
+    },
     "laminas/laminas-code": {
         "version": "3.4.1"
     },
