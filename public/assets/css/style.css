@@ -1504,9 +1504,7 @@ footer.white-wrapper .social-links li a {
 /*-----------------------------------------------------------------------------------*/
 @media screen and (min-width: 992px) {
     body {
-        padding-top: 30px;
-        padding-left: 30px;
-        padding-right: 30px;
+        padding: 0px;
     }
     .fullheight {
         min-height: 100vh;
