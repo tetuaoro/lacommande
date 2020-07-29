@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title "Contact" %}
+
+{% block body %}
+	<div class="contact">
+		<div class="row">
+			<div class="col-md"></div>
+			<div class="col-md-6">
+				<h3 class="text-center m-b-50">{{ "Demande de <span class='theme-accent-color'>C</span>ontact" | trans | raw }}</h3>
+				{{ form_start(form) }}
+				{{ form_row(form.nom, {'attr': {'placeholder': 'Votre nom'}, 'label': false}) }}
+				{{ form_row(form.prenom, {'attr': {'placeholder': 'Votre prénom'}, 'label': false}) }}
+				{{ form_row(form.email, {'attr': {'placeholder': 'Votre email'}, 'label': false}) }}
+				{{ form_row(form.sujet, {'attr': {'placeholder': 'ex: information'}, 'label': false}) }}
+				{{ form_row(form.message, {'attr': {'placeholder': 'Votre message'}, 'label': false}) }}
+				<button type="submit" class="btn">Enregistrer</button>
+				{{ form_end(form) }}
+			</div>
+			<div class="col-md"></div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block stylesheets %}
+	<link rel="stylesheet" href="{{asset('assets/css/custom/style.css')}}">
+{% endblock %}

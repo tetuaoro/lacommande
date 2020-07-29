@@ -1,0 +1,13 @@
+.custom-file,
+.custom-file-input,
+.custom-file-label {
+  cursor: pointer;
+}
+
+.custom-form-am {
+  display: none;
+}
+
+.custom-form-am + label:hover {
+  color: #dcdc0a;
+}

@@ -50,10 +50,14 @@ class MealController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="show", methods={"GET"})
+     * @Route("/s/{slug}-{id}", name="show", methods={"GET"}, requirements={"slug": "[a-z0-9\-]*"})
      */
-    public function show(Meal $meal): Response
+    public function show(string $slug, Meal $meal): Response
     {
+        if ($meal->getSlug() != $slug) {
+            return $this->redirectToRoute('meal_show', ['id' => $meal->getId(), 'slug' => $meal->getSlug()]);
+        }
+
         return $this->render('meal/show.html.twig', [
             'meal' => $meal,
         ]);
@@ -84,6 +88,8 @@ class MealController extends AbstractController
      */
     public function delete(Request $request, Meal $meal): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
         if ($this->isCsrfTokenValid('delete'.$meal->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($meal);

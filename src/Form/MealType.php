@@ -34,6 +34,7 @@ class MealType extends AbstractType
                     'data-browse' => 'Choisir',
                 ],
                 'attr' => [
+                    'class' => 'custom-form-am',
                     'placeholder' => 'Choisir une image',
                     'accept' => 'image/*',
                 ],

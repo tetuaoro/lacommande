@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\MealRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass=MealRepository::class)
@@ -53,9 +54,20 @@ class Meal
      */
     private $provider;
 
+    /**
+     * @Gedmo\Slug(fields={"name"})
+     * @ORM\Column(type="string", length=255)
+     */
+    private $slug;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
+    }
+
+    public function __toString()
+    {
+        return $this->name;
     }
 
     public function getId(): ?int
@@ -143,6 +155,18 @@ class Meal
     public function setProvider(?Provider $provider): self
     {
         $this->provider = $provider;
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
 
         return $this;
     }

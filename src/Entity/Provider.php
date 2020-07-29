@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\ProviderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -54,10 +55,21 @@ class Provider
      */
     private $meals;
 
+    /**
+     * @Gedmo\Slug(fields={"name"})
+     * @ORM\Column(type="string", length=255)
+     */
+    private $slug;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
         $this->meals = new ArrayCollection();
+    }
+
+    public function __toString()
+    {
+        return $this->name;
     }
 
     public function getId(): ?int
@@ -97,18 +109,6 @@ class Provider
     public function setUrl(string $url): self
     {
         $this->url = $url;
-
-        return $this;
-    }
-
-    public function getOpenclosetime(): ?\DateTimeInterface
-    {
-        return $this->openclosetime;
-    }
-
-    public function setOpenclosetime(\DateTimeInterface $openclosetime): self
-    {
-        $this->openclosetime = $openclosetime;
 
         return $this;
     }
@@ -176,6 +176,18 @@ class Provider
                 $meal->setProvider(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
 
         return $this;
     }

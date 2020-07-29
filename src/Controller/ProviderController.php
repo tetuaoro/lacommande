@@ -83,6 +83,8 @@ class ProviderController extends AbstractController
      */
     public function delete(Request $request, Provider $provider): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
         if ($this->isCsrfTokenValid('delete'.$provider->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($provider);
