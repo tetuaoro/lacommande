@@ -11,6 +11,7 @@
         "doctrine/doctrine-fixtures-bundle": "^3.3",
         "doctrine/doctrine-migrations-bundle": "^3.0",
         "doctrine/orm": "^2.7",
+        "fzaninotto/faker": "^1.9",
         "knplabs/knp-paginator-bundle": "^5.3",
         "phpdocumentor/reflection-docblock": "^5.2",
         "sensio/framework-extra-bundle": "^5.1",
@@ -44,7 +45,6 @@
         "twig/twig": "^2.12|^3.0"
     },
     "require-dev": {
-        "fzaninotto/faker": "^1.9",
         "heroku/heroku-buildpack-php": "*",
         "symfony/browser-kit": "^5.1",
         "symfony/css-selector": "^5.1",
