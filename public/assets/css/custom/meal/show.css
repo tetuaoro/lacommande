@@ -1,0 +1,14 @@
+.btn-group-meal a i,
+.btn-group-meal button i {
+  font-size: 1.7rem;
+  padding-bottom: 1rem;
+}
+
+.btn-group-meal button:hover {
+  text-decoration: none;
+  color: #dcdc0a;
+}
+
+.command-form {
+  display: none;
+}

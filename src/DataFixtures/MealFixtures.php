@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Command;
 use App\Entity\Gallery;
 use App\Entity\Meal;
 use App\Entity\Provider;
@@ -17,6 +18,7 @@ class MealFixtures extends Fixture
         $nb_providers = 10;
         $providers = [];
         $images = [];
+        $meals = [];
 
         for ($i = 0; $i < 11; ++$i) {
             $images[] = 'https://lorempixel.com/640/480/food/'.$i.'/';
@@ -57,7 +59,7 @@ class MealFixtures extends Fixture
             $images_ = $faker->randomElements($images, 4);
             $meal->setName($name)
                 ->setProvider($faker->randomElement($providers))
-                ->setPrice(mt_rand(500, 2390))
+                ->setPrice($faker->numberBetween(500, 7000))
                 ->setRecipe($paragraphs_recipe)
                 ->setDescription($paragraphs_description)
                 ->setPicture($images_)
@@ -70,8 +72,24 @@ class MealFixtures extends Fixture
                 ->setCreatedAt($faker->dateTimeBetween())
             ;
 
+            $meals[] = $meal;
+
             $manager->persist($meal);
             $manager->persist($gallery);
+        }
+
+        for ($i = 0; $i < 70; ++$i) {
+            $command = new Command();
+
+            $meal_ = $faker->randomElement($meals);
+
+            $command->setName($faker->sha1)
+                ->setItems($faker->numberBetween(1, 10))
+                ->setCreatedAt($faker->dateTimeBetween())
+                ->addMeals($meal_)
+            ;
+
+            $manager->persist($command);
         }
 
         $manager->flush();

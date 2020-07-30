@@ -3,8 +3,11 @@
 namespace App\Entity;
 
 use App\Repository\MealRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=MealRepository::class)
@@ -45,6 +48,8 @@ class Meal
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\GreaterThanOrEqual(500)
+     * @Assert\LessThanOrEqual(7000)
      */
     private $price;
 
@@ -60,9 +65,15 @@ class Meal
      */
     private $slug;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Command::class, mappedBy="meals")
+     */
+    private $commands;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
+        $this->commands = new ArrayCollection();
     }
 
     public function __toString()
@@ -167,6 +178,34 @@ class Meal
     public function setSlug(string $slug): self
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Command[]
+     */
+    public function getCommands(): Collection
+    {
+        return $this->commands;
+    }
+
+    public function addCommand(Command $command): self
+    {
+        if (!$this->commands->contains($command)) {
+            $this->commands[] = $command;
+            $command->addMeals($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommand(Command $command): self
+    {
+        if ($this->commands->contains($command)) {
+            $this->commands->removeElement($command);
+            $command->removeMeals($this);
+        }
 
         return $this;
     }

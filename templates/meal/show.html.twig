@@ -20,7 +20,7 @@
 				</h3>
 				<div class="row">
 					<div class="col-md-8 col-lg-6 m-l-r-auto p-b-30">
-						<div class="blo5 pos-relative p-t-60">
+						<div class="blo5 pos-relative p-t-60 command-submit">
 							<div class="pic-blo5 size14 bo4 wrap-cir-pic hov-img-zoom ab-c-t">
 								<a target="_blank" href="{{ meal.picture[0] }}"><img src="{{ meal.picture[0] }}" alt="IGM-MEAL"></a>
 							</div>
@@ -28,15 +28,28 @@
 							<div class="text-blo5 size34 t-center bo-rad-10 bo7 p-t-90 p-l-35 p-r-35 p-b-30">
 
 								<div class="btn-group-meal">
-									<a href="#">
-										<i class="fas fa-shopping-cart" aria-hidden="true" title="{{ 'Ajouter au panier' | trans }}"></i>
-									</a>
+									<button>
+										<i class="fas fa-shopping-cart show-form-command" aria-hidden="true" title="{{ 'Ajouter au panier' | trans }}"></i>
+									</button>
 									<a href="#">
 										<i class="fa fa-facebook m-l-21" aria-hidden="true" title="{{ 'Partager sur facebook' | trans }}"></i>
 									</a>
 									<a href="#">
 										<i class="fa fa-twitter m-l-21" aria-hidden="true" title="{{ 'Partager sur twitter' | trans }}"></i>
 									</a>
+								</div>
+
+								<div class="command-form">
+									{{ form_start(form) }}
+									<div class="row">
+										<div class="col-auto">
+											{{ form_row(form.items) }}
+										</div>
+										<div class="col-auto">
+											<button class="btn" type="submit">{{ "Commander" | trans({}, 'form') }}</button>
+										</div>
+									</div>
+									{{ form_end(form) }}
 								</div>
 
 								<a href="#" class="txt34 dis-block p-b-6">
@@ -60,6 +73,11 @@
 {% endblock %}
 
 {% block stylesheets %}
-	<link rel="stylesheet" href="{{asset('assets/css/custom/meal/button-meal.css')}}">
+	<link rel="stylesheet" href="{{asset('assets/css/custom/meal/show.css')}}">
+{% endblock %}
+
+{% block javascripts %}
 	<script src="https://kit.fontawesome.com/9132b45b0a.js" crossorigin="anonymous"></script>
+	<script src="{{asset('assets/js/custom/meal/command.js')}}"></script>
+	<script src="{{asset('assets/js/custom/loadingoverlay.min.js')}}"></script>
 {% endblock %}

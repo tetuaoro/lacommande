@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Command;
 use App\Entity\Meal;
 use App\Form\MealType;
 use App\Repository\MealRepository;
+use App\Service\AjaxForm;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -63,14 +65,18 @@ class MealController extends AbstractController
     /**
      * @Route("/s/{slug}-{id}", name="show", methods={"GET"}, requirements={"slug": "[a-z0-9\-]*"})
      */
-    public function show(string $slug, Meal $meal): Response
+    public function show(string $slug, Meal $meal, AjaxForm $ajaxForm): Response
     {
         if ($meal->getSlug() != $slug) {
             return $this->redirectToRoute('meal_show', ['id' => $meal->getId(), 'slug' => $meal->getSlug()]);
         }
 
+        $command = new Command();
+        $form = $ajaxForm->command_meal($command, $meal);
+
         return $this->render('meal/show.html.twig', [
             'meal' => $meal,
+            'form' => $form->createView(),
         ]);
     }
 
