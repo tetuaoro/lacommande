@@ -24,12 +24,17 @@ function sendForm() {
       $(".command-submit").LoadingOverlay("hide");
       $("button .show-form-command").css("color", "inherit");
       $(".command-form").hide();
-      $(".command-submit").LoadingOverlay("show", {
-        image: "",
-        text: "La commande a été envoyé",
-        textClass: "tit2",
-        textResizeFactor: 0.3,
-      });
+      setTimeout(() => {
+          $(".command-submit").LoadingOverlay("show", {
+            image: "",
+            text: "La commande a été envoyé",
+            textClass: "tit2",
+            textResizeFactor: 0.3,
+          });          
+      }, 1450);
+      setTimeout(() => {
+        $(".command-submit").LoadingOverlay("hide");          
+    }, 4570);
     }
   };
 
