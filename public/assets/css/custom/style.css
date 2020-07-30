@@ -1,3 +1,43 @@
 .theme-accent-color {
-    color: #dcdc0a;
+  color: #dcdc0a;
+}
+
+.meal-hover {
+  transition: 0.3s;
+}
+
+.meal-hover:hover {
+  cursor: pointer;
+}
+
+.meal-hover:hover::after {
+  opacity: 1;
+  visibility: visible;
+}
+
+.meal-card {
+    position: relative;
+}
+
+.meal-hover::after {
+  content: "";
+  width: 10%;
+  height: 1em;
+  position: absolute;
+  bottom: 10%;
+  left: 90%;
+  background: #dcdc0a;
+  opacity: 0;
+  visibility: hidden;
+  transform: rotate(-45deg);
+  transition: 0.2s;
+}
+
+.page-item.active .page-link {
+  border-color: #c1c127;
+  background-color: #c1c127;
+}
+
+.page-link {
+  color: #c1c127;
 }

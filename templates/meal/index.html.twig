@@ -1,41 +1,91 @@
 {% extends 'base.html.twig' %}
 
-{% block title "Les plats" %}
+{% set title_ = "Les plats" | trans({}, 'nav') %}
+{% set half_first = meals|slice(0, meals|length / 2) %}
+{% set half_second = meals|slice(meals|length / 2) %}
 
-{% block body %}
+{% block title %}
+	{{ title_ }}
+{% endblock %}
 
-	<div class="meal p-t-115 p-b-123">
-		<a href="{{ path('meal_new') }}">Create new</a>
-		<table class="table table-hover">
-			<thead>
-				<tr>
-					<th>Id</th>
-					<th>Name</th>
-					<th>CreatedAt</th>
-					<th>Price</th>
-					<th>actions</th>
-				</tr>
-			</thead>
-			<tbody>
-				{% for meal in meals %}
-					<tr>
-						<th>{{ "#" ~ loop.index }}</th>
-						<td>{{ meal.name }}</td>
-						<td>{{ meal.createdAt ? meal.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-						<td>{{ meal.price }}</td>
-						<td>
-							<a href="{{ path('meal_show', {'id': meal.id, 'slug': meal.slug}) }}">show</a>
-							<a href="{{ path('meal_edit', {'id': meal.id, 'slug': meal.slug}) }}">edit</a>
-						</td>
-					</tr>
-				{% else %}
-					<tr>
-						<td colspan="8">no records found</td>
-					</tr>
-				{% endfor %}
-			</tbody>
-		</table>
+{% block bodyfull %}
+	<div class="meal">
+		<section class="bg-title-page flex-c-m p-t-160 p-b-80 p-l-15 p-r-15" style="background-image: url({{asset('assets/images/header-menu-02.jpg')}});">
+			<h2 class="tit6 t-center">
+				{{ title_ }}
+			</h2>
+		</section>
 
+		<section id="meal-section" class="section-lunch bgwhite">
+			<div class="container">
+				<div class="pagination mt-1 justify-content-center p-t-108 p-b-20">
+					{{ knp_pagination_render(meals, null, {}, {size: 'small', rounded: true}) }}
+				</div>
+				<div class="row">
+					<div class="col-md-6 col-lg-6 m-l-r-auto">
+						{% for meal in half_first %}
+							<div class="meal-card">
+								<div class="blo3 flex-w flex-col-l-sm m-b-30 meal-hover" data-href="{{path('meal_show', {id: meal.id, slug: meal.slug})}}">
+									<div class="pic-blo3 size20 bo-rad-10 hov-img-zoom m-r-28">
+										<a href="{{path('meal_show', {id: meal.id, slug: meal.slug})}}"><img src="{{ meal.picture[0] }}" alt="IMG-LUNCH"></a>
+									</div>
+
+									<div class="text-blo3 size21 flex-col-l-m">
+										<a href="{{path('meal_show', {id: meal.id, slug: meal.slug})}}" class="txt21 m-b-3">
+											{{ meal.name }}
+										</a>
+
+										<div class="txt23">
+											{{ meal.description | truncate(40) | raw }}
+										</div>
+
+										<span class="txt22 m-t-20">
+											{{ meal.price ~ " XPF"}}
+										</span>
+									</div>
+								</div>
+							</div>
+						{% endfor %}
+					</div>
+
+					<div class="col-md-6 col-lg-6 m-l-r-auto">
+						{% for meal in half_second %}
+							<div class="meal-card">
+								<div class="blo3 flex-w flex-col-l-sm m-b-30 meal-hover" data-href="{{path('meal_show', {id: meal.id, slug: meal.slug})}}">
+									<div class="pic-blo3 size20 bo-rad-10 hov-img-zoom m-r-28">
+										<a href="{{ path('meal_show', {id: meal.id, slug: meal.slug}) }}"><img src="{{ meal.picture[0] }}" alt="IMG-LUNCH"></a>
+									</div>
+
+									<div class="text-blo3 size21 flex-col-l-m">
+										<a href="{{ path('meal_show', {id: meal.id, slug: meal.slug}) }}" class="txt21 m-b-3">
+											{{ meal.name }}
+										</a>
+
+										<div class="txt23">
+											{{ meal.description | truncate(40) | raw }}
+										</div>
+
+										<span class="txt22 m-t-20">
+											{{ meal.price ~ " XPF"}}
+										</span>
+									</div>
+								</div>
+							</div>
+						{% endfor %}
+					</div>
+				</div>
+				<div class="pagination mt-1 justify-content-center p-t-20 p-b-70">
+					{{ knp_pagination_render(meals, null, {}, {size: 'small', rounded: true}) }}
+				</div>
+			</div>
+		</section>
 	</div>
+{% endblock %}
 
+{% block stylesheets %}
+	<link rel="stylesheet" href="{{asset('assets/css/custom/style.css')}}">
+{% endblock %}
+{% block javascripts %}
+	<script src="{{asset('assets/js/custom/path-click.js')}}"></script>
+	<script src="{{asset('assets/js/custom/meal-section.js')}}"></script>
 {% endblock %}

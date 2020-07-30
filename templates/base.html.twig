@@ -20,21 +20,17 @@
 			<link rel="stylesheet" type="text/css" href="{{asset('assets/fonts/themify/themify-icons.css') }}">
 			<link rel="stylesheet" type="text/css" href="{{asset('assets/vendor/animate/animate.css') }}">
 			<link rel="stylesheet" type="text/css" href="{{asset('assets/vendor/css-hamburgers/hamburgers.min.css') }}">
-			<link rel="stylesheet" type="text/css" href="{{asset('assets/vendor/animsition/css/animsition.min.css') }}">
-			<link rel="stylesheet" type="text/css" href="{{asset('assets/vendor/select2/select2.min.css') }}">
-			<link rel="stylesheet" type="text/css" href="{{asset('assets/vendor/daterangepicker/daterangepicker.css') }}">
-			<link rel="stylesheet" type="text/css" href="{{asset('assets/vendor/slick/slick.css') }}">
 			<link rel="stylesheet" type="text/css" href="{{asset('assets/vendor/lightbox2/css/lightbox.min.css') }}">
-			<link rel="stylesheet" type="text/css" href="{{asset('assets/css/util.css') }}">
-			<link rel="stylesheet" type="text/css" href="{{asset('assets/css/main.css') }}">
 
 			{% block stylesheets %}{% endblock %}
+
+			<link rel="stylesheet" type="text/css" href="{{asset('assets/css/main.css') }}">
+			<link rel="stylesheet" type="text/css" href="{{asset('assets/css/util.css') }}">
 		</head>
 		<body class="{% if controller_name is defined and controller_name == 'app' %}animsition{% endif %}">
 
 			{% include "base/navigation/nav.html.twig" %}
 
-			
 
 			<div id="main-full">
 				{% block bodyfull %}{% endblock %}
@@ -204,23 +200,13 @@
 			<div id="dropDownSelect1"></div>
 
 			<script type="text/javascript" src="{{asset('assets/vendor/jquery/jquery-3.2.1.min.js')}}"></script>
-			<script type="text/javascript" src="{{asset('assets/vendor/animsition/js/animsition.min.js')}}"></script>
 			<script type="text/javascript" src="{{asset('assets/vendor/bootstrap/js/popper.js')}}"></script>
 			<script type="text/javascript" src="{{asset('assets/vendor/bootstrap/js/bootstrap.min.js')}}"></script>
-			<script type="text/javascript" src="{{asset('assets/vendor/select2/select2.min.js')}}"></script>
-			{# <script type="text/javascript" src="{{asset('assets/vendor/daterangepicker/moment.min.js')}}"></script> #}
-			<script type="text/javascript" src="{{asset('assets/vendor/daterangepicker/daterangepicker.js')}}"></script>
-			<script type="text/javascript" src="{{asset('assets/vendor/slick/slick.min.js')}}"></script>
-			<script type="text/javascript" src="{{asset('assets/js/slick-custom.js')}}"></script>
-			<script type="text/javascript" src="assets/vendor/parallax100/parallax100.js"></script>
-			<script type="text/javascript">
-				$('.parallax100').parallax100();
-			</script>
-			{# <script type="text/javascript" src="{{asset('assets/vendor/countdowntime/countdowntime.js')}}"></script> #}
-			{# <script type="text/javascript" src="{{asset('assets/vendor/lightbox2/js/lightbox.min.js')}}"></script> #}
-			<script src="{{asset('assets/js/main.js')}}"></script>
+			<script type="text/javascript" src="{{asset('assets/vendor/lightbox2/js/lightbox.min.js')}}"></script>
 
 			{% block javascripts %}{% endblock %}
+
+			<script src="{{asset('assets/js/main.js')}}"></script>
 
 		</body>
 	</html>

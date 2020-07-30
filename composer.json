@@ -8,8 +8,10 @@
         "composer/package-versions-deprecated": "^1.10",
         "doctrine/annotations": "^1.0",
         "doctrine/doctrine-bundle": "^2.1",
+        "doctrine/doctrine-fixtures-bundle": "^3.3",
         "doctrine/doctrine-migrations-bundle": "^3.0",
         "doctrine/orm": "^2.7",
+        "knplabs/knp-paginator-bundle": "^5.3",
         "phpdocumentor/reflection-docblock": "^5.2",
         "sensio/framework-extra-bundle": "^5.1",
         "stof/doctrine-extensions-bundle": "^1.4",
@@ -42,7 +44,6 @@
         "twig/twig": "^2.12|^3.0"
     },
     "require-dev": {
-        "doctrine/doctrine-fixtures-bundle": "^3.3",
         "fzaninotto/faker": "^1.9",
         "heroku/heroku-buildpack-php": "*",
         "symfony/browser-kit": "^5.1",

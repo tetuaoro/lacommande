@@ -3,7 +3,7 @@
 {% block title "Contact" %}
 
 {% block body %}
-	<div class="contact">
+	<div class="app-contact p-t-115 p-b-123">
 		<div class="row">
 			<div class="col-md"></div>
 			<div class="col-md-6">
@@ -14,7 +14,7 @@
 				{{ form_row(form.email, {'attr': {'placeholder': 'Votre email'}, 'label': false}) }}
 				{{ form_row(form.sujet, {'attr': {'placeholder': 'ex: information'}, 'label': false}) }}
 				{{ form_row(form.message, {'attr': {'placeholder': 'Votre message'}, 'label': false}) }}
-				<button type="submit" class="btn">Enregistrer</button>
+				<button type="submit" class="btn">{{ "Contactez-nous" | trans({}, 'form') }}</button>
 				{{ form_end(form) }}
 			</div>
 			<div class="col-md"></div>

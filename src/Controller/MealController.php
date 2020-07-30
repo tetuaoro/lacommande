@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Meal;
 use App\Form\MealType;
 use App\Repository\MealRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,10 +19,20 @@ class MealController extends AbstractController
     /**
      * @Route("/", name="index", methods={"GET"})
      */
-    public function index(MealRepository $mealRepository): Response
+    public function index(MealRepository $mealRepository, PaginatorInterface $paginator, Request $request): Response
     {
+        $meals = $paginator->paginate(
+            $mealRepository->paginator(),
+            $request->query->get('page', 1),
+            14,
+            [
+                $paginator::DEFAULT_SORT_FIELD_NAME => 'm.createdAt',
+                $paginator::DEFAULT_SORT_DIRECTION => 'desc',
+            ]
+        );
+
         return $this->render('meal/index.html.twig', [
-            'meals' => $mealRepository->findAll(),
+            'meals' => $meals,
         ]);
     }
 

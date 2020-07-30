@@ -29,6 +29,11 @@ class MealRepository extends ServiceEntityRepository
         ;
     }
 
+    public function paginator()
+    {
+        return $this->createQueryBuilder('m')->getQuery();
+    }
+
     // /**
     //  * @return Meal[] Returns an array of Meal objects
     //  */
