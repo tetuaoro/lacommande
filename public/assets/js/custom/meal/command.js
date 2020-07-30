@@ -28,7 +28,7 @@ function sendForm() {
           $(".command-submit").LoadingOverlay("show", {
             image: "",
             text: "La commande a été envoyé",
-            textClass: "tit2",
+            textClass: "tit2 t-center",
             textResizeFactor: 0.3,
           });          
       }, 1450);
