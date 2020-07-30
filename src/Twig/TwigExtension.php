@@ -39,13 +39,11 @@ class TwigExtension extends AbstractExtension
 
     public function text_truncate($subject, $max = 26, $ellipsis = '...')
     {
-        $match = trim($subject);
-
-        if ($len = strlen($match) < $max) {
-            $max = $len;
+        if (strlen($subject) < $max) {
+            return substr($subject, 0, strlen($subject));
         }
 
-        return substr($match, 0, $max).$ellipsis;
+        return substr($subject, 0, $max).$ellipsis;
     }
 
     public function unique_group($subject)
