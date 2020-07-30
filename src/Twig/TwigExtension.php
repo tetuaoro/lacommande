@@ -41,6 +41,10 @@ class TwigExtension extends AbstractExtension
     {
         $match = trim($subject);
 
+        if ($len = strlen($match) < $max) {
+            $max = $len;
+        }
+
         return substr($match, 0, $max).$ellipsis;
     }
 
