@@ -7,12 +7,13 @@ use App\Entity\Meal;
 use App\Entity\Provider;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Faker\Factory;
 
 class MealFixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {
-        $faker = \Faker\Factory::create('fr_FR');
+        $faker = (new Factory())->create('fr_FR');
         $nb_providers = 10;
         $providers = [];
         $images = [];
