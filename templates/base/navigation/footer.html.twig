@@ -1,0 +1,153 @@
+<!-- Sign up -->
+<div class="section-signup bg1-pattern p-t-85 p-b-85">
+	<form class="flex-c-m flex-w flex-col-c-m-lg p-l-5 p-r-5">
+		<span class="txt5 m-10">
+			{{ "Abonnement à la newletter" | trans }}
+		</span>
+
+		<div class="wrap-input-signup size17 bo2 bo-rad-10 bgwhite pos-relative txt10 m-10">
+			<input class="bo-rad-10 sizefull txt10 p-l-20" type="text" name="email-address" placeholder="Email Adrress">
+			<i class="fa fa-envelope ab-r-m m-r-18" aria-hidden="true"></i>
+		</div>
+
+		<!-- Button3 -->
+		<button type="submit" class="btn3 flex-c-m size18 txt11 trans-0-4 m-10">
+			{{ "S'abonner" | trans }}
+		</button>
+	</form>
+</div>
+
+
+<!-- Footer -->
+<footer class="bg1">
+	<div class="container p-t-40 p-b-70">
+		<div class="row">
+			<div class="col-sm-6 col-md-4 p-t-50">
+				<h4 class="txt13 m-b-33">
+					Contact
+				</h4>
+
+				<ul class="m-b-70">
+					<li class="txt14 m-b-14">
+						<i class="fa fa-map-marker fs-16 dis-inline-block size19" aria-hidden="true"></i>
+						Rue Gauguin, Papeete, Tahiti Polynésie Française
+					</li>
+
+					<li class="txt14 m-b-14">
+						<i class="fa fa-phone fs-16 dis-inline-block size19" aria-hidden="true"></i>
+						(+689) 40 XX XX XX
+					</li>
+
+					<li class="txt14 m-b-14">
+						<i class="fa fa-envelope fs-13 dis-inline-block size19" aria-hidden="true"></i>
+						contact@site.com
+					</li>
+				</ul>
+
+				<!-- - -->
+				<h4 class="txt13 m-b-32">
+					Horaires d'ouverture au public
+				</h4>
+
+				<ul>
+					<li class="txt14">
+						10:45 AM – 11:00 PM
+					</li>
+
+					<li class="txt14">
+						Tous les jours
+					</li>
+				</ul>
+			</div>
+
+			<div class="col-sm-6 col-md-4 p-t-50">
+				<h4 class="txt13 m-b-33">
+					Latest twitter
+				</h4>
+
+				<div class="m-b-25">
+					<span class="fs-13 color2 m-r-5">
+						<i class="fa fa-twitter" aria-hidden="true"></i>
+					</span>
+					<a href="assets/#" class="txt15">
+						@colorlib
+					</a>
+
+					<p class="txt14 m-b-18">
+						Activello is a good option. It has a slider built into that displays the featured image in the slider.
+						<a href="assets/#" class="txt15">
+							https://buff.ly/2zaSfAQ
+						</a>
+					</p>
+
+					<span class="txt16">
+						21 Dec 2017
+					</span>
+				</div>
+
+				<div>
+					<span class="fs-13 color2 m-r-5">
+						<i class="fa fa-twitter" aria-hidden="true"></i>
+					</span>
+					<a href="assets/#" class="txt15">
+						@colorlib
+					</a>
+
+					<p class="txt14 m-b-18">
+						Activello is a good option. It has a slider built into that displays
+						<a href="assets/#" class="txt15">
+							https://buff.ly/2zaSfAQ
+						</a>
+					</p>
+
+					<span class="txt16">
+						21 Dec 2017
+					</span>
+				</div>
+			</div>
+
+			<div class="col-sm-6 col-md-4 p-t-50">
+				<h4 class="txt13 m-b-38">
+					Gallerie
+				</h4>
+
+				<!-- Gallery footer -->
+				{{ render(controller('App\\Controller\\AppController::gallery_html', {who: 'footer'})) }}
+			</div>
+		</div>
+	</div>
+
+	<div class="end-footer bg2">
+		<div class="container">
+			<div class="flex-sb-m flex-w p-t-22 p-b-22">
+				<div class="p-t-5 p-b-5">
+					<a href="assets/#" class="fs-15 c-white">
+						<i class="fa fa-tripadvisor" aria-hidden="true"></i>
+					</a>
+					<a target="_blank" class="fs-15 c-white" href="https://www.facebook.com/dialog/share?app_id={{ get_env('OAUTH_FACEBOOK_ID') }}&display=popup&href={{ url('app_home') }}">
+						<i class="fa fa-facebook m-l-18" aria-hidden="true"></i>
+					</a>
+					<a href="assets/#" class="fs-15 c-white">
+						<i class="fa fa-twitter m-l-18" aria-hidden="true"></i>
+					</a>
+				</div>
+
+				<div class="txt17 p-r-20 p-t-5 p-b-5">
+					{{ "Licence &copy; 2020 Tous droits réservés" | trans | raw }}
+                    <i class="fa fa-heart"></i>
+				</div>
+			</div>
+		</div>
+	</div>
+</footer>
+
+
+<!-- Back to top -->
+<div class="btn-back-to-top bg0-hov" id="myBtn">
+	<span class="symbol-btn-back-to-top">
+		<i class="fa fa-angle-double-up" aria-hidden="true"></i>
+	</span>
+</div>
+
+<!-- Container Selection1 -->
+<div id="dropDownSelect1"></div>

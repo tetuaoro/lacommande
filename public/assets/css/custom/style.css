@@ -45,3 +45,20 @@
 .custom-file {
   width: 100%;
 }
+
+.size39 {
+  width: 75%;
+  height: 50px;
+}
+
+@media (min-width: 576px) {
+  .size39 {
+    width: 60%;
+  }
+}
+
+@media (min-width: 768px) {
+  .size39 {
+    width: 45%;
+  }
+}

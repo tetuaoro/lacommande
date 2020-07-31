@@ -1,6 +1,8 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ "Accueil" | trans({}, 'nav') }}{% endblock %}
+{% block title %}
+	{{ "Accueil" | trans({}, 'nav') }}
+{% endblock %}
 
 {% block bodyfull %}
 
@@ -8,31 +10,78 @@
 
 		<section class="section-welcome bg1-pattern p-t-120 p-b-105">
 			<div class="container">
-				<div class="row">
-					<div class="col-md-6 p-t-45 p-b-30">
-						<div class="wrap-text-welcome t-center">
-							<span class="tit2 t-center">
-								Tahitian Food
-							</span>
+				<div class="search-sidebar2 m-l-r-auto size39 bo2 pos-relative">
+					<input class="input-search-sidebar2 txt10 p-l-20 p-r-55" type="text" name="search" placeholder="Search">
+					<button class="btn-search-sidebar2 flex-c-m ti-search trans-0-4"></button>
+				</div>
+				<div class="sidebar2 p-t-20 p-b-20 p-l-20 p-l-0-md p-t-0-md">
+					<div class="row">
+						<div class="col-md">
+							<div class="archive">
+								<h4 class="txt33 p-b-35 p-t-43">
+									Dernier Plat
+								</h4>
 
-							<h3 class="tit3 t-center m-b-35 m-t-5">
-								Iaorana
-							</h3>
+								<ul>
+									{% for meal in meal_recap %}
+										<li class="flex-sb-m p-t-8 p-b-8">
+											<a href="{{ path('meal_show', {id: meal.id, slug: meal.slug}) }}" class="txt27">
+												{{ meal.name }}
+											</a>
 
-							<p class="t-center m-b-22 size3 m-l-r-auto">
-								Donec quis lorem nulla. Nunc eu odio mi. Morbi nec lobortis est. Sed fringilla, nunc sed imperdiet lacinia, nisl ante egestas mi, ac facilisis ligula sem id neque.
-							</p>
-
-							<a href="#" class="txt4">
-								{{ "Nous connaître" | trans }}
-								<i class="fa fa-long-arrow-right m-l-10" aria-hidden="true"></i>
-							</a>
+											<span class="txt29">
+												({{ "commandé " ~ meal.commands | length ~ " fois" }})
+											</span>
+										</li>
+									{% endfor %}
+								</ul>
+							</div>
 						</div>
-					</div>
+						<div class="col-md">
+							<div class="categories">
+								<h4 class="txt33 bo5-b p-b-35 p-t-43">
+									Traiteur/Restaurateur
+								</h4>
 
-					<div class="col-md-6 p-b-30">
-						<div class="wrap-pic-welcome size2 bo-rad-10 hov-img-zoom m-l-r-auto">
-							<img src="http://lorempixel.com/640/480/food/2/" alt="IMG-OUR">
+								<ul>
+									{% for provider in prov_recap %}
+										<li class="bo5-b p-t-8 p-b-8">
+											<a href="{{ path('provider_show', {id: provider.id}) }}" class="txt27">
+												{{ provider.name }}
+											</a>
+										</li>
+									{% endfor %}
+								</ul>
+							</div>
+						</div>
+						<div class="col-md">
+							<div class="popular">
+								<h4 class="txt33 p-b-35 p-t-43">
+									Plat populaire
+								</h4>
+
+								<ul>
+									{% for meal in meal_popular %}
+										<li class="flex-w m-b-25">
+											<div class="size16 bo-rad-10 wrap-pic-w of-hidden m-r-18">
+												<a href="{{ path('meal_show', {id: meal.id, slug: meal.slug}) }}">
+													<img src="{{ meal.img }}" alt="IMG-POPULAR">
+												</a>
+											</div>
+
+											<div class="size28">
+												<a href="{{ path('meal_show', {id: meal.id, slug: meal.slug}) }}" class="dis-block txt28 m-b-8">
+													{{ meal.name }}
+												</a>
+
+												<span class="txt14">
+													{{ meal.commands | length ~ " commandes, " ~ meal.createdAt | date('Y, m d') }}
+												</span>
+											</div>
+										</li>
+									{% endfor %}
+								</ul>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -41,13 +90,12 @@
 
 		<section class="section-intro">
 			<div class="header-intro parallax100 t-center p-t-135 p-b-158" style="background-image: url({{asset('assets/images/bg-intro-01.jpg')}});">
-				<span class="tit2 p-l-15 p-r-15">
-					{{ "Découvrir" | trans }}
-				</span>
-
 				<h3 class="tit4 t-center p-l-15 p-r-15 p-t-3">
 					{{ nameSite }}
 				</h3>
+				<span class="tit2 p-l-15 p-r-15">
+					{{ "vous souhaite la bienvenue" | trans }}
+				</span>
 			</div>
 
 			<div class="content-intro bg-white p-t-77 p-b-133">
@@ -88,6 +136,7 @@
 
 {% block stylesheets %}
 	<link rel="stylesheet" type="text/css" href="{{asset('assets/vendor/animsition/css/animsition.min.css') }}">
+	<link rel="stylesheet" href="{{asset('assets/css/custom/style.css')}}">
 {% endblock %}
 
 {% block javascripts %}

@@ -29,6 +29,19 @@ class MealRepository extends ServiceEntityRepository
         ;
     }
 
+    public function findPopular($how = 8)
+    {
+        return $this->createQueryBuilder('m')
+            ->select('COUNT(c) AS HIDDEN cmds', 'm')
+            ->leftJoin('m.commands', 'c')
+            ->orderBy('cmds', 'DESC')
+            ->groupBy('m')
+            ->setMaxResults($how)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     public function paginator()
     {
         return $this->createQueryBuilder('m')->getQuery();
