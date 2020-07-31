@@ -68,8 +68,6 @@ class MealController extends AbstractController
             return $this->redirectToRoute('meal_show', ['id' => $meal->getId(), 'slug' => $meal->getSlug()]);
         }
 
-        dump($meal);
-
         return $this->render('meal/meal_cu.html.twig', [
             'page_name' => 'meal',
             'page_mod' => $mod,
