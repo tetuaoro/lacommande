@@ -62,6 +62,7 @@ class MealFixtures extends Fixture
                 ->setPrice($faker->numberBetween(500, 7000))
                 ->setRecipe($paragraphs_recipe)
                 ->setDescription($paragraphs_description)
+                ->setImg($faker->randomElement($images_))
                 ->setPicture($images_)
                 ->setCreatedAt($faker->dateTimeBetween())
             ;

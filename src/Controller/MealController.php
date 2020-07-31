@@ -39,11 +39,24 @@ class MealController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="new", methods={"GET","POST"})
+     * @Route("/n/new", name="new", methods={"GET","POST"})
+     * @Route("/e/{slug}-{id}/edit", name="edit", methods={"GET","POST"}, requirements={"slug": "[a-z0-9\-]*"})
      */
-    public function new(Request $request): Response
+    public function meal_cu(int $id = null, string $slug = null, MealRepository $mealRepo, Request $request): Response
     {
-        $meal = new Meal();
+        $mod = '';
+        $meal = $mealRepo->findOneBy(['id' => $id]);
+        if (!$meal) {
+            $meal = new Meal();
+            $mod = 'create';
+        } elseif ($slug != $meal->getSlug()) {
+            return $this->redirectToRoute('meal_edit', ['id' => $meal->getId(), 'slug' => $meal->getSlug()]);
+        }
+
+        if ($meal->getId()) {
+            $mod = 'edit';
+        }
+
         $form = $this->createForm(MealType::class, $meal);
         $form->handleRequest($request);
 
@@ -52,11 +65,14 @@ class MealController extends AbstractController
             $entityManager->persist($meal);
             $entityManager->flush();
 
-            return $this->redirectToRoute('meal_index');
+            return $this->redirectToRoute('meal_show', ['id' => $meal->getId(), 'slug' => $meal->getSlug()]);
         }
 
-        return $this->render('meal/new.html.twig', [
+        dump($meal);
+
+        return $this->render('meal/meal_cu.html.twig', [
             'page_name' => 'meal',
+            'page_mod' => $mod,
             'meal' => $meal,
             'form' => $form->createView(),
         ]);
@@ -81,7 +97,7 @@ class MealController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="edit", methods={"GET","POST"})
+     * @Route("/{id}/editx", name="editc", methods={"GET","POST"})
      */
     public function edit(Request $request, Meal $meal): Response
     {

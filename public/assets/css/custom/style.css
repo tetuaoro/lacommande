@@ -16,7 +16,7 @@
 }
 
 .meal-card {
-    position: relative;
+  position: relative;
 }
 
 .meal-hover::after {
@@ -40,4 +40,8 @@
 
 .page-link {
   color: #c1c127;
+}
+
+.custom-file {
+  width: 100%;
 }

@@ -25,17 +25,13 @@ class MealType extends AbstractType
             ->add('description', TextareaType::class, [
                 'translation_domain' => 'form',
             ])
-            ->add('picture', FileType::class, [
+            ->add('img', FileType::class, [
                 'translation_domain' => 'form',
                 'required' => false,
-                'multiple' => true,
+                'data_class' => null,
                 'label' => false,
-                'label_attr' => [
-                    'data-browse' => 'Choisir',
-                ],
                 'attr' => [
-                    'class' => 'custom-form-am',
-                    'placeholder' => 'Choisir une image',
+                    'class' => 'custom-input-bfi',
                     'accept' => 'image/*',
                 ],
             ])

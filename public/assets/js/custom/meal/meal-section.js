@@ -4,3 +4,8 @@ $(document).ready(function () {
         $(this).attr('href', $(this).attr('href') + "#meal-section");
     });
 });
+
+$(".custom-file-label").change(function (e) { 
+    e.preventDefault();
+    $(selector).css("border-bottom", "3px solid #dcdc0a");    
+});

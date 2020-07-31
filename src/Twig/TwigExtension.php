@@ -17,6 +17,7 @@ class TwigExtension extends AbstractExtension
             new TwigFilter('regex_replace', [$this, 'regex']),
             new TwigFilter('truncate', [$this, 'text_truncate']),
             new TwigFilter('uniqueG', [$this, 'unique_group']),
+            new TwigFilter('htmldump', [$this, 'dump_html']),
         ];
     }
 
@@ -49,5 +50,10 @@ class TwigExtension extends AbstractExtension
     public function unique_group($subject)
     {
         return array_unique($subject->getItems(), SORT_REGULAR);
+    }
+
+    public function dump_html($subject)
+    {
+        return strip_tags($subject);
     }
 }
