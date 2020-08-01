@@ -29,6 +29,16 @@ class ProviderRepository extends ServiceEntityRepository
         ;
     }
 
+    public function getRandomProvider()
+    {
+        return $this->createQueryBuilder('p')
+            ->orderBy('p.createdAt', 'DESC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     // /**
     //  * @return Provider[] Returns an array of Provider objects
     //  */

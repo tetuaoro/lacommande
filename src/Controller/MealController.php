@@ -71,7 +71,7 @@ class MealController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
 
             $meal->setImg($info['mediaLink']);
-            $meal->setProvider($providerRepo->findOneBy(['id' => 232]));
+            $meal->setProvider($providerRepo->getRandomProvider());
             $meal->setImgInfo($info);
 
             $entityManager->persist($meal);
