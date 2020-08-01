@@ -46,8 +46,6 @@ class Storage
             'height' => $image_info[1],
         ]);
         $object->acl()->add('allUsers', 'READER');
-        $object->update([
-        ]);
 
         return $object->info();
     }
