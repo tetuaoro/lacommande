@@ -12,6 +12,7 @@ use App\Service\Recaptcha;
 use App\Service\Storage;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -63,15 +64,23 @@ class MealController extends AbstractController
         $form = $this->createForm(MealType::class, $meal);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid() && $recaptcha->captchaverify($request->get('g-recaptcha-response'))) {
+        if ($g = $request->get('g-recaptcha-response')) {
+            $f = $recaptcha->captchaverify($g)->success;
+        } else {
+            $form->get('name')->addError(new FormError('Recaptcha : êtes-vous un robot ?'));
+        }
+
+        if ($form->isSubmitted() && $form->isValid() && $f) {
             // Store image
             $image = $form->get('image')->getData();
-            $info = $storage->uploadMealImage($image);
+            $provider = $providerRepo->getRandomProvider();
+
+            $info = $storage->uploadMealImage($image, $provider);
 
             $entityManager = $this->getDoctrine()->getManager();
 
             $meal->setImg($info['mediaLink']);
-            $meal->setProvider($providerRepo->getRandomProvider()[0]);
+            $meal->setProvider($provider);
             $meal->setImgInfo($info);
 
             $entityManager->persist($meal);
@@ -91,7 +100,7 @@ class MealController extends AbstractController
     /**
      * @Route("/s/{slug}-{id}", name="show", methods={"GET"}, requirements={"slug": "[a-z0-9\-]*"})
      */
-    public function show(string $slug, Meal $meal, AjaxForm $ajaxForm): Response
+    public function show(string $slug, Meal $meal, Storage $storage, ProviderRepository $providerRepository, AjaxForm $ajaxForm): Response
     {
         if ($meal->getSlug() != $slug) {
             return $this->redirectToRoute('meal_show', ['id' => $meal->getId(), 'slug' => $meal->getSlug()]);

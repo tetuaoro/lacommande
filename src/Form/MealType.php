@@ -10,7 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Validator\Constraints\Image;
 
 class MealType extends AbstractType
 {
@@ -42,15 +42,10 @@ class MealType extends AbstractType
                 ],
                 'help' => 'résolution de 1920x1080 recommandé',
                 'constraints' => [
-                    new File([
+                    new Image([
                         'maxSize' => '5M',
-                        'maxSizeMessage' => 'Doit peser moins de 5M',
-                        'mimeTypes' => [
-                            'image/png',
-                            'image/jpeg',
-                            'image/jpg',
-                        ],
-                        'mimeTypesMessage' => 'Doit être une image',
+                        'minWidth' => '720',
+                        'minHeight' => '480',
                     ]),
                 ],
             ])

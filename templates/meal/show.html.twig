@@ -39,7 +39,10 @@
 					<div class="col-md-8 col-lg-6 m-l-r-auto p-b-30">
 						<div class="blo5 pos-relative p-t-60 command-submit">
 							<div class="pic-blo5 size14 bo4 wrap-cir-pic hov-img-zoom ab-c-t">
-								<a target="_blank" href="{{ meal.img }}"><img src="{{ meal.img }}" alt="IGM-MEAL"></a>
+								<a target="_blank" href="{{ meal.img }}" data-lightbox="meal-show" data-title="{{ meal.name ~ ' souvoureux...' }}">
+									<img src="{{ meal.img }}" title="Agrandir l'image" alt="IGM-MEAL">
+								</a>
+								{# <a target="_blank" href="{{ meal.img }}"><img src="{{ meal.img }}" alt="IGM-MEAL"></a> #}
 							</div>
 
 							<div class="text-blo5 size34 t-center bo-rad-10 bo7 p-t-90 p-l-35 p-r-35 p-b-30">
@@ -102,7 +105,6 @@
 {% endblock %}
 
 {% block javascripts %}
-	<script src="https://kit.fontawesome.com/9132b45b0a.js" crossorigin="anonymous"></script>
 	<script src="{{asset('assets/js/custom/meal/command.js')}}"></script>
 	<script src="{{asset('assets/js/custom/loadingoverlay.min.js')}}"></script>
 {% endblock %}
