@@ -1,8 +1,9 @@
 {{ form_start(form) }}
-    {{ form_row(form.name) }}
-    {{ form_row(form.price) }}
-    {{ form_row(form.description) }}
-    {{ form_row(form.recipe) }}
-    {{ form_row(form.img) }}
-    <button class="btn">{{ button_label | default('Enregistrer') }}</button>
+{{ form_row(form.name) }}
+{{ form_row(form.price) }}
+{{ form_row(form.description) }}
+{{ form_row(form.recipe) }}
+{{ form_row(form.image) }}
+<div class="g-recaptcha" data-sitekey="{{ get_env('RECAPTCHA_KEY_3') }}"></div>
+<button class="btn">{{ button_label | default('Enregistrer') }}</button>
 {{ form_end(form) }}

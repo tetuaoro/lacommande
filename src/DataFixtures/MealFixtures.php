@@ -57,12 +57,18 @@ class MealFixtures extends Fixture
 
             $name = ucfirst($faker->word);
             $images_ = $faker->randomElements($images, 4);
+            $img = $faker->randomElement($images_);
+
             $meal->setName($name)
                 ->setProvider($faker->randomElement($providers))
                 ->setPrice($faker->numberBetween(500, 7000))
                 ->setRecipe($paragraphs_recipe)
                 ->setDescription($paragraphs_description)
-                ->setImg($faker->randomElement($images_))
+                ->setImg($img)
+                ->setImgInfo([
+                    'name' => 'Aito.jpg',
+                    'size' => '200px',
+                ])
                 ->setPicture($images_)
                 ->setCreatedAt($faker->dateTimeBetween())
             ;

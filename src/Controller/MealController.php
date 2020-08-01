@@ -6,7 +6,10 @@ use App\Entity\Command;
 use App\Entity\Meal;
 use App\Form\MealType;
 use App\Repository\MealRepository;
+use App\Repository\ProviderRepository;
 use App\Service\AjaxForm;
+use App\Service\Recaptcha;
+use App\Service\Storage;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -42,7 +45,7 @@ class MealController extends AbstractController
      * @Route("/n/new", name="new", methods={"GET","POST"})
      * @Route("/e/{slug}-{id}/edit", name="edit", methods={"GET","POST"}, requirements={"slug": "[a-z0-9\-]*"})
      */
-    public function meal_cu(int $id = null, string $slug = null, MealRepository $mealRepo, Request $request): Response
+    public function meal_cu(int $id = null, string $slug = null, Recaptcha $recaptcha, ProviderRepository $providerRepo, Storage $storage, MealRepository $mealRepo, Request $request): Response
     {
         $mod = '';
         $meal = $mealRepo->findOneBy(['id' => $id]);
@@ -60,8 +63,17 @@ class MealController extends AbstractController
         $form = $this->createForm(MealType::class, $meal);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid() && $recaptcha->captchaverify($request->get('g-recaptcha-response'))) {
+            // Store image
+            $image = $form->get('image')->getData();
+            $info = $storage->uploadMealImage($image);
+
             $entityManager = $this->getDoctrine()->getManager();
+
+            $meal->setImg($info['mediaLink']);
+            $meal->setProvider($providerRepo->findOneBy(['id' => 232]));
+            $meal->setImgInfo($info);
+
             $entityManager->persist($meal);
             $entityManager->flush();
 

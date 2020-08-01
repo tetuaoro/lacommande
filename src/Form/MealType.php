@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 
 class MealType extends AbstractType
 {
@@ -24,19 +25,34 @@ class MealType extends AbstractType
             ])
             ->add('description', TextareaType::class, [
                 'translation_domain' => 'form',
+                'required' => false,
             ])
-            ->add('img', FileType::class, [
+            ->add('recipe', TextareaType::class, [
                 'translation_domain' => 'form',
                 'required' => false,
+            ])
+            ->add('image', FileType::class, [
+                'translation_domain' => 'form',
+                'required' => true,
+                'mapped' => false,
                 'data_class' => null,
                 'label' => false,
                 'attr' => [
                     'class' => 'custom-input-bfi',
-                    'accept' => 'image/*',
                 ],
-            ])
-            ->add('recipe', TextareaType::class, [
-                'translation_domain' => 'form',
+                'help' => 'résolution de 1920x1080 recommandé',
+                'constraints' => [
+                    new File([
+                        'maxSize' => '5M',
+                        'maxSizeMessage' => 'Doit peser moins de 5M',
+                        'mimeTypes' => [
+                            'image/png',
+                            'image/jpeg',
+                            'image/jpg',
+                        ],
+                        'mimeTypesMessage' => 'Doit être une image',
+                    ]),
+                ],
             ])
         ;
     }

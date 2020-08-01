@@ -75,6 +75,11 @@ class Meal
      */
     private $img;
 
+    /**
+     * @ORM\Column(type="array")
+     */
+    private $imgInfo = [];
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
@@ -223,6 +228,18 @@ class Meal
     public function setImg(string $img): self
     {
         $this->img = $img;
+
+        return $this;
+    }
+
+    public function getImgInfo(): ?array
+    {
+        return $this->imgInfo;
+    }
+
+    public function setImgInfo(array $imgInfo): self
+    {
+        $this->imgInfo = $imgInfo;
 
         return $this;
     }
