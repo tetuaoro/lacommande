@@ -38,7 +38,7 @@ class AppController extends AbstractController
     }
 
     /**
-     * @Route("/contact", name="contact")
+     * @Route("/contact-us", name="contact")
      */
     public function contact(Request $request)
     {
@@ -70,6 +70,14 @@ class AppController extends AbstractController
             'controller_name' => 'contact',
             'form' => $form->createView(),
         ]);
+    }
+
+    /**
+     * @Route("/public/credit/cgu-cgv-ml", name="credit")
+     */
+    public function credit()
+    {
+        return $this->render('app/credit/cg.html.twig');
     }
 
     public function gallery_html(string $who, GalleryRepository $galleryRepo)

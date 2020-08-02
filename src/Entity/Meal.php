@@ -22,6 +22,7 @@ class Meal
     private $id;
 
     /**
+     * @Assert\Length(min=8, minMessage="8 caractères minimum")
      * @ORM\Column(type="string", length=255)
      */
     private $name;
@@ -32,6 +33,7 @@ class Meal
     private $createdAt;
 
     /**
+     * @Assert\Length(min=20, minMessage="20 caractères minimum")
      * @ORM\Column(type="text", nullable=true)
      */
     private $recipe;
@@ -42,6 +44,7 @@ class Meal
     private $picture = [];
 
     /**
+     * @Assert\Length(min=20, minMessage="20 caractères minimum")
      * @ORM\Column(type="text", nullable=true)
      */
     private $description;

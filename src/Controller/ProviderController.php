@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/p/m/i", name="provider_")
+ * @Route("/checked/p/m/i", name="provider_")
  */
 class ProviderController extends AbstractController
 {

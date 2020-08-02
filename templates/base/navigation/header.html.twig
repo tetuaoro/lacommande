@@ -47,13 +47,15 @@
 					<a href="#">
 						<i class="fa fa-tripadvisor" aria-hidden="true"></i>
 					</a>
-					<a target="_blank" href="https://www.facebook.com/dialog/share?app_id={{ get_env('OAUTH_FACEBOOK_ID') }}&display=popup&href={{ url('app_home') }}">
+					<a target="_blank" href="{{ global_fb }}">
 						<i class="fa fa-facebook m-l-21" aria-hidden="true"></i>
 					</a>
-					<a href="#">
+					<a class="twitter-share-button" target="_blank" href="{{ global_twitt }}">
 						<i class="fa fa-twitter m-l-21" aria-hidden="true"></i>
 					</a>
-
+					<a class="d-none d-lg-block {% if app.user %}colorated{% endif %}" href="{{ path('app_login') }}">
+						<span class="ti-user m-l-21"></span>
+					</a>
 					<button class="d-lg-none btn-show-sidebar m-l-33 trans-0-4"></button>
 				</div>
 
@@ -63,10 +65,16 @@
 	</div>
 </header>
 
-<aside class="sidebar trans-0-4">
+<aside class="d-lg-none sidebar trans-0-4">
 	<button class="btn-hide-sidebar ti-close color0-hov trans-0-4"></button>
 
-	<ul class="menu-sidebar p-t-95 p-b-70">
+	<ul class="menu-sidebar p-t-70 p-b-70">
+		<li class="t-center m-b-30">
+			<a href="{{ path('app_login') ~ '#connexion' }}" class="border-bottom size1 flex-c-m trans-0-4 m-l-r-auto {% if app.user %}colorated{% endif %}">
+				<span class="ti-user m-l-21"></span>
+			</a>
+		</li>
+
 		<li class="t-center m-b-13">
 			<a href="{{ path('app_index') }}" class="txt19">{{ "Accueil" | trans({}, 'nav') }}</a>
 		</li>
@@ -78,7 +86,7 @@
 		</li>
 
 		<li class="t-center">
-			<a href="assets/reservation.html" class="btn3 flex-c-m size13 txt11 trans-0-4 m-l-r-auto">
+			<a href="" class="btn3 flex-c-m size13 txt11 trans-0-4 m-l-r-auto">
 				{{ "Réservation" | trans({}, 'nav') }}
 			</a>
 		</li>

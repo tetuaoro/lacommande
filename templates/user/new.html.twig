@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New User
+{% endblock %}
+
+{% block body %}
+
+	<div class="user-new p-t-150 p-b-90">
+		<div class="row">
+			<div class="col-md"></div>
+			<div class="col-md-8">
+				{{ include('user/_form.html.twig') }}
+			</div>
+			<div class="col-md"></div>
+		</div>
+	</div>
+
+{% endblock %}
+
+{% block javascripts %}
+<script src="{{asset('assets/js/custom/user/user-new.js')}}"></script>
+{% endblock %}

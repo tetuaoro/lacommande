@@ -1,0 +1,6 @@
+ch_cookie_consent: 
+    categories: ['analytics_%site_slugger%', 'social_media_%site_slugger%']
+    theme: 'dark' # light, dark
+    use_logger: true # Logs user actions to database
+    simplified: true # When set to true the user can only deny or accept all cookies at once
+

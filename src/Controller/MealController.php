@@ -64,9 +64,12 @@ class MealController extends AbstractController
         $form = $this->createForm(MealType::class, $meal);
         $form->handleRequest($request);
 
+        $f = false;
         if ($g = $request->get('g-recaptcha-response')) {
             $f = $recaptcha->captchaverify($g)->success;
-        } else {
+        }
+
+        if ($form->isSubmitted() && !$f) {
             $form->get('name')->addError(new FormError('Recaptcha : êtes-vous un robot ?'));
         }
 

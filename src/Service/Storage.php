@@ -12,10 +12,10 @@ class Storage
     private $storage;
     private $slugger;
 
-    public function __construct($targetDirectory, SluggerInterface $sluggerInterface)
+    public function __construct($credentials, SluggerInterface $sluggerInterface)
     {
         $config = [
-            'keyFilePath' => $targetDirectory,
+            'keyFilePath' => $credentials,
         ];
 
         $this->storage = (new StorageClient($config))->bucket('lacommande');

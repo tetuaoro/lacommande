@@ -1,0 +1,8 @@
+{{ form_start(form) }}
+    {{ form_row(form.name, {'label': false, 'attr': {'placeholder': 'Nom de l\'entreprise'}}) }}
+    {{ form_row(form.email, {'label': false, 'attr': {'placeholder': 'Email'}}) }}
+    {{ form_row(form.username, {'label': false, 'attr': {'placeholder': 'Nom d\'utilisateur pour la connexion'}}) }}
+    {{ form_row(form.password.first, {'label': false, 'attr': {'placeholder': 'Mot de passe'}}) }}
+    {{ form_row(form.password.second, {'label': false, 'attr': {'placeholder': 'Confirmer le mot de passe'}}) }}
+    <button class="btn btn-validation" disabled>{{ "Créer un compte" | trans({}, 'user') }}</button>
+{{ form_end(form) }}

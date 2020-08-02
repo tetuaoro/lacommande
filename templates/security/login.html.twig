@@ -1,0 +1,76 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ "Connexion " | trans({}, 'connect') }}
+{% endblock %}
+
+{% block body %}
+	<div class="login p-t-130 p-b-90">
+		<div class="row">
+			<div class="col-md">
+				<h3 class="text-center tit7">{{ "Pourquoi " ~ nameSite ~ " ?" }}</h3>
+				<p class="text-justify my-3 mx-3">
+					Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eaque, fuga ullam aspernatur harum, voluptas nisi at quam officiis vel ipsum.
+				</p>
+				<ul class="list-group-flush">
+					<li class="list-group-item"><i class="fas fa-wifi text-primary"></i> <span class="font-weight-bolder">Transformation numérique</span> <i class="fas fa-check text-success float-right"></i></li>
+					<li class="list-group-item"><i class="fas fa-shopping-cart text-danger"></i> <span class="font-weight-bolder">Maîtrise des commandes</span> <i class="fas fa-check text-success float-right"></i></li>
+					<li class="list-group-item"><i class="fas fa-phone-slash text-success"></i> <span class="font-weight-bolder">Moins de temps au appel</span> <i class="fas fa-check text-success float-right"></i></li>
+					<li class="list-group-item"><i class="far fa-eye"></i> <span class="font-weight-bolder">Plus de visibilité, plus de client</span> <i class="fas fa-check text-success float-right"></i></li>
+					<li class="list-group-item"><i class="fas fa-euro-sign" style="color: #dcdc0a;"></i> <span class="font-weight-normal">113 XPF / commande</span> <em>*</em> <i class="fas fa-building float-right"></i></li>
+				</ul>
+				<p><small class="small text-muted">* entreprise</small></p>
+			</div>
+			<div id="connexion" class="col-md">
+				<form method="post">
+					{% if error %}
+						<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+					{% endif %}
+
+					{% if app.user %}
+						<div class="mb-3">
+							{{ "Vous êtes déjà connecté(e) " | trans({}, 'connect') ~ app.user.username }},
+							<a href="{{ path('app_logout') }}">{{ "Déconnexion" | trans({}, 'connect') }}</a>
+						</div>
+					{% endif %}
+
+					<div class="card">
+						<div class="card-body">
+
+							<h3 class="mb-3 tit7">{{ "Connexion" | trans({}, 'connect') }}</h3>
+							<label for="inputUsername">{{ "Identifiant" | trans({}, 'connect') }}</label>
+							<input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" required autofocus>
+							<label for="inputPassword">{{ "Mot de passe" | trans({}, 'connect') }}</label>
+							<input type="password" name="password" id="inputPassword" class="form-control" required>
+
+							<div class="checkbox my-3 custom-control custom-switch">
+								<input type="checkbox" class="custom-control-input" id="customSwitch1" name="_remember_me">
+								<label class="custom-control-label" for="customSwitch1">
+									{{ "Se souvenir de moi" | trans({}, 'connect') }}
+								</label>
+							</div>
+
+							<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+							<button class="btn btn-lg d-block" type="submit">
+								{{ "Se connecter" | trans({}, 'connect') }}
+							</button>
+							<a class="fs-14" href="{{ path('app_forgot_password_request') }}">{{"Mot de passe oublié"|trans({}, 'connect')}}</a>
+							<a class="fs-14" href="{{ path('user_new') }}">{{"Créer un compte"|trans({}, 'connect')}}</a>
+						</div>
+					</div>
+				</form>
+				<p class="text-justify mt-1 mx-5">Pour des raisons de sécurité, veuillez vous déconnecter et fermer votre navigateur lorsque vous avez fini d'accéder aux services.</p>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block stylesheets %}
+	<style>
+		.custom-control-input:checked ~ .custom-control-label::before {
+			color: #fff;
+			border-color: #dcdc0a;
+			background-color: #dcdc0a;
+		}
+	</style>
+{% endblock %}

@@ -1,4 +1,6 @@
 {% set nameSite = "Arii Food" %}
+{% set global_twitt = "https://twitter.com/intent/tweet?hashtags=example%2Cdemo&original_referer=https%3A%2F%2Flocalhost%3A8000%2F&ref_src=twsrc%5Etfw&related=twitterapi%2Ctwitter&text=custom%20share%20text&tw_p=tweetbutton&url=https%3A%2F%2Fdev.twitter.com%2Fweb%2Ftweet-button&via=twitterdev" %}
+{% set global_fb = "https://www.facebook.com/dialog/share?app_id=" ~ get_env('OAUTH_FACEBOOK_ID') ~ "&display=popup&href=" ~ url('app_home') %}
 
 {% block index %}
     

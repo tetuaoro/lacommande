@@ -124,17 +124,19 @@
 					<a href="assets/#" class="fs-15 c-white">
 						<i class="fa fa-tripadvisor" aria-hidden="true"></i>
 					</a>
-					<a target="_blank" class="fs-15 c-white" href="https://www.facebook.com/dialog/share?app_id={{ get_env('OAUTH_FACEBOOK_ID') }}&display=popup&href={{ url('app_home') }}">
+					<a target="_blank" class="fs-15 c-white" href="{{ global_fb }}">
 						<i class="fa fa-facebook m-l-18" aria-hidden="true"></i>
 					</a>
-					<a href="assets/#" class="fs-15 c-white">
+					<a class="twitter-share-button fs-15 c-white" target="_blank" href="{{ global_twitt }}">
 						<i class="fa fa-twitter m-l-18" aria-hidden="true"></i>
 					</a>
 				</div>
 
 				<div class="txt17 p-r-20 p-t-5 p-b-5">
+					<a href="{{ path('app_credit') }}" class="p-r-10">Conditions</a>
+					<a href="{{ path('app_contact') }}" class="p-r-10">Contact</a>
 					{{ "Licence &copy; 2020 Tous droits réservés" | trans | raw }}
-                    <i class="fa fa-heart"></i>
+					<i class="fa fa-heart"></i>
 				</div>
 			</div>
 		</div>

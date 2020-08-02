@@ -4,7 +4,11 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
+    site: 'Arii Food'
+    site_slugger: 'arii-food'
     locale: 'fr'
+    # 1 year - 1 second xD
+    cookie_lifetime : 31556951
     GC_PATH: '%kernel.project_dir%/config/google_api/project.json'
 
 services:
@@ -33,7 +37,7 @@ services:
     # please note that last definitions always *replace* previous ones
     App\Service\Storage:
             arguments:
-                $targetDirectory: '%GC_PATH%'
+                $credentials: '%GC_PATH%'
     App\Service\Recaptcha:
             arguments:
                 $recapkey: '%env(RECAPTCHA_KEY_3)%'

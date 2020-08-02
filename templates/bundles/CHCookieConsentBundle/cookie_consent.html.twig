@@ -1,0 +1,51 @@
+<div class="ch-cookie-consent">
+	<p>En poursuivant votre navigation sur ce site, vous acceptez l'utilisation des cookies pour analyser le fonctionnement et l'efficacité du site.</p>
+	<button type="button" class="btn btn-accept ch-cookie-consent__btn">Ok</button>
+	<div class="form">
+		{{ form_start(form, {'attr': {'class': 'ch-cookie-consent__form'}}) }}
+		{{ form_end(form) }}
+	</div>
+</div>
+
+<script>
+</script>
+
+<style>
+	.ch-cookie-consent .form {
+		display: none;
+	}
+
+	.ch-cookie-consent {
+		width: 100%;
+		padding: 1em;
+		text-align: center;
+		background-color: rgb(0, 0, 0);
+		z-index: 1021;
+	}
+
+	.ch-cookie-consent p {
+		display: inline;
+		color: white;
+	}
+
+
+	.ch-cookie-consent .btn-accept:hover {
+		border: #fff;
+		border-radius: 3px;
+		background: #fff;
+		color: #000;
+	}
+
+	.ch-cookie-consent .btn-accept {
+		border: none;
+		background: transparent;
+		color: #fff;
+	}
+</style>
+
+<script src="{{ asset('assets/js/cookie_consent.js') }}"></script>
+<script>
+	$('.btn-accept').click(function () {
+$('.ch-cookie-consent').fadeOut('slow', 'swing', $('.ch-cookie-consent-body').css('margin-top', 0));
+})
+</script>
