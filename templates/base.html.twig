@@ -12,9 +12,19 @@
 			<meta charset="UTF-8">
 			<meta name="viewport" content="width=device-width, initial-scale=1">
 
-			{% block metatags %}{% endblock %}
+			{% block metatags %}
+				<meta name="twitter:card" content="summary">
+				<meta name="twitter:site" content="@ariifood">
+				<meta name="twitter:creator" content="@raonagos">
+				<meta property="fb:app_id" content="{{get_env('OAUTH_FACEBOOK_ID')}}">
+				<meta property="og:url" content="{{url('app_home')}}">
+				<meta property="og:type" content="website">
+				<meta property="og:title" content="Arii Food">
+				<meta property="og:description" content="Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur, odio. Voluptate ipsa id aut tenetur! Praesentium ex repellat quam, distinctio consequatur neque quidem recusandae commodi expedita amet debitis explicabo repellendus.">
+				<meta property="og:image" content="https://storage.googleapis.com/lacommande//images/Shape-LENOIR.png">
+			{% endblock %}
 
-			<link rel="icon" type="image/png" href="{{asset('assets/images/icons/favicon.png')}}"/>
+			<link rel="icon" type="image/png" href="{{asset('assets/images/icons/favicon.png')}}">
 
 			<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 
@@ -44,7 +54,7 @@
 					{% block body %}{% endblock %}
 				</div>
 			</section>
-			
+
 			<div class="footer">
 				{% include "base/navigation/footer.html.twig" %}
 			</div>
