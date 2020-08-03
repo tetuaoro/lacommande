@@ -1,0 +1,12 @@
+{% if is_granted('ROLE_PROVIDER') %}
+	<div class="card">
+		<div class="card-body">
+			<p class="card-text text-danger">Visible uniquement par les fournisseur/restaurateurs/traiteurs.</p>
+			<a class="btn btn-outline-info" href="{{ path('meal_new') }}">Créer</a>
+			{% if is_granted('MEAL_VIEW',meal) %}
+				<a class="btn btn-outline-info" href="{{ path('meal_edit', {id: meal.id, slug: meal.slug}) }}">Editer</a>
+				{% include "meal/_delete_form.html.twig" %}
+			{% endif %}
+		</div>
+	</div>
+{% endif %}

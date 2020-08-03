@@ -6,6 +6,7 @@ use App\Repository\DeliveryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass=DeliveryRepository::class)
@@ -25,6 +26,7 @@ class Delivery
     private $name;
 
     /**
+     * @Gedmo\Slug(fields={"name"})
      * @ORM\Column(type="string", length=255)
      */
     private $slug;
@@ -41,6 +43,7 @@ class Delivery
 
     public function __construct()
     {
+        $this->createdAt = new \DateTime();
         $this->commands = new ArrayCollection();
     }
 

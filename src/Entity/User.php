@@ -26,7 +26,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\Length(min=8, minMessage="le nom doit faire 8 caractères minimum")
+     * @Assert\Length(min=4, minMessage="le nom doit faire 4 caractères minimum")
      */
     private $name;
 
@@ -54,6 +54,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(min=8, minMessage="le mot de passe doit avoir 8 caractères minimum")
      */
     private $password;
 
@@ -72,6 +73,16 @@ class User implements UserInterface
      * @Assert\Email(message = "Une adresse mail.")
      */
     private $email;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $ntahiti;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Delivery::class, cascade={"persist", "remove"})
+     */
+    private $delivery;
 
     public function __construct()
     {
@@ -193,6 +204,30 @@ class User implements UserInterface
     public function setEmail(string $email): self
     {
         $this->email = $email;
+
+        return $this;
+    }
+
+    public function getNtahiti(): ?string
+    {
+        return $this->ntahiti;
+    }
+
+    public function setNtahiti(string $ntahiti): self
+    {
+        $this->ntahiti = $ntahiti;
+
+        return $this;
+    }
+
+    public function getDelivery(): ?Delivery
+    {
+        return $this->delivery;
+    }
+
+    public function setDelivery(?Delivery $delivery): self
+    {
+        $this->delivery = $delivery;
 
         return $this;
     }

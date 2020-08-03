@@ -7,6 +7,7 @@ use App\Entity\Meal;
 use App\Form\MealType;
 use App\Repository\MealRepository;
 use App\Repository\ProviderRepository;
+use App\Repository\UserRepository;
 use App\Service\AjaxForm;
 use App\Service\Recaptcha;
 use App\Service\Storage;
@@ -46,7 +47,7 @@ class MealController extends AbstractController
      * @Route("/n/new", name="new", methods={"GET","POST"})
      * @Route("/e/{slug}-{id}/edit", name="edit", methods={"GET","POST"}, requirements={"slug": "[a-z0-9\-]*"})
      */
-    public function meal_cu(int $id = null, string $slug = null, Recaptcha $recaptcha, ProviderRepository $providerRepo, Storage $storage, MealRepository $mealRepo, Request $request): Response
+    public function meal_cu(int $id = null, string $slug = null, UserRepository $userRepo, Recaptcha $recaptcha, ProviderRepository $providerRepo, Storage $storage, MealRepository $mealRepo, Request $request): Response
     {
         $mod = '';
         $meal = $mealRepo->findOneBy(['id' => $id]);
@@ -58,7 +59,10 @@ class MealController extends AbstractController
         }
 
         if ($meal->getId()) {
+            $this->denyAccessUnlessGranted('MEAL_EDIT', $meal);
             $mod = 'edit';
+        } else {
+            $this->denyAccessUnlessGranted('MEAL_CREATE', $meal);
         }
 
         $form = $this->createForm(MealType::class, $meal);
@@ -76,7 +80,7 @@ class MealController extends AbstractController
         if ($form->isSubmitted() && $form->isValid() && $f) {
             // Store image
             $image = $form->get('image')->getData();
-            $provider = $providerRepo->getRandomProvider();
+            $provider = $userRepo->findOneBy(['username' => $this->getUser()->getUsername()])->getProvider();
 
             $info = $storage->uploadMealImage($image, $provider);
 
@@ -123,6 +127,8 @@ class MealController extends AbstractController
      */
     public function edit(Request $request, Meal $meal): Response
     {
+        $this->denyAccessUnlessGranted('MEAL_EDIT');
+
         $form = $this->createForm(Meal1Type::class, $meal);
         $form->handleRequest($request);
 
@@ -143,7 +149,7 @@ class MealController extends AbstractController
      */
     public function delete(Request $request, Meal $meal): Response
     {
-        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        $this->denyAccessUnlessGranted('MEAL_DELETE', $meal);
 
         if ($this->isCsrfTokenValid('delete'.$meal->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();

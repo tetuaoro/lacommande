@@ -1,8 +1,21 @@
 Vous êtes déjà connecté(e): Vous êtes déjà connecté(e)
 Connexion: Connexion
-Identifiant: Identifiant
 Mot de passe: Mot de passe
 Se souvenir de moi: Se souvenir de moi
 Se connecter : Se connecter
 Mot de passe oublié: Mot de passe oublié
 Créer un compte: Créer un compte
+
+Commencer: Commencer
+
+Identifiant: Identifiant
+Nom de l'entreprise: Nom de l'entreprise
+Email: Email
+Nom d'utilisateur pour la connexion: Nom d'utilisateur pour la connexion
+N° T.A.H.I.T.I: N° T.A.H.I.T.I
+provider: Restaurant/Traiteur/Agriculteur
+delivery: Livreur/Coursier
+Sécurité: Sécurité
+Confirmer le mot de passe: Confirmer le mot de passe
+
+'ex: je suis un fournisseur': 'ex: je suis un fournisseur'

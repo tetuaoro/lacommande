@@ -7,6 +7,7 @@ parameters:
     site: 'Arii Food'
     site_slugger: 'arii-food'
     locale: 'fr'
+    app_locales: 'en|fr'
     # 1 year - 1 second xD
     cookie_lifetime : 31556951
     GC_PATH: '%kernel.project_dir%/config/google_api/project.json'
@@ -42,3 +43,6 @@ services:
             arguments:
                 $recapkey: '%env(RECAPTCHA_KEY_3)%'
                 $recapsecret: '%env(RECAPTCHA_SECRET_3)%'
+    App\EventSubscriber\LocaleSubscriber:
+            arguments:
+                $defaultLocale: '%locale%'

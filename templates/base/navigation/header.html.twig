@@ -1,103 +1,124 @@
-<header>
-	<!-- Header desktop -->
-	<div class="wrap-menu-header gradient1 trans-0-4">
-		<div class="container h-full">
-			<div class="wrap_header trans-0-3">
-				<div class="logo">
-					<a href="{{ path('app_index') }}">
-						<img src="{{asset('assets/images/icons/logo3.png') }}" alt="IMG-LOGO" data-logofixed="{{asset('assets/images/icons/logo4.png')}}">
-					</a>
+{% if page_mode_header is not defined %}
+	<header>
+		<!-- Header desktop -->
+		<div class="wrap-menu-header gradient1 trans-0-4">
+			<div class="container h-full">
+				<div class="wrap_header trans-0-3">
+					<div class="logo">
+						<a href="{{ path('app_index') }}">
+							<img src="{{asset('assets/images/icons/logo3.png') }}" alt="IMG-LOGO" data-logofixed="{{asset('assets/images/icons/logo4.png')}}">
+						</a>
+					</div>
+
+					<div class="wrap_menu p-l-45 p-l-0-xl">
+						<nav class="menu">
+							<ul class="main_menu">
+								<li>
+									<a href="{{ path('app_home') }}">{{ "Accueil" | trans({}, 'nav') }}</a>
+								</li>
+
+								<li>
+									<a href="{{ path('meal_index') }}">{{ "Les plats" | trans({}, 'nav') }}</a>
+								</li>
+
+								<li>
+									<a href="#">{{ "Réservation" | trans({}, 'nav') }}</a>
+								</li>
+
+								<li>
+									<a href="#">Gallery</a>
+								</li>
+
+								<li>
+									<a href="#">About</a>
+								</li>
+
+								<li>
+									<a href="#">Blog</a>
+								</li>
+
+								<li>
+									<a href="{{ path('contact_new') }}">Contact</a>
+								</li>
+							</ul>
+						</nav>
+					</div>
+
+					<!-- Social -->
+					<div class="social flex-w flex-l-m p-r-20">
+						<div class="dropdown">
+							<a class="nav-link text- dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+								{{ lang }}
+							</a>
+							<div class="dropdown-menu" style="min-width: 1rem;" aria-labelledby="dropdownMenuButton">
+								{% for locale in ['fr', 'en'] %}
+									{% if locale != lang %}
+										<a class="dropdown-item text-dark" href="{{path('app_setlocale', {lang: locale, route: route_name})}}">{{locale}}</a>
+									{% endif %}
+								{% endfor %}
+							</div>
+						</div>
+						<a href="#">
+							<i class="fa fa-tripadvisor" aria-hidden="true"></i>
+						</a>
+						<a target="_blank" href="{{ global_fb }}">
+							<i class="fa fa-facebook m-l-21" aria-hidden="true"></i>
+						</a>
+						<a class="twitter-share-button" target="_blank" href="{{ global_twitt }}">
+							<i class="fa fa-twitter m-l-21" aria-hidden="true"></i>
+						</a>
+						<a class="d-none d-lg-block{% if app.user %} colorated{% endif %}" href="{{ path('app_login') }}">
+							<span class="ti-user m-l-21"></span>
+						</a>
+						<button class="d-lg-none btn-show-sidebar m-l-33 trans-0-4"></button>
+					</div>
+
 				</div>
-				<div class="wrap_menu p-l-45 p-l-0-xl">
-					<nav class="menu">
-						<ul class="main_menu">
-							<li>
-								<a href="{{ path('app_home') }}">{{ "Accueil" | trans({}, 'nav') }}</a>
-							</li>
-
-							<li>
-								<a href="{{ path('meal_index') }}">{{ "Les plats" | trans({}, 'nav') }}</a>
-							</li>
-
-							<li>
-								<a href="#">{{ "Réservation" | trans({}, 'nav') }}</a>
-							</li>
-
-							<li>
-								<a href="#">Gallery</a>
-							</li>
-
-							<li>
-								<a href="#">About</a>
-							</li>
-
-							<li>
-								<a href="#">Blog</a>
-							</li>
-
-							<li>
-								<a href="{{ path('app_contact') }}">Contact</a>
-							</li>
-						</ul>
-					</nav>
-				</div>
-
-				<!-- Social -->
-				<div class="social flex-w flex-l-m p-r-20">
-					<a href="#">
-						<i class="fa fa-tripadvisor" aria-hidden="true"></i>
-					</a>
-					<a target="_blank" href="{{ global_fb }}">
-						<i class="fa fa-facebook m-l-21" aria-hidden="true"></i>
-					</a>
-					<a class="twitter-share-button" target="_blank" href="{{ global_twitt }}">
-						<i class="fa fa-twitter m-l-21" aria-hidden="true"></i>
-					</a>
-					<a class="d-none d-lg-block {% if app.user %}colorated{% endif %}" href="{{ path('app_login') }}">
-						<span class="ti-user m-l-21"></span>
-					</a>
-					<button class="d-lg-none btn-show-sidebar m-l-33 trans-0-4"></button>
-				</div>
-
-
 			</div>
 		</div>
-	</div>
-</header>
+	</header>
 
-<aside class="d-lg-none sidebar trans-0-4">
-	<button class="btn-hide-sidebar ti-close color0-hov trans-0-4"></button>
+	<aside class="d-lg-none sidebar trans-0-4">
+		<button class="btn-hide-sidebar ti-close color0-hov trans-0-4"></button>
 
-	<ul class="menu-sidebar p-t-70 p-b-70">
-		<li class="t-center m-b-30">
-			<a href="{{ path('app_login') ~ '#connexion' }}" class="border-bottom size1 flex-c-m trans-0-4 m-l-r-auto {% if app.user %}colorated{% endif %}">
-				<span class="ti-user m-l-21"></span>
-			</a>
-		</li>
+		<ul class="menu-sidebar p-t-70 p-b-70">
+			<li class="t-center m-b-30">
+				<a href="{{ path('app_login') ~ '#connexion' }}" class="border-bottom size1 flex-c-m trans-0-4 m-l-r-auto{% if app.user %} colorated{% endif %}">
+					<span class="ti-user m-l-21"></span>
+				</a>
+			</li>
 
-		<li class="t-center m-b-13">
-			<a href="{{ path('app_index') }}" class="txt19">{{ "Accueil" | trans({}, 'nav') }}</a>
-		</li>
-		<li class="t-center m-b-13">
-			<a href="{{ path('meal_index') }}" class="txt19">{{ "Les plats" | trans({}, 'nav') }}</a>
-		</li>
-		<li class="t-center m-b-33">
-			<a href="{{ path('app_contact') }}" class="txt19">Contact</a>
-		</li>
+			<li class="t-center m-b-13">
+				<a href="{{ path('app_index') }}" class="txt19">{{ "Accueil" | trans({}, 'nav') }}</a>
+			</li>
+			<li class="t-center m-b-13">
+				<a href="{{ path('meal_index') }}" class="txt19">{{ "Les plats" | trans({}, 'nav') }}</a>
+			</li>
+			<li class="t-center m-b-33">
+				<a href="{{ path('contact_new') }}" class="txt19">Contact</a>
+			</li>
 
-		<li class="t-center">
-			<a href="" class="btn3 flex-c-m size13 txt11 trans-0-4 m-l-r-auto">
-				{{ "Réservation" | trans({}, 'nav') }}
-			</a>
-		</li>
-	</ul>
+			<li class="t-center">
+				<a href="" class="btn3 flex-c-m size13 txt11 trans-0-4 m-l-r-auto">
+					{{ "Réservation" | trans({}, 'nav') }}
+				</a>
+			</li>
+		</ul>
 
-	<div class="gallery-sidebar t-center p-b-40">
-		<h4 class="txt20 m-b-33">
-			{{ "Gallerie" | trans({}, 'nav') }}
-		</h4>
+		<div class="gallery-sidebar t-center p-b-40">
+			<h4 class="txt20 m-b-33">
+				{{ "Gallerie" | trans({}, 'nav') }}
+			</h4>
 
-		<!-- Gallery -->
-		{{ render(controller('App\\Controller\\AppController::gallery_html', {who: 'sidebar'})) }}
-	</div>
-</aside>
+			<!-- Gallery -->
+			{{ render(controller('App\\Controller\\AppController::gallery_html', {who: 'sidebar'})) }}
+		</div>
+	</aside>
+
+{% else %}
+	<header>
+		<a href="{{ path('app_index') }}">
+			<img class="p-t-30 mx-auto d-block" src="{{asset('assets/images/icons/logo4.png') }}" alt="IMG-LOGO">
+		</a>
+	</header>
+{% endif %}

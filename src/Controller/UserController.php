@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Delivery;
 use App\Entity\Provider;
 use App\Entity\User;
 use App\Form\UserType;
@@ -10,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * @Route("/user", name="user_")
@@ -31,7 +33,7 @@ class UserController extends AbstractController
     /**
      * @Route("/new", name="new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, UserPasswordEncoderInterface $password): Response
     {
         $this->denyAccessUnlessGranted('IS_ANONYMOUS');
 
@@ -42,16 +44,38 @@ class UserController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
 
-            $provider = new Provider();
-            $provider->setName($user->getName())
-                ->setCode(uniqid())
-                ->setClosetime(new \DateTime())
-                ->setOpentime(new \DateTime())
-                ->setUrl('https://www.google.com')
-            ;
-            $entityManager->persist($provider);
+            $choice = $form->get('entity')->getData();
 
-            $user->setProvider($provider);
+            if ('provider' == $choice) {
+                $provider = new Provider();
+                $provider->setName($user->getName())
+                    ->setCode(uniqid())
+                    ->setClosetime(new \DateTime())
+                    ->setOpentime(new \DateTime())
+                    ->setUrl('https://www.google.com')
+                ;
+                $entityManager->persist($provider);
+
+                $roles = $user->getRoles();
+                $roles[] = 'ROLE_PROVIDER';
+                $user->setProvider($provider)
+                    ->setRoles($roles)
+                ;
+            } else {
+                $delivery = new Delivery();
+                $delivery->setName($user->getName())
+                ;
+                $entityManager->persist($delivery);
+
+                $roles = $user->getRoles();
+                $roles[] = 'ROLE_DELIVERY';
+                $user->setDelivery($delivery)
+                    ->setRoles($roles)
+                ;
+            }
+
+            // password
+            $user->setPassword($password->encodePassword($user, $user->getPassword()));
 
             $entityManager->persist($user);
             $entityManager->flush();
@@ -60,6 +84,7 @@ class UserController extends AbstractController
         }
 
         return $this->render('user/new.html.twig', [
+            'controller_name' => 'user:new',
             'user' => $user,
             'form' => $form->createView(),
         ]);
