@@ -13,7 +13,7 @@ framework:
         cookie_samesite: lax
         save_path: '%kernel.project_dir%/var/sessions/%kernel.environment%'
         # 2 Days lifetime (172800 seconds)
-        cookie_lifetime: '%cookie_lifetime%'
+        cookie_lifetime: 172800
 
     #esi: true
     #fragments: true

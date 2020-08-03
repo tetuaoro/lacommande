@@ -1,6 +1,4 @@
 {% set nameSite = "Arii Food" %}
-{% set global_twitt = "https://twitter.com/intent/tweet?hashtags=example%2Cdemo&original_referer=https%3A%2F%2Flocalhost%3A8000%2F&ref_src=twsrc%5Etfw&related=twitterapi%2Ctwitter&text=custom%20share%20text&tw_p=tweetbutton&url=https%3A%2F%2Fdev.twitter.com%2Fweb%2Ftweet-button&via=twitterdev" %}
-{% set global_fb = "https://www.facebook.com/dialog/share?app_id=" ~ get_env('OAUTH_FACEBOOK_ID') ~ "&display=popup&href=" ~ url('app_home') %}
 
 {# lang #}
 {% if app.request.attributes.get('_locale') %}
@@ -8,11 +6,19 @@
 {% else %}
 	{% set lang = app.request.defaultLocale %}
 {% endif %}
-{% if app.request.attributes.get('_route_params')['id'] is defined %}
+
+{# path #}
+{% set fullPathParams = app.request.attributes.get('_route_params') %}
+{% if fullPathParams['id'] is defined %}
 	{% set route_name = 'app_home' %}
 {% else %}
 	{% set route_name = app.request.attributes.get('_route') %}
 {% endif %}
+{% set fullPath = path(route_name, fullPathParams) %}
+
+{# social #}
+{% set global_twitt = "https://twitter.com/intent/tweet?hashtags=" ~ "arii,food,tahiti,Polynesie" | url_encode ~ "&original_referer=" ~ fullPath ~ "&ref_src=twsrc%5Etfw&related=twitterapi%2Ctwitter&text=" ~ 'I like ' ~ nameSite | url_encode ~ "&tw_p=tweetbutton&url=" ~ url('app_home') | url_encode ~ "&via=ariifood" %}
+{% set global_fb = "https://www.facebook.com/dialog/share?app_id=" ~ get_env('OAUTH_FACEBOOK_ID') ~ "&display=popup&href=" ~ url('app_home') %}
 
 {% if controller_name is defined and controller_name in ['user:new', 'app:credit'] %}
 	{% set page_mode_header = 'mode-1' %}

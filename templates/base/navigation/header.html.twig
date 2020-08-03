@@ -22,22 +22,6 @@
 								</li>
 
 								<li>
-									<a href="#">{{ "Réservation" | trans({}, 'nav') }}</a>
-								</li>
-
-								<li>
-									<a href="#">Gallery</a>
-								</li>
-
-								<li>
-									<a href="#">About</a>
-								</li>
-
-								<li>
-									<a href="#">Blog</a>
-								</li>
-
-								<li>
 									<a href="{{ path('contact_new') }}">Contact</a>
 								</li>
 							</ul>
@@ -84,7 +68,7 @@
 		<ul class="menu-sidebar p-t-70 p-b-70">
 			<li class="t-center m-b-30">
 				<a href="{{ path('app_login') ~ '#connexion' }}" class="border-bottom size1 flex-c-m trans-0-4 m-l-r-auto{% if app.user %} colorated{% endif %}">
-					<span class="ti-user m-l-21"></span>
+					<span class="ti-user"></span>
 				</a>
 			</li>
 

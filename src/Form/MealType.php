@@ -40,12 +40,16 @@ class MealType extends AbstractType
                 'attr' => [
                     'class' => 'custom-input-bfi',
                 ],
-                'help' => 'résolution de 1920x1080 recommandé',
+                'help' => 'image : carré, 1920px max et 480 min',
                 'constraints' => [
                     new Image([
                         'maxSize' => '5M',
-                        'minWidth' => '720',
+                        'minWidth' => '480',
                         'minHeight' => '480',
+                        'maxWidth' => '1920',
+                        'maxHeight' => '1920',
+                        'allowLandscape' => false,
+                        'allowPortrait' => false,
                     ]),
                 ],
             ])

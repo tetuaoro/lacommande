@@ -57,13 +57,18 @@
   height: 50px;
 }
 
-@media (min-width: 576px) {
+.size40 {
+  width: 160px;
+  height: 160px;
+}
+
+@media only screen and (min-width: 576px) {
   .size39 {
     width: 60%;
   }
 }
 
-@media (min-width: 768px) {
+@media only screen and (min-width: 768px) {
   .size39 {
     width: 45%;
   }

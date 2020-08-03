@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Command;
+use App\Entity\Gallery;
 use App\Entity\Meal;
 use App\Form\MealType;
 use App\Repository\MealRepository;
@@ -90,7 +91,14 @@ class MealController extends AbstractController
             $meal->setProvider($provider);
             $meal->setImgInfo($info);
 
+            $gallery = new Gallery();
+            $gallery->setUrl($meal->getImg())
+                ->setName($meal->getName())
+                ->setType('img')
+            ;
+
             $entityManager->persist($meal);
+            $entityManager->persist($gallery);
             $entityManager->flush();
 
             return $this->redirectToRoute('meal_show', ['id' => $meal->getId(), 'slug' => $meal->getSlug()]);
