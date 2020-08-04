@@ -109,6 +109,7 @@ class MealController extends AbstractController
             'page_mod' => $mod,
             'meal' => $meal,
             'form' => $form->createView(),
+            'maxSize' => ini_get('upload_max_filesize')
         ]);
     }
 

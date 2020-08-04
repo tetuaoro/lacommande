@@ -4,6 +4,7 @@
 {{ form_row(form.description) }}
 {{ form_row(form.recipe) }}
 {{ form_row(form.image) }}
+<span class="text-info" style="display: none;">img: {{maxSize}}, carré 1920px max et 480px min</span>
 <div class="g-recaptcha d-flex align-items-center justify-content-center" data-sitekey="{{ get_env('RECAPTCHA_KEY_3') }}"></div>
 <button class="btn">{{ button_label | default('Enregistrer') }}</button>
 {{ form_end(form) }}
