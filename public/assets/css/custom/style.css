@@ -18,7 +18,9 @@
 .custom-form-am + label:hover {
   color: #dcdc0a;
 }
-.custom-label-bfi
+.custom-label-bfi {
+  display: none;
+}
 
 /* MEAL INDEX */
 .theme-accent-color {
