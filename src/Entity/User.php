@@ -84,6 +84,11 @@ class User implements UserInterface
      */
     private $delivery;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $confirmationEmail;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
@@ -228,6 +233,18 @@ class User implements UserInterface
     public function setDelivery(?Delivery $delivery): self
     {
         $this->delivery = $delivery;
+
+        return $this;
+    }
+
+    public function getConfirmationEmail(): ?string
+    {
+        return $this->confirmationEmail;
+    }
+
+    public function setConfirmationEmail(?string $confirmationEmail): self
+    {
+        $this->confirmationEmail = $confirmationEmail;
 
         return $this;
     }

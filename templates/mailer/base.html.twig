@@ -1,0 +1,47 @@
+{% apply inky_to_html | inline_css(source('@styles/foundation-emails.css'), source('@styles/email.css')) %}
+
+{% set nameSite = 'Arii Food' %}
+
+<container>
+	{% block header %}
+		<row class="header">
+			<columns>
+				<a href="{{ url('app_index') }}">
+					<center>
+						<img src="{{ email.image('@images/icons/logo4.png') }}" class="logo" alt="{{nameSite}}">
+					</center>
+				</a>
+			</columns>
+		</row>
+	{% endblock %}
+
+	{% block body %}{% endblock %}
+	
+	{% block footer %}
+		<row class="footer">
+			<columns>
+				<p>
+					<strong>Merci de ne pas répondre à cet email.</strong>
+				</p>
+				<p>
+					<em>
+						{{ nameSite }},
+					</em>
+				</p>
+			</columns>
+		</row>
+		<row class="bottom">
+			<columns>
+				<center>
+					<spacer size="20"></spacer>
+					<menu>
+						<item href="{{ url('app_index') }}">Site web</item>
+						<item href="{{ url('contact_new') }}">Contact</item>
+						<item href="{{ url('app_home') }}">À propos</item>
+					</menu>
+				</center>
+			</columns>
+		</row>
+	{% endblock %}
+</container>
+{% endapply %}

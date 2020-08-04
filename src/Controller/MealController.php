@@ -52,18 +52,18 @@ class MealController extends AbstractController
     {
         $mod = '';
         $meal = $mealRepo->findOneBy(['id' => $id]);
-        if (!$meal) {
-            $meal = new Meal();
-            $mod = 'create';
-        } elseif ($slug != $meal->getSlug()) {
-            return $this->redirectToRoute('meal_edit', ['id' => $meal->getId(), 'slug' => $meal->getSlug()]);
-        }
 
-        if ($meal->getId()) {
+        if ($meal) {
             $this->denyAccessUnlessGranted('MEAL_EDIT', $meal);
             $mod = 'edit';
         } else {
+            $meal = new Meal();
             $this->denyAccessUnlessGranted('MEAL_CREATE', $meal);
+            $mod = 'create';
+        }
+
+        if ($slug != $meal->getSlug()) {
+            return $this->redirectToRoute('meal_edit', ['id' => $meal->getId(), 'slug' => $meal->getSlug()]);
         }
 
         $form = $this->createForm(MealType::class, $meal);

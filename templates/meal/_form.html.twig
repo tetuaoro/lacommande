@@ -4,6 +4,6 @@
 {{ form_row(form.description) }}
 {{ form_row(form.recipe) }}
 {{ form_row(form.image) }}
-<div class="g-recaptcha mx-auto d-block" data-sitekey="{{ get_env('RECAPTCHA_KEY_3') }}"></div>
+<div class="g-recaptcha d-flex align-items-center justify-content-center" data-sitekey="{{ get_env('RECAPTCHA_KEY_3') }}"></div>
 <button class="btn">{{ button_label | default('Enregistrer') }}</button>
 {{ form_end(form) }}

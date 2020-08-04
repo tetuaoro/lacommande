@@ -15,6 +15,7 @@
 	<meta name="twitter:creator" content="@ariifood">
 	<meta name="twitter:image" content="{{ meal.img }}">
 	<meta name="twitter:domain" content="">
+	<meta property="twitter:url" content="{{ url('meal_show', {id: meal.id, slug: meal.slug}) }}"/>
 	<meta name="twitter:widgets:border-color" content="{{color1}}">
 	<link rel="canonical" href="{{url('meal_show', {id: meal.id, slug: meal.slug})}}">
 	<meta property="fb:app_id" content="{{get_env('OAUTH_FACEBOOK_ID')}}">
@@ -46,7 +47,6 @@
 							<a target="_blank" href="{{ meal.img }}" data-lightbox="meal-show" data-title="{{ meal.name ~ ' souvoureux...' }}">
 								<img src="{{ meal.img }}" title="Agrandir l'image" alt="IGM-MEAL">
 							</a>
-							{# <a target="_blank" href="{{ meal.img }}"><img src="{{ meal.img }}" alt="IGM-MEAL"></a> #}
 						</div>
 
 						<div class="text-blo5 size34 t-center bo-rad-10 bo7 p-t-90 p-l-35 p-r-35 p-b-30">

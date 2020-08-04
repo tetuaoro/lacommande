@@ -136,12 +136,11 @@
 
 {% block stylesheets %}
 	<link rel="stylesheet" type="text/css" href="{{asset('assets/vendor/animsition/css/animsition.min.css') }}">
-	<link rel="stylesheet" href="{{asset('assets/css/custom/style.css')}}">
 {% endblock %}
 
 {% block javascripts %}
 	<script type="text/javascript" src="{{asset('assets/vendor/animsition/js/animsition.min.js')}}"></script>
-	<script type="text/javascript" src="assets/vendor/parallax100/parallax100.js"></script>
+	<script type="text/javascript" src="{{asset('assets/vendor/parallax100/parallax100.js')}}"></script>
 	<script type="text/javascript">
 		$('.parallax100').parallax100();
 	</script>

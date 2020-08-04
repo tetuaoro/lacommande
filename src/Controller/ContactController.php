@@ -11,22 +11,24 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/contact")
+ * @Route("/contact", name="contact_")
  */
 class ContactController extends AbstractController
 {
     /**
-     * @Route("/", name="contact_index", methods={"GET"})
+     * @Route("/", name="index", methods={"GET"})
      */
     public function index(ContactRepository $contactRepository): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
         return $this->render('contact/index.html.twig', [
             'contacts' => $contactRepository->findAll(),
         ]);
     }
 
     /**
-     * @Route("/contact-us", name="contact_new", methods={"GET","POST"})
+     * @Route("/contact-us", name="new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
@@ -49,27 +51,31 @@ class ContactController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="contact_show", methods={"GET"})
+     * @Route("/{id}", name="show", methods={"GET"})
      */
     public function show(Contact $contact): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
         return $this->render('contact/show.html.twig', [
             'contact' => $contact,
         ]);
     }
 
     /**
-     * @Route("/{id}/edit", name="contact_edit", methods={"GET","POST"})
+     * @Route("/{id}/edit", name="edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Contact $contact): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
         $form = $this->createForm(ContactType::class, $contact);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('contact_index');
+            return $this->redirectToRoute('index');
         }
 
         return $this->render('contact/edit.html.twig', [
@@ -79,16 +85,18 @@ class ContactController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="contact_delete", methods={"DELETE"})
+     * @Route("/{id}", name="delete", methods={"DELETE"})
      */
     public function delete(Request $request, Contact $contact): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
         if ($this->isCsrfTokenValid('delete'.$contact->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($contact);
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('contact_index');
+        return $this->redirectToRoute('index');
     }
 }

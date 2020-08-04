@@ -1,0 +1,44 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #f3f3f3;
+  font-family: Helvetica, Arial, sans-serif;
+}
+h1 {
+  background-color: rgba(0, 0, 0, 0.6);
+  color: #ffffff;
+  font-weight: normal;
+}
+hr {
+  border: none;
+  border-top: 3px solid rgba(0, 0, 0, 0.6);
+  margin: 20px;
+}
+.welcome {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+.bottom {
+  background-color: #efefee;
+}
+.logo {
+  width: 200px;
+  height: 200px;
+}
+.text-center {
+  text-align: center;
+}
+table.button a {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+table.button table td {
+  background-color: rgba(0, 0, 0, 0.6);
+  border: 2px solid rgba(0, 0, 0, 0.6);
+}
+
+p {
+  font-size: 21px;
+}
+
+span.email {
+  color: #004baa;
+}

@@ -1011,7 +1011,7 @@ input[type="date" i] {
   background-color: #dcdc0a;
   color: white;
 }
-.btn:hover:not(.bs) {
+.btn:hover {
   background-color: #dcdc0a;
   color: white;
 }

@@ -11,6 +11,8 @@ parameters:
     # 1 year - 1 second xD
     cookie_lifetime : 31556951
     GC_PATH: '%kernel.project_dir%/config/google_api/project.json'
+    images: '%kernel.project_dir%/public/assets/images'
+    styles: '%kernel.project_dir%/public/assets/css/mailer'
 
 services:
     # default configuration for services in *this* file

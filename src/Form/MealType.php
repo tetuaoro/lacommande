@@ -37,6 +37,9 @@ class MealType extends AbstractType
                 'mapped' => false,
                 'data_class' => null,
                 'label' => false,
+                'label_attr' => [
+                    'class' => 'custom-label-bfi'
+                ],
                 'attr' => [
                     'class' => 'custom-input-bfi',
                 ],

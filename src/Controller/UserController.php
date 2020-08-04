@@ -95,6 +95,8 @@ class UserController extends AbstractController
      */
     public function show(User $user): Response
     {
+        $this->denyAccessUnlessGranted('USER_VIEW', $user);
+
         return $this->render('user/show.html.twig', [
             'user' => $user,
         ]);
@@ -125,6 +127,8 @@ class UserController extends AbstractController
      */
     public function delete(Request $request, User $user): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
         if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($user);

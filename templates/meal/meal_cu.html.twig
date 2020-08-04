@@ -35,8 +35,6 @@
 {% endblock %}
 
 {% block stylesheets %}
-	<link rel="stylesheet" href="{{asset('assets/css/custom/style.css')}}">
-	<link rel="stylesheet" href="{{asset('assets/css/custom/file-input.css')}}">
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.1.2/css/fileinput.min.css" media="all" rel="stylesheet" type="text/css">
 {% endblock %}
 
@@ -66,10 +64,10 @@ caption: "{{ meal.imgInfo['name'] }}",
 size: "{{ meal.imgInfo['size'] }}",
 key: 1
 },
-],{% endif %}minImageWidth: 1080,
-minImageHeight: 720,
+],{% endif %}minImageWidth: 480,
+minImageHeight: 480,
 maxImageWidth: 1920,
-maxImageHeight: 1080,
+maxImageHeight: 1920,
 maxFileCount: 1,
 maxSize: '2M'
 });

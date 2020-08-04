@@ -21,8 +21,9 @@
 				<meta name="twitter:creator" content="@ariifood">
 				<meta name="twitter:image" content="https://storage.googleapis.com/lacommande//images/Shape-LENOIR.png">
 				<meta name="twitter:domain" content="">
+				<meta property="twitter:url" content="{{url('app_home')}}">
 				<meta name="twitter:widgets:border-color" content="{{color1}}">
-				<link rel="canonical" href="{{url('meal_show', {id: meal.id, slug: meal.slug})}}">
+				<link rel="canonical" href="{{url('app_home')}}">
 				<meta property="fb:app_id" content="{{get_env('OAUTH_FACEBOOK_ID')}}">
 				<meta property="og:url" content="{{url('app_home')}}">
 				<meta property="og:type" content="website">
@@ -51,16 +52,14 @@
 				{% include "base/navigation/header.html.twig" %}
 			</div>
 
-			<div id="main-full">
+			<div id="main">
 				{% block bodyfull %}{% endblock %}
+				<section class="section-blog bg-white">
+					<div class="container-fluid">
+						{% block body %}{% endblock %}
+					</div>
+				</section>
 			</div>
-
-			<!-- Page section -->
-			<section id="main" class="section-blog bg-white">
-				<div class="container-fluid">
-					{% block body %}{% endblock %}
-				</div>
-			</section>
 
 			<div class="footer">
 				{% include "base/navigation/footer.html.twig" %}
