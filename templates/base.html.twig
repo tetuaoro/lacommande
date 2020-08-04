@@ -13,16 +13,16 @@
 			<meta name="viewport" content="width=device-width, initial-scale=1">
 
 			{% block metatags %}
-				<meta name="twitter:creator" content="@raonagos">
-				<meta name="twitter:card" content="summary_large_image">
-				<meta name="twitter:site" content="@ariifood">
-				<meta name="twitter:title" content="{{nameSite}}">
-				<meta name="twitter:description" content="{{ 'descriptionSite' | trans ~ ' ' ~ nameSite | trans }}">
-				<meta name="twitter:creator" content="@ariifood">
-				<meta name="twitter:image" content="https://storage.googleapis.com/lacommande//images/Shape-LENOIR.png">
-				<meta name="twitter:domain" content="">
+				<meta property="twitter:creator" content="@raonagos">
+				<meta property="twitter:card" content="summary_large_image">
+				<meta property="twitter:site" content="@ariifood">
+				<meta property="twitter:title" content="{{nameSite}}">
+				<meta property="twitter:description" content="{{ 'descriptionSite' | trans ~ ' ' ~ nameSite | trans }}">
+				<meta property="twitter:creator" content="@ariifood">
+				<meta property="twitter:image" content="https://storage.googleapis.com/lacommande//images/Shape-LENOIR.png">
+				<meta property="twitter:domain" content="">
 				<meta property="twitter:url" content="{{url('app_home')}}">
-				<meta name="twitter:widgets:border-color" content="{{color1}}">
+				<meta property="twitter:widgets:border-color" content="{{color1}}">
 				<link rel="canonical" href="{{url('app_home')}}">
 				<meta property="fb:app_id" content="{{get_env('OAUTH_FACEBOOK_ID')}}">
 				<meta property="og:url" content="{{url('app_home')}}">
