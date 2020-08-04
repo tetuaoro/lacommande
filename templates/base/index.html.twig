@@ -17,11 +17,14 @@
 {% set fullPath = url(route_name, fullPathParams) %}
 
 {# social #}
-{% set global_twitt = "https://twitter.com/intent/tweet?hashtags=" ~ "Arii,Food,Tahiti,Polynesie" | url_encode ~ "&original_referer=" ~ fullPath | url_encode ~ "&ref_src=twsrc%5Etfw&related=twitterapi%2Ctwitter&text=" ~ "I%20like%20" ~ nameSite ~ "&tw_p=tweetbutton&url=" ~ url('app_home') | url_encode ~ "&via=ariifood" %}
+{% set global_twitt = "https://twitter.com/intent/tweet?hashtags=" ~ "Arii,Food,Tahiti,Polynesie" | url_encode ~ "&original_referer=" ~ fullPath | url_encode ~ "&ref_src=twsrc%5Etfw&related=twitterapi%2Ctwitter&text=" ~ "I%20like%20" ~ nameSite ~ "&tw_p=tweetbutton" %}
 {% set global_fb = "https://www.facebook.com/dialog/share?app_id=" ~ get_env('OAUTH_FACEBOOK_ID') ~ "&display=popup&href=" ~ url('app_home') %}
 
 {% if controller_name is defined and controller_name in ['user:new', 'app:credit'] %}
 	{% set page_mode_header = 'mode-1' %}
 {% endif %}
+
+{# color #}
+{% set color1 = "#dcdc0a" %}
 
 {% block index %}{% endblock %}

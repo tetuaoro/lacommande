@@ -7,11 +7,21 @@
 {% endblock %}
 
 {% block metatags %}
+	<meta name="twitter:creator" content="@raonagos">
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:site" content="@ariifood">
+	<meta name="twitter:title" content="{{ meal.name ~ ' à ' ~ meal.price ~ ' XPF' }}">
+	<meta name="twitter:description" content="{{ meal.description | htmldump }}">
+	<meta name="twitter:creator" content="@ariifood">
+	<meta name="twitter:image" content="{{ meal.img }}">
+	<meta name="twitter:domain" content="">
+	<meta name="twitter:widgets:border-color" content="{{color1}}">
+	<link rel="canonical" href="{{url('meal_show', {id: meal.id, slug: meal.slug})}}">
+	<meta property="fb:app_id" content="{{get_env('OAUTH_FACEBOOK_ID')}}">
 	<meta property="og:url" content="{{ url('meal_show', {id: meal.id, slug: meal.slug}) }}"/>
 	<meta property="og:type" content="article"/>
 	<meta property="og:title" content="{{ meal.name ~ ' à ' ~ meal.price ~ ' XPF' }}"/>
 	<meta property="og:description" content="{{ meal.description | htmldump }}"/>
-	<meta property="fb:app_id" content="{{ get_env('OAUTH_FACEBOOK_ID') }}"/>
 	<meta property="og:image" content="{{ meal.img }}"/>
 {% endblock %}
 
@@ -48,7 +58,7 @@
 								<a target="_blank" href="https://www.facebook.com/dialog/share?app_id={{ get_env('OAUTH_FACEBOOK_ID') }}&display=popup&href={{ url('meal_show', {id: meal.id, slug: meal.slug}) }}">
 									<i class="fa fa-facebook m-l-21" aria-hidden="true" title="{{ 'Partager sur facebook' | trans }}"></i>
 								</a>
-								<a href="#">
+								<a target="_blank" class="twitter-share-button" href="https://twitter.com/intent/tweet?text={{ meal.name ~ ' à ' ~ meal.price ~ ' XPF' }}&url={{url('meal_show', {id: meal.id, slug: meal.slug})}}&hashtags=ariifood,tahiti,polynesie,{{meal.provider.name}}">
 									<i class="fa fa-twitter m-l-21" aria-hidden="true" title="{{ 'Partager sur twitter' | trans }}"></i>
 								</a>
 							</div>

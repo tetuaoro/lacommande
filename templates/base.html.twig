@@ -13,14 +13,21 @@
 			<meta name="viewport" content="width=device-width, initial-scale=1">
 
 			{% block metatags %}
-				<meta name="twitter:card" content="summary">
-				<meta name="twitter:site" content="@ariifood">
 				<meta name="twitter:creator" content="@raonagos">
+				<meta name="twitter:card" content="summary_large_image">
+				<meta name="twitter:site" content="@ariifood">
+				<meta name="twitter:title" content="{{nameSite}}">
+				<meta name="twitter:description" content="{{ 'descriptionSite' | trans ~ ' ' ~ nameSite | trans }}">
+				<meta name="twitter:creator" content="@ariifood">
+				<meta name="twitter:image" content="https://storage.googleapis.com/lacommande//images/Shape-LENOIR.png">
+				<meta name="twitter:domain" content="">
+				<meta name="twitter:widgets:border-color" content="{{color1}}">
+				<link rel="canonical" href="{{url('meal_show', {id: meal.id, slug: meal.slug})}}">
 				<meta property="fb:app_id" content="{{get_env('OAUTH_FACEBOOK_ID')}}">
 				<meta property="og:url" content="{{url('app_home')}}">
 				<meta property="og:type" content="website">
-				<meta property="og:title" content="Arii Food">
-				<meta property="og:description" content="Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur, odio. Voluptate ipsa id aut tenetur! Praesentium ex repellat quam, distinctio consequatur neque quidem recusandae commodi expedita amet debitis explicabo repellendus.">
+				<meta property="og:title" content="{{nameSite}}">
+				<meta property="og:description" content="{{ 'descriptionSite' | trans ~ ' ' ~ nameSite | trans }}">
 				<meta property="og:image" content="https://storage.googleapis.com/lacommande//images/Shape-LENOIR.png">
 			{% endblock %}
 
