@@ -59,6 +59,8 @@ class Storage
                 'provider' => $provider,
             ];
 
+            set_time_limit(180);
+
             return $this->uploadObject($meta)->info();
         }
 
