@@ -83,6 +83,11 @@ class Meal
      */
     private $imgInfo = [];
 
+    /**
+     * @ORM\OneToOne(targetEntity=Gallery::class, mappedBy="meal", cascade={"persist", "remove"})
+     */
+    private $gallery;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
@@ -243,6 +248,24 @@ class Meal
     public function setImgInfo(array $imgInfo): self
     {
         $this->imgInfo = $imgInfo;
+
+        return $this;
+    }
+
+    public function getGallery(): ?Gallery
+    {
+        return $this->gallery;
+    }
+
+    public function setGallery(?Gallery $gallery): self
+    {
+        $this->gallery = $gallery;
+
+        // set (or unset) the owning side of the relation if necessary
+        $newMeal = null === $gallery ? null : $this;
+        if ($gallery->getMeal() !== $newMeal) {
+            $gallery->setMeal($newMeal);
+        }
 
         return $this;
     }

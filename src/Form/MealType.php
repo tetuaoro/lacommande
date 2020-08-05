@@ -5,10 +5,13 @@ namespace App\Form;
 use App\Entity\Meal;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Image;
 
@@ -38,7 +41,7 @@ class MealType extends AbstractType
                 'data_class' => null,
                 'label' => false,
                 'label_attr' => [
-                    'class' => 'custom-label-bfi'
+                    'class' => 'custom-label-bfi',
                 ],
                 'attr' => [
                     'class' => 'custom-input-bfi',
@@ -56,7 +59,48 @@ class MealType extends AbstractType
                     ]),
                 ],
             ])
+            ->add('recaptcha', HiddenType::class, [
+                'mapped' => false,
+                'error_bubbling' => false,
+                'attr' => [
+                    'data-sitekey' => $_ENV['RECAPTCHA_KEY_3'],
+                ],
+            ])
         ;
+
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
+            $meal = $event->getData();
+
+            if ($meal->getId()) {
+                $event->getForm()->remove('image')
+                    ->add('image', FileType::class, [
+                        'translation_domain' => 'form',
+                        'required' => false,
+                        'mapped' => false,
+                        'data_class' => null,
+                        'label' => false,
+                        'label_attr' => [
+                            'class' => 'custom-label-bfi',
+                        ],
+                        'attr' => [
+                            'class' => 'custom-input-bfi',
+                        ],
+                        'help' => 'image : carré, 1920px max et 480 min',
+                        'constraints' => [
+                            new Image([
+                                'maxSize' => '5M',
+                                'minWidth' => '480',
+                                'minHeight' => '480',
+                                'maxWidth' => '1920',
+                                'maxHeight' => '1920',
+                                'allowLandscape' => false,
+                                'allowPortrait' => false,
+                            ]),
+                        ],
+                    ])
+                ;
+            }
+        });
     }
 
     public function configureOptions(OptionsResolver $resolver)

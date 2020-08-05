@@ -103,3 +103,21 @@
 .g-recaptcha {
   visibility: inherit;
 }
+.grecaptcha-badge {
+  bottom: 90px !important;
+}
+
+/* DROPDOWN */
+.dropdown-toggle-after::after {
+  display: none !important;
+}
+
+/* MESSAGE FLASH */
+#flash {
+  display: none;
+  position: fixed;
+  bottom: 1rem;
+  left: 1rem;
+  max-width: 250px;
+  word-wrap: break-word;
+}

@@ -70,35 +70,37 @@ class MealController extends AbstractController
         $form->handleRequest($request);
 
         $f = false;
-        if ($g = $request->get('g-recaptcha-response')) {
+        if ($g = $form->get('recaptcha')->getData()) {
             $f = $recaptcha->captchaverify($g)->success;
         }
 
         if ($form->isSubmitted() && !$f) {
-            $form->get('name')->addError(new FormError('Recaptcha : êtes-vous un robot ?'));
+            $form->get('recaptcha')->addError(new FormError('Recaptcha : êtes-vous un robot ?'));
         }
 
         if ($form->isSubmitted() && $form->isValid() && $f) {
-            // Store image
             $image = $form->get('image')->getData();
-            $provider = $userRepo->findOneBy(['username' => $this->getUser()->getUsername()])->getProvider();
-
-            $info = $storage->uploadMealImage($image, $provider);
-
             $entityManager = $this->getDoctrine()->getManager();
 
-            $meal->setImg($info['mediaLink']);
-            $meal->setProvider($provider);
-            $meal->setImgInfo($info);
+            $provider = $userRepo->findOneBy(['username' => $this->getUser()->getUsername()])->getProvider();
 
-            $gallery = new Gallery();
-            $gallery->setUrl($meal->getImg())
-                ->setName($meal->getName())
-                ->setType('img')
-            ;
+            if ($image) {
+                $info = $storage->uploadMealImage($image, $provider, $meal);
+                if ($info) {
+                    $meal->setImg($info['mediaLink']);
+                    $meal->setProvider($provider);
+                    $meal->setImgInfo($info);
 
-            $entityManager->persist($meal);
-            $entityManager->persist($gallery);
+                    $gallery = new Gallery();
+                    $gallery->setUrl($meal->getImg())
+                        ->setName($meal->getName())
+                        ->setType('img')
+                    ;
+                    $meal->setGallery($gallery);
+                    $entityManager->persist($meal);
+                }
+            }
+
             $entityManager->flush();
 
             return $this->redirectToRoute('meal_show', ['id' => $meal->getId(), 'slug' => $meal->getSlug()]);
@@ -109,14 +111,14 @@ class MealController extends AbstractController
             'page_mod' => $mod,
             'meal' => $meal,
             'form' => $form->createView(),
-            'maxSize' => ini_get('upload_max_filesize')
+            'config' => [ini_get('upload_max_filesize'), ini_get('max_execution_time'), ini_get('max_input_time'), ini_get('memory_limit'), ini_get('post_max_size'), ini_get('user_ini.filename'), ini_get('user_ini.cache_ttl')],
         ]);
     }
 
     /**
      * @Route("/s/{slug}-{id}", name="show", methods={"GET"}, requirements={"slug": "[a-z0-9\-]*"})
      */
-    public function show(string $slug, Meal $meal, Storage $storage, ProviderRepository $providerRepository, AjaxForm $ajaxForm): Response
+    public function show(string $slug, Meal $meal, AjaxForm $ajaxForm): Response
     {
         if ($meal->getSlug() != $slug) {
             return $this->redirectToRoute('meal_show', ['id' => $meal->getId(), 'slug' => $meal->getSlug()]);
@@ -156,12 +158,13 @@ class MealController extends AbstractController
     /**
      * @Route("/{id}", name="delete", methods={"DELETE"})
      */
-    public function delete(Request $request, Meal $meal): Response
+    public function delete(Request $request, Meal $meal, Storage $storage): Response
     {
         $this->denyAccessUnlessGranted('MEAL_DELETE', $meal);
 
         if ($this->isCsrfTokenValid('delete'.$meal->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
+            $storage->removeMealImage($meal);
             $entityManager->remove($meal);
             $entityManager->flush();
         }

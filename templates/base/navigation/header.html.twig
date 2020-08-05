@@ -51,9 +51,43 @@
 						<a class="twitter-share-button" target="_blank" href="{{ global_twitt }}">
 							<i class="fa fa-twitter m-l-21" aria-hidden="true"></i>
 						</a>
-						<a class="d-none d-lg-block{% if app.user %} colorated{% endif %}" href="{{ path('app_login') }}">
-							<span class="ti-user m-l-21"></span>
-						</a>
+						{% if app.user %}
+							<div class="d-none d-lg-block btn-group">
+								<button type="button" class="dropdown-toggle dropdown-toggle-after" data-toggle="dropdown" data-display="static" aria-haspopup="false" aria-expanded="false">
+									<span class="ti-user m-l-21 colorated"></span>
+								</button>
+								<div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-left">
+									<a class="dropdown-item text-dark" href="{{path('user_show', {id: app.user.id})}}">
+										<i class="far fa-eye mr-lg-1" aria-hidden="true"></i>
+										{{"Profile"|trans({}, 'nav')}}
+									</a>
+									<a class="dropdown-item text-dark" href="{{path('user_show', {id: app.user.id})}}">
+										<i class="fas fa-cogs mr-lg-1" aria-hidden="true"></i>
+										{{"Administrer"|trans({}, 'nav')}}
+									</a>
+									<div class="dropdown-divider"></div>
+									<a class="dropdown-item text-dark text-justify" href="{{path('meal_new')}}">
+										<i class="fas fa-plus-circle mr-lg-1" aria-hidden="true"></i>
+										{{"Ajouter"|trans({}, 'nav')}}
+										<i class="fas fa-utensils ml-lg-1" aria-hidden="true"></i>
+									</a>
+									<a class="dropdown-item text-dark text-justify" href="{{path('meal_new')}}">
+										<i class="fas fa-plus-circle mr-lg-1" aria-hidden="true"></i>
+										{{"Ajouter"|trans({}, 'nav')}}
+										<i class="fas fa-drumstick-bite ml-lg-1" aria-hidden="true"></i>
+									</a>
+									<div class="dropdown-divider"></div>
+									<a class="dropdown-item text-dark text-justify" href="{{path('app_logout')}}">
+										<i class="fas fa-sign-out-alt mr-lg-1" aria-hidden="true"></i>
+										{{"Logout"|trans({}, 'nav')}}
+									</a>
+								</div>
+							</div>
+						{% else %}
+							<a class="d-none d-lg-block" href="{{ path('app_login') }}">
+								<span class="ti-user m-l-21"></span>
+							</a>
+						{% endif %}
 						<button class="d-lg-none btn-show-sidebar m-l-33 trans-0-4"></button>
 					</div>
 

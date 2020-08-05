@@ -7,6 +7,7 @@ use App\Entity\Provider;
 use App\Entity\User;
 use App\Form\UserType;
 use App\Repository\UserRepository;
+use App\Service\Mailer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,7 +34,7 @@ class UserController extends AbstractController
     /**
      * @Route("/new", name="new", methods={"GET","POST"})
      */
-    public function new(Request $request, UserPasswordEncoderInterface $password): Response
+    public function new(Request $request, Mailer $mailer, UserPasswordEncoderInterface $password): Response
     {
         $this->denyAccessUnlessGranted('IS_ANONYMOUS');
 
@@ -54,18 +55,16 @@ class UserController extends AbstractController
                     ->setOpentime(new \DateTime())
                     ->setUrl('https://www.google.com')
                 ;
-                $entityManager->persist($provider);
 
                 $roles = $user->getRoles();
                 $roles[] = 'ROLE_PROVIDER';
                 $user->setProvider($provider)
                     ->setRoles($roles)
                 ;
-            } else {
+            } elseif ('delivery' == $choice) {
                 $delivery = new Delivery();
                 $delivery->setName($user->getName())
                 ;
-                $entityManager->persist($delivery);
 
                 $roles = $user->getRoles();
                 $roles[] = 'ROLE_DELIVERY';
@@ -80,7 +79,11 @@ class UserController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_home');
+            $mailer->sendConfirmationNewUser($user);
+
+            $this->addFlash('success', 'L\'utilisateur a bien été créé. Veillez a confirmé votre adresse mail pour bénéficier des avantages sur ARII FOOD.');
+
+            return $this->redirectToRoute('app_login');
         }
 
         return $this->render('user/new.html.twig', [

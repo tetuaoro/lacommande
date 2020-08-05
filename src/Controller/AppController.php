@@ -67,4 +67,14 @@ class AppController extends AbstractController
     {
         return $this->redirectToRoute($route, ['_locale' => $lang]);
     }
+
+    /**
+     * @Route("/test", name="test")
+     */
+    public function test()
+    {
+        $this->addFlash('success', 'mon message test.');
+
+        return $this->redirectToRoute('contact_new');
+    }
 }

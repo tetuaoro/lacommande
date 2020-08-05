@@ -4,12 +4,12 @@ namespace App\Service;
 
 class Recaptcha
 {
-    private $recaptcha;
+    private $key;
     private $secret;
 
     public function __construct($recapkey, $recapsecret)
     {
-        $this->recaptcha = $recapkey;
+        $this->key = $recapkey;
         $this->secret = $recapsecret;
     }
 

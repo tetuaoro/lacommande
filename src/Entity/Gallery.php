@@ -44,6 +44,11 @@ class Gallery
      */
     private $createdAt;
 
+    /**
+     * @ORM\OneToOne(targetEntity=Meal::class, inversedBy="gallery", cascade={"persist", "remove"})
+     */
+    private $meal;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
@@ -110,6 +115,18 @@ class Gallery
     public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getMeal(): ?Meal
+    {
+        return $this->meal;
+    }
+
+    public function setMeal(?Meal $meal): self
+    {
+        $this->meal = $meal;
 
         return $this;
     }

@@ -47,7 +47,7 @@
 			<link rel="stylesheet" type="text/css" href="{{asset('assets/css/util.css') }}">
 			<link rel="stylesheet" type="text/css" href="{{asset('assets/css/custom/style.css') }}">
 		</head>
-		<body class="ch-cookie-consent-body {% if controller_name is defined and controller_name == 'app' %}animsition{% endif %}">
+		<body class="ch-cookie-consent-body{% if controller_name is defined and controller_name == 'app' %} animsition{% endif %}">
 			<div class="header">
 				{% include "base/navigation/header.html.twig" %}
 			</div>
@@ -59,6 +59,14 @@
 						{% block body %}{% endblock %}
 					</div>
 				</section>
+			</div>
+
+			<div id="flash" class="flash-js">
+				{% for message in app.flashes('success') %}
+					<div class="alert alert-success">
+						{{ message }}
+					</div>
+				{% endfor %}
 			</div>
 
 			<div class="footer">
@@ -75,6 +83,9 @@
 			{% block javascripts %}{% endblock %}
 
 			<script src="{{asset('assets/js/main.js')}}"></script>
+
+			<script src="{{asset('assets/js/custom/anime.min.js')}}"></script>
+			<script src="{{asset('assets/js/custom/flash-message.js')}}"></script>
 
 			{% if chcookieconsent_isCookieConsentSavedByUser() == false %}
 				{{ render(path('ch_cookie_consent.show_if_cookie_consent_not_set')) }}
