@@ -48,3 +48,20 @@ services:
     App\EventSubscriber\LocaleSubscriber:
             arguments:
                 $defaultLocale: '%locale%'
+    # ct_file_store.s3:
+    #     class: Aws\S3\S3Client
+    #     factory: [Aws\S3\S3Client, 'factory']
+    #     arguments:
+    #         -
+    #             version: 'latest'
+    #             region: 'us-west-2'
+    #             credentials:
+    #                 key: '%env(AWS_KEY)%'
+    #                 secret: '%env(AWS_SECRET_KEY)%'
+    App\Service\AwsS3:
+        arguments:
+            $version: 'latest'
+            $region: 'us-west-2'
+            $credentials:
+                key: '%env(AWS_KEY)%'
+                secret: '%env(AWS_SECRET_KEY)%'

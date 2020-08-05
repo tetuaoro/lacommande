@@ -111,7 +111,16 @@ class MealController extends AbstractController
             'page_mod' => $mod,
             'meal' => $meal,
             'form' => $form->createView(),
-            'config' => [ini_get('upload_max_filesize'), ini_get('max_execution_time'), ini_get('max_input_time'), ini_get('memory_limit'), ini_get('post_max_size'), ini_get('user_ini.filename'), ini_get('user_ini.cache_ttl')],
+            'config' => [
+                ini_get('request_terminate_timeout'),
+                ini_get('upload_max_filesize'),
+                ini_get('max_execution_time'),
+                ini_get('max_input_time'),
+                ini_get('memory_limit'),
+                ini_get('post_max_size'),
+                ini_get('user_ini.filename'),
+                ini_get('user_ini.cache_ttl'),
+            ],
         ]);
     }
 
