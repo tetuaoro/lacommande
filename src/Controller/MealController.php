@@ -120,6 +120,7 @@ class MealController extends AbstractController
                 ini_get('post_max_size'),
                 ini_get('user_ini.filename'),
                 ini_get('user_ini.cache_ttl'),
+                ini_get('safe_mode'),
             ],
         ]);
     }
