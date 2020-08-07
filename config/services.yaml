@@ -41,6 +41,7 @@ services:
     App\Service\Storage:
             arguments:
                 $credentials: '%GC_PATH%'
+                $env: '%env(APP_ENV)%'
     App\Service\Recaptcha:
             arguments:
                 $recapkey: '%env(RECAPTCHA_KEY_3)%'

@@ -1,0 +1,22 @@
+<section class="manage-card">
+	{% set meals = user.provider.meals %}
+	{% for meal in meals %}
+		<div class="card bg-warning">
+			<img width="200" src="{{meal.img}}" class="card-img" alt="IMG-MEAL">
+			<div class="card-img-overlay">
+				<h5 class="card-title">{{meal.name}}</h5>
+				<div class="card-text">{{meal.description|truncate(40)|raw}}</div>
+				<p class="card-text pt-3">{{meal.createdAt|date('d m Y')}}</p>
+				<div class="mt-3">
+					<a class="btn-bs btn-warning" href="{{path('user_meal_show', {id: meal.id, slug: meal.slug})}}">{{"voir"|trans({}, 'user')}}</a>
+					<a class="btn-bs btn-warning" href="{{path('user_meal_u', {id: meal.id, slug: meal.slug})}}">{{"edit"|trans({}, 'user')}}</a>
+					{% include "meal/_delete_form.html.twig" %}
+				</div>
+			</div>
+		</div>
+	{% else %}
+		<div>
+			<h3>Pas d'assiete: ajoutez-en un.</h3>
+		</div>
+	{% endfor %}
+</section>

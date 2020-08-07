@@ -61,10 +61,22 @@ class Provider
      */
     private $slug;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Menu::class, mappedBy="provider")
+     */
+    private $menus;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Subuser::class, mappedBy="provider", orphanRemoval=true)
+     */
+    private $subusers;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
         $this->meals = new ArrayCollection();
+        $this->menus = new ArrayCollection();
+        $this->subusers = new ArrayCollection();
     }
 
     public function __toString()
@@ -188,6 +200,68 @@ class Provider
     public function setSlug(string $slug): self
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Menu[]
+     */
+    public function getMenus(): Collection
+    {
+        return $this->menus;
+    }
+
+    public function addMenu(Menu $menu): self
+    {
+        if (!$this->menus->contains($menu)) {
+            $this->menus[] = $menu;
+            $menu->setProvider($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMenu(Menu $menu): self
+    {
+        if ($this->menus->contains($menu)) {
+            $this->menus->removeElement($menu);
+            // set the owning side to null (unless already changed)
+            if ($menu->getProvider() === $this) {
+                $menu->setProvider(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Subuser[]
+     */
+    public function getSubusers(): Collection
+    {
+        return $this->subusers;
+    }
+
+    public function addSubuser(Subuser $subuser): self
+    {
+        if (!$this->subusers->contains($subuser)) {
+            $this->subusers[] = $subuser;
+            $subuser->setProvider($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSubuser(Subuser $subuser): self
+    {
+        if ($this->subusers->contains($subuser)) {
+            $this->subusers->removeElement($subuser);
+            // set the owning side to null (unless already changed)
+            if ($subuser->getProvider() === $this) {
+                $subuser->setProvider(null);
+            }
+        }
 
         return $this;
     }

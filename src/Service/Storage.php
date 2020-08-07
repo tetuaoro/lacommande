@@ -4,7 +4,6 @@ namespace App\Service;
 
 use App\Entity\Meal;
 use App\Entity\Provider;
-use Doctrine\ORM\EntityManagerInterface;
 use Google\Cloud\Storage\StorageClient;
 use Google\Cloud\Storage\StorageObject;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -13,18 +12,18 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 class Storage
 {
     private $storage;
+    private $env;
     private $slugger;
-    private $em;
 
-    public function __construct($credentials, SluggerInterface $sluggerInterface, EntityManagerInterface $entityManagerInterface)
+    public function __construct($credentials, $env, SluggerInterface $sluggerInterface)
     {
         $config = [
             'keyFilePath' => $credentials,
         ];
+        $this->env = $env;
 
         $this->storage = (new StorageClient($config))->bucket('lacommande');
         $this->slugger = $sluggerInterface;
-        $this->em = $entityManagerInterface;
     }
 
     /**
@@ -48,7 +47,7 @@ class Storage
         $image_info = getimagesize($source);
 
         $orginalName = pathinfo($source->getClientOriginalName(), PATHINFO_FILENAME);
-        $objectName = 'images/'.$provider->getId().'/meal/'.$this->slugger->slug($orginalName).'-'.uniqid().'.'.$source->guessExtension();
+        $objectName = $this->env.'-images/'.$provider->getId().'/meal/'.$this->slugger->slug($orginalName).'-'.uniqid().'.'.$source->guessExtension();
 
         if ($this->checkObject($meal, $orginalName)) {
             $meta = [
@@ -58,8 +57,6 @@ class Storage
                 'image_info' => $image_info,
                 'provider' => $provider,
             ];
-
-            set_time_limit(180);
 
             return $this->uploadObject($meta)->info();
         }

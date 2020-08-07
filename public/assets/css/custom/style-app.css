@@ -1,6 +1,11 @@
+:root {
+  --appcolor1: #dcdc0a;
+  --appcolor2: #c1c127;
+}
+
 /* USER */
 .colorated {
-  color: #dcdc0a !important;
+  color: var(--appcolor1) !important;
 }
 
 /* FORM */
@@ -16,7 +21,7 @@
   display: none;
 }
 .custom-form-am + label:hover {
-  color: #dcdc0a;
+  color: var(--appcolor1);
 }
 .custom-label-bfi {
   display: none;
@@ -24,7 +29,7 @@
 
 /* MEAL INDEX */
 .theme-accent-color {
-  color: #dcdc0a;
+  color: var(--appcolor1);
 }
 .meal-hover {
   transition: 0.3s;
@@ -35,6 +40,7 @@
 .meal-hover:hover::after {
   opacity: 1;
   visibility: visible;
+  transform: skewX(-5deg);
 }
 .meal-card {
   position: relative;
@@ -46,18 +52,18 @@
   position: absolute;
   bottom: 10%;
   left: 90%;
-  background: #dcdc0a;
+  background: var(--appcolor1);
   opacity: 0;
   visibility: hidden;
   transform: rotate(-45deg);
   transition: 0.2s;
 }
 .page-item.active .page-link {
-  border-color: #c1c127;
-  background-color: #c1c127;
+  border-color: var(--appcolor2);
+  background-color: var(--appcolor2);
 }
 .page-link {
-  color: #c1c127;
+  color: var(--appcolor2);
 }
 /* SIZE */
 .size39 {
@@ -68,12 +74,12 @@
   width: 160px;
   height: 160px;
 }
-@media only screen and (min-width: 576px) {
+@media only screen and(min-width: 576px) {
   .size39 {
     width: 60%;
   }
 }
-@media only screen and (min-width: 768px) {
+@media only screen and(min-width: 768px) {
   .size39 {
     width: 45%;
   }
@@ -114,10 +120,52 @@
 
 /* MESSAGE FLASH */
 #flash {
-  display: none;
   position: fixed;
-  bottom: 1rem;
-  left: 1rem;
-  max-width: 250px;
-  word-wrap: break-word;
+  bottom: 15px;
+  left: 15px;
+  max-width: 300px;
+}
+#flash .flash-span {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  display: block;
+  box-sizing: border-box;
+}
+#flash .flash-span:nth-child(1) {
+  transform: rotate(0deg);
+}
+#flash .flash-span::before {
+  content: "";
+  position: absolute;
+  top: -2px;
+  width: 100%;
+  height: 3px;
+  background: var(--appcolor1);
+  animation: borderq 4s linear infinite;
+}
+@keyframes borderq {
+  0% {
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+  50% {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+  50.1% {
+    transform: scaleX(1);
+    transform-origin: right;
+  }
+  100% {
+    transform: scaleX(0);
+    transform-origin: right;
+  }
+}
+
+/* INLINE ELEMENT */
+.va-bottom {
+  vertical-align: bottom;
 }

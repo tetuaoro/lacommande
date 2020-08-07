@@ -61,7 +61,7 @@
 										<i class="far fa-eye mr-lg-1" aria-hidden="true"></i>
 										{{"Profile"|trans({}, 'nav')}}
 									</a>
-									<a class="dropdown-item text-dark" href="{{path('user_show', {id: app.user.id})}}">
+									<a class="dropdown-item text-dark" href="{{path('user_manage', {id: app.user.id, token: random(11111111111111, 99999999999999)})}}">
 										<i class="fas fa-cogs mr-lg-1" aria-hidden="true"></i>
 										{{"Administrer"|trans({}, 'nav')}}
 									</a>

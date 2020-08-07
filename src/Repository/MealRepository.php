@@ -42,6 +42,18 @@ class MealRepository extends ServiceEntityRepository
         ;
     }
 
+    public function findMealWithOutMenu($id)
+    {
+        return $this->createQueryBuilder('m')
+            ->leftJoin('m.provider', 'p')
+            ->leftJoin('m.menu', 'me')
+            ->where('me IS NULL')
+            ->andWhere('p.id = :id')
+            ->setParameter('id', $id)
+            ->orderBy('m.name', 'ASC')
+        ;
+    }
+
     public function paginator()
     {
         return $this->createQueryBuilder('m')->getQuery();

@@ -1,0 +1,14 @@
+<section class="manage-card">
+	{% set subusers = user.provider.subusers %}
+	{% for subuser in subusers %}
+		<div class="card bg-warning">
+			<div class="card-img-overlay">
+				<h5 class="card-title">{{subuser.name}}</h5>
+			</div>
+		</div>
+	{% else %}
+		<div>
+			<h1 class="h5">Pas de suppléant : ajoutez-en un.</h1>
+		</div>
+	{% endfor %}
+</section>

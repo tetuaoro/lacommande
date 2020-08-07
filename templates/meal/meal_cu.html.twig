@@ -36,42 +36,18 @@
 
 {% block stylesheets %}
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.1.2/css/fileinput.min.css" media="all" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="{{asset('assets/vendor/pure-rte/pure_rte.css')}}">
 {% endblock %}
 
 {% block javascripts %}
-	<script src="{{asset('assets/js/custom/loadingoverlay.min.js')}}"></script>
 	<script src="https://www.google.com/recaptcha/api.js?render={{get_env('RECAPTCHA_KEY_3')}}" type="text/javascript"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/jquery.validate.min.js" type="text/javascript"></script>
-	<script src="{{asset('assets/js/custom/meal/meal-cu.js')}}"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.1.2/js/plugins/piexif.min.js" type="text/javascript"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.0.9/js/plugins/sortable.min.js" type="text/javascript"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.0.9/js/plugins/purify.min.js" type="text/javascript"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.1.2/js/fileinput.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.1.2/themes/fa/theme.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.1.2/js/locales/fr.js"></script>
-	<script>
-		$(".custom-input-bfi").fileinput({
-language: "{{ app.request.defaultLocale }}",
-browseClass: "btn",
-removeClass: "btn",
-uploadClass: "disabled",
-theme: "fa",
-allowedFileExtensions: [
-"png", "jpg", "jpeg"
-],{% if meal.img %}initialPreview : ["{{ meal.img }}"],
-initialPreviewAsData : true,
-initialPreviewConfig : [
-{
-caption: "{{ meal.imgInfo['name'] }}",
-size: "{{ meal.imgInfo['size'] }}",
-key: 1
-},
-],{% endif %}minImageWidth: 480,
-minImageHeight: 480,
-maxImageWidth: 1920,
-maxImageHeight: 1920,
-maxFileCount: 1,
-maxSize: '2M'
-});
-	</script>
+	<script src="{{asset('assets/js/custom/loadingoverlay.min.js')}}"></script>
+	<script src="{{asset('assets/js/custom/meal/meal-cu.js')}}"></script>
 {% endblock %}

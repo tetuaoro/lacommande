@@ -24,3 +24,13 @@ Commander: Commander
 'image : carré, 1920px max et 480 min': 'image : carré, 1920px max et 480 min'
 'ex: information': 'ex: information'
 information: Information
+
+Meal: Assiette
+Category: Categorie
+Fermer: Fermer
+Créer: Créer
+Ajouter un menu: Ajouter un menu
+
+Plus d'option: Plus d'option
+Tags: Tags
+selectlabel__: selectlabel__

@@ -3,10 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\Delivery;
+use App\Entity\Meal;
+use App\Entity\Menu;
 use App\Entity\Provider;
 use App\Entity\User;
 use App\Form\UserType;
 use App\Repository\UserRepository;
+use App\Service\AjaxForm;
 use App\Service\Mailer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -139,5 +142,65 @@ class UserController extends AbstractController
         }
 
         return $this->redirectToRoute('index');
+    }
+
+    /**
+     * @Route("/{token}/manage/{id}", name="manage", methods={"GET"}, requirements={"token": "[0-9]{14}"})
+     */
+    public function adminUser(AjaxForm $ajaxForm, User $user)
+    {
+        $this->denyAccessUnlessGranted('USER_MANAGE', $user);
+
+        $menu = new Menu();
+        $form_menu = $ajaxForm->create_menu($menu, $user->getProvider());
+
+        return $this->render('user/auth/manage.html.twig', [
+            'user' => $user,
+            'form_menu' => $form_menu->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/manage/meal/{slug}-{id}", name="meal_show", methods={"GET"}, requirements={"slug": "[a-z0-9\-]*"})
+     */
+    public function adminUserMealShow(string $slug, Meal $meal)
+    {
+        $this->denyAccessUnlessGranted('USER_MANAGE', $this->getUser());
+
+        if ($slug != $meal->getSlug()) {
+            return $this->redirectToRoute('user_meal_show', ['id' => $meal->getId(), 'slug' => $meal->getSlug()]);
+        }
+
+        return $this->render('user/auth/show.html.twig', [
+            'meal' => $meal,
+        ]);
+    }
+
+    /**
+     * @Route("/manage/meal/{slug}-{id}/edit", name="meal_u", methods={"GET"}, requirements={"slug": "[a-z0-9\-]*"})
+     */
+    public function adminUserMealEdit(string $slug, Meal $meal)
+    {
+        $this->denyAccessUnlessGranted('USER_MANAGE', $this->getUser());
+
+        if ($slug != $meal->getSlug()) {
+            return $this->redirectToRoute('user_meal_show', ['id' => $meal->getId(), 'slug' => $meal->getSlug()]);
+        }
+
+        return $this->render('user/auth/edit.html.twig', [
+            'meal' => $meal,
+        ]);
+    }
+
+    /**
+     * @Route("/{token}/manage/{slug}-{id}/delete", name="meal_delete", methods={"DELETE"}, requirements={"token": "[0-9]{14}", "slug": "[a-z0-9\-]*"})
+     */
+    public function adminUserMealDelete(string $token, User $user)
+    {
+        $this->denyAccessUnlessGranted('USER_MANAGE', $user);
+
+        return $this->render('user/auth/delete.html.twig', [
+            'user' => $user,
+        ]);
     }
 }

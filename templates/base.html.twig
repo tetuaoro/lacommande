@@ -45,12 +45,14 @@
 
 			<link rel="stylesheet" type="text/css" href="{{asset('assets/css/main.css') }}">
 			<link rel="stylesheet" type="text/css" href="{{asset('assets/css/util.css') }}">
-			<link rel="stylesheet" type="text/css" href="{{asset('assets/css/custom/style.css') }}">
+			<link rel="stylesheet" type="text/css" href="{{asset('assets/css/custom/style-app.css') }}">
 		</head>
 		<body class="ch-cookie-consent-body{% if controller_name is defined and controller_name == 'app' %} animsition{% endif %}">
-			<div class="header">
-				{% include "base/navigation/header.html.twig" %}
-			</div>
+			{% block header %}
+				<div class="header">
+					{% include "base/navigation/header.html.twig" %}
+				</div>
+			{% endblock %}
 
 			<div id="main">
 				{% block bodyfull %}{% endblock %}
@@ -61,17 +63,30 @@
 				</section>
 			</div>
 
-			<div id="flash" class="flash-js">
-				{% for message in app.flashes('success') %}
-					<div class="alert alert-success">
-						{{ message }}
-					</div>
+			<div id="flash" class="flash-js text-break">
+				{% for label, messages in app.flashes %}
+					{% for message in messages %}
+						<span class="flash-span"></span>
+						<div class="alert alert-{{label}} anime-flash-message-1" role="alert">
+							{% if label == 'danger' %}
+								<i class="fas fa-exclamation-triangle mr-1" aria-hidden="true"></i>
+							{% else %}
+								<i class="far fa-thumbs-up mr-1" aria-hidden="true"></i>
+							{% endif %}
+							{{ message }}
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								<i class="far fa-times-circle ml-1" aria-hidden="true"></i>
+							</button>
+						</div>
+					{% endfor %}
 				{% endfor %}
 			</div>
 
-			<div class="footer">
-				{% include "base/navigation/footer.html.twig" %}
-			</div>
+			{% block footer %}
+				<div class="footer">
+					{% include "base/navigation/footer.html.twig" %}
+				</div>
+			{% endblock %}
 
 			<script src="https://kit.fontawesome.com/9132b45b0a.js" crossorigin="anonymous"></script>
 			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -85,7 +100,7 @@
 			<script src="{{asset('assets/js/main.js')}}"></script>
 
 			<script src="{{asset('assets/js/custom/anime.min.js')}}"></script>
-			<script src="{{asset('assets/js/custom/flash-message.js')}}"></script>
+			<script src="{{asset('assets/js/custom/anime-app.js')}}"></script>
 
 			{% if chcookieconsent_isCookieConsentSavedByUser() == false %}
 				{{ render(path('ch_cookie_consent.show_if_cookie_consent_not_set')) }}

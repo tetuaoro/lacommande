@@ -24,3 +24,13 @@ Commander: Purchase
 'image : carré, 1920px max et 480 min': 'image : carré, 1920px max et 480 min'
 'ex: information':  Subject
 information: Information
+
+Meal: Meal
+Category: Category
+Fermer: Close
+Créer: Add
+Ajouter un menu: Add a new menu
+
+Plus d'option: More options
+Tags: Tags
+selectlabel__: selectlabel__

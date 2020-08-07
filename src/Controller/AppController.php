@@ -69,11 +69,18 @@ class AppController extends AbstractController
     }
 
     /**
-     * @Route("/test", name="test")
+     * @Route("/test/{label}", name="test", methods={"GET"}, requirements={"slug": "success|danger"})
      */
-    public function test()
+    public function test(string $label)
     {
-        $this->addFlash('success', 'mon message test.');
+        $this->denyAccessUnlessGranted('MODE_DEV');
+
+        if ('success' == $label) {
+            $this->addFlash('success', 'mon message test.');
+        }
+        if ('danger' == $label) {
+            $this->addFlash('danger', 'mon message test.');
+        }
 
         return $this->redirectToRoute('contact_new');
     }

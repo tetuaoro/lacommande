@@ -3,7 +3,10 @@
 namespace App\Form;
 
 use App\Entity\Meal;
+use App\Entity\Tags;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -22,9 +25,21 @@ class MealType extends AbstractType
         $builder
             ->add('name', TextType::class, [
                 'translation_domain' => 'form',
+                'empty_data' => 'Arii Food',
             ])
             ->add('price', NumberType::class, [
                 'translation_domain' => 'form',
+            ])
+            ->add('tags', CollectionType::class, [
+                'translation_domain' => 'form',
+                'entry_type' => EntityType::class,
+                'entry_options' => [
+                    'class' => Tags::class,
+                    'choice_label' => 'name',
+                ],
+                'allow_add' => true,
+                'allow_delete' => true,
+                'prototype_name' => 'select',
             ])
             ->add('description', TextareaType::class, [
                 'translation_domain' => 'form',

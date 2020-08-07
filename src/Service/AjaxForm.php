@@ -4,9 +4,10 @@ namespace App\Service;
 
 use App\Entity\Command;
 use App\Entity\Meal;
+use App\Entity\Menu;
+use App\Entity\Provider;
 use App\Form\CommandType;
-use App\Form\FileUploadType;
-use App\Form\ReportForm\ReportSongType;
+use App\Form\MenuType;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Routing\RouterInterface;
 
@@ -26,6 +27,15 @@ class AjaxForm
         return $this->form->create(CommandType::class, $command, [
             'method' => 'POST',
             'action' => $this->router->generate('command_new', ['id' => $meal->getId()]),
+        ]);
+    }
+
+    public function create_menu(Menu $menu, Provider $provider)
+    {
+        return $this->form->create(MenuType::class, $menu, [
+            'method' => 'POST',
+            'action' => $this->router->generate('menu_new', ['id' => $provider->getId()]),
+            'provider' => $provider,
         ]);
     }
 }

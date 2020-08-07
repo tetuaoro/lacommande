@@ -88,10 +88,26 @@ class Meal
      */
     private $gallery;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Tags::class, inversedBy="meals")
+     */
+    private $tags;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $totalcommand;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Menu::class, mappedBy="meal", cascade={"persist", "remove"})
+     */
+    private $menu;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
         $this->commands = new ArrayCollection();
+        $this->tags = new ArrayCollection();
     }
 
     public function __toString()
@@ -265,6 +281,61 @@ class Meal
         $newMeal = null === $gallery ? null : $this;
         if ($gallery->getMeal() !== $newMeal) {
             $gallery->setMeal($newMeal);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Tags[]
+     */
+    public function getTags(): Collection
+    {
+        return $this->tags;
+    }
+
+    public function addTag(Tags $tag): self
+    {
+        if (!$this->tags->contains($tag)) {
+            $this->tags[] = $tag;
+        }
+
+        return $this;
+    }
+
+    public function removeTag(Tags $tag): self
+    {
+        if ($this->tags->contains($tag)) {
+            $this->tags->removeElement($tag);
+        }
+
+        return $this;
+    }
+
+    public function getTotalcommand(): ?int
+    {
+        return $this->totalcommand;
+    }
+
+    public function setTotalcommand(?int $totalcommand): self
+    {
+        $this->totalcommand = $totalcommand;
+
+        return $this;
+    }
+
+    public function getMenu(): ?Menu
+    {
+        return $this->menu;
+    }
+
+    public function setMenu(Menu $menu): self
+    {
+        $this->menu = $menu;
+
+        // set the owning side of the relation if necessary
+        if ($menu->getMeal() !== $this) {
+            $menu->setMeal($this);
         }
 
         return $this;

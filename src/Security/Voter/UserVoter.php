@@ -15,6 +15,7 @@ class UserVoter extends Voter
     public const EDIT = 'USER_EDIT';
     public const VIEW = 'USER_VIEW';
     public const DELETE = 'USER_DELETE';
+    public const MANAGE = 'USER_MANAGE';
 
     private $security;
     private $user;
@@ -29,7 +30,7 @@ class UserVoter extends Voter
     {
         // replace with your own logic
         // https://symfony.com/doc/current/security/voters.html
-        return in_array($attribute, [self::CREATE, self::EDIT, self::VIEW, self::DELETE])
+        return in_array($attribute, [self::CREATE, self::EDIT, self::VIEW, self::DELETE, self::MANAGE])
             && $subject instanceof User;
     }
 
@@ -61,6 +62,10 @@ class UserVoter extends Voter
 
                 break;
             case self::VIEW:
+                return $subject === $user;
+
+                break;
+            case self::MANAGE:
                 return $subject === $user;
 
                 break;
