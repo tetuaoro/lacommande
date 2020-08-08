@@ -94,17 +94,16 @@ function serializeForm(form, clickedButton) {
   return serialized.join("&");
 }
 
-$(window).load(function () {
-    setTimeout(() => {
-        $(".ch-cookie-consent").show("slow");
-    }, 2000);
-    
-    $(".btn-accept").click(function () {
-      $(".ch-cookie-consent").fadeOut(
-        "slow",
-        "swing",
-        $(".ch-cookie-consent-body").css("margin-top", 0)
-      );
-    });
-});
+window.addEventListener("load", function (event) {
+  setTimeout(() => {
+    $(".ch-cookie-consent").show("slow");
+  }, 2000);
 
+  $(".btn-accept").click(function () {
+    $(".ch-cookie-consent").fadeOut(
+      "slow",
+      "swing",
+      $(".ch-cookie-consent-body").css("margin-top", 0)
+    );
+  });
+});
