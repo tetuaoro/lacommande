@@ -51,7 +51,7 @@ class Mailer
         $this->mailer->send($message);
     }
 
-    public function confirmeNewUser(User $user, $token)
+    public function confirmNewUser(User $user, $token)
     {
         if ($token == $user->getConfirmationEmail()) {
             $user->setConfirmationEmail(null);

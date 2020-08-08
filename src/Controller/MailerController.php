@@ -20,7 +20,7 @@ class MailerController extends AbstractController
      */
     public function confirmation(User $user, string $token, Mailer $mailer)
     {
-        $confirm = $mailer->confirmeNewUser($user, $token);
+        $confirm = $mailer->confirmNewUser($user, $token);
 
         if ($confirm) {
             $this->addFlash('flash_success', 'Email confirmé avec success !');
@@ -28,7 +28,11 @@ class MailerController extends AbstractController
             $this->addFlash('flash_error', 'Une erreur est survenue lors de la confimation ! Veuillez réessayer.');
         }
 
-        return $this->redirectToRoute('user_show', ['id' => $user->getId()]);
+        if ($this->getUser()) {
+            return $this->redirectToRoute('user_show', ['id' => $user->getId()]);
+        }
+
+        return $this->render('app_index');
     }
 
     /**
