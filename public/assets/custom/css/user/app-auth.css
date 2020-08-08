@@ -2,12 +2,12 @@
 .user-auth {
   position: relative;
 }
-.user-auth:before {
+.user-auth::before {
   content: attr(data-fa-icon);
   font-family: FontAwesome;
   position: absolute;
   top: 0;
-  left: 5px;
+  left: 15px;
   font-size: 300px;
   opacity: 0.1;
   z-index: -1;
@@ -25,51 +25,17 @@
   max-width: 200px;
   max-height: 200px;
 }
-.card:hover > p, .card:hover > i, .card:hover > h5, .card:hover > div {
+.card p,
+.card i,
+.card h5,
+.card div {
   color: #fff !important;
 }
-.card > p, .card > i, .card > h5, .card > div {
-  color: #000 !important;
-}
-.card:hover > img {
-  opacity: 0.3;
-}
-.card:hover::before {
-  opacity: 1;
-  visibility: visible;
-}
-.card::before {
-  content: "";
-  position: absolute;
-  top: -2px;
-  left: -2px;
-  right: -2px;
-  bottom: -2px;
-  background: var(--warning);
-  opacity: 0;
-  visibility: hidden;
-  transform: skew(2deg, 2deg);
-  transition: 0.2s;
-  z-index: -1;
-}
-.card:hover::after {
-  left: initial;
-  background: rgba(255, 193, 7, 0.15);
-  right: 0;
-}
-.card::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 50%;
-  height: 100%;
-  background: rgba(0, 123, 255, 0.05);
-  pointer-events: none;
+.bg-card-img-hover:hover {
+  background: rgba(0, 0, 0, 0.5);
 }
 
 /* Bootstrap */
-
 
 /* All screen */
 @media only screen {
@@ -119,7 +85,6 @@
 
 /* XXLarge screens ----------- */
 @media only screen and(min-width: 1824px) {
-  /* Styles */
   .user-manage .manage-meal {
     grid-template-columns: repeat(12, auto);
     grid-gap: 15px;

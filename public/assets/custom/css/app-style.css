@@ -9,6 +9,10 @@
 }
 
 /* FORM */
+label.required::after {
+  content: " *";
+  color: var(--danger);
+}
 .custom-file {
   width: 100%;
 }
@@ -65,6 +69,7 @@
 .page-link {
   color: var(--appcolor2);
 }
+
 /* SIZE */
 .size39 {
   width: 75%;

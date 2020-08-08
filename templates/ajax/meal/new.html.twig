@@ -1,6 +1,6 @@
-<div class="card bg-warning bg-card-hover">
+<div class="card">
 	<img width="200" src="{{meal.img}}" class="card-img" alt="IMG-MEAL">
-	<div class="card-img-overlay d-flex flex-column">
+	<div class="card-img-overlay bg-card-img-hover d-flex flex-column">
 		<h5 class="card-title">{{meal.name}}</h5>
 		<div class="card-text">{{meal.description|truncate(40)|raw}}</div>
 		<p class="card-text pt-3">{{meal.createdAt|date('d m Y')}}</p>
@@ -12,7 +12,7 @@
 				<i class="fas fa-pencil-alt" aria-hidden="true"></i>
 			</a>
 			<form method="post" class="d-inline" action="{{ path('meal_delete', {'id': meal.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
-				<button class="btn" title="supprimer">
+				<button class="btn-bs btn-warning" title="supprimer">
 					<i class="fas fa-trash" aria-hidden="true"></i>
 				</button>
 				<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ meal.id) }}">

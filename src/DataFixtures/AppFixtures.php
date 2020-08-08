@@ -26,7 +26,7 @@ class AppFixtures extends Fixture
 
         // Random LoremPixel Images
         for ($i = 0; $i < 11; ++$i) {
-            $images[] = 'https://lorempixel.com/640/640/food/'.$i.'/';
+            $images[] = 'https://lorempixel.com/1920/1920/food/'.$i.'/';
         }
 
         // Create User

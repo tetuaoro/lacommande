@@ -49,12 +49,12 @@
 							</a>
 						</div>
 
-						<div class="text-blo5 size34 t-center bo-rad-10 bo7 p-t-90 p-l-35 p-r-35 p-b-30">
+						<div class="text-blo5 size34 t-center bo-rad-10 p-t-90 p-l-35 p-r-35 p-b-30">
 
 							<div class="btn-group-meal">
-								<button>
-									<i class="fas fa-shopping-cart show-form-command" aria-hidden="true" title="{{ 'Ajouter au panier' | trans }}"></i>
-								</button>
+								<a data-toggle="collapse" href="#collapseCommand" role="button" aria-expanded="false" aria-controls="collapseCommand">
+									<i class="fas fa-shopping-cart" aria-hidden="true" title="{{ 'Ajouter au panier' | trans }}"></i>
+								</a>
 								<a target="_blank" href="https://www.facebook.com/dialog/share?app_id={{ get_env('OAUTH_FACEBOOK_ID') }}&display=popup&href={{ url('meal_show', {id: meal.id, slug: meal.slug}) }}">
 									<i class="fa fa-facebook m-l-21" aria-hidden="true" title="{{ 'Partager sur facebook' | trans }}"></i>
 								</a>
@@ -63,17 +63,19 @@
 								</a>
 							</div>
 
-							<div class="command-form">
-								{{ form_start(form) }}
-								<div class="row">
-									<div class="col-md">
-										{{ form_row(form.items) }}
+							<div class="collapse" id="collapseCommand">
+								<div class="command-form">
+									{{ form_start(form) }}
+									<div class="row">
+										<div class="col-md">
+											{{ form_row(form.items) }}
+										</div>
+										<div class="col-md">
+											<button class="btn" type="submit">{{ "Commander" | trans({}, 'form') }}</button>
+										</div>
 									</div>
-									<div class="col-md">
-										<button class="btn" type="submit">{{ "Commander" | trans({}, 'form') }}</button>
-									</div>
+									{{ form_end(form) }}
 								</div>
-								{{ form_end(form) }}
 							</div>
 
 							<a href="#" class="txt34 dis-block p-b-6">
@@ -101,5 +103,5 @@
 {% endblock %}
 
 {% block stylesheets %}
-	<link rel="stylesheet" href="{{asset('assets/css/custom/meal/show.css')}}">
+	<link rel="stylesheet" href="{{asset('assets/custom/css/meal/meal.css')}}">
 {% endblock %}

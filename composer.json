@@ -15,7 +15,6 @@
         "doctrine/orm": "^2.7",
         "fzaninotto/faker": "^1.9",
         "google/cloud-storage": "^1.22",
-        "knplabs/knp-gaufrette-bundle": "^0.7.1",
         "knplabs/knp-paginator-bundle": "^5.3",
         "phpdocumentor/reflection-docblock": "^5.2",
         "sensio/framework-extra-bundle": "^5.1",
@@ -51,8 +50,7 @@
         "twig/cssinliner-extra": "^3.0",
         "twig/extra-bundle": "^2.12|^3.0",
         "twig/inky-extra": "^3.0",
-        "twig/twig": "^2.12|^3.0",
-        "vich/uploader-bundle": "^1.15"
+        "twig/twig": "^2.12|^3.0"
     },
     "require-dev": {
         "heroku/heroku-buildpack-php": "*",

@@ -6,9 +6,5 @@
 
 .btn-group-meal button:hover {
   text-decoration: none;
-  color: #dcdc0a;
-}
-
-.command-form {
-  display: none;
+  color: var(--appcolor1);
 }

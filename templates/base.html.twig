@@ -43,7 +43,7 @@
 
 			<link rel="stylesheet" type="text/css" href="{{asset('assets/css/main.css') }}">
 			<link rel="stylesheet" type="text/css" href="{{asset('assets/css/util.css') }}">
-			<link rel="stylesheet" type="text/css" href="{{asset('assets/css/custom/style-app.css') }}">
+			<link rel="stylesheet" type="text/css" href="{{asset('assets/custom/css/app-style.css') }}">
 			
 			{% block stylesheets %}{% endblock %}
 			
@@ -99,11 +99,11 @@
 			{% block javascripts %}{% endblock %}
 
 			<script src="{{asset('assets/js/main.js')}}"></script>
+			<script src="{{asset('assets/custom/js/app.js')}}"></script>
 
 			<script src="{{asset('assets/vendor/custom/js/anime.min.js')}}"></script>
-			<script src="{{asset('assets/js/custom/anime-app.js')}}"></script>
 			<script src="{{asset('assets/vendor/custom/js/loadingoverlay.min.js')}}"></script>
-			<script src="{{asset('assets/js/custom/ajax.js')}}"></script>
+			<script src="{{asset('assets/custom/js/app-anime.js')}}"></script>
 
 			{% if chcookieconsent_isCookieConsentSavedByUser() == false %}
 				{{ render(path('ch_cookie_consent.show_if_cookie_consent_not_set')) }}

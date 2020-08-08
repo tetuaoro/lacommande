@@ -1,7 +1,6 @@
-var flash = $("#flash");
-
 $(document).ready(function () {
   // FALSH MESSAGE
+  var flash = $("#flash");
   if (flash.children().length) {
     anime({
       targets: "#flash",
@@ -30,5 +29,14 @@ $(document).ready(function () {
       );
     }
     $(this).toggleClass("btn-show-toggle");
+  });
+
+  // BTN COMMAND
+  var collapses = [$("#collapseCommand")];
+
+  collapses.forEach((elem) => {
+    elem.on("show.bs.collapse", function (e) {
+      //
+    });
   });
 });
