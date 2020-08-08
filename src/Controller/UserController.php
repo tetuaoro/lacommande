@@ -153,10 +153,13 @@ class UserController extends AbstractController
 
         $menu = new Menu();
         $form_menu = $ajaxForm->create_menu($menu, $user->getProvider());
+        $meal = new Meal();
+        $form_meal = $ajaxForm->create_meal($meal);
 
         return $this->render('user/auth/manage.html.twig', [
             'user' => $user,
             'form_menu' => $form_menu->createView(),
+            'form_meal' => $form_meal->createView(),
         ]);
     }
 

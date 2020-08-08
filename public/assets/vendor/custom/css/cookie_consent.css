@@ -1,0 +1,25 @@
+.ch-cookie-consent, .ch-cookie-consent .form {
+    display: none;
+}
+.ch-cookie-consent {
+    width: 100%;
+    padding: 1em;
+    text-align: center;
+    background-color: rgb(0, 0, 0);
+    z-index: 1021;
+}
+.ch-cookie-consent p {
+    display: inline;
+    color: white;
+}
+.ch-cookie-consent .btn-accept:hover {
+    border: #fff;
+    border-radius: 3px;
+    background: #fff;
+    color: #000;
+}
+.ch-cookie-consent .btn-accept {
+    border: none;
+    background: transparent;
+    color: #fff;
+}

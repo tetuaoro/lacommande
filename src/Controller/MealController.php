@@ -7,7 +7,6 @@ use App\Entity\Gallery;
 use App\Entity\Meal;
 use App\Form\MealType;
 use App\Repository\MealRepository;
-use App\Repository\ProviderRepository;
 use App\Repository\UserRepository;
 use App\Service\AjaxForm;
 use App\Service\Recaptcha;
@@ -45,81 +44,68 @@ class MealController extends AbstractController
     }
 
     /**
-     * @Route("/n/new", name="new", methods={"GET","POST"})
-     * @Route("/e/{slug}-{id}/edit", name="edit", methods={"GET","POST"}, requirements={"slug": "[a-z0-9\-]*"})
+     * @Route("/n/new", name="new", methods={"POST"})
      */
-    public function meal_cu(int $id = null, string $slug = null, UserRepository $userRepo, Recaptcha $recaptcha, ProviderRepository $providerRepo, Storage $storage, MealRepository $mealRepo, Request $request): Response
+    public function new(AjaxForm $ajaxForm, UserRepository $userRepo, Recaptcha $recaptcha, Storage $storage, Request $request): Response
     {
-        $mod = '';
-        $meal = $mealRepo->findOneBy(['id' => $id]);
+        $meal = new Meal();
 
-        if ($meal) {
-            $this->denyAccessUnlessGranted('MEAL_EDIT', $meal);
-            $mod = 'edit';
-        } else {
-            $meal = new Meal();
-            $this->denyAccessUnlessGranted('MEAL_CREATE', $meal);
-            $mod = 'create';
-        }
+        $this->denyAccessUnlessGranted('MEAL_CREATE', $meal);
 
-        if ($slug != $meal->getSlug()) {
-            return $this->redirectToRoute('meal_edit', ['id' => $meal->getId(), 'slug' => $meal->getSlug()]);
-        }
+        $form = $ajaxForm->create_meal($meal);
 
-        $form = $this->createForm(MealType::class, $meal);
-        $form->handleRequest($request);
+        if ($request->isXmlHttpRequest()) {
+            $form->handleRequest($request);
 
-        $f = false;
-        if ($g = $form->get('recaptcha')->getData()) {
-            $f = $recaptcha->captchaverify($g)->success;
-        }
-
-        if ($form->isSubmitted() && !$f) {
-            $form->get('recaptcha')->addError(new FormError('Recaptcha : êtes-vous un robot ?'));
-        }
-
-        if ($form->isSubmitted() && $form->isValid() && $f) {
-            // dump($form->get('tags')->getData());
-            $image = $form->get('image')->getData();
-            $entityManager = $this->getDoctrine()->getManager();
-
-            $provider = $userRepo->findOneBy(['username' => $this->getUser()->getUsername()])->getProvider();
-
-            if ($image) {
-                $info = $storage->uploadMealImage($image, $provider, $meal);
-                if ($info) {
-                    $meal->setImg($info['mediaLink']);
-                    $meal->setProvider($provider);
-                    $meal->setImgInfo($info);
-
-                    $gallery = new Gallery();
-                    $gallery->setUrl($meal->getImg())
-                        ->setName($meal->getName())
-                        ->setType('img')
-                    ;
-                    $meal->setGallery($gallery);
-                    $entityManager->persist($meal);
-                }
+            $f = false;
+            if ($g = $form->get('recaptcha')->getData()) {
+                $f = $recaptcha->captchaverify($g)->success;
             }
 
-            $entityManager->flush();
+            if ($form->isSubmitted() && !$f) {
+                $form->get('recaptcha')->addError(new FormError('Recaptcha : êtes-vous un robot ?'));
+            }
 
-            return $this->redirectToRoute('meal_show', ['id' => $meal->getId(), 'slug' => $meal->getSlug()]);
+            if ($form->isSubmitted() && $form->isValid() && $f) {
+                $image = $form->get('image')->getData();
+                $entityManager = $this->getDoctrine()->getManager();
+                $provider = $userRepo->findOneBy(['username' => $this->getUser()->getUsername()])->getProvider();
+                $info = $storage->uploadMealImage($image, $provider, $meal);
+                $meal->setImg($info['mediaLink'])
+                    ->setProvider($provider)
+                    ->setImgInfo($info)
+                ;
+                $gallery = new Gallery();
+                $gallery->setUrl($meal->getImg())
+                    ->setName($meal->getName())
+                    ->setType('img')
+                    ;
+                $meal->setGallery($gallery);
+                $entityManager->persist($meal);
+                $entityManager->flush();
+
+                return $this->render(
+                    'ajax/meal/new.html.twig',
+                    [
+                        'meal' => $meal,
+                    ],
+                    new Response('success', Response::HTTP_CREATED)
+                );
+            }
+            if ($form->isSubmitted() && !$form->isValid()) {
+                return $this->render(
+                    'ajax/meal/_form.html.twig',
+                    [
+                        'form_meal' => $form->createView(),
+                    ],
+                    new Response('error', Response::HTTP_BAD_REQUEST)
+                );
+            }
+        } else {
+            $this->addFlash('error', 'Impossible de créer une assiette de cette façon !');
+
+            return new Response('error', Response::HTTP_METHOD_NOT_ALLOWED);
         }
-
-        return $this->render('meal/meal_cu.html.twig', [
-            'page_name' => 'meal',
-            'page_mod' => $mod,
-            'meal' => $meal,
-            'form' => $form->createView(),
-            'config' => [
-                ini_get('upload_max_filesize'),
-                ini_get('post_max_size'),
-                ini_get('max_execution_time'),
-                ini_get('max_input_time'),
-                ini_get('memory_limit'),
-            ],
-        ]);
     }
 
     /**
@@ -141,13 +127,17 @@ class MealController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/editx", name="editc", methods={"GET","POST"})
+     * @Route("/e/{slug}-{id}/edit", name="edit", methods={"POST"}, requirements={"slug": "[a-z0-9\-]*"})
      */
-    public function edit(Request $request, Meal $meal): Response
+    public function edit(string $slug, Request $request, Meal $meal): Response
     {
         $this->denyAccessUnlessGranted('MEAL_EDIT');
 
-        $form = $this->createForm(Meal1Type::class, $meal);
+        if ($slug != $meal->getSlug()) {
+            return $this->redirectToRoute('meal_edit', ['id' => $meal->getId(), 'slug' => $meal->getSlug()]);
+        }
+
+        $form = $this->createForm(MealType::class, $meal);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

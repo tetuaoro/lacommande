@@ -1,7 +1,7 @@
 {% extends "user/auth/base.html.twig" %}
 
 {% block title %}
-	Manage
+	{{"Administrer"|trans({}, 'nav')}}
 {% endblock %}
 
 {% block user %}
@@ -9,16 +9,16 @@
 		<div class="row">
 			<div class="col-md-2">
 				<div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-					<a class="nav-link mb-3 active" id="v-pills-meal-tab" data-toggle="pill" href="#v-pills-meal" role="tab" aria-controls="v-pills-meal" aria-selected="true">
+					<a class="nav-link mb-3 active" id="v-pills-meal-tab" data-fa-icon="&#xf2e7" data-toggle="pill" href="#v-pills-meal" role="tab" aria-controls="v-pills-meal" aria-selected="true">
 						{{"meal"|trans({}, 'user')}}
 					</a>
-					<a class="nav-link mb-3" id="v-pills-menu-tab" data-toggle="pill" href="#v-pills-menu" role="tab" aria-controls="v-pills-menu" aria-selected="false">
+					<a class="nav-link mb-3" id="v-pills-menu-tab" data-fa-icon="&#xf6d7" data-toggle="pill" href="#v-pills-menu" role="tab" aria-controls="v-pills-menu" aria-selected="false">
 						{{"menu"|trans({}, 'user')}}
 					</a>
-					<a class="nav-link mb-3" id="v-pills-subuser-tab" data-toggle="pill" href="#v-pills-subuser" role="tab" aria-controls="v-pills-subuser" aria-selected="false">
+					<a class="nav-link mb-3" id="v-pills-subuser-tab" data-fa-icon="&#xf007" data-toggle="pill" href="#v-pills-subuser" role="tab" aria-controls="v-pills-subuser" aria-selected="false">
 						{{"subuser"|trans({}, 'user')}}
 					</a>
-					<a class="nav-link mb-3" id="v-pills-setting-tab" data-toggle="pill" href="#v-pills-setting" role="tab" aria-controls="v-pills-setting" aria-selected="false">
+					<a class="nav-link mb-3" id="v-pills-setting-tab" data-fa-icon="&#xf085" data-toggle="pill" href="#v-pills-setting" role="tab" aria-controls="v-pills-setting" aria-selected="false">
 						{{"setting"|trans({}, 'user')}}
 					</a>
 				</div>
@@ -42,9 +42,4 @@
 		</div>
 
 	</div>
-{% endblock %}
-
-{% block javascripts %}
-	<script src="{{asset('assets/js/custom/loadingoverlay.min.js')}}"></script>
-	<script src="{{asset('assets/js/custom/user/manage.js')}}"></script>
 {% endblock %}

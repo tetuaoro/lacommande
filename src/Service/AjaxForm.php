@@ -7,6 +7,7 @@ use App\Entity\Meal;
 use App\Entity\Menu;
 use App\Entity\Provider;
 use App\Form\CommandType;
+use App\Form\MealType;
 use App\Form\MenuType;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Routing\RouterInterface;
@@ -36,6 +37,14 @@ class AjaxForm
             'method' => 'POST',
             'action' => $this->router->generate('menu_new', ['id' => $provider->getId()]),
             'provider' => $provider,
+        ]);
+    }
+
+    public function create_meal(Meal $meal)
+    {
+        return $this->form->create(MealType::class, $meal, [
+            'method' => 'POST',
+            'action' => $this->router->generate('meal_new')
         ]);
     }
 }

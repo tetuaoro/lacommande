@@ -101,9 +101,15 @@
 
 		<ul class="menu-sidebar p-t-70 p-b-70">
 			<li class="t-center m-b-30">
-				<a href="{{ path('app_login') ~ '#connexion' }}" class="border-bottom size1 flex-c-m trans-0-4 m-l-r-auto{% if app.user %} colorated{% endif %}">
-					<span class="ti-user"></span>
-				</a>
+				{% if app.user %}
+					<a class="border-bottom size1 flex-c-m trans-0-4 m-l-r-auto colorated" href="{{path('user_manage', {id: app.user.id, token: random(11111111111111, 99999999999999)})}}">
+						<span class="ti-user"></span>
+					</a>
+				{% else %}
+					<a href="{{ path('app_login') ~ '#connexion' }}" class="border-bottom size1 flex-c-m trans-0-4 m-l-r-auto">
+						<span class="ti-user"></span>
+					</a>
+				{% endif %}
 			</li>
 
 			<li class="t-center m-b-13">
@@ -122,15 +128,6 @@
 				</a>
 			</li>
 		</ul>
-
-		<div class="gallery-sidebar t-center p-b-40">
-			<h4 class="txt20 m-b-33">
-				{{ "Gallerie" | trans({}, 'nav') }}
-			</h4>
-
-			<!-- Gallery -->
-			{{ render(controller('App\\Controller\\AppController::gallery_html', {who: 'sidebar'})) }}
-		</div>
 	</aside>
 
 {% else %}

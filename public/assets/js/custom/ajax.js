@@ -1,5 +1,7 @@
-$(document).ready(function () {
+/* $(document).ready(function () {
   var menu = $("form[name=menu]");
+  var meal = $("form[name=meal]");
+  var subuser = $("form[name=subuser]");
 
   menu.submit(function (e) {
     e.preventDefault();
@@ -9,13 +11,12 @@ $(document).ready(function () {
 
     menu.LoadingOverlay("show", {
       imageColor: "#dcdc0a",
+      background: "rgba(255, 255, 255, 0)",
     });
 
     xhr.onreadystatechange = function () {
       if ((xhr.readyState === 4) & (xhr.status === 201)) {
         menu.LoadingOverlay("hide");
-        console.log(xhr.responseText);
-        // $("#menu-show").append(xhr.responseText);
         $("#menuModal").modal("hide");
       }
       if ((xhr.readyState === 4) & (xhr.status === 400)) {
@@ -24,7 +25,7 @@ $(document).ready(function () {
       }
       if ((xhr.readyState === 4) & (xhr.status === 405)) {
         menu.LoadingOverlay("hide");
-        console.log(xhr.responseText);
+        document.location.url = document.location.href;
       }
     };
 
@@ -32,4 +33,16 @@ $(document).ready(function () {
     xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
     xhr.send(form);
   });
+
+  $("form[name=contact]").submit(function (e) {
+    e.preventDefault();
+    $("form[name=contact]").LoadingOverlay("show", {
+      imageColor: "#dcdc0a",
+      background: "rgba(255, 255, 255, 0.4)",
+      zIndex: 99
+    });
+
+  })
+  
 });
+ */

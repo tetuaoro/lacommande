@@ -1,9 +1,9 @@
-<section class="manage-card">
+<section >
 	<button type="button" class="d-block" data-toggle="modal" data-target="#menuModal" data-whatever="@getbootstrap">
 		<i class="fas fa-plus-circle" aria-hidden="true"></i>
 	</button>
 	{% set menus = user.provider.menus %}
-	<div id="menu-show" class="menu-card">
+	<div id="manage-menu" class="manage-menu">
 		{% for menu in menus %}
 			{% include "ajax/menu/new.html.twig" %}
 		{% else %}

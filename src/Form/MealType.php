@@ -76,8 +76,10 @@ class MealType extends AbstractType
             ])
             ->add('recaptcha', HiddenType::class, [
                 'mapped' => false,
+                'required' => true,
                 'error_bubbling' => false,
                 'attr' => [
+                    'class' => 'recaptcha-check',
                     'data-sitekey' => $_ENV['RECAPTCHA_KEY_3'],
                 ],
             ])

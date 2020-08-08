@@ -1,12 +1,9 @@
 /* BODY */
-.middle {
-  min-height: max-content;
-}
-.body-user {
+.user-auth {
   position: relative;
 }
-.body-user:before {
-  content: "\f2e7";
+.user-auth:before {
+  content: attr(data-fa-icon);
   font-family: FontAwesome;
   position: absolute;
   top: 0;
@@ -24,12 +21,18 @@
 }
 
 /* CARD */
-.card p,
-.card h5,
-.card a,
-.card button {
-  color: black;
-  background-color: rgba(255, 193, 7, 0.15);
+.card {
+  max-width: 200px;
+  max-height: 200px;
+}
+.card:hover > p, .card:hover > i, .card:hover > h5, .card:hover > div {
+  color: #fff !important;
+}
+.card > p, .card > i, .card > h5, .card > div {
+  color: #000 !important;
+}
+.card:hover > img {
+  opacity: 0.3;
 }
 .card:hover::before {
   opacity: 1;
@@ -64,17 +67,13 @@
   background: rgba(0, 123, 255, 0.05);
   pointer-events: none;
 }
-.card {
-  max-width: 18rem;
-  max-height: 30rem;
-}
 
 /* Bootstrap */
 
 
 /* All screen */
 @media only screen {
-  .user-manage .manage-card {
+  .user-manage .manage-meal {
     display: grid;
     grid-gap: 8px;
   }
@@ -83,20 +82,20 @@
 /* // Extra small devices (portrait phones, less than 576px) */
 /* // No media query for `xs` since this is the default in Bootstrap */
 
-.user-manage .manage-card {
+.user-manage .manage-meal {
   grid-template-columns: repeat(1, auto);
 }
 
 /* // Small devices (landscape phones, 576px and up) */
 @media (min-width: 576px) {
-  .user-manage .manage-card {
+  .user-manage .manage-meal {
     grid-template-columns: repeat(2, auto);
   }
 }
 
 /* // Medium devices (tablets, 768px and up) */
 @media (min-width: 768px) {
-  .user-manage .manage-card {
+  .user-manage .manage-meal {
     grid-template-columns: repeat(3, auto);
     grid-gap: 11px;
   }
@@ -104,7 +103,7 @@
 
 /* // Large devices (desktops, 992px and up) */
 @media (min-width: 992px) {
-  .user-manage .manage-card {
+  .user-manage .manage-meal {
     grid-template-columns: repeat(5, auto);
     grid-gap: 13px;
   }
@@ -112,7 +111,7 @@
 
 /* // Extra large devices (large desktops, 1200px and up) */
 @media (min-width: 1200px) {
-  .user-manage .manage-card {
+  .user-manage .manage-meal {
     grid-template-columns: repeat(7, auto);
     grid-gap: 13px;
   }
@@ -121,7 +120,7 @@
 /* XXLarge screens ----------- */
 @media only screen and(min-width: 1824px) {
   /* Styles */
-  .user-manage .manage-card {
+  .user-manage .manage-meal {
     grid-template-columns: repeat(12, auto);
     grid-gap: 15px;
   }

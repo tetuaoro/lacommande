@@ -64,13 +64,10 @@ class MenuController extends AbstractController
                 );
             }
         } else {
+            $this->addFlash('error', 'Impossible de créer un menu de cette façon !');
+
             return new Response('error', Response::HTTP_METHOD_NOT_ALLOWED);
         }
-
-        /* return $this->render('menu/new.html.twig', [
-            'menu' => $menu,
-            'form' => $form->createView(),
-        ]); */
     }
 
     /**

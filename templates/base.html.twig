@@ -41,11 +41,12 @@
 			<link rel="stylesheet" type="text/css" href="{{asset('assets/vendor/css-hamburgers/hamburgers.min.css') }}">
 			<link rel="stylesheet" type="text/css" href="{{asset('assets/vendor/lightbox2/css/lightbox.min.css') }}">
 
-			{% block stylesheets %}{% endblock %}
-
 			<link rel="stylesheet" type="text/css" href="{{asset('assets/css/main.css') }}">
 			<link rel="stylesheet" type="text/css" href="{{asset('assets/css/util.css') }}">
 			<link rel="stylesheet" type="text/css" href="{{asset('assets/css/custom/style-app.css') }}">
+			
+			{% block stylesheets %}{% endblock %}
+			
 		</head>
 		<body class="ch-cookie-consent-body{% if controller_name is defined and controller_name == 'app' %} animsition{% endif %}">
 			{% block header %}
@@ -62,6 +63,12 @@
 					</div>
 				</section>
 			</div>
+
+			{% block footer %}
+				<div class="footer">
+					{% include "base/navigation/footer.html.twig" %}
+				</div>
+			{% endblock %}
 
 			<div id="flash" class="flash-js text-break">
 				{% for label, messages in app.flashes %}
@@ -82,12 +89,6 @@
 				{% endfor %}
 			</div>
 
-			{% block footer %}
-				<div class="footer">
-					{% include "base/navigation/footer.html.twig" %}
-				</div>
-			{% endblock %}
-
 			<script src="https://kit.fontawesome.com/9132b45b0a.js" crossorigin="anonymous"></script>
 			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 			<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
@@ -99,8 +100,10 @@
 
 			<script src="{{asset('assets/js/main.js')}}"></script>
 
-			<script src="{{asset('assets/js/custom/anime.min.js')}}"></script>
+			<script src="{{asset('assets/vendor/custom/js/anime.min.js')}}"></script>
 			<script src="{{asset('assets/js/custom/anime-app.js')}}"></script>
+			<script src="{{asset('assets/vendor/custom/js/loadingoverlay.min.js')}}"></script>
+			<script src="{{asset('assets/js/custom/ajax.js')}}"></script>
 
 			{% if chcookieconsent_isCookieConsentSavedByUser() == false %}
 				{{ render(path('ch_cookie_consent.show_if_cookie_consent_not_set')) }}
