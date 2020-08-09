@@ -16,14 +16,17 @@
 								<li>
 									<a href="{{ path('app_home') }}">{{ "Accueil" | trans({}, 'nav') }}</a>
 								</li>
-
 								<li>
 									<a href="{{ path('meal_index') }}">{{ "Les plats" | trans({}, 'nav') }}</a>
 								</li>
-
 								<li>
 									<a href="{{ path('contact_new') }}">Contact</a>
 								</li>
+								{% if app.debug %}
+									<li>
+										<a href="{{ path('test_index') }}">Test</a>
+									</li>
+								{% endif %}
 							</ul>
 						</nav>
 					</div>
@@ -111,7 +114,11 @@
 					</a>
 				{% endif %}
 			</li>
-
+			{% if app.debug %}
+				<li class="t-center text-bold m-b-13">
+					<a href="{{ path('test_index') }}">Test</a>
+				</li>
+			{% endif %}
 			<li class="t-center m-b-13">
 				<a href="{{ path('app_index') }}" class="txt19">{{ "Accueil" | trans({}, 'nav') }}</a>
 			</li>

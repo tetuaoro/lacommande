@@ -1,7 +1,7 @@
 <section>
 	<div class="btn-group" role="group" aria-label="Basic example">
-		<button type="button" class="btn" data-toggle="modal" data-target="#mealModal">
-			{{"Ajouter"|trans({}, 'nav')}}
+		<button type="button" class="btn mealModal" data-toggle="modal" data-target="#mealModal">
+			{{"Ajouter une assiete"|trans({}, 'nav')}}
 			<i class="fas fa-plus-circle ml-2"></i>
 		</button>
 	</div>
@@ -10,27 +10,11 @@
 		{% for meal in meals %}
 			{% include "ajax/meal/new.html.twig" %}
 		{% else %}
-			<div>
+			<div class="manage-meal-noone mt-2">
 				<h3>Pas d'assiete: ajoutez-en un.</h3>
 			</div>
 		{% endfor %}
 	</div>
 
-	<div class="modal fade" id="mealModal" tabindex="-1" data-backdrop="static" data-keyboard="false" aria-labelledby="mealModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="mealModalLabel">
-					{{"Ajouter"|trans({}, 'nav')}}
-					</h5>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				<div class="modal-body">
-					{% include "ajax/meal/_form.html.twig" %}
-				</div>
-			</div>
-		</div>
-	</div>
+	
 </section>

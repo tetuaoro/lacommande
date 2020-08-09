@@ -157,15 +157,21 @@ class MealController extends AbstractController
      */
     public function delete(Request $request, Meal $meal, Storage $storage): Response
     {
-        $this->denyAccessUnlessGranted('MEAL_DELETE', $meal);
+        if ($request->isXmlHttpRequest()) {
+            $this->denyAccessUnlessGranted('MEAL_DELETE', $meal);
 
-        if ($this->isCsrfTokenValid('delete'.$meal->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $storage->removeMealImage($meal);
-            $entityManager->remove($meal);
-            $entityManager->flush();
+            if ($this->isCsrfTokenValid('delete'.$meal->getId(), $request->request->get('_token'))) {
+                $entityManager = $this->getDoctrine()->getManager();
+                $storage->removeMealImage($meal);
+                $entityManager->remove($meal);
+                $entityManager->flush();
+
+                return new Response('success', Response::HTTP_CREATED);
+            }
+
+            return new Response('error', Response::HTTP_BAD_REQUEST);
         }
 
-        return $this->redirectToRoute('meal_index');
+        return new Response('error', Response::HTTP_METHOD_NOT_ALLOWED);
     }
 }

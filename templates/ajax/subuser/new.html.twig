@@ -11,7 +11,7 @@
 			<a class="btn-bs btn-warning" title="modifier" href="{{path('user_meal_u', {id: meal.id, slug: meal.slug})}}">
 				<i class="fas fa-pencil-alt" aria-hidden="true"></i>
 			</a>
-			<form name="meal-delete" data-modal-delete="#modal-delete-meal" method="post" class="d-inline" action="{{ path('meal_delete', {'id': meal.id}) }}">
+			<form name="meal-delete" method="post" class="d-inline" action="{{ path('meal_delete', {'id': meal.id}) }}">
 				<button class="btn-bs btn-warning" title="supprimer">
 					<i class="fas fa-trash" aria-hidden="true"></i>
 				</button>

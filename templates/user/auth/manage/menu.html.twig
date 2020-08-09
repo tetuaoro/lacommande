@@ -1,7 +1,10 @@
-<section >
-	<button type="button" class="d-block" data-toggle="modal" data-target="#menuModal" data-whatever="@getbootstrap">
-		<i class="fas fa-plus-circle" aria-hidden="true"></i>
-	</button>
+<section>
+	<div class="btn-group" role="group" aria-label="Basic example">
+		<button type="button" class="btn" data-toggle="modal" data-target="#menuModal">
+			{{"Ajouter"|trans({}, 'nav')}}
+			<i class="fas fa-plus-circle ml-2"></i>
+		</button>
+	</div>
 	{% set menus = user.provider.menus %}
 	<div id="manage-menu" class="manage-menu">
 		{% for menu in menus %}
@@ -13,19 +16,5 @@
 		{% endfor %}
 	</div>
 
-	<div class="modal fade" id="menuModal" tabindex="-1" aria-labelledby="menuModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="menuModalLabel">{{"Ajouter un menu"|trans({}, 'form')}}</h5>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				<div class="modal-body">
-					{% include "ajax/menu/_form.html.twig" %}
-				</div>
-			</div>
-		</div>
-	</div>
+	
 </section>

@@ -14,6 +14,9 @@ hr {
   border-top: 3px solid rgba(0, 0, 0, 0.6);
   margin: 20px;
 }
+.header {
+  padding: 2em;
+}
 .welcome {
   background-color: rgba(0, 0, 0, 0.6);
 }
@@ -21,8 +24,8 @@ hr {
   background-color: #efefee;
 }
 .logo {
-  width: 200px;
-  height: 200px;
+  width: 110px;
+  height: 50px;
 }
 .text-center {
   text-align: center;

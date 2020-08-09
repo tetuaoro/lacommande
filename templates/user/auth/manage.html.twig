@@ -8,7 +8,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-2">
-				<div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+				<div class="nav flex-md-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
 					<a class="nav-link mb-3 active" id="v-pills-meal-tab" data-fa-icon="&#xf2e7" data-toggle="pill" href="#v-pills-meal" role="tab" aria-controls="v-pills-meal" aria-selected="true">
 						{{"meal"|trans({}, 'user')}}
 					</a>
@@ -40,6 +40,40 @@
 				</div>
 			</div>
 		</div>
+
+		{% for label in ['meal', 'menu', 'subuser', 'setting'] %}
+			<div class="modal fade" id="{{label ~ 'Modal'}}" tabindex="-1" data-backdrop="static" data-keyboard="false" aria-labelledby="{{label ~ 'ModalLabel'}}" aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="{{label ~ 'ModalLabel'}}">
+								{{"Ajouter"|trans({}, 'nav')}}
+							</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							{% include "ajax/" ~ label ~ "/_form.html.twig" %}
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal" id="modal-delete-{{label}}" data-target-btn=".modal-delete-{{label}}-btn" tabindex="-1">
+				<div class="modal-dialog">
+					<div class="modal-content bg-danger">
+						<button type="button" class="close ml-auto pr-2" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<div class="modal-body">
+							<p class="text-white txt19">Confirmer la suppression de l'objet !</p>
+							<button type="button" class="btn" data-dismiss="modal">{{"Fermer"|trans}}</button>
+							<button type="button" class="btn modal-delete-{{label}}-btn">{{"Confirmer"|trans}}</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		{% endfor %}
 
 	</div>
 {% endblock %}

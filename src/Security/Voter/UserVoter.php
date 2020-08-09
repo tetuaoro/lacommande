@@ -41,9 +41,12 @@ class UserVoter extends Voter
         }
 
         $user_ = $token->getUser();
-        $user = $this->user->findOneBy(['username' => $user_->getUsername()]);
         // if the user is anonymous, do not grant access
-        if (!$user_ instanceof UserInterface || !$user) {
+        if (!$user_ instanceof UserInterface) {
+            return false;
+        }
+        $user = $this->user->findOneBy(['username' => $user_->getUsername()]);
+        if (!$user) {
             return false;
         }
 

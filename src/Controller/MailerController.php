@@ -23,16 +23,17 @@ class MailerController extends AbstractController
         $confirm = $mailer->confirmNewUser($user, $token);
 
         if ($confirm) {
-            $this->addFlash('flash_success', 'Email confirmé avec success !');
+            $this->addFlash('success', 'Email confirmé avec success !');
         } else {
-            $this->addFlash('flash_error', 'Une erreur est survenue lors de la confimation ! Veuillez réessayer.');
+            $this->addFlash('danger', 'Ce lien n\'est plus valide ! Veuillez réessayer.');
         }
 
-        if ($this->getUser()) {
-            return $this->redirectToRoute('user_show', ['id' => $user->getId()]);
+        // @var \App\Entity\User $user
+        if ($user_ = $this->getUser()) {
+            return $this->redirectToRoute('user_show', ['id' => $user_->getId()]);
         }
 
-        return $this->render('app_index');
+        return $this->redirectToRoute('app_index');
     }
 
     /**

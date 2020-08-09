@@ -5,7 +5,8 @@
 	{{ form_row(form_meal.price) }}
 	{{ form_row(form_meal.image) }}
 	{{ form_widget(form_meal.recaptcha) }}
-	<button type="button" class="btn d-block btn-form-collapse" data-toggle="collapse" data-target=".multi-collapse" aria-expanded="false" aria-controls="multiCollapseExample1 multiCollapseExample2"> {{"Plus d'option"|trans({}, 'form')}}
+	<button type="button" class="btn d-block btn-form-collapse" data-toggle="collapse" data-target=".multi-collapse" aria-expanded="false" aria-controls="multiCollapseExample1 multiCollapseExample2">
+		{{"Plus d'option"|trans({}, 'form')}}
 		<i class="fas fa-plus-circle ml-1" aria-hidden="true"></i>
 	</button>
 	<div class="collapse multi-collapse" id="multiCollapseExample2">
@@ -14,29 +15,29 @@
 		{{ form_row(form_meal.tags) }}
 	</div>
 	<hr style="width: 222px;">
-</fieldset>
-<div id="data-meal" data-meal="{{ {display: 'nonone',info: meal is defined ? meal.imgInfo : '', img: meal is defined ? meal.img : '', lang: app.request.defaultLocale}|json_encode|e('html_attr') }}"></div>
-{# <span class="config text-info" style="display: none;">
-	config server :
-	{% for item in config %}
-		{{item ~ " "}}
-	{% endfor %}
-</span> #}
-{# <div>
-	<textarea name="comments" class="comments"></textarea>
-	<div class="pure_rte" prte="1">
-		<div class="prte_toolbar text-center rounded-0" style="display: block; background-color: var(--appcolor1);">
-		{% set labels = ['bold', 'italic', 'underline', 'list-ul'] %}
-		<div id="data-textarea" data-textarea-editor="{{ labels|json_encode|e('html_attr') }}"></div>
-			{% for label in labels %}
-				<div class="prte_button" title="{{label|trans({}, 'textarea')}}">
-					<i class="fas fa-{{label}} va-bottom" command="{{label}}" aria-hidden="true"></i>
-				</div>
-			{% endfor %}
+	<div id="data-meal" data-meal="{{ {display: 'nonone',info: meal is defined ? meal.imgInfo : '', img: meal is defined ? meal.img : '', lang: app.request.defaultLocale}|json_encode|e('html_attr') }}"></div>
+	{# <span class="config text-info" style="display: none;">
+		config server :
+		{% for item in config %}
+			{{item ~ " "}}
+		{% endfor %}
+	</span> #}
+	{# <div>
+		<textarea name="comments" class="comments"></textarea>
+		<div class="pure_rte" prte="1">
+			<div class="prte_toolbar text-center rounded-0" style="display: block; background-color: var(--appcolor1);">
+			{% set labels = ['bold', 'italic', 'underline', 'list-ul'] %}
+			<div id="data-textarea" data-textarea-editor="{{ labels|json_encode|e('html_attr') }}"></div>
+				{% for label in labels %}
+					<div class="prte_button" title="{{label|trans({}, 'textarea')}}">
+						<i class="fas fa-{{label}} va-bottom" command="{{label}}" aria-hidden="true"></i>
+					</div>
+				{% endfor %}
+			</div>
+			<div id="prte_editor_id" class="prte_editor" style="margin-top: -6px;" contenteditable="true"></div>
 		</div>
-		<div id="prte_editor_id" class="prte_editor" style="margin-top: -6px;" contenteditable="true"></div>
-	</div>
-</div> #}
+	</div> #}
 
-<button class="btn">{{ button_label | default('Enregistrer') }}</button>
+	<button class="btn">{{ button_label | default('Enregistrer') }}</button>
+</fieldset>
 {{ form_end(form_meal) }}

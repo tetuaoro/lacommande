@@ -7,7 +7,7 @@ $(document).ready(function () {
     });
   });
 
-  // FORM AJAX
+  // FORM CREATE AJAX
 
   var forms = [
     $("form[name=menu]"),
@@ -20,12 +20,11 @@ $(document).ready(function () {
       e.preventDefault();
 
       checkRecaptchaForm(elem, function () {
-        console.log("2e", elem, $(this));
         var idLoadSpinner = elem.children("fieldset").data("loadSpinner");
         var form = new FormData(elem.get(0));
         var xhr = new XMLHttpRequest();
         $("#" + idLoadSpinner).LoadingOverlay("show", {
-          imageColor: "#dcdc0a",
+          imageColor: appColor1,
           background: "rgba(255, 255, 255, 0.4)",
         });
         xhr.onreadystatechange = function () {
@@ -37,9 +36,52 @@ $(document).ready(function () {
               ajaxComplete(elem, xhr);
             }
             if (xhr.status === 405) {
-              document.location.url = document.location.href;
+              ajaxComplete(elem, xhr);
             }
             $("#" + idLoadSpinner).LoadingOverlay("hide");
+          }
+        };
+        xhr.open(elem.attr("method"), elem.attr("action"));
+        xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+        xhr.send(form);
+      });
+    });
+  });
+
+  // FORM DELETE AJAX
+
+  var formsDelete = [$("form[name=meal-delete]")];
+
+  formsDelete.forEach((elem) => {
+    console.log(elem.parents(".card"));
+    elem.submit(function (e) {
+      e.preventDefault();
+      console.log("submit form delete");
+      var modal = elem.data("modalDelete");
+      $(modal).modal("show");
+
+      $($(modal).data("targetBtn")).click(function (e) {
+        e.preventDefault();
+        var form = new FormData(elem.get(0));
+        var xhr = new XMLHttpRequest();
+        var spinner = $(this);
+        spinner.LoadingOverlay("show", {
+          imageColor: appColor1,
+          background: "rgba(255, 255, 255, 0.6)",
+        });
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState === 4) {
+            if (xhr.status === 201) {
+              ajaxComplete(elem, xhr);
+            }
+            if (xhr.status === 400) {
+              ajaxComplete(elem, xhr);
+            }
+            if (xhr.status === 405) {
+              ajaxComplete(elem, xhr);
+            }
+            spinner.LoadingOverlay("hide");
+            $(modal).modal("hide");
           }
         };
         xhr.open(elem.attr("method"), elem.attr("action"));
@@ -61,7 +103,8 @@ $(document).ready(function () {
   pillsBtn.forEach((elem) => {
     elem.click(function (e) {
       e.preventDefault();
-      $(".user-auth").attr("data-fa-icon", $(this).data("faIcon"));
+      $(".bg-faIcon").attr("data-fa-icon", $(this).data("faIcon"));
+      location.hash = $(this).attr("href");
     });
   });
 
@@ -158,10 +201,16 @@ $(document).ready(function () {
   }
 
   function ajaxComplete(form, xhr) {
+    location.reload();
     if (form.attr("name") == "meal") {
       if (xhr.status == 201) {
         $(".manage-meal").append(xhr.responseText);
-        $("#mealModal").modal("hide");
+        if ($(".manage-meal-noone").length > 0) {
+          $(".manage-meal-noone").remove();
+        }
+        setTimeout(() => {
+          $("#mealModal").modal("hide");
+        }, 300);
       }
       if (xhr.status == 400) {
         form.html(xhr.responseText);
@@ -170,11 +219,26 @@ $(document).ready(function () {
     if (form.attr("name") == "menu") {
       if (xhr.status == 201) {
         $(".manage-menu").append(xhr.responseText);
-        $("#menuModal").modal("hide");
+        if ($(".manage-menu-noone").length > 0) {
+          $(".manage-menu-noone").remove();
+        }
+        setTimeout(() => {
+          $("#menuModal").modal("hide");
+        }, 300);
       }
       if (xhr.status == 400) {
         form.html(xhr.responseText);
         FileInput();
+      }
+    }
+
+    if (form.attr("name") == "meal-delete") {
+      if (xhr.status == 201) {
+        console.log(xhr.responseText);
+        form.parents(".card").get(0).remove();
+      }
+      if (xhr.status == 400) {
+        console.log(xhr.responseText);
       }
     }
 
