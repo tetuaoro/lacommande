@@ -107,7 +107,6 @@ class MealController extends AbstractController
             return $this->redirectToRoute('meal_show', ['id' => $meal->getId(), 'slug' => $meal->getSlug()]);
         }
 
-        dump($meal->getImgInfo());
         $command = new Command();
         $form = $ajaxForm->command_meal($command, $meal);
 
