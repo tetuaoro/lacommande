@@ -3,7 +3,7 @@
 		<div class="card-body">
 			<h1 class="h5 text-info">Information</h1>
 			<ul class="list-group list-group-flush">
-				<li class="list-group-item">T. Commande : {{meal.totalcommand|number_format}}</li>
+				<li class="list-group-item tcommand">T. Commande : <span class="tcommand-count">{{meal.totalcommand|number_format}}<span></li>
 				<li class="list-group-item">Ouvert depuis : {{meal.createdAt|date('d/m/y')}}</li>
 			</ul>
 		</div>

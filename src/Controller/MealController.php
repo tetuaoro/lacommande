@@ -53,44 +53,51 @@ class MealController extends AbstractController
         /** @var \App\Entity\User $user */
         $user = $this->getUser();
 
-        $form = $ajaxForm->create_meal($meal, $this->getUser());
-        $form->handleRequest($request);
+        $form = $ajaxForm->create_meal($meal);
 
-        $f = false;
-        if ($g = $form->get('recaptcha')->getData()) {
-            $f = $recaptcha->captchaverify($g)->success;
-        }
+        if ($request->isXmlHttpRequest()) {
+            $form->handleRequest($request);
 
-        if ($form->isSubmitted() && !$f) {
-            $form->get('recaptcha')->addError(new FormError('Recaptcha : êtes-vous un robot ?'));
-        }
+            $f = false;
+            if ($g = $form->get('recaptcha')->getData()) {
+                $f = $recaptcha->captchaverify($g)->success;
+            }
 
-        if ($form->isSubmitted() && $form->isValid() && $f) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $image = $form->get('image')->getData();
-            $provider = $user->getProvider();
-            $info = $storage->uploadMealImage($image, $provider, $meal);
-            $meal->setImg($info['mediaLink'])
-                ->setProvider($provider)
-                ->setImgInfo($info)
+            if ($form->isSubmitted() && !$f) {
+                $form->get('recaptcha')->addError(new FormError('Recaptcha : êtes-vous un robot ?'));
+            }
+
+            if ($form->isSubmitted() && $form->isValid() && $f) {
+                $entityManager = $this->getDoctrine()->getManager();
+                $image = $form->get('image')->getData();
+                $provider = $user->getProvider();
+                $info = $storage->uploadMealImage($image, $provider, $meal);
+                $meal->setImg($info['mediaLink'])
+                    ->setProvider($provider)
+                    ->setImgInfo($info)
                 ;
-            $gallery = new Gallery();
-            $gallery->setUrl($meal->getImg())
-                ->setName($meal->getName())
-                ->setType('img')
+                $gallery = new Gallery();
+                $gallery->setUrl($meal->getImg())
+                    ->setName($meal->getName())
+                    ->setType('img')
                 ;
-            $meal->setGallery($gallery);
-            $entityManager->persist($meal);
-            $entityManager->flush();
+                $meal->setGallery($gallery);
+                $entityManager->persist($meal);
+                $entityManager->flush();
 
-            $this->addFlash('success', 'Nouvelle assiette créée.');
+                $this->addFlash('success', 'Assiette créée avec succès.');
 
-            return $this->redirectToRoute('user_manage', ['id' => $user->getId(), 'view' => 'meal']);
-        }
-        if ($form->isSubmitted() && !$form->isValid()) {
-            $this->addFlash('danger', 'Le formulaire n\'est pas valide.');
-
-            return $this->redirectToRoute('user_manage', ['id' => $user->getId(), 'view' => 'meal']);
+                return new Response($this->generateUrl('user_manage', ['id' => $user->getId(), 'view' => 'v-pills-meal']), Response::HTTP_CREATED);
+            }
+            if ($form->isSubmitted() && !$form->isValid()) {
+                return $this->render(
+                    'meal/_form.html.twig',
+                    [
+                        'form' => $form->createView(),
+                    ],
+                    new Response('error', Response::HTTP_BAD_REQUEST)
+                );
+            }
         }
 
         return $this->render('meal/_form.html.twig', [
@@ -119,48 +126,54 @@ class MealController extends AbstractController
     /**
      * @Route("/e/{slug}-{id}/edit", name="edit", methods={"POST", "GET"}, requirements={"slug": "[a-z0-9\-]*"})
      */
-    public function edit(string $slug, Request $request, Meal $meal, Storage $storage, AjaxForm $ajaxForm, Recaptcha $recaptcha): Response
+    public function edit(Request $request, Meal $meal, Storage $storage, AjaxForm $ajaxForm, Recaptcha $recaptcha): Response
     {
         $this->denyAccessUnlessGranted('MEAL_EDIT', $meal);
 
         /** @var \App\Entity\User $user */
         $user = $this->getUser();
 
-        $form = $ajaxForm->edit_meal($meal, $this->getUser());
-        $form->handleRequest($request);
+        $form = $ajaxForm->edit_meal($meal);
+        if ($request->isXmlHttpRequest()) {
+            $form->handleRequest($request);
 
-        $f = false;
-        if ($g = $form->get('recaptcha')->getData()) {
-            $f = $recaptcha->captchaverify($g)->success;
-        }
-
-        if ($form->isSubmitted() && !$f) {
-            $form->get('recaptcha')->addError(new FormError('Recaptcha : êtes-vous un robot ?'));
-        }
-
-        if ($form->isSubmitted() && $form->isValid() && $f) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $image = $form->get('image')->getData();
-            if ($image) {
-                $provider = $user->getProvider();
-                $info = $storage->uploadMealImage($image, $provider, $meal);
-                $meal->setImg($info['mediaLink'])
-                    ->setImgInfo($info)
-                    ;
-                $meal->getGallery()->setUrl($meal->getImg())
-                    ;
+            $f = false;
+            if ($g = $form->get('recaptcha')->getData()) {
+                $f = $recaptcha->captchaverify($g)->success;
             }
-            $entityManager->persist($meal);
-            $entityManager->flush();
 
-            $this->addFlash('success', 'Assiette modifiée avec succès.');
+            if ($form->isSubmitted() && !$f) {
+                $form->get('recaptcha')->addError(new FormError('Recaptcha : êtes-vous un robot ?'));
+            }
 
-            return $this->redirectToRoute('user_manage', ['id' => $user->getId(), 'view' => 'meal']);
-        }
-        if ($form->isSubmitted() && !$form->isValid()) {
-            $this->addFlash('danger', 'Le formulaire n\'est pas valide.');
+            if ($form->isSubmitted() && $form->isValid() && $f) {
+                $entityManager = $this->getDoctrine()->getManager();
+                $image = $form->get('image')->getData();
+                if ($image) {
+                    $provider = $user->getProvider();
+                    $info = $storage->uploadMealImage($image, $provider, $meal);
+                    $meal->setImg($info['mediaLink'])
+                        ->setImgInfo($info)
+                    ;
+                    $meal->getGallery()->setUrl($meal->getImg())
+                    ;
+                }
+                $entityManager->persist($meal);
+                $entityManager->flush();
 
-            return $this->redirectToRoute('user_manage', ['id' => $user->getId(), 'view' => 'meal']);
+                $this->addFlash('success', 'Assiette modifiée avec succès.');
+
+                return new Response($this->generateUrl('user_manage', ['id' => $user->getId(), 'view' => 'v-pills-meal']), Response::HTTP_CREATED);
+            }
+            if ($form->isSubmitted() && !$form->isValid()) {
+                return $this->render(
+                    'meal/_form.html.twig',
+                    [
+                        'form' => $form->createView(),
+                    ],
+                    new Response('error', Response::HTTP_BAD_REQUEST)
+                );
+            }
         }
 
         return $this->render('meal/_form.html.twig', [

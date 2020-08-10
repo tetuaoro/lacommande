@@ -28,6 +28,7 @@ $(document).ready(function () {
             textClass: "tit2 t-center",
             textResizeFactor: 0.3,
           });
+          $(".tcommand .tcommand-count").text($(this).text() + 1);
         }, 1450);
         setTimeout(() => {
           $(".command-submit").LoadingOverlay("hide");
