@@ -5,7 +5,8 @@
 	{{ form_row(form.price) }}
 	{{ form_row(form.image) }}
 	{{ form_widget(form.recaptcha) }}
-		<button type="button" class="btn2 d-block btn-form-collapse" data-toggle="collapse" data-target=".multi-collapse" aria-expanded="false" aria-controls="multiCollapseExample1 multiCollapseExample2"> {{"Plus d'option"|trans({}, 'form')}}
+	<button type="button" class="btn2 d-block btn-form-collapse" data-toggle="collapse" data-target=".multi-collapse" aria-expanded="false" aria-controls="multiCollapseExample1 multiCollapseExample2">
+		{{"Plus d'option"|trans({}, 'form')}}
 		<i class="fas fa-plus-circle ml-1" aria-hidden="true"></i>
 	</button>
 	<div class="collapse multi-collapse" id="multiCollapseExample2">
@@ -15,13 +16,9 @@
 	</div>
 	<hr style="width: 222px;">
 </fieldset>
-<div id="data-meal" data-meal="{{ {display: 'block',info: meal.imgInfo, img: meal.img, lang: app.request.defaultLocale}|json_encode|e('html_attr') }}"></div>
-<span class="config text-info" style="display: none;">
-	config server :
-	{% for item in config %}
-		{{item ~ " "}}
-	{% endfor %}
-</span>
+{% if meal is defined %}
+	<div id="data-meal" data-meal="{{ {display: 'block',info: meal.imgInfo, img: meal.img, lang: app.request.defaultLocale}|json_encode|e('html_attr') }}"></div>
+{% endif %}
 {# <div>
 	<textarea name="comments" class="comments"></textarea>
 	<div class="pure_rte" prte="1">
@@ -38,5 +35,5 @@
 	</div>
 </div> #}
 
-<button onclick="onClick()" class="btn">{{ button_label | default('Enregistrer') }}</button>
+<button class="btn">{{ button_label | default('Enregistrer') }}</button>
 {{ form_end(form) }}

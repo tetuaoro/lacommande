@@ -48,6 +48,12 @@ class Command
      */
     private $delivery;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Provider::class, inversedBy="commands")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $provider;
+
     public function __construct()
     {
         $this->meals = new ArrayCollection();
@@ -129,6 +135,18 @@ class Command
     public function setDelivery(?Delivery $delivery): self
     {
         $this->delivery = $delivery;
+
+        return $this;
+    }
+
+    public function getProvider(): ?Provider
+    {
+        return $this->provider;
+    }
+
+    public function setProvider(?Provider $provider): self
+    {
+        $this->provider = $provider;
 
         return $this;
     }

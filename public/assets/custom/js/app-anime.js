@@ -2,19 +2,10 @@ $(document).ready(function () {
   // FALSH MESSAGE
   var flash = $("#flash");
   if (flash.children().length) {
-    anime({
-      targets: "#flash",
-      translateX: 515,
-      easing: "easeOutElastic(2, 1)",
-      duration: 900,
-      delay: 7500,
-      begin: function () {
-        flash.show("fast");
-      },
-      complete: function () {
-        flash.hide("fast");
-      },
-    });
+    flash.show("fast");
+    setTimeout(() => {
+      flash.hide("fast");
+    }, 11959);
   }
 
   // BTN COLLAPSE

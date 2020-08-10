@@ -10,6 +10,7 @@ use App\Form\CommandType;
 use App\Form\MealType;
 use App\Form\MenuType;
 use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Routing\RouterInterface;
 
 class AjaxForm
@@ -42,9 +43,34 @@ class AjaxForm
 
     public function create_meal(Meal $meal)
     {
-        return $this->form->create(MealType::class, $meal, [
+        return $this->form->createNamed('meal-create', MealType::class, $meal, [
             'method' => 'POST',
-            'action' => $this->router->generate('meal_new')
+            'action' => $this->router->generate('meal_new'),
         ]);
+    }
+
+    public function edit_meal(Meal $meal)
+    {
+        return $this->form->createNamed('meal-edit-'.$meal->getId(), MealType::class, $meal, [
+            'method' => 'POST',
+            'action' => $this->router->generate('meal_edit', ['id' => $meal->getId(), 'slug' => $meal->getSlug()]),
+        ]);
+    }
+
+    public function getErrorsFromForm(FormInterface $form)
+    {
+        $errors = [];
+        foreach ($form->getErrors() as $error) {
+            $errors[] = $error->getMessage();
+        }
+        foreach ($form->all() as $childForm) {
+            if ($childForm instanceof FormInterface) {
+                if ($childErrors = $this->getErrorsFromForm($childForm)) {
+                    $errors[$childForm->getName()] = $childErrors;
+                }
+            }
+        }
+
+        return $errors;
     }
 }

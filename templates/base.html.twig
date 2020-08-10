@@ -48,7 +48,7 @@
 			{% block stylesheets %}{% endblock %}
 			
 		</head>
-		<body class="ch-cookie-consent-body{% if controller_name is defined and controller_name == 'app' %} animsition{% endif %}">
+		<body class="ch-cookie-consent-body{% if controller_name is defined and controller_name == 'app' %} animsition{% endif %}{% if modalOpen is defined and modalOpen == 'open' %} modal-open{% endif %}">
 			{% block header %}
 				<div class="header">
 					{% include "base/navigation/header.html.twig" %}

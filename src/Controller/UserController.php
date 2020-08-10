@@ -4,12 +4,10 @@ namespace App\Controller;
 
 use App\Entity\Delivery;
 use App\Entity\Meal;
-use App\Entity\Menu;
 use App\Entity\Provider;
 use App\Entity\User;
 use App\Form\UserType;
 use App\Repository\UserRepository;
-use App\Service\AjaxForm;
 use App\Service\Mailer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -145,21 +143,17 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/{token}/manage/{id}", name="manage", methods={"GET"}, requirements={"token": "[0-9]{14}"})
+     * @Route("/manage/{id}", name="manage", methods={"GET"})
+     *
+     * @param null|mixed $form
+     * @param null|mixed $data
      */
-    public function adminUser(AjaxForm $ajaxForm, User $user)
+    public function adminUser(User $user)
     {
         $this->denyAccessUnlessGranted('USER_MANAGE', $user);
 
-        $menu = new Menu();
-        $form_menu = $ajaxForm->create_menu($menu, $user->getProvider());
-        $meal = new Meal();
-        $form_meal = $ajaxForm->create_meal($meal);
-
         return $this->render('user/auth/manage.html.twig', [
             'user' => $user,
-            'form_menu' => $form_menu->createView(),
-            'form_meal' => $form_meal->createView(),
         ]);
     }
 

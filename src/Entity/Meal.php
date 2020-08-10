@@ -340,4 +340,11 @@ class Meal
 
         return $this;
     }
+
+    public function commandPlus(): self
+    {
+        ++$this->totalcommand;
+
+        return $this;
+    }
 }

@@ -71,12 +71,18 @@ class Provider
      */
     private $subusers;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Command::class, mappedBy="provider")
+     */
+    private $commands;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
         $this->meals = new ArrayCollection();
         $this->menus = new ArrayCollection();
         $this->subusers = new ArrayCollection();
+        $this->commands = new ArrayCollection();
     }
 
     public function __toString()
@@ -260,6 +266,37 @@ class Provider
             // set the owning side to null (unless already changed)
             if ($subuser->getProvider() === $this) {
                 $subuser->setProvider(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Command[]
+     */
+    public function getCommands(): Collection
+    {
+        return $this->commands;
+    }
+
+    public function addCommand(Command $command): self
+    {
+        if (!$this->commands->contains($command)) {
+            $this->commands[] = $command;
+            $command->setProvider($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommand(Command $command): self
+    {
+        if ($this->commands->contains($command)) {
+            $this->commands->removeElement($command);
+            // set the owning side to null (unless already changed)
+            if ($command->getProvider() === $this) {
+                $command->setProvider(null);
             }
         }
 

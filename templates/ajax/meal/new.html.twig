@@ -2,22 +2,39 @@
 	<img width="200" src="{{meal.img}}" class="card-img" alt="IMG-MEAL">
 	<div class="card-img-overlay bg-card-img-hover d-flex flex-column">
 		<h5 class="card-title">{{meal.name}}</h5>
-		<div class="card-text">{{meal.description|truncate(40)|raw}}</div>
-		<p class="card-text pt-3">{{meal.createdAt|date('d m Y')}}</p>
+		<div class="card-text">{{meal.description|truncate(20)|raw}}</div>
+		<p class="card-text mt-1">{{meal.createdAt|date('d m Y')}}</p>
 		<div class="mt-auto">
-			<a class="btn-bs btn-warning" title="voir plus" href="{{path('user_meal_show', {id: meal.id, slug: meal.slug})}}">
+			<a class="btn-bs btn-warning" title="voir plus" href="{{path('meal_show', {id: meal.id, slug: meal.slug})}}">
 				<i class="fas fa-eye" aria-hidden="true"></i>
 			</a>
-			<a class="btn-bs btn-warning" title="modifier" href="{{path('user_meal_u', {id: meal.id, slug: meal.slug})}}">
+			<button type="button" title="modifier" class="btn-bs btn-warning" data-toggle="modal" data-target="#mealModal-{{meal.id}}">
 				<i class="fas fa-pencil-alt" aria-hidden="true"></i>
-			</a>
-			<form name="meal-delete" data-modal-delete="#modal-delete-meal" method="post" class="d-inline" action="{{ path('meal_delete', {'id': meal.id}) }}">
+			</button>
+			<form name="meal-delete" data-btn-delete="#meal-btn-delete" data-modal="#meal-modal" method="post" class="d-inline" action="{{ path('meal_delete', {'id': meal.id}) }}">
 				<button class="btn-bs btn-warning" title="supprimer">
 					<i class="fas fa-trash" aria-hidden="true"></i>
 				</button>
 				<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ meal.id) }}">
 				<input type="hidden" name="_method" value="DELETE">
 			</form>
+		</div>
+	</div>
+</div>
+<div class="modal fade" id="mealModal-{{meal.id}}" tabindex="-1" data-keyboard="false" aria-labelledby="mealModalLabel">
+	<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="mealModalLabel">
+					{{"Modifier cette assiette"}}
+				</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				{{ render(path('meal_edit', {'id': meal.id, 'slug': meal.slug})) }}
+			</div>
 		</div>
 	</div>
 </div>

@@ -174,3 +174,11 @@ label.required::after {
 .va-bottom {
   vertical-align: bottom;
 }
+
+/* MODAL */
+.modal form {
+  margin-bottom: 1em;
+}
+.modal-open {
+  overflow-y: hidden;
+}

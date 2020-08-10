@@ -1,0 +1,11 @@
+{% if is_granted('MEAL_VIEW', meal) %}
+	<div class="card">
+		<div class="card-body">
+			<h1 class="h5 text-info">Information</h1>
+			<ul class="list-group list-group-flush">
+				<li class="list-group-item">T. Commande : {{meal.totalcommand|number_format}}</li>
+				<li class="list-group-item">Ouvert depuis : {{meal.createdAt|date('d/m/y')}}</li>
+			</ul>
+		</div>
+	</div>
+{% endif %}

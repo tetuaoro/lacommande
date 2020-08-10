@@ -41,18 +41,23 @@ class CommandController extends AbstractController
             if ($form->isSubmitted() && $form->isValid()) {
                 $entityManager = $this->getDoctrine()->getManager();
 
-                $command->setName('loi'.mt_rand());
+                $command->setName('command-'.$meal->getProvider()->getSlug().'-'.mt_rand())
+                    ->addMeals($meal)
+                    ->setProvider($meal->getProvider())
+                ;
+                $meal->commandPlus();
 
                 $entityManager->persist($command);
+                $entityManager->persist($meal);
                 $entityManager->flush();
 
-                return new Response('success : command created', Response::HTTP_CREATED);
+                return new Response('success', Response::HTTP_CREATED);
             }
             if ($form->isSubmitted() && !$form->isValid()) {
-                return new Response('error : data not valid', Response::HTTP_NOT_ACCEPTABLE);
+                return new Response('error', Response::HTTP_NOT_ACCEPTABLE);
             }
         } else {
-            return new Response('error : method', Response::HTTP_METHOD_NOT_ALLOWED);
+            return new Response('error', Response::HTTP_METHOD_NOT_ALLOWED);
         }
 
         return $this->render('command/new.html.twig', [

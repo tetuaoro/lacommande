@@ -56,6 +56,7 @@ class Storage
                 'orginalName' => $orginalName,
                 'image_info' => $image_info,
                 'provider' => $provider,
+                'fullname' => $orginalName.'.'.$source->guessExtension(),
             ];
 
             return $this->uploadObject($meta)->info();
@@ -69,11 +70,6 @@ class Storage
      */
     public function removeMealImage(Meal $meal)
     {
-        /* if ($g = $meal->getGallery()) {
-            $this->em->remove($g);
-            $this->em->flush();
-        } */
-
         return $this->removeObject($meal);
     }
 
@@ -87,6 +83,7 @@ class Storage
         $file = $meta['file'];
         $objectName = $meta['objectName'];
         $orginalName = $meta['orginalName'];
+        $fullname = $meta['fullname'];
         $image_info = $meta['image_info'];
         $provider = $meta['provider'];
 
@@ -96,6 +93,7 @@ class Storage
         $object->update([
             'metadata' => [
                 'filename' => $orginalName,
+                'fullname' => $fullname,
                 'width' => $image_info[0],
                 'height' => $image_info[1],
                 'owner' => $provider->getName(),
@@ -110,6 +108,7 @@ class Storage
 
     /**
      * Check if need to crud meal object.
+     * If meal's image isn't update, do anything.
      *
      * @return bool
      */

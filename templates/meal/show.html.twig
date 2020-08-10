@@ -37,11 +37,11 @@
 			<h3 class="tit5 t-center m-b-50 m-t-5">
 				{{ meal.price ~ " XPF" }}
 			</h3>
-			<div class="row">
-				<div class="col-md col-lg p-t-80 p-b-30 d-none d-md-block">
-					{% include "meal/auth/crud.html.twig" %}
+			<div class="row flex-column-reverse flex-md-row">
+				<div class="col-md col-lg p-b-30">
+					{% include "meal/auth/info.html.twig" %}
 				</div>
-				<div class="col-md-8 col-lg-6 m-l-r-auto p-b-30">
+				<div class="col-md-8 col-lg-6 m-l-r-auto pb-md-5">
 					<div class="blo5 pos-relative p-t-80 command-submit">
 						<div class="pic-blo5 size40 bo4 wrap-cir-pic hov-img-zoom ab-c-t">
 							<a target="_blank" href="{{ meal.img }}" data-lightbox="meal-show" data-title="{{ meal.name ~ ' souvoureux...' }}">
@@ -92,11 +92,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-md col-lg">
-					<div class="d-lg-none">
-						{% include "meal/auth/crud.html.twig" %}
-					</div>
-				</div>
+				<div class="col-md col-lg"></div>
 			</div>
 		</div>
 	</div>
@@ -104,4 +100,8 @@
 
 {% block stylesheets %}
 	<link rel="stylesheet" href="{{asset('assets/custom/css/meal/meal.css')}}">
+{% endblock %}
+
+{% block javascripts %}
+<script src="{{asset('assets/custom/js/meal/app-meal.js')}}"></script>
 {% endblock %}

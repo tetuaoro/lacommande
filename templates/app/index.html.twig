@@ -30,7 +30,7 @@
 											</a>
 
 											<span class="txt29">
-												({{ "commandé " ~ meal.commands | length ~ " fois" }})
+												({{ "commandé " ~ meal.totalcommand | number_format ~ " fois" }})
 											</span>
 										</li>
 									{% endfor %}
@@ -75,7 +75,7 @@
 												</a>
 
 												<span class="txt14">
-													{{ meal.commands | length ~ " commandes, " ~ meal.createdAt | date('Y, m d') }}
+													{{ meal.totalcommand | number_format ~ " commandes, " ~ meal.createdAt | date('Y, m d') }}
 												</span>
 											</div>
 										</li>

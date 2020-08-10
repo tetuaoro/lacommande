@@ -54,16 +54,16 @@ class MealType extends AbstractType
                 'required' => true,
                 'mapped' => false,
                 'data_class' => null,
+                'attr' => [
+                    'placeholder' => 'une image',
+                ],
                 'label' => false,
                 'label_attr' => [
-                    'class' => 'custom-label-bfi',
-                ],
-                'attr' => [
-                    'class' => 'custom-input-bfi',
+                    'data-browse' => 'Ajouter une image',
                 ],
                 'help' => 'image : carré, 1920px max et 480 min',
                 'help_attr' => [
-                    'class' => 'pt-3',
+                    'class' => 'pt-2',
                 ],
                 'constraints' => [
                     new Image([
@@ -89,6 +89,7 @@ class MealType extends AbstractType
         ;
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
+            /** @var \App\Entity\Meal $meal */
             $meal = $event->getData();
 
             if ($meal->getId()) {
@@ -98,12 +99,12 @@ class MealType extends AbstractType
                         'required' => false,
                         'mapped' => false,
                         'data_class' => null,
+                        'attr' => [
+                            'placeholder' => $meal->getImgInfo()['metadata']['fullname'],
+                        ],
                         'label' => false,
                         'label_attr' => [
-                            'class' => 'custom-label-bfi',
-                        ],
-                        'attr' => [
-                            'class' => 'custom-input-bfi',
+                            'data-browse' => 'Modifier l\'image',
                         ],
                         'help' => 'image : carré, 1920px max et 480 min',
                         'constraints' => [

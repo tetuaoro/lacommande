@@ -107,11 +107,14 @@ class AppFixtures extends Fixture
 
             $command->setName($faker->sha1)
                 ->setItems($faker->numberBetween(1, 10))
-                ->setCreatedAt($faker->dateTimeBetween())
+                ->setProvider($meal_->getProvider())
                 ->addMeals($meal_)
+                ->setCreatedAt($faker->dateTimeBetween())
             ;
+            $meal_->commandPlus();
 
             $manager->persist($command);
+            $manager->persist($meal_);
         }
 
         $manager->flush();

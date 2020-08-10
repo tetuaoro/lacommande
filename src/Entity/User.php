@@ -14,6 +14,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="`user`")
  * @UniqueEntity("email", message ="Vous êtes déjà enregistré(e) ?")
  * @UniqueEntity("username", message ="Ce nom d'utilisateur est déjà utilisé.")
+ * @UniqueEntity("ntahiti", message ="Ce numéro tahiti est déjà utilisé.")
+ * @UniqueEntity("name", message ="Ce nom est déjà utilisé.")
  */
 class User implements UserInterface
 {
@@ -25,7 +27,7 @@ class User implements UserInterface
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, unique=true)
      * @Assert\Length(min=4, minMessage="le nom doit faire 4 caractères minimum")
      */
     private $name;
@@ -75,7 +77,7 @@ class User implements UserInterface
     private $email;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, unique=true)
      */
     private $ntahiti;
 

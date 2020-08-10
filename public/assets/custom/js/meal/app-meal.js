@@ -1,4 +1,6 @@
 $(document).ready(function () {
+
+  // MEAL COMMAND
   var rel = $("form[name=command]");
 
   rel.submit(function (e) {
@@ -11,7 +13,7 @@ $(document).ready(function () {
     var xhr = new XMLHttpRequest();
 
     $(".command-submit").LoadingOverlay("show", {
-      imageColor: "#dcdc0a",
+      imageColor: appColor1,
     });
 
     xhr.onreadystatechange = function () {

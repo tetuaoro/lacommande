@@ -46,6 +46,7 @@ class UserType extends AbstractType
                 'options' => ['attr' => ['class' => 'password-field']],
             ])
             ->add('checked', CheckboxType::class, [
+                'translation_domain' => 'connect',
                 'mapped' => false,
                 'required' => true,
                 'label' => 'J\'accepte les conditions',
