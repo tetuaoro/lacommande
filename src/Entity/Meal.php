@@ -103,6 +103,11 @@ class Meal
      */
     private $menu;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $delivery;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
@@ -344,6 +349,18 @@ class Meal
     public function commandPlus(): self
     {
         ++$this->totalcommand;
+
+        return $this;
+    }
+
+    public function getDelivery(): ?bool
+    {
+        return $this->delivery;
+    }
+
+    public function setDelivery(?bool $delivery): self
+    {
+        $this->delivery = $delivery;
 
         return $this;
     }

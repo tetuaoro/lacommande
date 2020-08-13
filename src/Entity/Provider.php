@@ -76,6 +76,12 @@ class Provider
      */
     private $commands;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=City::class, inversedBy="providers")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $city;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
@@ -299,6 +305,18 @@ class Provider
                 $command->setProvider(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCity(): ?City
+    {
+        return $this->city;
+    }
+
+    public function setCity(?City $city): self
+    {
+        $this->city = $city;
 
         return $this;
     }

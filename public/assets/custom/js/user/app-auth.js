@@ -1,29 +1,10 @@
 $(document).ready(function () {
-  // input file type
-
-  //   FORM CREATE
-  /** when btn new meal is click, get form from ajax one time */
-  $("#modal-btn-new").click(function () {
-    var btn = this;
-    $("#mealModal").on("show.bs.modal", function () {
-      $(this).find("h5").text($(btn).data("label"));
-      var bodyModal = $(this).find(".modal-body");
-      if (bodyModal.children().length == 0) {
-        getCreateContentForm(btn, bodyModal, bindMealCreateForm);
-      }
-    });
-  });
-
-  //   FORM EDIT
-  $(".modal-btn-edit").each(function (index, element) {
-    $(element).click(function () {
-      var btn = this;
-      $("#mealModal").on("show.bs.modal", function () {
-        $(this).find("h5").text($(btn).data("label"));
-        var bodyModal = $(this).find(".modal-body");
-        getEditContentForm(btn, bodyModal, bindMealEditForm);
-      });
-    });
+  //   FORM CREATE/EDIT
+  $("[id^='mealModal']").on("show.bs.modal", function () {
+    bindMealForm(this);
+    bsCustomFileInput.init();
+    $(this).find("[id$='description']").richTextEditor();
+    $(this).find("[id$='recipe']").richTextEditor();
   });
 
   // FORM DELETE
@@ -48,12 +29,11 @@ $(document).ready(function () {
   });
 });
 
+/**
+ * Send data form via ajax.
+ * @param {Element} element
+ */
 function sendData(element) {
-  var spinner = $(element).parents(".modal-content");
-  spinner.LoadingOverlay("show", {
-    imageColor: appColor2,
-    background: "rgba(255, 255, 255, 0.6)",
-  });
   var form = new FormData(element);
   var xhr = new XMLHttpRequest();
 
@@ -62,11 +42,13 @@ function sendData(element) {
       if (xhr.status === 400) {
         $(element).html(xhr.responseText);
         bsCustomFileInput.init();
+        $(element).find("[id$='description']").richTextEditor();
+        $(element).find("[id$='recipe']").richTextEditor();
       }
       if (xhr.status === 201) {
         location.href = xhr.responseText;
       }
-      spinner.LoadingOverlay("hide");
+      spinner("hide");
     }
   };
 
@@ -76,6 +58,11 @@ function sendData(element) {
   xhr.send(form);
 }
 
+/**
+ * Check before recaptcha test.
+ * @param {Elemet} element
+ * @param {CallableFunction} fn
+ */
 function checkRecaptcha(element, fn) {
   var recaptcha = $(element).find(".recaptcha-check");
   grecaptcha.ready(function () {
@@ -84,70 +71,41 @@ function checkRecaptcha(element, fn) {
       .then(function (token) {
         recaptcha.val(token);
         fn(element);
+      })
+      .catch(function () {
+        spinner("hide");
       });
   });
 }
 
-function getCreateContentForm(btn, modal, fn) {
-  modal.LoadingOverlay("show", {
-    imageColor: appColor2,
-    background: "rgba(255, 255, 255, 0.9)",
-  });
-
-  var xhr = new XMLHttpRequest();
-
-  xhr.onreadystatechange = function () {
-    if (xhr.readyState === 4) {
-      if (xhr.status === 200) {
-        $(modal).html(xhr.responseText);
-        bsCustomFileInput.init();
-        fn();
-      }
-      modal.LoadingOverlay("hide");
-    }
-  };
-
-  xhr.open("GET", $(btn).data("urlAction"));
-  xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
-  xhr.setRequestHeader("Accept", "text/html");
-  xhr.send();
+/**
+ * Bind all form when the button clicked.
+ * @param {Element|null} element
+ */
+function bindMealForm(element) {
+  $(element)
+    .find("form")
+    .submit(function (e) {
+      e.preventDefault();
+      spinner();
+      checkRecaptcha(this, sendData);
+    });
 }
 
-function bindMealCreateForm() {
-  $("form[name=meal-create]").submit(function (e) {
-    e.preventDefault();
-    checkRecaptcha(this, sendData);
-  });
-}
-
-function getEditContentForm(btn, modal, fn) {
-  modal.LoadingOverlay("show", {
-    imageColor: appColor2,
-    background: "rgba(255, 255, 255, 0.9)",
-  });
-
-  var xhr = new XMLHttpRequest();
-
-  xhr.onreadystatechange = function () {
-    if (xhr.readyState === 4) {
-      if (xhr.status === 200) {
-        $(modal).html(xhr.responseText);
-        bsCustomFileInput.init();
-        fn($(modal).children());
-      }
-      modal.LoadingOverlay("hide");
-    }
-  };
-
-  xhr.open("GET", $(btn).data("urlAction"));
-  xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
-  xhr.setRequestHeader("Accept", "text/html");
-  xhr.send();
-}
-
-function bindMealEditForm(element) {
-  $(element).submit(function (e) {
-    e.preventDefault();
-    checkRecaptcha(this, sendData);
-  });
+/**
+ * Load spinner
+ *
+ * @param {null|string} mode
+ * @param {number} [alpha=0.6]
+ */
+function spinner(mode, alpha = 0.6) {
+  var spinner = $(".modal-content");
+  if (mode == null || mode == "show") {
+    spinner.LoadingOverlay("show", {
+      imageColor: appColor2,
+      background: "rgba(255, 255, 255, " + alpha + ")",
+    });
+  } else if (mode == "hide") {
+    spinner.LoadingOverlay("hide");
+  }
 }

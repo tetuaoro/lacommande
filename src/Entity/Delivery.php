@@ -41,6 +41,12 @@ class Delivery
      */
     private $commands;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=City::class, inversedBy="Deliveries")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $city;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
@@ -115,6 +121,18 @@ class Delivery
                 $command->setDelivery(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCity(): ?City
+    {
+        return $this->city;
+    }
+
+    public function setCity(?City $city): self
+    {
+        $this->city = $city;
 
         return $this;
     }

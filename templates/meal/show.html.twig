@@ -82,12 +82,21 @@
 								{{ name }}
 							</a>
 
-							<span class="dis-block t-center txt35 p-b-25">
+							<span class="dis-block t-center txt35 p-b-6">
 								{{ meal.provider.name }}
 							</span>
+							{% if meal.delivery %}
+								<span class="dis-block t-center tt-up fs-13 p-b-35 text-danger">{{"assure"|trans}}</span>
+							{% else %}
+								<span class="t-center tt-up fs-13 p-b-35 text-warning">{{"n-assure"|trans}}</span>
+								<button class="d-inline ml-2 text-warning" data-toggle="tooltip" data-placement="top" title="LALALALA"><i class="fas fa-info"></i></button>
+							{% endif %}
 
-							<div class="t-center">
+							<div class="rte t-center">
 								{{ meal.description | raw }}
+							</div>
+							<div class="rte text-justify">
+								{{ meal.recipe | raw }}
 							</div>
 						</div>
 					</div>
@@ -103,5 +112,5 @@
 {% endblock %}
 
 {% block javascripts %}
-<script src="{{asset('assets/custom/js/meal/app-meal.js')}}"></script>
+	<script src="{{asset('assets/custom/js/meal/app-meal.js')}}"></script>
 {% endblock %}

@@ -26,14 +26,14 @@
 }
 
 /* CARD */
-.card {
+.card .card-content {
   max-width: 200px;
   max-height: 200px;
 }
-.card p,
-.card i,
-.card h5,
-.card div {
+.card .card-content p,
+.card .card-content i,
+.card .card-content h5,
+.card .card-content div {
   color: #fff !important;
 }
 .bg-card-img-hover:hover {

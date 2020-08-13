@@ -115,7 +115,7 @@ label.required::after {
   visibility: inherit;
 }
 .grecaptcha-badge {
-  bottom: 90px !important;
+  bottom: 2em !important;
 }
 
 /* DROPDOWN */
@@ -181,4 +181,18 @@ label.required::after {
 }
 .modal-open {
   overflow-y: hidden;
+}
+.modal-title {
+  color: var(--dark) !important;
+}
+
+/* LI STYLE */
+.rte ul, li {
+  list-style: disc;
+  font-family: Montserrat;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 1.7;
+  color: #666666;
+  margin-left: 2em;
 }

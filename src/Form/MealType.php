@@ -6,6 +6,7 @@ use App\Entity\Meal;
 use App\Entity\Tags;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
@@ -44,10 +45,16 @@ class MealType extends AbstractType
             ->add('description', TextareaType::class, [
                 'translation_domain' => 'form',
                 'required' => false,
+                'attr' => [
+                    'class' => 'richTextEditor-hide',
+                ],
             ])
             ->add('recipe', TextareaType::class, [
                 'translation_domain' => 'form',
                 'required' => false,
+                'attr' => [
+                    'class' => 'richTextEditor-hide',
+                ],
             ])
             ->add('image', FileType::class, [
                 'translation_domain' => 'form',
@@ -84,6 +91,18 @@ class MealType extends AbstractType
                 'attr' => [
                     'class' => 'recaptcha-check',
                     'data-sitekey' => $_ENV['RECAPTCHA_KEY_3'],
+                ],
+            ])
+            ->add('delivery', CheckboxType::class, [
+                'translation_domain' => 'form',
+                'label' => 'livraison',
+                'required' => false,
+                'label_attr' => [
+                    'class' => 'custom-control-label',
+                ],
+                'attr' => [
+                    'class' => 'custom-control-input',
+                    'checked' => true,
                 ],
             ])
         ;

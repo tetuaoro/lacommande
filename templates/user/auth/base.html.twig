@@ -15,18 +15,18 @@
 {% endblock %}
 
 {% block footer %}
-	<footer></footer>
+	<footer id="user-footer"></footer>
 {% endblock %}
 
 {% block stylesheets %}
 	<link rel="stylesheet" type="text/css" href="{{asset('assets/custom/css/user/app-auth.css')}}">
-	<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.1.2/css/fileinput.min.css" media="all" rel="stylesheet" type="text/css">
-	<link rel="stylesheet" href="{{asset('assets/vendor/pure-rte/pure_rte.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{asset('assets/custom/vendor/rte/richTextEditor.css')}}">
 {% endblock %}
 
 {% block javascripts %}
 	<script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
 	<script src="https://www.google.com/recaptcha/api.js?render={{get_env('RECAPTCHA_KEY_3')}}" type="text/javascript"></script>
 	<script src="{{asset('assets/vendor/custom/js/loadingoverlay.min.js')}}"></script>
+	<script src="{{asset('assets/custom/vendor/rte/richTextEditor.js')}}"></script>
 	<script src="{{asset('assets/custom/js/user/app-auth.js')}}"></script>
 {% endblock %}

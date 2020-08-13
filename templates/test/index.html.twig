@@ -11,15 +11,16 @@
 				max-width: 800px;
 				width: 95%;
 				font: 18px / 1.5 sans-serif;
-				padding: 7em 2em 3em 2em;
+				padding: 7em 2em 3em;
 			}
 			.example-wrapper code {
 				background: #F5F5F5;
 				padding: 2px 6px;
 			}
-            .flash, .mailer {
-                margin-top: 2em;
-            }
+			.flash,
+			.mailer {
+				margin-top: 2em;
+			}
 		</style>
 
 		<div class="example-wrapper">
@@ -52,10 +53,39 @@
 						<a href="{{path('test_mailer', {id: app.user.id})}}">Send mail</a>
 					{% else %}
 						<a href="{{path('app_login')}}">Login first</a>
-						<a href="{{path('test_mailer', {id: 20})}}"> Or Send This</a>
+						<a href="{{path('test_mailer', {id: 20})}}">
+							Or Send This</a>
 					{% endif %}
+				</div>
+
+				<div class="textarea">
+					<div id="toolBar">
+						<button class="btn" type="button" title="{{'gras'|trans({}, 'rte')}}" onclick="formatDoc('bold');">
+							<i class="fas fa-bold" aria-hidden="true"></i>
+						</button>
+						<button class="btn" type="button" title="{{'italique'|trans({}, 'rte')}}" onclick="formatDoc('italic');">
+							<i class="fas fa-italic" aria-hidden="true"></i>
+						</button>
+						<button class="btn" type="button" title="{{'souligne'|trans({}, 'rte')}}" onclick="formatDoc('underline');">
+							<i class="fas fa-underline	" aria-hidden="true"></i>
+						</button>
+						<button class="btn" type="button" title="{{'list'|trans({}, 'rte')}}" onclick="formatDoc('insertunorderedlist');">
+							<i class="fas fa-list-ul" aria-hidden="true"></i>
+						</button>
+						<button class="btn" type="button" title="{{'colle'|trans({}, 'rte')}}" onclick="formatDoc('paste');">
+							<i class="fas fa-paste" aria-hidden="true"></i>
+						</button>
+					</div>
+					<div id="textBox" contenteditable="true"></div>
 				</div>
 			</section>
 		</div>
 	{% endif %}
+{% endblock %}
+
+{% block stylesheets %}
+	<link rel="stylesheet" href="{{asset('assets/custom/vendor/rte/richTextEditor.css')}}">
+{% endblock %}
+{% block javascripts %}
+	<script src="{{asset('assets/custom/vendor/rte/richTextEditor.js')}}"></script>
 {% endblock %}

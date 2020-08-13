@@ -4,8 +4,11 @@
 	{{ form_row(form.name) }}
 	{{ form_row(form.price) }}
 	{{ form_row(form.image) }}
+	<div class="custom-control custom-checkbox">
+		{{ form_row(form.delivery) }}
+	</div>
 	{{ form_widget(form.recaptcha) }}
-	<button type="button" class="btn2 d-block btn-form-collapse" data-toggle="collapse" data-target=".multi-collapse" aria-expanded="false" aria-controls="multiCollapseExample1 multiCollapseExample2">
+	<button type="button" class="btn d-block mb-3 btn-form-collapse" data-toggle="collapse" data-target=".multi-collapse" aria-expanded="false" aria-controls="multiCollapseExample1 multiCollapseExample2">
 		{{"Plus d'option"|trans({}, 'form')}}
 		<i class="fas fa-plus-circle ml-1" aria-hidden="true"></i>
 	</button>
@@ -19,21 +22,6 @@
 {% if meal is defined %}
 	<div id="data-meal" data-meal="{{ {display: 'block',info: meal.imgInfo, img: meal.img, lang: app.request.defaultLocale}|json_encode|e('html_attr') }}"></div>
 {% endif %}
-{# <div>
-	<textarea name="comments" class="comments"></textarea>
-	<div class="pure_rte" prte="1">
-		<div class="prte_toolbar text-center rounded-0" style="display: block; background-color: var(--appcolor1);">
-		{% set labels = ['bold', 'italic', 'underline', 'list-ul'] %}
-		<div id="data-textarea" data-textarea-editor="{{ labels|json_encode|e('html_attr') }}"></div>
-			{% for label in labels %}
-				<div class="prte_button" title="{{label|trans({}, 'textarea')}}">
-					<i class="fas fa-{{label}} va-bottom" command="{{label}}" aria-hidden="true"></i>
-				</div>
-			{% endfor %}
-		</div>
-		<div id="prte_editor_id" class="prte_editor" style="margin-top: -6px;" contenteditable="true"></div>
-	</div>
-</div> #}
 
 <button class="btn">{{ button_label | default('Enregistrer') }}</button>
 {{ form_end(form) }}

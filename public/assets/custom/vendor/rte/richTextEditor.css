@@ -1,0 +1,26 @@
+.rte .textBox {
+  padding: 0.5em;
+  background: "#fff";
+}
+.rte .textBox ul,
+.rte .textBox li {
+  list-style: disc;
+  font-family: Montserrat;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 1.7;
+  color: #666666;
+  margin-left: 2em;
+}
+.rte .textBox li::marker {
+  color: var(--appcolor1);
+}
+.richTextEditor-hide {
+  display: none;
+}
+.rte.textarea {
+  padding: 2px;
+  padding-bottom: 1em;
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+}
