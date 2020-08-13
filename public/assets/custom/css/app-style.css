@@ -187,7 +187,8 @@ label.required::after {
 }
 
 /* LI STYLE */
-.rte ul, li {
+.rte ul,
+.rte li {
   list-style: disc;
   font-family: Montserrat;
   font-weight: 400;
