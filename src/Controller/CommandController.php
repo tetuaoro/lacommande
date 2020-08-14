@@ -2,15 +2,15 @@
 
 namespace App\Controller;
 
-use App\Entity\Command;
 use App\Entity\Meal;
-use App\Form\CommandType;
-use App\Repository\CommandRepository;
+use App\Entity\Command;
 use App\Service\AjaxForm;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Form\Type\CommandType;
+use App\Repository\CommandRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/cmd", name="command_")

@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\MenuRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=MenuRepository::class)
@@ -19,6 +20,7 @@ class Menu
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(min=5)
      */
     private $name;
 

@@ -7,6 +7,11 @@ controllers:
     defaults:
         _locale: '%locale%'
 
+tag:
+    resource: ../../src/Api/
+    type: annotation
+    prefix: /tags
+
 kernel:
     resource: ../../src/Kernel.php
     type: annotation

@@ -1,15 +1,14 @@
 $(document).ready(function () {
-
   // MEAL COMMAND
-  var rel = $("form[name=command]");
+  var form = $("form[name=command]");
 
-  rel.submit(function (e) {
+  form.submit(function (e) {
     e.preventDefault();
     sendForm();
   });
 
   function sendForm() {
-    var form = new FormData(rel.get(0));
+    var form_ = new FormData(form.get(0));
     var xhr = new XMLHttpRequest();
 
     $(".command-submit").LoadingOverlay("show", {
@@ -28,7 +27,9 @@ $(document).ready(function () {
             textClass: "tit2 t-center",
             textResizeFactor: 0.3,
           });
-          $(".tcommand .tcommand-count").text($(this).text() + 1);
+          $(".tcommand .tcommand-count").text(
+            parseInt($(".tcommand .tcommand-count").text()) + 1
+          );
         }, 1450);
         setTimeout(() => {
           $(".command-submit").LoadingOverlay("hide");
@@ -36,8 +37,8 @@ $(document).ready(function () {
       }
     };
 
-    xhr.open("POST", rel.attr("action"));
+    xhr.open(form.attr("method"), form.attr("action"));
     xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
-    xhr.send(form);
+    xhr.send(form_);
   }
 });

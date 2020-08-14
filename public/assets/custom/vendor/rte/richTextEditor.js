@@ -47,12 +47,10 @@ $(document).ready(function () {
         $(oDoc)
           .next(".rte.textarea")
           .find(".textBox")
-          .keydown(function (e) {
-            if (e.which == 13) {
-              setTimeout(() => {
-                $(oDoc).val($(this).html());
-              }, 700);
-            }
+          .keyup(function (e) {
+            setTimeout(() => {
+              $(oDoc).val($(this).html());
+            }, 700);
           });
       }
     });

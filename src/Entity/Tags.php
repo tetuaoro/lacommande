@@ -6,6 +6,8 @@ use App\Repository\TagsRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=TagsRepository::class)
@@ -21,6 +23,8 @@ class Tags
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(min=4)
+     * @Groups({"tags"})
      */
     private $name;
 
@@ -38,6 +42,11 @@ class Tags
     {
         $this->createdAt = new \DateTime();
         $this->meals = new ArrayCollection();
+    }
+
+    public function __toString()
+    {
+        return $this->name;
     }
 
     public function getId(): ?int

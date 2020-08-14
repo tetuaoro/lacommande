@@ -2,17 +2,17 @@
 
 namespace App\Controller;
 
-use App\Entity\Delivery;
 use App\Entity\Meal;
-use App\Entity\Provider;
 use App\Entity\User;
-use App\Form\UserType;
-use App\Repository\UserRepository;
 use App\Service\Mailer;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Entity\Delivery;
+use App\Entity\Provider;
+use App\Form\Type\UserType;
+use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**

@@ -5,6 +5,14 @@ $(document).ready(function () {
     bsCustomFileInput.init();
     $(this).find("[id$='description']").richTextEditor();
     $(this).find("[id$='recipe']").richTextEditor();
+    $(".tags-input").tagsinput({
+      itemText: "name",
+      typeahead: {
+        source: function (query) {
+          return $.get("/tags/json");
+        },
+      },
+    });
   });
 
   // FORM DELETE
@@ -44,6 +52,7 @@ function sendData(element) {
         bsCustomFileInput.init();
         $(element).find("[id$='description']").richTextEditor();
         $(element).find("[id$='recipe']").richTextEditor();
+        $(".tags-input").tagsinput();
       }
       if (xhr.status === 201) {
         location.href = xhr.responseText;
@@ -87,6 +96,7 @@ function bindMealForm(element) {
     .find("form")
     .submit(function (e) {
       e.preventDefault();
+      // console.log($(".tags-input").val());
       spinner();
       checkRecaptcha(this, sendData);
     });

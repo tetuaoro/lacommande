@@ -3,12 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\Provider;
-use App\Form\ProviderType;
+use App\Form\Type\ProviderType;
 use App\Repository\ProviderRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/checked/p/m/i", name="provider_")

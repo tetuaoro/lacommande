@@ -2,16 +2,16 @@
 
 namespace App\Service;
 
-use App\Entity\Command;
 use App\Entity\Meal;
 use App\Entity\Menu;
+use App\Entity\Command;
 use App\Entity\Provider;
-use App\Form\CommandType;
-use App\Form\MealType;
-use App\Form\MenuType;
-use Symfony\Component\Form\FormFactoryInterface;
+use App\Form\Type\MealType;
+use App\Form\Type\MenuType;
+use App\Form\Type\CommandType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Form\FormFactoryInterface;
 
 class AjaxForm
 {

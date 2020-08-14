@@ -2,21 +2,21 @@
 
 namespace App\Controller;
 
+use App\Entity\Meal;
 use App\Entity\Command;
 use App\Entity\Gallery;
-use App\Entity\Meal;
-use App\Form\MealType;
-use App\Repository\MealRepository;
-use App\Repository\UserRepository;
+use App\Service\Storage;
 use App\Service\AjaxForm;
 use App\Service\Recaptcha;
-use App\Service\Storage;
-use Knp\Component\Pager\PaginatorInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Form\Type\MealType;
+use App\Repository\MealRepository;
+use App\Repository\UserRepository;
 use Symfony\Component\Form\FormError;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/ajax", name="ajax_")

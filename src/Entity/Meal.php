@@ -89,7 +89,7 @@ class Meal
     private $gallery;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Tags::class, inversedBy="meals")
+     * @ORM\ManyToMany(targetEntity=Tags::class, inversedBy="meals", cascade={"persist"})
      */
     private $tags;
 
