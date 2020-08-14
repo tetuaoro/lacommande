@@ -55,7 +55,7 @@ class MealController extends AbstractController
 
         $form = $ajaxForm->create_meal($meal);
 
-        /* if ($request->isXmlHttpRequest()) {
+        if ($request->isXmlHttpRequest()) {
             $form->handleRequest($request);
 
             $f = false;
@@ -98,23 +98,6 @@ class MealController extends AbstractController
                     new Response('error', Response::HTTP_BAD_REQUEST)
                 );
             }
-        } */
-
-        $form->handleRequest($request);
-
-        $f = false;
-        if ($g = $form->get('recaptcha')->getData()) {
-            $f = $recaptcha->captchaverify($g)->success;
-        }
-
-        if ($form->isSubmitted() && !$f) {
-            $form->get('recaptcha')->addError(new FormError('Recaptcha : êtes-vous un robot ?'));
-        }
-
-        if ($form->isSubmitted() && $form->isValid() && $f) {
-            $this->addFlash('success', 'Test succès.');
-
-            return $this->redirectToRoute('test_index');
         }
 
         return $this->render('meal/_form.html.twig', [
