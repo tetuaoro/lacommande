@@ -5,14 +5,9 @@ $(document).ready(function () {
     bsCustomFileInput.init();
     $(this).find("[id$='description']").richTextEditor();
     $(this).find("[id$='recipe']").richTextEditor();
-    $(".tags-input").tagsinput({
-      itemText: "name",
-      typeahead: {
-        source: function (query) {
-          return $.get("/tags/json");
-        },
-      },
-    });
+    if ($(".tags-input").next(".bootstrap-tagsinput").length == 0) {
+      tagInput(".tags-input");
+    }
   });
 
   // FORM DELETE
@@ -52,7 +47,9 @@ function sendData(element) {
         bsCustomFileInput.init();
         $(element).find("[id$='description']").richTextEditor();
         $(element).find("[id$='recipe']").richTextEditor();
-        $(".tags-input").tagsinput();
+        if ($(".tags-input").next(".bootstrap-tagsinput").length == 0) {
+          tagInput(".tags-input");
+        }
       }
       if (xhr.status === 201) {
         location.href = xhr.responseText;
@@ -96,7 +93,6 @@ function bindMealForm(element) {
     .find("form")
     .submit(function (e) {
       e.preventDefault();
-      // console.log($(".tags-input").val());
       spinner();
       checkRecaptcha(this, sendData);
     });
@@ -118,4 +114,31 @@ function spinner(mode, alpha = 0.6) {
   } else if (mode == "hide") {
     spinner.LoadingOverlay("hide");
   }
+}
+
+/**
+ * Bootstrap tags input
+ *
+ * @param {string} element
+ */
+function tagInput(element) {
+  var tagnames = new Bloodhound({
+    datumTokenizer: Bloodhound.tokenizers.obj.whitespace("name"),
+    queryTokenizer: Bloodhound.tokenizers.whitespace,
+    prefetch: "/tags/json",
+  });
+
+  $(element).tagsinput({
+    typeaheadjs: [
+      {
+        highlights: true,
+      },
+      {
+        name: "tags",
+        display: "name",
+        value: "name",
+        source: tagnames,
+      },
+    ],
+  });
 }

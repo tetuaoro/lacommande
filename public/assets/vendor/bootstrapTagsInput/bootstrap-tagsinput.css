@@ -36,12 +36,13 @@
 }
 .bootstrap-tagsinput .tag {
   margin-right: 2px;
-  color: white;
+  color: var(--dark);
   background-color: var(--appcolor1);
 }
 .bootstrap-tagsinput .tag [data-role="remove"] {
   margin-left: 8px;
   cursor: pointer;
+  color: var(--danger);
 }
 .bootstrap-tagsinput .tag [data-role="remove"]:after {
   content: "x";
