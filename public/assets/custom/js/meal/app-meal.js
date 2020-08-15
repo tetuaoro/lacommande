@@ -32,13 +32,13 @@ $(document).ready(function () {
               parseInt($(".tcommand .tcommand-count").text()) + 1
             );
           }, 1450);
+          setTimeout(() => {
+            $(".command-submit").LoadingOverlay("hide");
+          }, 4570);
         }
         if (xhr.status === 400) {
           form.html(xhr.responseText);
         }
-        setTimeout(() => {
-          $(".command-submit").LoadingOverlay("hide");
-        }, 4570);
       }
     };
 
