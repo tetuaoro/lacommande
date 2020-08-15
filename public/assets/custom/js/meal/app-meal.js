@@ -4,11 +4,11 @@ $(document).ready(function () {
 
   form.submit(function (e) {
     e.preventDefault();
-    sendForm();
+    sendForm(this);
   });
 
-  function sendForm() {
-    var form_ = new FormData(form.get(0));
+  function sendForm(element) {
+    var form = new FormData(element);
     var xhr = new XMLHttpRequest();
 
     $(".command-submit").LoadingOverlay("show", {
@@ -20,7 +20,7 @@ $(document).ready(function () {
         if (xhr.status === 201) {
           $(".command-submit").LoadingOverlay("hide");
           $("button .show-form-command").css("color", "inherit");
-          $(".command-form").hide();
+          $("#collapseCommand").collapse("hide");
           setTimeout(() => {
             $(".command-submit").LoadingOverlay("show", {
               image: "",
@@ -46,8 +46,8 @@ $(document).ready(function () {
       }
     };
 
-    xhr.open(form.attr("method"), form.attr("action"));
+    xhr.open($(element).attr("method"), $(element).attr("action"));
     xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
-    xhr.send(form_);
+    xhr.send(form);
   }
 });
