@@ -17,8 +17,8 @@ $(document).ready(function () {
 
     xhr.onreadystatechange = function () {
       if (xhr.readyState === 4) {
+        $(".command-submit").LoadingOverlay("hide");
         if (xhr.status === 201) {
-          $(".command-submit").LoadingOverlay("hide");
           $("button .show-form-command").css("color", "inherit");
           $("#collapseCommand").collapse("hide");
           setTimeout(() => {
@@ -32,17 +32,13 @@ $(document).ready(function () {
               parseInt($(".tcommand .tcommand-count").text()) + 1
             );
           }, 1450);
-          setTimeout(() => {
-            $(".command-submit").LoadingOverlay("hide");
-          }, 4570);
         }
         if (xhr.status === 400) {
-          $(".command-submit").LoadingOverlay("hide");
           form.html(xhr.responseText);
         }
-        if (xhr.status === 500) {
+        setTimeout(() => {
           $(".command-submit").LoadingOverlay("hide");
-        }
+        }, 4570);
       }
     };
 
