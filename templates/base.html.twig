@@ -92,14 +92,16 @@
 			<script type="text/javascript" src="{{asset('assets/vendor/bootstrap/js/bootstrap.min.js')}}"></script>
 			<script type="text/javascript" src="{{asset('assets/vendor/lightbox2/js/lightbox.min.js')}}"></script>
 
-			<script src="{{asset('assets/js/main.js')}}"></script>
-			<script src="{{asset('assets/custom/js/app.js')}}"></script>
-
 			<script src="{{asset('assets/vendor/custom/js/anime.min.js')}}"></script>
 			<script src="{{asset('assets/vendor/custom/js/loadingoverlay.min.js')}}"></script>
 			<script src="{{asset('assets/custom/js/app-anime.js')}}"></script>
 			
 			{% block javascripts %}{% endblock %}
+			
+			<script src="{{asset('assets/js/main.js')}}"></script>
+			<script src="{{asset('assets/custom/js/app.js')}}"></script>
+
+			
 
 			{% if chcookieconsent_isCookieConsentSavedByUser() == false %}
 				{{ render(path('ch_cookie_consent.show_if_cookie_consent_not_set')) }}

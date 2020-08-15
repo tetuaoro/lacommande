@@ -8,7 +8,7 @@ $(document).ready(function () {
     }, 11959);
   }
 
-  // BTN COLLAPSE
+  // BTN COLLAPSE (PLUS OPTION - MOINS OPTION)
   $(".btn-form-collapse").click(function () {
     if ($(".btn-form-collapse.btn-show-toggle").length > 0) {
       $(this).html(
@@ -20,14 +20,5 @@ $(document).ready(function () {
       );
     }
     $(this).toggleClass("btn-show-toggle");
-  });
-
-  // BTN COMMAND
-  var collapses = [$("#collapseCommand")];
-
-  collapses.forEach((elem) => {
-    elem.on("show.bs.collapse", function (e) {
-      //
-    });
   });
 });

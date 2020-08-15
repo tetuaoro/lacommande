@@ -16,9 +16,9 @@ $(document).ready(function () {
     });
 
     xhr.onreadystatechange = function () {
-      if (xhr.readyState === 4) {
+      if (xhr.readyState == 4) {
         $(".command-submit").LoadingOverlay("hide");
-        if (xhr.status === 201) {
+        if (xhr.status == 201) {
           $("button .show-form-command").css("color", "inherit");
           $("#collapseCommand").collapse("hide");
           setTimeout(() => {
@@ -28,15 +28,12 @@ $(document).ready(function () {
               textClass: "tit2 t-center",
               textResizeFactor: 0.3,
             });
-            $(".tcommand .tcommand-count").text(
-              parseInt($(".tcommand .tcommand-count").text()) + 1
-            );
           }, 1450);
           setTimeout(() => {
             $(".command-submit").LoadingOverlay("hide");
           }, 4570);
         }
-        if (xhr.status === 400) {
+        if (xhr.status == 400) {
           form.html(xhr.responseText);
         }
       }
