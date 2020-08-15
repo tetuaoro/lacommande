@@ -123,9 +123,9 @@ function spinner(mode, alpha = 0.6) {
  */
 function tagInput(element) {
   var tagnames = new Bloodhound({
+    prefetch: "/tags/all.json",
     datumTokenizer: Bloodhound.tokenizers.obj.whitespace("name"),
     queryTokenizer: Bloodhound.tokenizers.whitespace,
-    prefetch: "/tags/json",
   });
 
   $(element).tagsinput({

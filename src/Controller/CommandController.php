@@ -2,15 +2,15 @@
 
 namespace App\Controller;
 
-use App\Entity\Meal;
 use App\Entity\Command;
-use App\Service\AjaxForm;
+use App\Entity\Meal;
 use App\Form\Type\CommandType;
 use App\Repository\CommandRepository;
+use App\Service\AjaxForm;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/cmd", name="command_")
@@ -28,7 +28,7 @@ class CommandController extends AbstractController
     }
 
     /**
-     * @Route("/new/{id}", name="new", methods={"POST"})
+     * @Route("/new/{id}", name="new", methods={"GET", "POST"})
      */
     public function new(Meal $meal, Request $request, AjaxForm $ajaxForm): Response
     {
@@ -36,6 +36,7 @@ class CommandController extends AbstractController
         $form = $ajaxForm->command_meal($command, $meal);
 
         if ($request->isXmlHttpRequest()) {
+            dump($request->request);
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
@@ -54,14 +55,13 @@ class CommandController extends AbstractController
                 return new Response('success', Response::HTTP_CREATED);
             }
             if ($form->isSubmitted() && !$form->isValid()) {
-                return new Response('error', Response::HTTP_NOT_ACCEPTABLE);
+                return $this->render('command/_form.html.twig', [
+                    'form' => $form->createView(),
+                ], new Response('error', Response::HTTP_BAD_REQUEST));
             }
-        } else {
-            return new Response('error', Response::HTTP_METHOD_NOT_ALLOWED);
         }
 
-        return $this->render('command/new.html.twig', [
-            'command' => $command,
+        return $this->render('command/_form.html.twig', [
             'form' => $form->createView(),
         ]);
     }

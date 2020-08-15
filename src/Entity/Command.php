@@ -54,6 +54,18 @@ class Command
      */
     private $provider;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Email(message = "Email invalide.")
+     */
+    private $email;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Regex("/^(87|89)\d{6}$/")
+     */
+    private $phone;
+
     public function __construct()
     {
         $this->meals = new ArrayCollection();
@@ -147,6 +159,30 @@ class Command
     public function setProvider(?Provider $provider): self
     {
         $this->provider = $provider;
+
+        return $this;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(?string $email): self
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(?string $phone): self
+    {
+        $this->phone = $phone;
 
         return $this;
     }

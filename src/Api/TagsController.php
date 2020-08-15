@@ -13,10 +13,15 @@ use Symfony\Component\Routing\Annotation\Route;
 class TagsController extends AbstractController
 {
     /**
-     * @Route("/json", name="index", methods={"GET"})
+     * @Route("/all.json", name="index", methods={"GET"})
      */
     public function index(TagsRepository $tagsRepository)
     {
-        return $this->json($tagsRepository->findAll(), JsonResponse::HTTP_OK, [], ['groups' => ['tags']]);
+        return $this->json(
+            $tagsRepository->findAll(),
+            JsonResponse::HTTP_OK,
+            [],
+            ['groups' => ['tags']]
+        );
     }
 }

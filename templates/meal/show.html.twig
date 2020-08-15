@@ -7,7 +7,6 @@
 {% endblock %}
 
 {% block metatags %}
-	<meta property="twitter:creator" content="@raonagos">
 	<meta property="twitter:card" content="summary_large_image">
 	<meta property="twitter:site" content="@ariifood">
 	<meta property="twitter:title" content="{{ meal.name ~ ' à ' ~ meal.price ~ ' XPF' }}">
@@ -58,23 +57,14 @@
 								<a target="_blank" href="https://www.facebook.com/dialog/share?app_id={{ get_env('OAUTH_FACEBOOK_ID') }}&display=popup&href={{ url('meal_show', {id: meal.id, slug: meal.slug}) }}">
 									<i class="fa fa-facebook m-l-21" aria-hidden="true" title="{{ 'Partager sur facebook' | trans }}"></i>
 								</a>
-								<a target="_blank" class="twitter-share-button" href="https://twitter.com/intent/tweet?text={{ meal.name ~ ' à ' ~ meal.price ~ ' XPF' }}&url={{url('meal_show', {id: meal.id, slug: meal.slug})}}&hashtags=ariifood,tahiti,polynesie,{{meal.provider.name}}">
+								<a target="_blank" class="twitter-share-button" href="https://twitter.com/intent/tweet?url={{url('meal_show', {id: meal.id, slug: meal.slug})}}&hashtags=ariifood,tahiti,polynesie,{{meal.provider.name}}">
 									<i class="fa fa-twitter m-l-21" aria-hidden="true" title="{{ 'Partager sur twitter' | trans }}"></i>
 								</a>
 							</div>
 
 							<div class="collapse" id="collapseCommand">
 								<div class="command-form">
-									{{ form_start(form) }}
-									<div class="row">
-										<div class="col-md">
-											{{ form_row(form.items) }}
-										</div>
-										<div class="col-md">
-											<button class="btn" type="submit">{{ "Commander" | trans({}, 'form') }}</button>
-										</div>
-									</div>
-									{{ form_end(form) }}
+									{{ render(path('command_new', {'id': meal.id})) }}
 								</div>
 							</div>
 
@@ -89,7 +79,9 @@
 								<span class="dis-block t-center tt-up fs-13 p-b-35 text-danger">{{"assure"|trans}}</span>
 							{% else %}
 								<span class="t-center tt-up fs-13 p-b-35 text-warning">{{"n-assure"|trans}}</span>
-								<button class="d-inline ml-2 text-warning" data-toggle="tooltip" data-placement="top" title="LALALALA"><i class="fas fa-info"></i></button>
+								<button class="d-inline ml-2 text-warning" data-toggle="tooltip" data-placement="top" title="LALALALA">
+									<i class="fas fa-info"></i>
+								</button>
 							{% endif %}
 
 							<div class="rte t-center">

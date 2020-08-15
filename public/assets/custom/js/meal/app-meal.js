@@ -16,24 +16,33 @@ $(document).ready(function () {
     });
 
     xhr.onreadystatechange = function () {
-      if ((xhr.readyState === 4) & (xhr.status === 201)) {
-        $(".command-submit").LoadingOverlay("hide");
-        $("button .show-form-command").css("color", "inherit");
-        $(".command-form").hide();
-        setTimeout(() => {
-          $(".command-submit").LoadingOverlay("show", {
-            image: "",
-            text: "La commande a été envoyé",
-            textClass: "tit2 t-center",
-            textResizeFactor: 0.3,
-          });
-          $(".tcommand .tcommand-count").text(
-            parseInt($(".tcommand .tcommand-count").text()) + 1
-          );
-        }, 1450);
-        setTimeout(() => {
+      if (xhr.readyState === 4) {
+        if (xhr.status === 201) {
           $(".command-submit").LoadingOverlay("hide");
-        }, 4570);
+          $("button .show-form-command").css("color", "inherit");
+          $(".command-form").hide();
+          setTimeout(() => {
+            $(".command-submit").LoadingOverlay("show", {
+              image: "",
+              text: "La commande a été envoyé",
+              textClass: "tit2 t-center",
+              textResizeFactor: 0.3,
+            });
+            $(".tcommand .tcommand-count").text(
+              parseInt($(".tcommand .tcommand-count").text()) + 1
+            );
+          }, 1450);
+          setTimeout(() => {
+            $(".command-submit").LoadingOverlay("hide");
+          }, 4570);
+        }
+        if (xhr.status === 400) {
+          $(".command-submit").LoadingOverlay("hide");
+          form.html(xhr.responseText);
+        }
+        if (xhr.status === 500) {
+          $(".command-submit").LoadingOverlay("hide");
+        }
       }
     };
 

@@ -1,4 +1,7 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_row(form.items) }}
+<small class="text-muted">un numéro, un email ou les 2</small>
+{{ form_row(form.phone) }}
+{{ form_row(form.email) }}
+<button class="btn" type="submit">{{ "Commander" | trans({}, 'form') }}</button>
 {{ form_end(form) }}
