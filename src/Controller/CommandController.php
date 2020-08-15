@@ -36,7 +36,6 @@ class CommandController extends AbstractController
         $form = $ajaxForm->command_meal($command, $meal);
 
         if ($request->isXmlHttpRequest()) {
-            dump($request->request);
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
