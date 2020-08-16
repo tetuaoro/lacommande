@@ -25,6 +25,7 @@ Commander: Commander
 'image : carré, 1920px max et 480 min': 'image : carré, 1920px max et 480 min'
 'ex: information': 'ex: information'
 information: Information
+une image carré: une image carré
 
 Meal: Assiette
 Category: Categorie
@@ -38,3 +39,14 @@ selectlabel__: selectlabel__
 
 N° vini: N° vini
 email: email
+
+Label: Label
+Page Instagram: Page Instagram
+le lien vers votre instagram: le lien vers votre instagram
+Page Facebook: Page Facebook
+le lien vers votre page facebook: le lien vers votre page facebook
+Page Twitter: Page Twitter
+le lien vers votre twitter: le lien vers votre twitter
+Bannière: Bannière
+une image 1900x545: une image 1900x545
+"image : exactement 1900x545": "image : exactement 1900x545"

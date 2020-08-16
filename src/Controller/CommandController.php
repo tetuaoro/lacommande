@@ -6,7 +6,7 @@ use App\Entity\Command;
 use App\Entity\Meal;
 use App\Form\Type\CommandType;
 use App\Repository\CommandRepository;
-use App\Service\AjaxForm;
+use App\Service\AjaxService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,6 +22,8 @@ class CommandController extends AbstractController
      */
     public function index(CommandRepository $commandRepository): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
         return $this->render('command/index.html.twig', [
             'commands' => $commandRepository->findAll(),
         ]);
@@ -30,10 +32,10 @@ class CommandController extends AbstractController
     /**
      * @Route("/new/{id}", name="new", methods={"GET", "POST"})
      */
-    public function new(Meal $meal, Request $request, AjaxForm $ajaxForm): Response
+    public function new(Meal $meal, Request $request, AjaxService $ajaxService): Response
     {
         $command = new Command();
-        $form = $ajaxForm->command_meal($command, $meal);
+        $form = $ajaxService->command_meal($command, $meal);
 
         if ($request->isXmlHttpRequest()) {
             $form->handleRequest($request);
@@ -70,6 +72,8 @@ class CommandController extends AbstractController
      */
     public function show(Command $command): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
         return $this->render('command/show.html.twig', [
             'command' => $command,
         ]);
@@ -80,6 +84,8 @@ class CommandController extends AbstractController
      */
     public function edit(Request $request, Command $command): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
         $form = $this->createForm(CommandType::class, $command);
         $form->handleRequest($request);
 
@@ -100,6 +106,8 @@ class CommandController extends AbstractController
      */
     public function delete(Request $request, Command $command): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
         if ($this->isCsrfTokenValid('delete'.$command->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($command);

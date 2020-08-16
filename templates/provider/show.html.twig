@@ -1,46 +1,77 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Provider{% endblock %}
+{% set title_ = provider.name %}
+{% set edit = is_granted('PROVIDER_EDIT', provider) %}
 
-{% block body %}
-    <h1>Provider</h1>
+{% block title %}
+	{{title_}}
+{% endblock %}
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ provider.id }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ provider.name }}</td>
-            </tr>
-            <tr>
-                <th>Code</th>
-                <td>{{ provider.code }}</td>
-            </tr>
-            <tr>
-                <th>Url</th>
-                <td>{{ provider.url }}</td>
-            </tr>
-            <tr>
-                <th>CreatedAt</th>
-                <td>{{ provider.createdAt ? provider.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Opentime</th>
-                <td>{{ provider.opentime ? provider.opentime|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Closetime</th>
-                <td>{{ provider.closetime ? provider.closetime|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-        </tbody>
-    </table>
+{% block bodyfull %}
+	<div class="provider-show">
+		<section class="bg-title-page pos-relative p-t-170 p-b-80 p-l-15 p-r-15" style="background-image: url({{provider.bgImg}});">
+			<h1 class="tit6 t-center{% if provider.bgImg == '' %} text-dark{% endif %}">
+				{{ title_ }}
+			</h1>
+			<h1 class="t-center h5{% if provider.bgImg == '' %} text-dark{% else %} text-light{% endif %}">
+				{{provider.label}}
+			</h1>
+			{% if edit %}
+				<span class="bgImg-edit">
+					<a href="" data-toggle="modal" data-target="#providerModal">
+						{{"changer le fond"}}
+						<i class="fas fa-edit fa-2x" aria-hidden="true"></i>
+					</a>
+				</span>
+			{% endif %}
+		</section>
+		<section class="bg2-pattern pos-relative p-t-116 p-b-110 t-center p-l-15 p-r-15">
+			{% if edit %}
+				<span class="bgImg-edit">
+					<a href="" data-toggle="modal" data-target="#providerModal">
+						{{"modifier"}}
+						<i class="fas fa-edit fa-2x" aria-hidden="true"></i>
+					</a>
+				</span>
+			{% endif %}
+			<span class="tit2 t-center">
+				Réseaux sociaux
+			</span>
 
-    <a href="{{ path('provider_index') }}">back to list</a>
+			<p class="t-center m-t-35 size32 m-l-r-auto">
+				{{provider.description}}
+			</p>
+		</section>
+		<div class="parallax0 parallax100" style="background-image: url({{asset('assets/images/bg-cover-video-02.jpg')}});">
+			<div class="overlay0-parallax t-center size33"></div>
+		</div>
+		<div class="provider-editable">
+			{% if edit %}
+				{% include "provider/edit.html.twig" %}
+			{% endif %}
+		</div>
+	</div>
+{% endblock %}
 
-    <a href="{{ path('provider_edit', {'id': provider.id}) }}">edit</a>
+{% block stylesheets %}
+	<style>
+		.bgImg-edit {
+			position: absolute;
+			bottom: 10px;
+			right: 10px;
 
-    {{ include('provider/_delete_form.html.twig') }}
+		}
+	</style>
+{% endblock %}
+
+{% block javascripts %}
+	{% if edit %}
+		<script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
+		<script src="{{asset('assets/vendor/autosize/autosize.min.js')}}"></script>
+		<script src="{{asset('assets/custom/js/provider/app-provider.js')}}"></script>
+	{% endif %}
+	<script type="text/javascript" src="{{asset('assets/vendor/parallax100/parallax100.js')}}"></script>
+	<script type="text/javascript">
+		$('.parallax100').parallax100();
+	</script>
 {% endblock %}

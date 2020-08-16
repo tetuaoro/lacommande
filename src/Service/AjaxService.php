@@ -2,18 +2,19 @@
 
 namespace App\Service;
 
+use App\Entity\Command;
 use App\Entity\Meal;
 use App\Entity\Menu;
-use App\Entity\Command;
 use App\Entity\Provider;
+use App\Form\Type\CommandType;
 use App\Form\Type\MealType;
 use App\Form\Type\MenuType;
-use App\Form\Type\CommandType;
+use App\Form\Type\ProviderType;
+use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Routing\RouterInterface;
-use Symfony\Component\Form\FormFactoryInterface;
 
-class AjaxForm
+class AjaxService
 {
     private $form;
     private $router;
@@ -54,6 +55,14 @@ class AjaxForm
         return $this->form->createNamed('meal-edit-'.$meal->getId(), MealType::class, $meal, [
             'method' => 'POST',
             'action' => $this->router->generate('meal_edit', ['id' => $meal->getId(), 'slug' => $meal->getSlug()]),
+        ]);
+    }
+
+    public function edit_provider(Provider $provider)
+    {
+        return $this->form->create(ProviderType::class, $provider, [
+            'method' => 'POST',
+            'action' => $this->router->generate('provider_edit', ['id' => $provider->getId()]),
         ]);
     }
 

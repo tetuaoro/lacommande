@@ -17,9 +17,9 @@
 {% set fullPath = url(route_name, fullPathParams) %}
 
 {# social #}
-{% set global_twitt = "https://twitter.com/intent/tweet?url=" ~ url('app_home') ~ "hashtags=Arii,Food,Tahiti,Polynesie" %}
+{% set global_twitter = "https://twitter.com/intent/tweet?url=" ~ url('app_home') ~ "hashtags=Arii,Food,Tahiti,Polynesie" %}
 {% set global_fb = "https://www.facebook.com/dialog/share?app_id=" ~ get_env('OAUTH_FACEBOOK_ID') ~ "&display=popup&href=" ~ url('app_home') %}
-
+{% set global_insta = "#" %}
 {# color #}
 {% set color1 = "#dcdc0a" %}
 

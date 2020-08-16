@@ -51,7 +51,7 @@ class MealType extends AbstractType
                 'mapped' => false,
                 'data_class' => null,
                 'attr' => [
-                    'placeholder' => 'une image',
+                    'placeholder' => 'une image carré',
                 ],
                 'label' => false,
                 'label_attr' => [

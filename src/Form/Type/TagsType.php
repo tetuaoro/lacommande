@@ -2,6 +2,7 @@
 
 namespace App\Form\Type;
 
+use App\Entity\Tags;
 use App\Form\DataTransformer\TagsTransformer;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Form\DataTransformer\CollectionToArrayTransformer;
@@ -32,11 +33,14 @@ class TagsType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefault('attr', [
-            'class' => 'tags-input',
-            'data-role' => 'tagsinput',
+        $resolver->setDefaults([
+            'class' => Tags::class,
+            'required' => false,
+            'attr', [
+                'class' => 'tags-input',
+                'data-role' => 'tagsinput',
+            ],
         ]);
-        $resolver->setDefault('required', false);
     }
 
     public function getParent(): string

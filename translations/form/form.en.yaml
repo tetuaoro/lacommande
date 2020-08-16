@@ -25,6 +25,7 @@ Commander: Purchase
 'image : carré, 1920px max et 480 min': 'image : carré, 1920px max et 480 min'
 'ex: information':  Subject
 information: Information
+une image carré: square picture
 
 Meal: Meal
 Category: Category
@@ -38,3 +39,14 @@ selectlabel__: selectlabel__
 
 N° vini: N° vini
 email: email
+
+Label: Label
+Page Instagram: Instagram
+le lien vers votre instagram: link to instagram
+Page Facebook: Facebook
+le lien vers votre page facebook: link to facebook
+Page Twitter: Twitter
+le lien vers votre twitter: link to twitter
+Bannière: Banner
+une image 1900x545: picture 1900x545px
+"image : exactement 1900x545": "picture : exactly 1900x545px"

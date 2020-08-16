@@ -6,7 +6,7 @@ use App\Entity\Command;
 use App\Entity\Gallery;
 use App\Entity\Meal;
 use App\Repository\MealRepository;
-use App\Service\AjaxForm;
+use App\Service\AjaxService;
 use App\Service\Recaptcha;
 use App\Service\Storage;
 use Knp\Component\Pager\PaginatorInterface;
@@ -44,7 +44,7 @@ class MealController extends AbstractController
     /**
      * @Route("/n/new", name="new", methods={"POST", "GET"})
      */
-    public function new(AjaxForm $ajaxForm, Recaptcha $recaptcha, Storage $storage, Request $request): Response
+    public function new(AjaxService $ajaxService, Recaptcha $recaptcha, Storage $storage, Request $request): Response
     {
         $meal = new Meal();
 
@@ -53,7 +53,7 @@ class MealController extends AbstractController
         /** @var \App\Entity\User $user */
         $user = $this->getUser();
 
-        $form = $ajaxForm->create_meal($meal);
+        $form = $ajaxService->create_meal($meal);
 
         if ($request->isXmlHttpRequest()) {
             $form->handleRequest($request);
@@ -108,14 +108,14 @@ class MealController extends AbstractController
     /**
      * @Route("/s/{slug}-{id}", name="show", methods={"GET"}, requirements={"slug": "[a-z0-9\-]*"})
      */
-    public function show(string $slug, Meal $meal, AjaxForm $ajaxForm): Response
+    public function show(string $slug, Meal $meal, AjaxService $ajaxService): Response
     {
         if ($meal->getSlug() != $slug) {
             return $this->redirectToRoute('meal_show', ['id' => $meal->getId(), 'slug' => $meal->getSlug()]);
         }
 
         $command = new Command();
-        $form = $ajaxForm->command_meal($command, $meal);
+        $form = $ajaxService->command_meal($command, $meal);
 
         return $this->render('meal/show.html.twig', [
             'meal' => $meal,
@@ -126,14 +126,14 @@ class MealController extends AbstractController
     /**
      * @Route("/e/{slug}-{id}/edit", name="edit", methods={"POST", "GET"}, requirements={"slug": "[a-z0-9\-]*"})
      */
-    public function edit(Request $request, Meal $meal, Storage $storage, AjaxForm $ajaxForm, Recaptcha $recaptcha): Response
+    public function edit(Request $request, Meal $meal, Storage $storage, AjaxService $ajaxService, Recaptcha $recaptcha): Response
     {
         $this->denyAccessUnlessGranted('MEAL_EDIT', $meal);
 
         /** @var \App\Entity\User $user */
         $user = $this->getUser();
 
-        $form = $ajaxForm->edit_meal($meal);
+        $form = $ajaxService->edit_meal($meal);
         if ($request->isXmlHttpRequest()) {
             $form->handleRequest($request);
 
@@ -158,7 +158,6 @@ class MealController extends AbstractController
                     $meal->getGallery()->setUrl($meal->getImg())
                     ;
                 }
-                $entityManager->persist($meal);
                 $entityManager->flush();
 
                 $this->addFlash('success', 'Assiette modifiée avec succès.');

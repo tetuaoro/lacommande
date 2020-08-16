@@ -1,4 +1,13 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+<fieldset>
+	{{ form_row(form.label) }}
+	{{ form_row(form.description) }}
+	{{ form_row(form.image) }}
+	<hr>
+	{{ form_row(form.linkinsta) }}
+	{{ form_row(form.linkfb) }}
+	{{ form_row(form.linktwitter) }}
+	<hr>
+	<button class="btn">{{ button_label|default('Enregistrer') }}</button>
+</fieldset>
 {{ form_end(form) }}

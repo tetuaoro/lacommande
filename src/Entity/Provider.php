@@ -82,6 +82,41 @@ class Provider
      */
     private $city;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $bgImg;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $linkfb;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $linkinsta;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $linktwitter;
+
+    /**
+     * @ORM\Column(type="array", nullable=true)
+     */
+    private $imgInfo = [];
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $label;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $description;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
@@ -317,6 +352,90 @@ class Provider
     public function setCity(?City $city): self
     {
         $this->city = $city;
+
+        return $this;
+    }
+
+    public function getBgImg(): ?string
+    {
+        return $this->bgImg;
+    }
+
+    public function setBgImg(?string $bgImg): self
+    {
+        $this->bgImg = $bgImg;
+
+        return $this;
+    }
+
+    public function getLinkfb(): ?string
+    {
+        return $this->linkfb;
+    }
+
+    public function setLinkfb(?string $linkfb): self
+    {
+        $this->linkfb = $linkfb;
+
+        return $this;
+    }
+
+    public function getLinkinsta(): ?string
+    {
+        return $this->linkinsta;
+    }
+
+    public function setLinkinsta(?string $linkinsta): self
+    {
+        $this->linkinsta = $linkinsta;
+
+        return $this;
+    }
+
+    public function getLinktwitter(): ?string
+    {
+        return $this->linktwitter;
+    }
+
+    public function setLinktwitter(?string $linktwitter): self
+    {
+        $this->linktwitter = $linktwitter;
+
+        return $this;
+    }
+
+    public function getImgInfo(): ?array
+    {
+        return $this->imgInfo;
+    }
+
+    public function setImgInfo(?array $imgInfo): self
+    {
+        $this->imgInfo = $imgInfo;
+
+        return $this;
+    }
+
+    public function getLabel(): ?string
+    {
+        return $this->label;
+    }
+
+    public function setLabel(?string $label): self
+    {
+        $this->label = $label;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }

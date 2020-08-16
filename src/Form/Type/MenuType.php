@@ -18,6 +18,7 @@ class MenuType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        /** @var \App\Entity\Provider */
         $provider = $options['provider'];
 
         $builder

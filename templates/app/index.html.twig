@@ -46,7 +46,7 @@
 								<ul>
 									{% for provider in prov_recap %}
 										<li class="bo5-b p-t-8 p-b-8">
-											<a href="{{ path('provider_show', {id: provider.id}) }}" class="txt27">
+											<a href="{{ path('provider_show', {id: provider.id, slug: provider.slug}) }}" class="txt27">
 												{{ provider.name }}
 											</a>
 										</li>

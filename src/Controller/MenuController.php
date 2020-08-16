@@ -4,14 +4,14 @@ namespace App\Controller;
 
 use App\Entity\Menu;
 use App\Entity\Provider;
-use App\Service\AjaxForm;
 use App\Form\Type\MenuType;
 use App\Repository\MenuRepository;
+use App\Service\AjaxService;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/menu", name="menu_")
@@ -32,10 +32,10 @@ class MenuController extends AbstractController
     /**
      * @Route("/new/menu/{id}", name="new", methods={"POST"})
      */
-    public function new(Provider $provider, Request $request, AjaxForm $ajaxForm): Response
+    public function new(Provider $provider, Request $request, AjaxService $ajaxService): Response
     {
         $menu = new Menu();
-        $form = $ajaxForm->create_menu($menu, $provider);
+        $form = $ajaxService->create_menu($menu, $provider);
 
         if ($request->isXmlHttpRequest()) {
             $form->handleRequest($request);

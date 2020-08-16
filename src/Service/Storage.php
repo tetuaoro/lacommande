@@ -41,6 +41,35 @@ class Storage
      *
      * @return null|array
      */
+    public function uploadProviderImage(UploadedFile $source, Provider $provider)
+    {
+        $file = fopen($source, 'r');
+        $image_info = getimagesize($source);
+
+        $orginalName = pathinfo($source->getClientOriginalName(), PATHINFO_FILENAME);
+        $objectName = $this->env.'-images/'.$provider->getId().'/provider/'.$this->slugger->slug($orginalName).'-'.uniqid().'.'.$source->guessExtension();
+
+        if ($this->checkProviderObject($provider, $orginalName)) {
+            $meta = [
+                'file' => $file,
+                'objectName' => $objectName,
+                'orginalName' => $orginalName,
+                'image_info' => $image_info,
+                'provider' => $provider,
+                'fullname' => $orginalName.'.'.$source->guessExtension(),
+            ];
+
+            return $this->uploadObject($meta)->info();
+        }
+
+        return false;
+    }
+
+    /**
+     * Upload meal's image.
+     *
+     * @return null|array
+     */
     public function uploadMealImage(UploadedFile $source, Provider $provider, Meal $meal)
     {
         $file = fopen($source, 'r');
@@ -49,7 +78,7 @@ class Storage
         $orginalName = pathinfo($source->getClientOriginalName(), PATHINFO_FILENAME);
         $objectName = $this->env.'-images/'.$provider->getId().'/meal/'.$this->slugger->slug($orginalName).'-'.uniqid().'.'.$source->guessExtension();
 
-        if ($this->checkObject($meal, $orginalName)) {
+        if ($this->checkMealObject($meal, $orginalName)) {
             $meta = [
                 'file' => $file,
                 'objectName' => $objectName,
@@ -68,9 +97,17 @@ class Storage
     /**
      * Remove Meal's image from storage.
      */
+    public function removeProviderImage(Provider $provider)
+    {
+        return $this->removeProviderObject($provider);
+    }
+
+    /**
+     * Remove Meal's image from storage.
+     */
     public function removeMealImage(Meal $meal)
     {
-        return $this->removeObject($meal);
+        return $this->removeMealObject($meal);
     }
 
     /**
@@ -112,13 +149,33 @@ class Storage
      *
      * @return bool
      */
-    private function checkObject(Meal $meal, string $orginalName)
+    private function checkMealObject(Meal $meal, string $orginalName)
     {
         if ($meal && $meal->getId()) {
             if ($meal->getImgInfo()['metadata']['filename'] == $orginalName) {
                 return false;
             }
-            $this->removeObject($meal);
+            $this->removeMealObject($meal);
+        }
+
+        return true;
+    }
+
+    /**
+     * Check if need to crud provider object.
+     * If provider's image isn't update, do anything.
+     *
+     * @return bool
+     */
+    private function checkProviderObject(Provider $provider, string $orginalName)
+    {
+        if ($provider && $provider->getId()) {
+            if ($provider->getImgInfo()) {
+                if ($provider->getImgInfo()['metadata']['filename'] == $orginalName) {
+                    return false;
+                }
+                $this->removeProviderObject($provider);
+            }
         }
 
         return true;
@@ -127,7 +184,15 @@ class Storage
     /**
      * Remove object.
      */
-    private function removeObject(Meal $meal)
+    private function removeProviderObject(Provider $provider)
+    {
+        return $this->storage->object($provider->getImgInfo()['name'])->delete();
+    }
+
+    /**
+     * Remove object.
+     */
+    private function removeMealObject(Meal $meal)
     {
         return $this->storage->object($meal->getImgInfo()['name'])->delete();
     }

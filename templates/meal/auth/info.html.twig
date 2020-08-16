@@ -6,9 +6,11 @@
 				<li class="list-group-item tcommand">T. Commande :
 					<span class="tcommand-count">{{meal.totalcommand|number_format}}<span></li>
 						<li class="list-group-item">Depuis :
-							{{meal.createdAt|date('d/m/y')}}</li>
+							{{meal.createdAt|date('d/m/y')}}
+						</li>
 					</ul>
 				</li>
 			</div>
 		</div>
-	{% endif %}
+	</div>
+{% endif %}

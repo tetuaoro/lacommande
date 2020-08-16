@@ -18,10 +18,6 @@
 		{{ form_row(form.tags) }}
 	</div>
 	<hr style="width: 222px;">
+	<button class="btn">{{ button_label | default('Enregistrer') }}</button>
 </fieldset>
-{% if meal is defined %}
-	<div id="data-meal" data-meal="{{ {display: 'block',info: meal.imgInfo, img: meal.img, lang: app.request.defaultLocale}|json_encode|e('html_attr') }}"></div>
-{% endif %}
-
-<button class="btn">{{ button_label | default('Enregistrer') }}</button>
 {{ form_end(form) }}

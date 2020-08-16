@@ -45,13 +45,13 @@
 								{% endfor %}
 							</div>
 						</div>
-						<a href="#">
-							<i class="fa fa-tripadvisor" aria-hidden="true"></i>
+						<a href="{{ global_insta }}">
+							<i class="fa fa-instagram" aria-hidden="true"></i>
 						</a>
 						<a target="_blank" href="{{ global_fb }}">
 							<i class="fa fa-facebook m-l-21" aria-hidden="true"></i>
 						</a>
-						<a class="twitter-share-button" target="_blank" href="{{ global_twitt }}">
+						<a class="twitter-share-button" target="_blank" href="{{ global_twitter }}">
 							<i class="fa fa-twitter m-l-21" aria-hidden="true"></i>
 						</a>
 						{% if app.user %}
@@ -104,19 +104,18 @@
 
 		<ul class="menu-sidebar p-t-70 p-b-70">
 			<li class="t-center m-b-30">
-				{% if app.user %}
-					<a class="border-bottom size1 flex-c-m trans-0-4 m-l-r-auto colorated" href="{{path('user_manage', {id: app.user.id})}}">
-						<span class="ti-user"></span>
-					</a>
-				{% else %}
-					<a href="{{path('app_login')}}" class="border-bottom size1 flex-c-m trans-0-4 m-l-r-auto">
-						<span class="ti-user"></span>
-					</a>
-				{% endif %}
+				<a href="{% if app.user %}{{path('user_manage', {id: app.user.id})}}{% else %}{{path('app_login')}}{% endif %}" class="border-bottom size1 flex-c-m trans-0-4 m-l-r-auto{% if app.user %} colorated{% endif %}">
+					<span class="ti-user"></span>
+				</a>
 			</li>
+			{% if app.user %}
+				<li class="t-center m-b-13">
+					<a class="txt19" href="{{path('provider_show', {id: app.user.provider.id, slug: app.user.provider.slug})}}">{{"Profile"|trans({}, 'nav')}}</a>
+				</li>
+			{% endif %}
 			{% if app.debug %}
-				<li class="t-center text-bold m-b-13">
-					<a href="{{path('test_index')}}">Test</a>
+				<li class="t-center m-b-13">
+					<a  class="txt19 text-warning" href="{{path('test_index')}}">Test</a>
 				</li>
 			{% endif %}
 			<li class="t-center m-b-13">
