@@ -46,10 +46,9 @@ class MealController extends AbstractController
      */
     public function new(AjaxService $ajaxService, Recaptcha $recaptcha, Storage $storage, Request $request): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_PROVIDER');
+
         $meal = new Meal();
-
-        $this->denyAccessUnlessGranted('MEAL_CREATE', $meal);
-
         /** @var \App\Entity\User $user */
         $user = $this->getUser();
 
@@ -78,8 +77,6 @@ class MealController extends AbstractController
                 ;
                 $gallery = new Gallery();
                 $gallery->setUrl($meal->getImg())
-                    ->setName($meal->getName())
-                    ->setType('img')
                 ;
                 $meal->setGallery($gallery);
                 $entityManager->persist($meal);
@@ -124,7 +121,7 @@ class MealController extends AbstractController
     }
 
     /**
-     * @Route("/e/{slug}-{id}/edit", name="edit", methods={"POST", "GET"}, requirements={"slug": "[a-z0-9\-]*"})
+     * @Route("/e/{id}/edit", name="edit", methods={"POST", "GET"})
      */
     public function edit(Request $request, Meal $meal, Storage $storage, AjaxService $ajaxService, Recaptcha $recaptcha): Response
     {
@@ -196,9 +193,9 @@ class MealController extends AbstractController
             $entityManager->remove($meal);
             $entityManager->flush();
 
-            $this->addFlash('success', 'Assiete a été supprimé.');
+            $this->addFlash('success', 'L\'assiete a été supprimée.');
         }
 
-        return $this->redirectToRoute('user_manage', ['id' => $user->getId(), 'view' => 'meal']);
+        return $this->redirectToRoute('user_manage', ['id' => $user->getId(), 'view' => 'v-pills-meal']);
     }
 }

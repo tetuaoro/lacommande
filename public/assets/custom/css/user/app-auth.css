@@ -40,6 +40,36 @@
   background: rgba(0, 0, 0, 0.5);
 }
 
+/* SELECT2 */
+
+
+.select2.select2-container {
+  display: block;
+}
+.select2-container--default .select2-results__option--highlighted[aria-selected] {
+  background-color: var(--warning);
+  color: white;
+}
+.select2-container.select2-container--default {
+  z-index: 2000;
+}
+.select2-container--below.select2-container--open {
+  border-radius: 0px;
+  box-shadow: 0 0 0 0;
+  -moz-box-shadow: 0 0 0 0;
+  -webkit-box-shadow: 0 0 0 0;
+  -o-box-shadow: 0 0 0 0;
+  -ms-box-shadow: 0 0 0 0;
+}
+.select2-container--focus {
+	border-radius: 0px;
+	box-shadow: 0 0 0 0;
+	-moz-box-shadow: 0 0 0 0;
+	-webkit-box-shadow: 0 0 0 0;
+	-o-box-shadow: 0 0 0 0;
+	-ms-box-shadow: 0 0 0 0;
+}
+
 /* Bootstrap */
 
 /* All screen */

@@ -2,15 +2,13 @@
 
 namespace App\Form\Type;
 
-use App\Entity\Category;
 use App\Entity\Meal;
 use App\Entity\Menu;
 use App\Entity\Provider;
 use App\Repository\MealRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -22,24 +20,32 @@ class MenuType extends AbstractType
         $provider = $options['provider'];
 
         $builder
-            ->add('name', TextType::class, [
-                'translation_domain' => 'form',
-            ])
-            ->add('price', NumberType::class, [
-                'translation_domain' => 'form',
-            ])
-            ->add('meal', EntityType::class, [
+            ->add('meals', EntityType::class, [
                 'translation_domain' => 'form',
                 'class' => Meal::class,
-                'choice_label' => 'name',
+                'multiple' => true,
+                'by_reference' => false,
                 'query_builder' => function (MealRepository $r) use ($provider) {
                     return $r->findMealWithOutMenu($provider->getId());
                 },
+                // @var \App\Entity\Meal $meal
+                'group_by' => function ($meal, $key, $value) {
+                    if ($meal && $meal->getMenu()) {
+                        return 'Déjà Associé';
+                    }
+                },
             ])
-            ->add('category', EntityType::class, [
+            ->add('recaptcha', HiddenType::class, [
+                'mapped' => false,
+                'required' => true,
+                'error_bubbling' => false,
+                'attr' => [
+                    'class' => 'recaptcha-check',
+                    'data-sitekey' => $_ENV['RECAPTCHA_KEY_3'],
+                ],
+            ])
+            ->add('category', CategoryType::class, [
                 'translation_domain' => 'form',
-                'class' => Category::class,
-                'choice_label' => 'name',
             ])
         ;
     }

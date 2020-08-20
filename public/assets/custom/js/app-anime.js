@@ -10,7 +10,7 @@ $(document).ready(function () {
 
   // BTN COLLAPSE (PLUS OPTION - MOINS OPTION)
   $(".btn-form-collapse").click(function () {
-    if ($(".btn-form-collapse.btn-show-toggle").length > 0) {
+    if ($(".multiCollapseMeal").css("display") != "none") {
       $(this).html(
         "Plus d'option <i class='fas fa-plus-circle ml-1' aria-hidden='true'></i>"
       );
@@ -20,5 +20,17 @@ $(document).ready(function () {
       );
     }
     $(this).toggleClass("btn-show-toggle");
+  });
+
+  // USER FA-ICON
+  $("#v-pills-tab a[id$='-tab']").click(function (e) {
+    e.preventDefault();
+    $(".user-auth.user-manage.bg-faIcon").attr(
+      "data-fa-icon",
+      $(this).data("faIcon")
+    );
+    var viewUrlParam = new URL(location.href);
+    viewUrlParam.searchParams.set("view", $(this).attr("aria-controls"));
+    history.pushState({}, null, viewUrlParam.toString());
   });
 });

@@ -37,7 +37,25 @@ class AjaxService
     {
         return $this->form->create(MenuType::class, $menu, [
             'method' => 'POST',
-            'action' => $this->router->generate('menu_new', ['id' => $provider->getId()]),
+            'action' => $this->router->generate('menu_new'),
+            'provider' => $provider,
+        ]);
+    }
+
+    public function test_create_menu(Menu $menu, Provider $provider)
+    {
+        return $this->form->create(MenuType::class, $menu, [
+            'method' => 'POST',
+            'action' => $this->router->generate('test_index'),
+            'provider' => $provider,
+        ]);
+    }
+
+    public function edit_menu(Menu $menu, Provider $provider)
+    {
+        return $this->form->create(MenuType::class, $menu, [
+            'method' => 'POST',
+            'action' => $this->router->generate('menu_edit', ['id' => $menu->getId()]),
             'provider' => $provider,
         ]);
     }

@@ -46,8 +46,6 @@ class MealRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('m')
             ->leftJoin('m.provider', 'p')
-            ->leftJoin('m.menu', 'me')
-            ->where('me IS NULL')
             ->andWhere('p.id = :id')
             ->setParameter('id', $id)
             ->orderBy('m.name', 'ASC')

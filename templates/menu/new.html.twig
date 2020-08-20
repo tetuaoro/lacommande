@@ -1,11 +1,40 @@
-{% extends 'base.html.twig' %}
-
-{% block title %}New Menu{% endblock %}
-
-{% block body %}
-    <h1>Create new Menu</h1>
-
-    {{ include('menu/_form.html.twig') }}
-
-    <a href="{{ path('menu_index') }}">back to list</a>
-{% endblock %}
+{% set meals = menu.meals %}
+{% if meals|length > 0 %}
+	<tr>
+		<th scope="row">{{"Catégorie"}}</th>
+		<th>{{menu.category.name}}</th>
+		<td></td>
+		<td>
+			<a href="#" class="btn py-0" data-toggle="modal" data-target="#menuModal-{{menu.id}}">
+				<i class="fas fa-edit" aria-hidden="true"></i>
+			</a>
+		</td>
+	</tr>
+	{% for meal in meals %}
+		<tr>
+			<td></td>
+			<td>
+				<i class="fas fa-long-arrow-alt-right" aria-hidden="true"></i>
+				{{" " ~ meal.name}}</td>
+			<td>{{meal.price ~ " XPF"}}</td>
+			<td>
+				{% include "menu/_delete_form.html.twig" %}
+			</td>
+		</tr>
+	{% endfor %}
+	<div class="modal fade" id="menuModal-{{menu.id}}" tabindex="-1" data-keyboard="false" aria-labelledby="menuModalLabel">
+		<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">{{'Modifier un menu'|trans({}, 'nav')}}</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					{{ render(path('menu_edit', {'id': menu.id})) }}
+				</div>
+			</div>
+		</div>
+	</div>
+{% endif %}

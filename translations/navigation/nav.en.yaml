@@ -15,5 +15,10 @@ Logout: Logout
 Ajouter une assiete: Add new meal
 Modifier une assiete: Edit meal
 Ajouter un menu: Add new menu
+Modifier un menu: Edit menu
 Ajouter un suppléant: Add another user
 Paramètre: Setting
+
+Nom: Name
+Prix: Price
+Catégorie: Category

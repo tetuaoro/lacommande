@@ -1,9 +1,9 @@
 <section>
-	<div class="btn-group" role="group" aria-label="Basic example">
+	<div class="btn-group" role="group" aria-label="Create Meal">
 		<button id="modal-btn-new" type="button" class="btn" data-toggle="modal" data-target="#mealModal">
 			{{"Ajouter une assiete"|trans({}, 'nav')}}
 			<i class="fas fa-plus-circle ml-2"></i>
-		</button>		
+		</button>
 	</div>
 	<div class="manage-meal mt-2">
 		{% for meal in user.provider.meals %}
@@ -14,6 +14,19 @@
 			</div>
 		{% endfor %}
 	</div>
-
-
+	<div class="modal fade" id="mealModal" tabindex="-1" data-keyboard="false" aria-labelledby="mealModalLabel">
+		<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="mealModalLabel">{{'Ajouter une assiete'|trans({}, 'nav')}}</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					{{ render(path('meal_new')) }}
+				</div>
+			</div>
+		</div>
+	</div>
 </section>

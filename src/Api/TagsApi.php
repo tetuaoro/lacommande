@@ -8,9 +8,9 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/", name="tags_")
+ * @Route("/tags", name="category_")
  */
-class TagsController extends AbstractController
+class TagsApi extends AbstractController
 {
     /**
      * @Route("/all.json", name="index", methods={"GET"})
@@ -21,7 +21,7 @@ class TagsController extends AbstractController
             $tagsRepository->findAll(),
             JsonResponse::HTTP_OK,
             [],
-            ['groups' => ['tags']]
+            ['groups' => ['tags_api']]
         );
     }
 }

@@ -85,14 +85,28 @@
 						{{ render(path('meal_new')) }}
 					</div>
 				</div>
+
+				<div class="category">
+					<h1 class="h5">Category</h1>
+					<div class="form">
+						{{ form_start(form) }}
+						{{ form_widget(form) }}
+						<button class="btn">{{ button_label|default('Enregistrer') }}</button>
+						{{ form_end(form) }}
+
+					</div>
+				</div>
 			</section>
 		</div>
 	{% endif %}
 {% endblock %}
 
 {% block stylesheets %}
+	<link rel="stylesheet" type="text/css" href="{{asset('assets/vendor/select2/select2.min.css')}}">
 	<link rel="stylesheet" href="{{asset('assets/custom/vendor/rte/richTextEditor.css')}}">
 {% endblock %}
 {% block javascripts %}
+	<script src="{{asset('assets/vendor/select2/select2.min.js')}}"></script>
 	<script src="{{asset('assets/custom/vendor/rte/richTextEditor.js')}}"></script>
+	<script src="{{asset('assets/custom/js/test.js')}}"></script>
 {% endblock %}

@@ -1,4 +1,4 @@
-Nom: Name
+Name: Name
 Date de création: Created at
 Année: Year
 Mois: Month
@@ -9,7 +9,7 @@ Seconde: Second
 Recette: Recipe
 Image: Picture
 Description: Description
-Prix: Price
+Price: Price
 Choisir une image: Choose a picture
 livraison: I delivery
 
@@ -50,3 +50,8 @@ le lien vers votre twitter: link to twitter
 Bannière: Banner
 une image 1900x545: picture 1900x545px
 "image : exactement 1900x545": "picture : exactly 1900x545px"
+
+Nom: Name
+Meals: Meals
+Prix: Price
+Catégorie: Category

@@ -11,7 +11,7 @@
 {% block bodyfull %}
 	<section class="user-auth user-manage bg-faIcon pt-4 pb-4" data-fa-icon="&#xf2e7">
 		{% block user %}{% endblock %}
-	</div>
+	</section>
 {% endblock %}
 
 {% block footer %}
@@ -19,9 +19,11 @@
 {% endblock %}
 
 {% block stylesheets %}
-	<link rel="stylesheet" type="text/css" href="{{asset('assets/custom/css/user/app-auth.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{asset('assets/custom/vendor/rte/richTextEditor.css')}}">
-	<link rel="stylesheet" type="text/css" href="{{asset('assets/vendor/bootstrapTagsInput/bootstrap-tagsinput.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{asset('assets/vendor/select2/select2.min.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{asset('assets/custom/css/user/app-auth.css')}}">
+	<style>
+	</style>
 {% endblock %}
 
 {% block javascripts %}
@@ -29,7 +31,6 @@
 	<script src="https://www.google.com/recaptcha/api.js?render={{get_env('RECAPTCHA_KEY_3')}}" type="text/javascript"></script>
 	<script src="{{asset('assets/vendor/custom/js/loadingoverlay.min.js')}}"></script>
 	<script src="{{asset('assets/custom/vendor/rte/richTextEditor.js')}}"></script>
-	<script src="{{asset('assets/vendor/bootstrapTagsInput/module/typeahead.bundle.js')}}"></script>
-	<script src="{{asset('assets/vendor/bootstrapTagsInput/bootstrap-tagsinput.min.js')}}"></script>
+	<script src="{{asset('assets/vendor/select2/select2.min.js')}}"></script>
 	<script src="{{asset('assets/custom/js/user/app-auth.js')}}"></script>
 {% endblock %}

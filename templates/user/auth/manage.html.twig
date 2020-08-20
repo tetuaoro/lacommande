@@ -8,44 +8,44 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-2">
+				{% set active = app.request.get('view') ? app.request.get('view') : '' %}
 				<div class="nav flex-md-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-					<a class="nav-link mb-3 active" id="v-pills-meal-tab" data-fa-icon="&#xf2e7" data-toggle="pill" href="#v-pills-meal" role="tab" aria-controls="v-pills-meal" aria-selected="true">
+					<a class="nav-link mb-3{% if active == 'v-pills-meal' or active == '' %} active{% endif %}" id="v-pills-meal-tab" data-fa-icon="&#xf2e7" data-toggle="pill" href="#v-pills-meal" role="tab" aria-controls="v-pills-meal" aria-selected="true">
 						{{"meal"|trans({}, 'user')}}
 					</a>
-					{# <a class="nav-link mb-3" id="v-pills-menu-tab" data-fa-icon="&#xf6d7" data-toggle="pill" href="#v-pills-menu" role="tab" aria-controls="v-pills-menu" aria-selected="false">
-																					{{"menu"|trans({}, 'user')}}
-																				</a>
-																				<a class="nav-link mb-3" id="v-pills-subuser-tab" data-fa-icon="&#xf007" data-toggle="pill" href="#v-pills-subuser" role="tab" aria-controls="v-pills-subuser" aria-selected="false">
-																					{{"subuser"|trans({}, 'user')}}
-																				</a>
-																				<a class="nav-link mb-3" id="v-pills-setting-tab" data-fa-icon="&#xf085" data-toggle="pill" href="#v-pills-setting" role="tab" aria-controls="v-pills-setting" aria-selected="false">
-																					{{"setting"|trans({}, 'user')}}
-																				</a> #}
+					<a class="nav-link mb-3{% if active == 'v-pills-menu' %} active{% endif %}" id="v-pills-menu-tab" data-fa-icon="&#xf6d7" data-toggle="pill" href="#v-pills-menu" role="tab" aria-controls="v-pills-menu" aria-selected="false">
+						{{"menu"|trans({}, 'user')}}
+					</a>
+					{#<a class="nav-link mb-3" id="v-pills-subuser-tab" data-fa-icon="&#xf007" data-toggle="pill" href="#v-pills-subuser" role="tab" aria-controls="v-pills-subuser" aria-selected="false">
+																																				{{"subuser"|trans({}, 'user')}}
+																																			</a>
+																																			<a class="nav-link mb-3" id="v-pills-setting-tab" data-fa-icon="&#xf085" data-toggle="pill" href="#v-pills-setting" role="tab" aria-controls="v-pills-setting" aria-selected="false">
+																																				{{"setting"|trans({}, 'user')}}
+																																			</a> #}
 				</div>
 			</div>
 			<div class="col-md">
 				<div class="tab-content" id="v-pills-tabContent">
-					<div class="tab-pane fade show active" id="v-pills-meal" role="tabpanel" aria-labelledby="v-pills-meal-tab">
+					<div class="tab-pane fade{% if active == 'v-pills-meal' or active == '' %} show active{% endif %}" id="v-pills-meal" role="tabpanel" aria-labelledby="v-pills-meal-tab">
 						{% include "user/auth/manage/meal.html.twig" %}
 					</div>
-					{# <div class="tab-pane fade" id="v-pills-menu" role="tabpanel" aria-labelledby="v-pills-menu-tab">
-																					{% include "user/auth/manage/menu.html.twig" %}
-																				</div>
-																				<div class="tab-pane fade" id="v-pills-subuser" role="tabpanel" aria-labelledby="v-pills-subuser-tab">
-																					{% include "user/auth/manage/subuser.html.twig" %}
-																				</div>
-																				<div class="tab-pane fade" id="v-pills-setting" role="tabpanel" aria-labelledby="v-pills-setting-tab">
-																					{% include "user/auth/manage/setting.html.twig" %}
-																				</div> #}
+					<div class="tab-pane fade{% if active == 'v-pills-menu' %} show active{% endif %}" id="v-pills-menu" role="tabpanel" aria-labelledby="v-pills-menu-tab">
+						{% include "user/auth/manage/menu.html.twig" %}
+					</div>
+					{#<div class="tab-pane fade" id="v-pills-subuser" role="tabpanel" aria-labelledby="v-pills-subuser-tab">
+																																				{% include "user/auth/manage/subuser.html.twig" %}
+																																			</div>
+																																			<div class="tab-pane fade" id="v-pills-setting" role="tabpanel" aria-labelledby="v-pills-setting-tab">
+																																				{% include "user/auth/manage/setting.html.twig" %}
+																																			</div> #}
 				</div>
 			</div>
 		</div>
-
-		<div class="modal" id="mealModalDelete" tabindex="-1">
+		<div class="modal" id="deleteModal" tabindex="-1">
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h5 class="modal-title">{{"Supprimer l'assiette"}}</h5>
+						<h5 class="modal-title"></h5>
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
@@ -55,22 +55,7 @@
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-dismiss="modal">{{"Annuler"}}</button>
-						<button id="meal-btn-delete" type="button" class="btn btn-danger">{{"Confirmer"}}</button>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="modal fade" id="mealModal" tabindex="-1" data-keyboard="false" aria-labelledby="mealModalLabel">
-			<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title" id="mealModalLabel">{{'Ajouter une assiete'|trans({}, 'nav')}}</h5>
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-					<div class="modal-body">
-						{{ render(path('meal_new')) }}
+						<button id="meal-btn-delete-confirm" type="button" class="btn btn-danger">{{"Confirmer"}}</button>
 					</div>
 				</div>
 			</div>

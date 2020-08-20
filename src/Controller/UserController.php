@@ -2,17 +2,16 @@
 
 namespace App\Controller;
 
-use App\Entity\Meal;
-use App\Entity\User;
-use App\Service\Mailer;
 use App\Entity\Delivery;
 use App\Entity\Provider;
+use App\Entity\User;
 use App\Form\Type\UserType;
 use App\Repository\UserRepository;
+use App\Service\Mailer;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
@@ -153,50 +152,6 @@ class UserController extends AbstractController
         $this->denyAccessUnlessGranted('USER_MANAGE', $user);
 
         return $this->render('user/auth/manage.html.twig', [
-            'user' => $user,
-        ]);
-    }
-
-    /**
-     * @Route("/manage/meal/{slug}-{id}", name="meal_show", methods={"GET"}, requirements={"slug": "[a-z0-9\-]*"})
-     */
-    public function adminUserMealShow(string $slug, Meal $meal)
-    {
-        $this->denyAccessUnlessGranted('USER_MANAGE', $this->getUser());
-
-        if ($slug != $meal->getSlug()) {
-            return $this->redirectToRoute('user_meal_show', ['id' => $meal->getId(), 'slug' => $meal->getSlug()]);
-        }
-
-        return $this->render('user/auth/show.html.twig', [
-            'meal' => $meal,
-        ]);
-    }
-
-    /**
-     * @Route("/manage/meal/{slug}-{id}/edit", name="meal_u", methods={"GET"}, requirements={"slug": "[a-z0-9\-]*"})
-     */
-    public function adminUserMealEdit(string $slug, Meal $meal)
-    {
-        $this->denyAccessUnlessGranted('USER_MANAGE', $this->getUser());
-
-        if ($slug != $meal->getSlug()) {
-            return $this->redirectToRoute('user_meal_show', ['id' => $meal->getId(), 'slug' => $meal->getSlug()]);
-        }
-
-        return $this->render('user/auth/edit.html.twig', [
-            'meal' => $meal,
-        ]);
-    }
-
-    /**
-     * @Route("/{token}/manage/{slug}-{id}/delete", name="meal_delete", methods={"DELETE"}, requirements={"token": "[0-9]{14}", "slug": "[a-z0-9\-]*"})
-     */
-    public function adminUserMealDelete(string $token, User $user)
-    {
-        $this->denyAccessUnlessGranted('USER_MANAGE', $user);
-
-        return $this->render('user/auth/delete.html.twig', [
             'user' => $user,
         ]);
     }

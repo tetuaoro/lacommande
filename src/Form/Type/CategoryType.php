@@ -2,15 +2,15 @@
 
 namespace App\Form\Type;
 
-use App\Entity\Tags;
-use App\Form\EventListener\TagsSubscriber;
+use App\Entity\Category;
+use App\Form\EventListener\CategorySubscriber;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class TagsType extends AbstractType
+class CategoryType extends AbstractType
 {
     /**
      * @var EntityManagerInterface
@@ -25,18 +25,16 @@ class TagsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->addEventSubscriber(new TagsSubscriber($this->manager))
+            ->addEventSubscriber(new CategorySubscriber($this->manager))
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'required' => false,
-            'class' => Tags::class,
-            'multiple' => true,
+            'class' => Category::class,
             'attr' => [
-                'class' => 'tags-input',
+                'class' => 'category-input',
             ],
         ]);
     }

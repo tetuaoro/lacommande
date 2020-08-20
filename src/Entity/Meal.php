@@ -89,7 +89,7 @@ class Meal
     private $gallery;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Tags::class, inversedBy="meals", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity=Tags::class, inversedBy="meals")
      */
     private $tags;
 
@@ -99,14 +99,14 @@ class Meal
     private $totalcommand;
 
     /**
-     * @ORM\OneToOne(targetEntity=Menu::class, mappedBy="meal", cascade={"persist", "remove"})
-     */
-    private $menu;
-
-    /**
      * @ORM\Column(type="boolean", nullable=true)
      */
     private $delivery;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Menu::class, inversedBy="meals")
+     */
+    private $menu;
 
     public function __construct()
     {
@@ -329,23 +329,6 @@ class Meal
         return $this;
     }
 
-    public function getMenu(): ?Menu
-    {
-        return $this->menu;
-    }
-
-    public function setMenu(Menu $menu): self
-    {
-        $this->menu = $menu;
-
-        // set the owning side of the relation if necessary
-        if ($menu->getMeal() !== $this) {
-            $menu->setMeal($this);
-        }
-
-        return $this;
-    }
-
     public function commandPlus(): self
     {
         ++$this->totalcommand;
@@ -361,6 +344,18 @@ class Meal
     public function setDelivery(?bool $delivery): self
     {
         $this->delivery = $delivery;
+
+        return $this;
+    }
+
+    public function getMenu(): ?Menu
+    {
+        return $this->menu;
+    }
+
+    public function setMenu(?Menu $menu): self
+    {
+        $this->menu = $menu;
 
         return $this;
     }

@@ -2,19 +2,19 @@
 
 namespace App\Security\Voter;
 
-use App\Entity\Meal;
+use App\Entity\Menu;
 use App\Repository\UserRepository;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class MealVoter extends Voter
+class MenuVoter extends Voter
 {
-    public const CREATE = 'MEAL_CREATE';
-    public const EDIT = 'MEAL_EDIT';
-    public const VIEW = 'MEAL_VIEW';
-    public const DELETE = 'MEAL_DELETE';
+    public const CREATE = 'MENU_CREATE';
+    public const EDIT = 'MENU_EDIT';
+    public const VIEW = 'MENU_VIEW';
+    public const DELETE = 'MENU_DELETE';
 
     private $security;
     private $user;
@@ -30,14 +30,14 @@ class MealVoter extends Voter
         // replace with your own logic
         // https://symfony.com/doc/current/security/voters.html
         return in_array($attribute, [self::CREATE, self::EDIT, self::VIEW, self::DELETE])
-            && $subject instanceof Meal;
+            && $subject instanceof Menu;
     }
 
     /**
      * Undocumented function.
      *
-     * @param \App\Entity\Meal $subject
-     * @param mixed            $attribute
+     * @param \App\Entity\Menu $subject
+     * @param [type]           $attribute
      */
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
     {

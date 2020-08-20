@@ -3,8 +3,9 @@
 namespace App\Entity;
 
 use App\Repository\MenuRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=MenuRepository::class)
@@ -19,20 +20,9 @@ class Menu
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\Length(min=5)
-     */
-    private $name;
-
-    /**
      * @ORM\Column(type="datetime")
      */
     private $createdAt;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $price;
 
     /**
      * @ORM\ManyToOne(targetEntity=Provider::class, inversedBy="menus")
@@ -40,49 +30,25 @@ class Menu
     private $provider;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="menus")
+     * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="menus", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $category;
 
     /**
-     * @ORM\OneToOne(targetEntity=Meal::class, inversedBy="menu", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\OneToMany(targetEntity=Meal::class, mappedBy="menu")
      */
-    private $meal;
+    private $meals;
 
     public function __construct()
     {
         $this->createdAt = new \DateTime();
+        $this->meals = new ArrayCollection();
     }
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function setName(string $name): self
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    public function getMeal(): ?Meal
-    {
-        return $this->meal;
-    }
-
-    public function setMeal(Meal $meal): self
-    {
-        $this->meal = $meal;
-
-        return $this;
     }
 
     public function getCreatedAt(): ?\DateTimeInterface
@@ -129,6 +95,37 @@ class Menu
     public function setCategory(?Category $category): self
     {
         $this->category = $category;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Meal[]
+     */
+    public function getMeals(): Collection
+    {
+        return $this->meals;
+    }
+
+    public function addMeal(Meal $meal): self
+    {
+        if (!$this->meals->contains($meal)) {
+            $this->meals[] = $meal;
+            $meal->setMenu($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMeal(Meal $meal): self
+    {
+        if ($this->meals->contains($meal)) {
+            $this->meals->removeElement($meal);
+            // set the owning side to null (unless already changed)
+            if ($meal->getMenu() === $this) {
+                $meal->setMenu(null);
+            }
+        }
 
         return $this;
     }

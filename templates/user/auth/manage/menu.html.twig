@@ -1,20 +1,43 @@
 <section>
-	<div class="btn-group" role="group" aria-label="Basic example">
-		<button type="button" class="btn" data-toggle="modal" data-target="#menuModal">
-			{{"Ajouter"|trans({}, 'nav')}}
+	<div class="btn-group" role="group" aria-label="Create Menu">
+		<button id="modal-btn-new" type="button" class="btn" data-toggle="modal" data-target="#menuModal">
+			{{"Ajouter un menu"|trans({}, 'nav')}}
 			<i class="fas fa-plus-circle ml-2"></i>
 		</button>
 	</div>
-	{% set menus = user.provider.menus %}
-	<div id="manage-menu" class="manage-menu">
-		{% for menu in menus %}
-			{% include "ajax/menu/new.html.twig" %}
-		{% else %}
-			<div>
-				<h1 class="h5">Pas de menu : ajoutez-en un.</h1>
-			</div>
-		{% endfor %}
+	<div class="manage-menu mt-2">
+		<table class="table table-hover">
+			<thead>
+				<tr>
+					<th scope="col">#</th>
+					<th scope="col">{{"Nom"|trans({}, 'nav')}}</th>
+					<th scope="col">{{"Prix"|trans({}, 'nav')}}</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for menu in user.provider.menus %}
+					{% include "menu/new.html.twig" %}
+				{% else %}
+					<tr>
+						<td colspan="5">Pas de menu : ajoutez-en un.</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
 	</div>
-
-	
+	<div class="modal fade" id="menuModal" tabindex="-1" data-keyboard="false" aria-labelledby="menuModalLabel">
+		<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="menuModalLabel">{{'Ajouter un menu'|trans({}, 'nav')}}</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					{{ render(path('menu_new')) }}
+				</div>
+			</div>
+		</div>
+	</div>
 </section>

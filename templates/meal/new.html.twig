@@ -11,13 +11,7 @@
 				<button class="btn-bs btn-warning" type="button" title="modifier" data-toggle="modal" data-target="#mealModal-{{meal.id}}">
 					<i class="fas fa-pencil-alt" aria-hidden="true"></i>
 				</button>
-				<form name="meal-delete" data-btn-delete="#meal-btn-delete" data-modal="#mealModalDelete" method="post" class="d-inline" action="{{ path('meal_delete', {'id': meal.id}) }}">
-					<button class="btn-bs btn-warning" title="supprimer">
-						<i class="fas fa-trash" aria-hidden="true"></i>
-					</button>
-					<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ meal.id) }}">
-					<input type="hidden" name="_method" value="DELETE">
-				</form>
+				{% include "meal/_delete_form.html.twig" %}
 			</div>
 		</div>
 	</div>
@@ -31,7 +25,7 @@
 					</button>
 				</div>
 				<div class="modal-body">
-					{{ render(path('meal_edit', {'id': meal.id, 'slug': meal.slug})) }}
+					{{ render(path('meal_edit', {'id': meal.id})) }}
 				</div>
 			</div>
 		</div>

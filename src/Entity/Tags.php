@@ -23,8 +23,8 @@ class Tags
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\Length(min=4)
-     * @Groups({"tags"})
+     * @Assert\Length(min=1)
+     * @Groups({"tags_api"})
      */
     private $name;
 
