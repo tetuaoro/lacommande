@@ -49,11 +49,6 @@ class BitlyService
 
         $data = [
             'long_url' => $link,
-            'title' => uniqid('lacommande').'-'.$this->env.'-'.$title ? $title : '',
-            'tags' => [
-                'lacommande',
-                $this->env,
-            ],
         ];
         $payload = json_encode($data);
 
