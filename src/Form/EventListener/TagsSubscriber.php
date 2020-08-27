@@ -32,14 +32,16 @@ class TagsSubscriber implements EventSubscriberInterface
         $tags = $event->getData();
         $tags_ = [];
 
-        foreach ($tags as $tag) {
-            if (!is_numeric($tag)) {
-                $tag_ = new Tags();
-                $tag_->setName($tag);
-                $this->manager->persist($tag_);
-                $tags_[] = $tag_->getId().'';
-            } else {
-                $tags_[] = $tag;
+        if ($tags) {
+            foreach ($tags as $tag) {
+                if (!is_numeric($tag)) {
+                    $tag_ = new Tags();
+                    $tag_->setName($tag);
+                    $this->manager->persist($tag_);
+                    $tags_[] = $tag_->getId().'';
+                } else {
+                    $tags_[] = $tag;
+                }
             }
         }
 

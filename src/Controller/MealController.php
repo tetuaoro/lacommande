@@ -7,6 +7,7 @@ use App\Entity\Gallery;
 use App\Entity\Meal;
 use App\Repository\MealRepository;
 use App\Service\AjaxService;
+use App\Service\BitlyService;
 use App\Service\Recaptcha;
 use App\Service\Storage;
 use Knp\Component\Pager\PaginatorInterface;
@@ -15,6 +16,7 @@ use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Generator\UrlGenerator;
 
 /**
  * @Route("/m/i", name="meal_")
@@ -44,7 +46,7 @@ class MealController extends AbstractController
     /**
      * @Route("/n/new", name="new", methods={"POST", "GET"})
      */
-    public function new(AjaxService $ajaxService, Recaptcha $recaptcha, Storage $storage, Request $request): Response
+    public function new(AjaxService $ajaxService, Recaptcha $recaptcha, BitlyService $bitlyService, Storage $storage, Request $request): Response
     {
         $this->denyAccessUnlessGranted('ROLE_PROVIDER');
 
@@ -82,6 +84,11 @@ class MealController extends AbstractController
                 $entityManager->persist($meal);
                 $entityManager->flush();
 
+                $bitlink = $bitlyService->create_url($this->generateUrl('meal_show', ['id' => $meal->getId(), 'slug' => $meal->getSlug()], UrlGenerator::ABSOLUTE_URL));
+
+                $meal->setBitly($bitlink);
+                $entityManager->flush();
+
                 $this->addFlash('success', 'Assiette créée avec succès.');
 
                 return new Response($this->generateUrl('user_manage', ['id' => $user->getId(), 'view' => 'v-pills-meal']), Response::HTTP_CREATED);
@@ -114,6 +121,8 @@ class MealController extends AbstractController
         $command = new Command();
         $form = $ajaxService->command_meal($command, $meal);
 
+        dump($meal);
+
         return $this->render('meal/show.html.twig', [
             'meal' => $meal,
             'form' => $form->createView(),
@@ -123,7 +132,7 @@ class MealController extends AbstractController
     /**
      * @Route("/e/{id}/edit", name="edit", methods={"POST", "GET"})
      */
-    public function edit(Request $request, Meal $meal, Storage $storage, AjaxService $ajaxService, Recaptcha $recaptcha): Response
+    public function edit(Request $request, Meal $meal, BitlyService $bitlyService, Storage $storage, AjaxService $ajaxService, Recaptcha $recaptcha): Response
     {
         $this->denyAccessUnlessGranted('MEAL_EDIT', $meal);
 
@@ -155,6 +164,11 @@ class MealController extends AbstractController
                     $meal->getGallery()->setUrl($meal->getImg())
                     ;
                 }
+                $entityManager->flush();
+
+                $bitlink = $bitlyService->update_url('', $this->generateUrl('meal_show', ['id' => $meal->getId(), 'slug' => $meal->getSlug()], UrlGenerator::ABSOLUTE_URL));
+
+                $meal->setBitly($bitlink);
                 $entityManager->flush();
 
                 $this->addFlash('success', 'Assiette modifiée avec succès.');

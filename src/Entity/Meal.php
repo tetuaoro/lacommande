@@ -108,6 +108,11 @@ class Meal
      */
     private $menu;
 
+    /**
+     * @ORM\Column(type="json", nullable=true)
+     */
+    private $bitly = [];
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
@@ -356,6 +361,18 @@ class Meal
     public function setMenu(?Menu $menu): self
     {
         $this->menu = $menu;
+
+        return $this;
+    }
+
+    public function getBitly(): ?array
+    {
+        return $this->bitly;
+    }
+
+    public function setBitly(?array $bitly): self
+    {
+        $this->bitly = $bitly;
 
         return $this;
     }
