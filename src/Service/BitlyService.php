@@ -42,7 +42,7 @@ class BitlyService
         return json_decode($result, true);
     }
 
-    public function update_url(string $link, string $id, string $title = null)
+    public function update_url(string $id, string $link, string $title = null)
     {
         $apiv4 = 'https://api-ssl.bitly.com/v4/bitlinks/'.$id;
         $genericAccessToken = '11bbc353066e23d1c0733634ae12cc250b2b62c6';
