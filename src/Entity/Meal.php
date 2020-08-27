@@ -109,7 +109,7 @@ class Meal
     private $menu;
 
     /**
-     * @ORM\Column(type="json", nullable=true)
+     * @ORM\Column(type="array", nullable=true)
      */
     private $bitly = [];
 

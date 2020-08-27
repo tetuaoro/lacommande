@@ -121,8 +121,6 @@ class MealController extends AbstractController
         $command = new Command();
         $form = $ajaxService->command_meal($command, $meal);
 
-        dump($meal);
-
         return $this->render('meal/show.html.twig', [
             'meal' => $meal,
             'form' => $form->createView(),
