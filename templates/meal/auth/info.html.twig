@@ -8,6 +8,9 @@
 						{{meal.totalcommand|number_format}}
 					</span>
 				</li>
+				<li class="list-group-item">Lien :
+					<a href="{{meal.bitly ? meal.bitly.link : '#'}}">{{meal.bitly ? meal.bitly.link : 'none'}}</a>
+				</li>
 				<li class="list-group-item">Depuis :
 					{{meal.createdAt|date('d/m/y')}}
 				</li>
