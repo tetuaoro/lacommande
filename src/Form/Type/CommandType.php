@@ -5,10 +5,10 @@ namespace App\Form\Type;
 use App\Entity\Command;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\Regex;
 
 class CommandType extends AbstractType
 {
@@ -29,16 +29,25 @@ class CommandType extends AbstractType
                 'required' => false,
                 'label' => false,
                 'attr' => [
-                    'placeholder' => 'N° vini',
-                    'pattern' => '(87|89)[0-9]{6}',
+                    'placeholder' => 'N° téléphone',
+                    'pattern' => '(87|89|40)[0-9]{6}',
                 ],
             ])
             ->add('email', EmailType::class, [
                 'translation_domain' => 'form',
-                'required' => false,
+                'required' => true,
                 'label' => false,
                 'attr' => [
-                    'placeholder' => 'email',
+                    'placeholder' => 'email *',
+                ],
+            ])
+            ->add('recaptcha', HiddenType::class, [
+                'mapped' => false,
+                'required' => true,
+                'error_bubbling' => false,
+                'attr' => [
+                    'class' => 'recaptcha-check',
+                    'data-sitekey' => $_ENV['RECAPTCHA_KEY_3'],
                 ],
             ])
         ;

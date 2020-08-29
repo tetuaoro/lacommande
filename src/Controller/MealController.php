@@ -124,6 +124,7 @@ class MealController extends AbstractController
         return $this->render('meal/show.html.twig', [
             'meal' => $meal,
             'form' => $form->createView(),
+            'lacommandPrice' => 113,
         ]);
     }
 

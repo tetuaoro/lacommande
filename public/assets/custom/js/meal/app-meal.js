@@ -4,8 +4,38 @@ $(document).ready(function () {
 
   form.submit(function (e) {
     e.preventDefault();
-    sendForm(this);
+    checkRecaptcha(this, sendForm)
   });
+
+  $("#command_items").change(function (e) { 
+    e.preventDefault();
+    var base = +$("input[name=lacommand_price]").val();
+    var meal = +$("input[name=meal_price]").val();
+    var items = +$(this).val();
+    var price = +meal * +items;
+    var pricettc = +price + +base;
+    $("span.prices small").text("total : (" + meal + "*" + items + ") + " + base + " = " + pricettc + " XPF");
+  });
+
+/**
+ * Check before recaptcha test.
+ * @param {Elemet} element
+ * @param {CallableFunction} fn
+ */
+function checkRecaptcha(element, fn) {
+  var recaptcha = $(element).find(".recaptcha-check");
+  grecaptcha.ready(function () {
+    grecaptcha
+      .execute(recaptcha.data("sitekey"), { action: "submit" })
+      .then(function (token) {
+        recaptcha.val(token);
+        fn(element);
+      })
+      .catch(function () {
+        spinner("hide");
+      });
+  });
+}
 
   function sendForm(element) {
     var form = new FormData(element);

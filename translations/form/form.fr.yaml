@@ -37,8 +37,8 @@ Plus d'option: Plus d'option
 Tags: Tags
 selectlabel__: selectlabel__
 
-N° vini: N° vini
-email: email
+N° téléphone: N° téléphone
+email *: email *(requis)
 
 Label: Label
 Page Instagram: Page Instagram

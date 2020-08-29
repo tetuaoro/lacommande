@@ -1,34 +1,44 @@
 {% extends "mailer/base.html.twig" %}
 
 {% block body %}
-	<row class="welcome">
-		<columns>
-			<spacer size="35"></spacer>
-			<h1>
-				<center>
-					Inscription
-				</center>
-			</h1>
-			<spacer size="10"></spacer>
-		</columns>
-	</row>
-	<spacer size="30"></spacer>
 	<row>
-		<columns>
+		<columns small="2" large="3"></columns>
+		<columns small="8" large="6">
 			<p>
-				Bienvenue sur
-				<strong>{{ nameSite }}
+				<strong>Ia ora na e maeva
+					{{user.name}},
 				</strong>
-				<em>{{ user.name }}</em>, veuillez confirmez votre email
-				<span class="email">{{ email.to[0].address }}</span>
-				en cliquant sur le lien ci-dessous :
+			</p>
+			<p>
+				Merci d'avoir créé un compte
+				{{nameSite}}
+				! Nous avons besoin de confirmer qu'il s'agit bien de votre adresse
+				<span class="email">{{ email.to[0].address }}</span>.
+																																		Cliquez sur le lien ci-dessous pour verifier cette adresse e-mail :
 			</p>
 		</columns>
+		<columns small="2" large="3"></columns>
 	</row>
 	<row>
 		<columns>
 			<center>
 				<button href="{{ url('mailer_confirmation', {token: user.confirmationEmail, id: user.id}) }}">Confimer mon adresse</button>
+			</center>
+		</columns>
+	</row>
+	<row>
+		<columns small="2" large="3"></columns>
+		<columns small="8" large="6">
+			<center>
+				<hr>
+			</center>
+		</columns>
+		<columns small="2" large="3"></columns>
+	</row>
+	<row>
+		<columns>
+			<center>
+				<p class="help text-center">Besoin d'aide ? Veuillez-nous contacter en cliquant sur le lien en bas.</p>
 			</center>
 		</columns>
 	</row>

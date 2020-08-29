@@ -1,0 +1,49 @@
+{% extends "mailer/base.html.twig" %}
+
+{% block body %}
+	<row>
+		<columns small="2" large="3"></columns>
+		<columns small="8" large="6">
+			<h2>Commande
+				{{data.name}}</h2>
+			<p>
+				Votre commande a été envoyée à
+				{{data.provider}}
+				et est en
+				<strong>attente d'approbation</strong>
+				!
+			</p>
+			<spacer size="8"></spacer>
+			<h3>Commande n° {{data.id}} :</h3>
+			<p>Nom : {{data.name}}</p>
+			<p>Prix du plat : {{data.meal_price}} XPF</p>
+			<p>Nombre de plat : {{data.items}}</p>
+			<p>Service : 113 XPF</p>
+			<p>Prix TTC : {{data.price}} XPF</p>
+			<p>Date de la commande : {{data.date|date("d/m/Y")}}</p>
+			<spacer size="8"></spacer>
+			<p>
+				Merci d'avoir utilisé
+				{{nameSite}}
+				! N'hésitez pas à créer un compte pour bénéficier de remise sur vos prochaines commandes.
+			</p>
+		</columns>
+		<columns small="2" large="3"></columns>
+	</row>
+	<row>
+		<columns small="2" large="3"></columns>
+		<columns small="8" large="6">
+			<center>
+				<hr>
+			</center>
+		</columns>
+		<columns small="2" large="3"></columns>
+	</row>
+	<row>
+		<columns>
+			<center>
+				<p class="help text-center">Cette e-mail fait aussi office de facture. Besoin d'aide ? Veuillez-nous contacter en cliquant sur le lien en bas.</p>
+			</center>
+		</columns>
+	</row>
+{% endblock %}

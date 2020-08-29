@@ -4,6 +4,7 @@
 
 <container>
 	{% block header %}
+		<spacer size="16"></spacer>
 		<row class="header">
 			<columns>
 				<a href="{{ url('app_index') }}">
@@ -15,8 +16,12 @@
 		</row>
 	{% endblock %}
 
-	{% block body %}{% endblock %}
-	
+	<row>
+		<columns>
+			{% block body %}{% endblock %}
+		</columns>
+	</row>
+
 	{% block footer %}
 		<row class="footer">
 			<columns>

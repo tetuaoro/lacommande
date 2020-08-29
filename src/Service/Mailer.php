@@ -39,9 +39,9 @@ class Mailer
         $this->em->flush();
 
         $message = (new TemplatedEmail())
-            ->from('lacommandeariifood@gmail.com')
-            ->to(new Address($email))
-            ->subject('Confirmation email Arii Food')
+            ->from(new Address('lacommandeariifood@gmail.com', 'Arii Food'))
+            ->to(new Address($user->getEmail(), $user->getName()))
+            ->subject('Confirmation e-mail Arii Food')
             ->htmlTemplate('mailer/signup.html.twig')
             ->context([
                 'user' => $user,
@@ -61,6 +61,21 @@ class Mailer
         }
 
         return false;
+    }
+
+    public function sendCommand(array $data)
+    {
+        $message = (new TemplatedEmail())
+            ->from(new Address('lacommandeariifood@gmail.com', 'Arii Food'))
+            ->to(new Address($data['email']))
+            ->subject('Commande de plat Arii Food')
+            ->htmlTemplate('mailer/command.html.twig')
+            ->context([
+                'data' => $data,
+            ])
+        ;
+
+        $this->mailer->send($message);
     }
 
     public function userNotifyMessage(User $user, $message, $subject)

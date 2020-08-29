@@ -66,6 +66,11 @@ class Command
      */
     private $phone;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $price;
+
     public function __construct()
     {
         $this->meals = new ArrayCollection();
@@ -183,6 +188,18 @@ class Command
     public function setPhone(?string $phone): self
     {
         $this->phone = $phone;
+
+        return $this;
+    }
+
+    public function getPrice(): ?int
+    {
+        return $this->price;
+    }
+
+    public function setPrice(?int $price): self
+    {
+        $this->price = $price;
 
         return $this;
     }

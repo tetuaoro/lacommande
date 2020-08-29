@@ -7,7 +7,10 @@ use App\Entity\Meal;
 use App\Form\Type\CommandType;
 use App\Repository\CommandRepository;
 use App\Service\AjaxService;
+use App\Service\Mailer;
+use App\Service\Recaptcha;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -32,7 +35,7 @@ class CommandController extends AbstractController
     /**
      * @Route("/new/{id}", name="new", methods={"GET", "POST"})
      */
-    public function new(Meal $meal, Request $request, AjaxService $ajaxService): Response
+    public function new(Meal $meal, Request $request, Recaptcha $recaptcha, Mailer $mailer, AjaxService $ajaxService): Response
     {
         $command = new Command();
         $form = $ajaxService->command_meal($command, $meal);
@@ -40,18 +43,44 @@ class CommandController extends AbstractController
         if ($request->isXmlHttpRequest()) {
             $form->handleRequest($request);
 
+            $f = false;
+            if ($g = $form->get('recaptcha')->getData()) {
+                $f = $recaptcha->captchaverify($g)->success;
+            }
+
+            if ($form->isSubmitted() && !$f) {
+                $form->get('recaptcha')->addError(new FormError('Recaptcha : êtes-vous un robot ?'));
+            }
+
             if ($form->isSubmitted() && $form->isValid()) {
                 $entityManager = $this->getDoctrine()->getManager();
 
-                $command->setName('command-'.$meal->getProvider()->getSlug().'-'.mt_rand())
+                $command->setName($meal->getProvider()->getId().'-'.$meal->getId())
                     ->addMeals($meal)
                     ->setProvider($meal->getProvider())
+                    ->setPrice($meal->getPrice() * $command->getItems() + 113)
                 ;
                 $meal->commandPlus();
 
                 $entityManager->persist($command);
                 $entityManager->persist($meal);
                 $entityManager->flush();
+
+                $command->setName($command->getName().'-'.$command->getId());
+                $entityManager->flush();
+
+                $data = [
+                    'id' => $command->getName(),
+                    'name' => $meal->getName(),
+                    'email' => $form->get('email')->getData(),
+                    'provider' => $meal->getProvider(),
+                    'items' => $command->getItems(),
+                    'meal_price' => $meal->getPrice(),
+                    'price' => $command->getPrice(),
+                    'date' => $command->getCreatedAt(),
+                ];
+
+                $mailer->sendCommand($data);
 
                 return new Response('success', Response::HTTP_CREATED);
             }
