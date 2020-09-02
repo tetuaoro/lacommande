@@ -1,6 +1,6 @@
 {
     "name": "arii_food",
-    "description": "Arii Food Command de plat en ligne.",
+    "description": "Arii Food, commande de plat en ligne.",
     "version": "1.0.0",
     "engines": {
         "yarn": "1.22.4"
