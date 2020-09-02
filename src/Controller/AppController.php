@@ -39,7 +39,7 @@ class AppController extends AbstractController
      */
     public function credit()
     {
-        return $this->render('app/credit/cg.html.twig', [
+        return $this->render('app/credit/index.html.twig', [
             'controller_name' => 'app:credit',
         ]);
     }

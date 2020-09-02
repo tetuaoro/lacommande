@@ -16,12 +16,9 @@
 					<a class="nav-link mb-3{% if active == 'v-pills-menu' %} active{% endif %}" id="v-pills-menu-tab" data-fa-icon="&#xf6d7" data-toggle="pill" href="#v-pills-menu" role="tab" aria-controls="v-pills-menu" aria-selected="false">
 						{{"menu"|trans({}, 'user')}}
 					</a>
-					{#<a class="nav-link mb-3" id="v-pills-subuser-tab" data-fa-icon="&#xf007" data-toggle="pill" href="#v-pills-subuser" role="tab" aria-controls="v-pills-subuser" aria-selected="false">
-																																				{{"subuser"|trans({}, 'user')}}
-																																			</a>
-																																			<a class="nav-link mb-3" id="v-pills-setting-tab" data-fa-icon="&#xf085" data-toggle="pill" href="#v-pills-setting" role="tab" aria-controls="v-pills-setting" aria-selected="false">
-																																				{{"setting"|trans({}, 'user')}}
-																																			</a> #}
+					<a class="nav-link mb-3{% if active == 'v-pills-command' %} active{% endif %}" id="v-pills-command-tab" data-fa-icon="&#xf6d7" data-toggle="pill" href="#v-pills-command" role="tab" aria-controls="v-pills-command" aria-selected="false">
+						{{"command"|trans({}, 'user')}}
+					</a>
 				</div>
 			</div>
 			<div class="col-md">
@@ -32,12 +29,9 @@
 					<div class="tab-pane fade{% if active == 'v-pills-menu' %} show active{% endif %}" id="v-pills-menu" role="tabpanel" aria-labelledby="v-pills-menu-tab">
 						{% include "user/auth/manage/menu.html.twig" %}
 					</div>
-					{#<div class="tab-pane fade" id="v-pills-subuser" role="tabpanel" aria-labelledby="v-pills-subuser-tab">
-																																				{% include "user/auth/manage/subuser.html.twig" %}
-																																			</div>
-																																			<div class="tab-pane fade" id="v-pills-setting" role="tabpanel" aria-labelledby="v-pills-setting-tab">
-																																				{% include "user/auth/manage/setting.html.twig" %}
-																																			</div> #}
+					<div class="tab-pane fade{% if active == 'v-pills-command' %} show active{% endif %}" id="v-pills-command" role="tabpanel" aria-labelledby="v-pills-command-tab">
+						{% include "user/auth/manage/command.html.twig" %}
+					</div>
 				</div>
 			</div>
 		</div>

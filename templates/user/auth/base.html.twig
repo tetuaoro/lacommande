@@ -22,8 +22,7 @@
 	<link rel="stylesheet" type="text/css" href="{{asset('assets/custom/vendor/rte/richTextEditor.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{asset('assets/vendor/select2/select2.min.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{asset('assets/custom/css/user/app-auth.css')}}">
-	<style>
-	</style>
+	 {{ encore_entry_link_tags('app') }}
 {% endblock %}
 
 {% block javascripts %}
@@ -33,4 +32,5 @@
 	<script src="{{asset('assets/custom/vendor/rte/richTextEditor.js')}}"></script>
 	<script src="{{asset('assets/vendor/select2/select2.min.js')}}"></script>
 	<script src="{{asset('assets/custom/js/user/app-auth.js')}}"></script>
+	 {{ encore_entry_script_tags('app') }}
 {% endblock %}
