@@ -19,11 +19,18 @@
         "dev": "encore dev",
         "watch": "encore dev --watch",
         "build": "encore production --progress",
-        "heroku-postbuild": "yarn build"
+        "build-ssr": "encore production --progress --config webpack.config.ssr.js",
+        "ssr": "encore dev --config webpack.config.ssr.js",
+        "csr": "encore dev",
+        "watch-dev": "yarn run csr --watch & yarn run ssr --watch",
+        "build-dev": "yarn run csr && yarn run ssr",
+        "build-all": "yarn run build && yarn run build-ssr",
+        "heroku-postbuild": "yarn build-all"
     },
     "dependencies": {
         "prop-types": "^15.7.2",
         "react": "^16.13.1",
-        "react-dom": "^16.13.1"
+        "react-dom": "^16.13.1",
+        "react-on-rails": "^12.0.3-beta.0"
     }
 }

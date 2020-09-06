@@ -13,6 +13,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 /**
  * @Route("/user", name="user_")
@@ -147,12 +149,22 @@ class UserController extends AbstractController
      * @param null|mixed $form
      * @param null|mixed $data
      */
-    public function adminUser(User $user)
+    public function adminUser(User $user, NormalizerInterface $normalizerInterface)
     {
         $this->denyAccessUnlessGranted('USER_MANAGE', $user);
 
+        $defaultContext = [
+            AbstractNormalizer::CIRCULAR_REFERENCE_HANDLER => function ($object, $format, $context) {
+                return $object->getId();
+            },
+            AbstractNormalizer::GROUPS => 'commandjs',
+        ];
+
+        $stores = $normalizerInterface->normalize($user->getProvider()->getCommands(), 'json', $defaultContext);
+
         return $this->render('user/auth/manage.html.twig', [
             'user' => $user,
+            'props' => ['stores' => $stores],
         ]);
     }
 }

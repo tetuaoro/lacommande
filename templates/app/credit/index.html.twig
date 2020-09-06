@@ -1,12 +1,15 @@
 {% extends "base.html.twig" %}
 
 {% set NAME = "Rao Nagos" %}
+{% set EDITOR = "EDITEUR" %}
+{% set INFO = "N° TAHITI D75938" %}
 {% set SITENAME = "Arii Food" %}
 {% set SITEURL = "www.ariifood.pf" %}
 {% set SITEDOMAIN = "ariifood.pf" %}
-{% set PROVIDER = "FOURNISSEURS" %}
-{% set DELIVER = "LIVREURS" %}
-{% set ADDRESS = "Paea, pk21,900 vallée Orofero" %}
+{% set PROVIDER = "TRAITEUR" %}
+{% set DELIVER = "COURSIER" %}
+{% set CLIENT = "CLIENT" %}
+{% set ADDRESS = "Paea, 98711 PK 21,900 VALLÉE OROFERO - BP 330071" %}
 
 {% block title %}
 	{{ "Conditions Générales | CGU/CGV" }}
@@ -26,9 +29,13 @@
 					<h3 class="text-center"># Conditions Générales de Vente</h3>
 					{% include "app/credit/cgv.html.twig" %}
 				</div>
-				<div di="ml" class="ml">
+				<div id="ml" class="ml">
 					<h3 class="text-center"># Mentions Légales</h3>
 					{% include "app/credit/ml.html.twig" %}
+				</div>
+				<div id="end" class="end">
+					<h3 class="text-center">#</h3>
+					<pre style="white-space: pre-line;"></pre>
 				</div>
 			</div>
 			<div class="col-md"></div>
