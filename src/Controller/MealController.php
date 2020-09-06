@@ -110,7 +110,7 @@ class MealController extends AbstractController
     }
 
     /**
-     * @Route("/s/{slug}-{id}", name="show", methods={"GET"}, requirements={"slug": "[a-z0-9\-]*"})
+     * @Route("/s/{slug}-{id}", name="show", methods={"GET"}, schemes={"https"}, requirements={"slug": "[a-z0-9\-]*"})
      */
     public function show(string $slug, Meal $meal, AjaxService $ajaxService): Response
     {
