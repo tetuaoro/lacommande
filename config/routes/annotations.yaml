@@ -6,7 +6,6 @@ controllers:
         _locale: '%app_locales%'
     defaults:
         _locale: '%locale%'
-        schemes: [https]
 
 api:
     resource: ../../src/Api/

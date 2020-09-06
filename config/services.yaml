@@ -14,9 +14,6 @@ parameters:
     images: '%kernel.project_dir%/public/assets/images'
     styles: '%kernel.project_dir%/public/assets/vendor/mailer'
 
-    router.request_context.scheme: 'https'
-    asset.request_context.secure: true
-
 services:
     # default configuration for services in *this* file
     _defaults:
