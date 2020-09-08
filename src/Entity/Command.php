@@ -17,6 +17,7 @@ class Command
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
+     * @ORM\SequenceGenerator(sequenceName="id", initialValue=100)
      * @ORM\Column(type="integer")
      */
     private $id;
@@ -73,6 +74,16 @@ class Command
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $address;
+
+    /**
+     * @ORM\Column(type="datetimetz")
+     */
+    private $createdAt;
+
+    /**
+     * @ORM\Column(type="datetimetz")
+     */
+    private $commandAt;
 
     public function __construct()
     {
@@ -242,6 +253,30 @@ class Command
     public function setAddress(?string $address): self
     {
         $this->address = $address;
+
+        return $this;
+    }
+
+    public function getCommandAt(): ?\DateTimeInterface
+    {
+        return $this->commandAt;
+    }
+
+    public function setCommandAt(\DateTimeInterface $commandAt): self
+    {
+        $this->commandAt = $commandAt;
+
+        return $this;
+    }
+
+    public function getTimezone(): ?\DateTimeInterface
+    {
+        return $this->timezone;
+    }
+
+    public function setTimezone(\DateTimeInterface $timezone): self
+    {
+        $this->timezone = $timezone;
 
         return $this;
     }

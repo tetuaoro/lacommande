@@ -16,6 +16,7 @@ class Provider
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
+     * @ORM\SequenceGenerator(sequenceName="id", initialValue=100)
      * @ORM\Column(type="integer")
      */
     private $id;
@@ -36,17 +37,17 @@ class Provider
     private $url;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetimetz")
      */
     private $createdAt;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetimetz")
      */
     private $opentime;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetimetz")
      */
     private $closetime;
 
@@ -325,7 +326,7 @@ class Provider
     {
         if (!$this->commands->contains($command)) {
             $this->commands[] = $command;
-            $command->setProvider($this);
+            $command->addProvider($this);
         }
 
         return $this;
@@ -336,8 +337,8 @@ class Provider
         if ($this->commands->contains($command)) {
             $this->commands->removeElement($command);
             // set the owning side to null (unless already changed)
-            if ($command->getProvider() === $this) {
-                $command->setProvider(null);
+            if ($command->getProviders() === $this) {
+                $command->removeProvider($this);
             }
         }
 

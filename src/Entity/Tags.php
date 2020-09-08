@@ -17,6 +17,7 @@ class Tags
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
+     * @ORM\SequenceGenerator(sequenceName="id", initialValue=100)
      * @ORM\Column(type="integer")
      */
     private $id;
@@ -29,7 +30,7 @@ class Tags
     private $name;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetimetz")
      */
     private $createdAt;
 

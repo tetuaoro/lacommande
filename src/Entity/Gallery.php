@@ -14,6 +14,7 @@ class Gallery
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
+     * @ORM\SequenceGenerator(sequenceName="id", initialValue=100)
      * @ORM\Column(type="integer")
      */
     private $id;
@@ -25,7 +26,7 @@ class Gallery
     private $url;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetimetz")
      */
     private $createdAt;
 

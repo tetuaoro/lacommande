@@ -163,9 +163,11 @@ class MealController extends AbstractController
                 }
                 $entityManager->flush();
 
-                $bitlink = $bitlyService->update_url($meal->getBitly()['id'], $this->generateUrl('meal_show', ['id' => $meal->getId(), 'slug' => $meal->getSlug()], UrlGenerator::ABSOLUTE_URL));
+                if ($bitly = $meal->getBitly()) {
+                    $bitlink = $bitlyService->update_url($bitly['id'], $this->generateUrl('meal_show', ['id' => $meal->getId(), 'slug' => $meal->getSlug()], UrlGenerator::ABSOLUTE_URL));
+                    $meal->setBitly($bitlink);
+                }
 
-                $meal->setBitly($bitlink);
                 $entityManager->flush();
 
                 $this->addFlash('success', 'Assiette modifiée avec succès.');

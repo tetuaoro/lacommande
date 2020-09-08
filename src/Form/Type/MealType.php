@@ -7,7 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -25,7 +25,7 @@ class MealType extends AbstractType
                 'translation_domain' => 'form',
                 'empty_data' => 'Arii Food',
             ])
-            ->add('price', NumberType::class, [
+            ->add('price', IntegerType::class, [
                 'translation_domain' => 'form',
             ])
             ->add('tags', TagsType::class, [
