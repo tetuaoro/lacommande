@@ -20,7 +20,9 @@ Votre message: Your message
 Contactez-nous: Contact Us
 
 1 commande: 1 command
+1 quantite: 1 quantity
 Commander: Purchase
+AddToCart: Add To Cart
 
 'image : carré, 1920px max et 480 min': 'image : carré, 1920px max et 480 min'
 'ex: information':  Subject
@@ -37,8 +39,11 @@ Plus d'option: More options
 Tags: Tags
 selectlabel__: selectlabel__
 
-N° téléphone: Phone number
-email *: email *(required)
+nom : Name
+address: City, Address *(require)
+tel: Phone *(require)
+email: email *(require)
+Information pour la commande: Information order
 
 Label: Label
 Page Instagram: Instagram
@@ -55,3 +60,10 @@ Nom: Name
 Meals: Meals
 Prix: Price
 Catégorie: Category
+
+Information: Information
+Informatique et Libertés: Data Protection Act
+Commande: Order
+Livraison: Delivery
+Conditions Générales: Termes
+Signaler: Report

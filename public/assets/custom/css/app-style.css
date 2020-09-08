@@ -197,3 +197,18 @@ label.required::after {
   color: #666666;
   margin-left: 2em;
 }
+.border-app {
+  border-color: var(--appcolor1) !important;
+}
+.badge-app {
+  color: white;
+  background-color: var(--appcolor1);
+}
+span.cart-items {
+  position: absolute;
+  top: 1rem;
+  right: 0.7rem;
+}
+a.cart-items {
+  position: relative;
+}

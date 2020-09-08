@@ -4,7 +4,6 @@ namespace App\Entity;
 
 use App\Repository\DeliveryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -35,11 +34,6 @@ class Delivery
      * @ORM\Column(type="datetime")
      */
     private $createdAt;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Command::class, mappedBy="delivery")
-     */
-    private $commands;
 
     /**
      * @ORM\ManyToOne(targetEntity=City::class, inversedBy="Deliveries")
@@ -90,37 +84,6 @@ class Delivery
     public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Command[]
-     */
-    public function getCommands(): Collection
-    {
-        return $this->commands;
-    }
-
-    public function addCommand(Command $command): self
-    {
-        if (!$this->commands->contains($command)) {
-            $this->commands[] = $command;
-            $command->setDelivery($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCommand(Command $command): self
-    {
-        if ($this->commands->contains($command)) {
-            $this->commands->removeElement($command);
-            // set the owning side to null (unless already changed)
-            if ($command->getDelivery() === $this) {
-                $command->setDelivery(null);
-            }
-        }
 
         return $this;
     }

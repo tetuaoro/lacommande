@@ -22,42 +22,6 @@ class Command
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     * @Groups({"commandjs"})
-     */
-    private $name;
-
-    /**
-     * @ORM\Column(type="datetime")
-     * @Groups({"commandjs"})
-     */
-    private $createdAt;
-
-    /**
-     * @ORM\ManyToMany(targetEntity=Meal::class, inversedBy="commands")
-     */
-    private $meals;
-
-    /**
-     * @ORM\Column(type="integer")
-     * @Assert\Positive(message="")
-     * @Assert\GreaterThanOrEqual(1)
-     * @Assert\LessThanOrEqual(10)
-     */
-    private $items;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=Delivery::class, inversedBy="commands")
-     */
-    private $delivery;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=Provider::class, inversedBy="commands")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $provider;
-
-    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Assert\Email(message = "Email invalide.")
      */
@@ -75,10 +39,46 @@ class Command
      */
     private $price;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $name;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $comment;
+
+    /**
+     * @ORM\Column(type="array")
+     */
+    private $details = [];
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Meal::class, inversedBy="commands")
+     */
+    private $meals;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Provider::class, inversedBy="commands")
+     */
+    private $providers;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $reference;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $address;
+
     public function __construct()
     {
         $this->meals = new ArrayCollection();
         $this->createdAt = new \DateTime();
+        $this->providers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -118,7 +118,7 @@ class Command
         return $this->meals;
     }
 
-    public function addMeals(Meal $meal): self
+    public function addMeal(Meal $meal): self
     {
         if (!$this->meals->contains($meal)) {
             $this->meals[] = $meal;
@@ -127,47 +127,11 @@ class Command
         return $this;
     }
 
-    public function removeMeals(Meal $meal): self
+    public function removeMeal(Meal $meal): self
     {
         if ($this->meals->contains($meal)) {
             $this->meals->removeElement($meal);
         }
-
-        return $this;
-    }
-
-    public function getItems(): ?int
-    {
-        return $this->items;
-    }
-
-    public function setItems(int $items): self
-    {
-        $this->items = $items;
-
-        return $this;
-    }
-
-    public function getDelivery(): ?Delivery
-    {
-        return $this->delivery;
-    }
-
-    public function setDelivery(?Delivery $delivery): self
-    {
-        $this->delivery = $delivery;
-
-        return $this;
-    }
-
-    public function getProvider(): ?Provider
-    {
-        return $this->provider;
-    }
-
-    public function setProvider(?Provider $provider): self
-    {
-        $this->provider = $provider;
 
         return $this;
     }
@@ -204,6 +168,80 @@ class Command
     public function setPrice(?int $price): self
     {
         $this->price = $price;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Provider[]
+     */
+    public function getProviders(): Collection
+    {
+        return $this->providers;
+    }
+
+    public function addProvider(Provider $provider): self
+    {
+        if (!$this->providers->contains($provider)) {
+            $this->providers[] = $provider;
+        }
+
+        return $this;
+    }
+
+    public function removeProvider(Provider $provider): self
+    {
+        if ($this->providers->contains($provider)) {
+            $this->providers->removeElement($provider);
+        }
+
+        return $this;
+    }
+
+    public function getComment(): ?string
+    {
+        return $this->comment;
+    }
+
+    public function setComment(?string $comment): self
+    {
+        $this->comment = $comment;
+
+        return $this;
+    }
+
+    public function getDetails(): ?array
+    {
+        return $this->details;
+    }
+
+    public function setDetails(array $details): self
+    {
+        $this->details = $details;
+
+        return $this;
+    }
+
+    public function getReference(): ?string
+    {
+        return $this->reference;
+    }
+
+    public function setReference(?string $reference): self
+    {
+        $this->reference = $reference;
+
+        return $this;
+    }
+
+    public function getAddress(): ?string
+    {
+        return $this->address;
+    }
+
+    public function setAddress(?string $address): self
+    {
+        $this->address = $address;
 
         return $this;
     }

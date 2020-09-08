@@ -1,49 +1,121 @@
 {% extends "mailer/base.html.twig" %}
 
 {% block body %}
+
 	<row>
 		<columns small="2" large="3"></columns>
 		<columns small="8" large="6">
-			<h2>Commande
-				{{data.name}}</h2>
 			<p>
-				Votre commande a été envoyée à
-				{{data.provider}}
-				et est en
+				Votre commande a été envoyée aux traiteurs et est en
 				<strong>attente d'approbation</strong>
 				!
 			</p>
-			<spacer size="8"></spacer>
-			<h3>Commande n° {{data.id}} :</h3>
-			<p>Nom : {{data.name}}</p>
-			<p>Prix du plat : {{data.meal_price}} XPF</p>
-			<p>Nombre de plat : {{data.items}}</p>
-			<p>Service : 113 XPF</p>
-			<p>Prix TTC : {{data.price}} XPF</p>
-			<p>Date de la commande : {{data.date|date("d/m/Y")}}</p>
-			<spacer size="8"></spacer>
-			<p>
-				Merci d'avoir utilisé
-				{{nameSite}}
-				! N'hésitez pas à créer un compte pour bénéficier de remise sur vos prochaines commandes.
-			</p>
 		</columns>
 		<columns small="2" large="3"></columns>
 	</row>
-	<row>
-		<columns small="2" large="3"></columns>
-		<columns small="8" large="6">
-			<center>
-				<hr>
-			</center>
-		</columns>
-		<columns small="2" large="3"></columns>
-	</row>
+
+	<spacer size="8"></spacer>
+
 	<row>
 		<columns>
 			<center>
-				<p class="help text-center">Cette e-mail fait aussi office de facture. Besoin d'aide ? Veuillez-nous contacter en cliquant sur le lien en bas.</p>
+				<h3>Détail de la commande :</h3>
 			</center>
 		</columns>
 	</row>
+
+	<style>
+		.command .columns {
+			border-bottom: 1px solid #6c757d;
+		}
+	</style>
+	<container class="command">
+		<row>
+			<columns>
+				<strong>#</strong>
+			</columns>
+			<columns>
+				<strong>Nom</strong>
+			</columns>
+			<columns>
+				<strong>Prix</strong>
+			</columns>
+			<columns>
+				<strong>Quantité</strong>
+			</columns>
+		</row>
+		{% for item in carts %}
+			{% set meal = item.product %}
+			<row>
+				<columns>
+					<strong>
+						{{loop.index}}
+					</strong>
+				</columns>
+				<columns>{{meal.name}}</columns>
+				<columns>{{meal.price}}</columns>
+				<columns>{{item.quantity}}</columns>
+			</row>
+		{% endfor %}
+		<row>
+			<columns>Total</columns>
+			<columns></columns>
+			<columns>
+				<strong>{{command.price}}
+					XPF</strong>
+			</columns>
+			<columns></columns>
+		</row>
+
+		<row>
+			<columns>Date</columns>
+			<columns></columns>
+			<columns></columns>
+			<columns>{{command.createdAt|date("d/m/Y")}}</columns>
+		</row>
+	</container>
+
+	<spacer size="8"></spacer>
+
+	<row>
+		<columns>
+			<center>
+				<h3>Contact des traiteurs :</h3>
+			</center>
+		</columns>
+	</row>
+
+	<row>
+		<columns>
+			<strong>Nom</strong>
+		</columns>
+		<columns>
+			<strong>Profile</strong>
+		</columns>
+	</row>
+	{% for provider in command.providers %}
+		<row>
+			<columns>{{provider.name}}</columns>
+			<columns>
+				<button href="{{url('provider_show', {id:provider.id, slug:provider.slug})}}">Voir le profile</button>
+			</columns>
+		</row>
+	{% endfor %}
+
+
+	<container>
+		<row>
+			<columns small="2" large="3"></columns>
+			<columns small="8" large="6">
+				<hr>
+				<p>
+					Merci d'avoir utilisé
+					{{nameSite}}
+					! N'hésitez pas à créer un compte pour bénéficier de remise sur vos prochaines commandes.
+				</p>
+				<p class="help text-center">Cette e-mail fait aussi office de facture. Besoin d'aide ? Veuillez-nous contacter en cliquant sur le lien en bas.</p>
+			</columns>
+			<columns small="2" large="3"></columns>
+		</row>
+	</container>
 {% endblock %}

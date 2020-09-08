@@ -1,0 +1,7 @@
+<form method="post" action="{{ path('command_removeFromCart', {'id': meal.id}) }}">
+	<input type="hidden" name="_method" value="DELETE">
+	<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ meal.id) }}">
+	<button class="btn p-0">
+		<i class="fa fa-trash" aria-hidden="true"></i>
+	</button>
+</form>

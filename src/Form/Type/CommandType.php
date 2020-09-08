@@ -7,6 +7,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -15,21 +17,28 @@ class CommandType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('items', null, [
-                'translation_domain' => 'form',
-                'label' => false,
-                'attr' => [
-                    'min' => 1,
-                    'max' => 10,
-                    'placeholder' => '1 commande',
-                ],
-            ])
-            ->add('phone', NumberType::class, [
+            ->add('name', TextType::class, [
                 'translation_domain' => 'form',
                 'required' => false,
                 'label' => false,
                 'attr' => [
-                    'placeholder' => 'N° téléphone',
+                    'placeholder' => 'nom',
+                ],
+            ])
+            ->add('address', TextType::class, [
+                'translation_domain' => 'form',
+                'required' => true,
+                'label' => false,
+                'attr' => [
+                    'placeholder' => 'address',
+                ],
+            ])
+            ->add('phone', NumberType::class, [
+                'translation_domain' => 'form',
+                'required' => true,
+                'label' => false,
+                'attr' => [
+                    'placeholder' => 'tel',
                     'pattern' => '(87|89|40)[0-9]{6}',
                 ],
             ])
@@ -38,7 +47,15 @@ class CommandType extends AbstractType
                 'required' => true,
                 'label' => false,
                 'attr' => [
-                    'placeholder' => 'email *',
+                    'placeholder' => 'email',
+                ],
+            ])
+            ->add('comment', TextareaType::class, [
+                'translation_domain' => 'form',
+                'required' => false,
+                'label' => false,
+                'attr' => [
+                    'placeholder' => 'Information pour la commande',
                 ],
             ])
             ->add('recaptcha', HiddenType::class, [

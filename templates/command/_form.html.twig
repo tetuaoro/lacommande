@@ -1,7 +1,4 @@
 {{ form_start(form) }}
-{{ form_row(form.items) }}
-<span class="prices text-left d-block"><small class="text-muted"></small></span>
-{{ form_row(form.phone) }}
-{{ form_row(form.email) }}
+{{ form_rest(form) }}
 <button class="btn" type="submit">{{ "Commander" | trans({}, 'form') }}</button>
 {{ form_end(form) }}

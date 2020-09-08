@@ -44,6 +44,16 @@ class AppController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/public/rgpd", name="rgpd")
+     */
+    public function rgpd()
+    {
+        return $this->render('app/rgpd/index.html.twig', [
+            'controller_name' => 'app:rgpd',
+        ]);
+    }
+
     public function gallery_html(string $who, GalleryRepository $galleryRepo)
     {
         $lastgalls = $galleryRepo->findLastest();

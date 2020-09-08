@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/public/p/i", name="provider_")
+ * @Route("/public/provider", name="provider_")
  */
 class ProviderController extends AbstractController
 {

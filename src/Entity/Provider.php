@@ -5,8 +5,8 @@ namespace App\Entity;
 use App\Repository\ProviderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass=ProviderRepository::class)
@@ -72,11 +72,6 @@ class Provider
     private $subusers;
 
     /**
-     * @ORM\OneToMany(targetEntity=Command::class, mappedBy="provider")
-     */
-    private $commands;
-
-    /**
      * @ORM\ManyToOne(targetEntity=City::class, inversedBy="providers")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -116,6 +111,11 @@ class Provider
      * @ORM\Column(type="text", nullable=true)
      */
     private $description;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Command::class, mappedBy="providers")
+     */
+    private $commands;
 
     public function __construct()
     {

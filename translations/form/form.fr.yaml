@@ -20,11 +20,12 @@ Votre message: Votre message
 Contactez-nous: Contactez-nous
 
 1 commande: 1 commande
+1 quantite: 1 quantité
 Commander: Commander
+AddToCart: Ajouter au panier
 
 'image : carré, 1920px max et 480 min': 'image : carré, 1920px max et 480 min'
 'ex: information': 'ex: information'
-information: Information
 une image carré: une image carré
 
 Meal: Assiette
@@ -37,8 +38,11 @@ Plus d'option: Plus d'option
 Tags: Tags
 selectlabel__: selectlabel__
 
-N° téléphone: N° téléphone
-email *: email *(requis)
+nom : Nom
+address: Ville, Rue, N° maison *(requis)
+tel: N° téléphone *(requis)
+email: email *(requis)
+Information pour la commande: Précision pour la commande
 
 Label: Label
 Page Instagram: Page Instagram
@@ -55,3 +59,10 @@ Nom: Nom
 Meals: Assiettes
 Prix: Prix
 Catégorie: Catégorie
+
+Information: Information
+Informatique et Libertés: Informatique et Libertés
+Commande: Commande
+Livraison: Livraison
+Conditions Générales: Conditions Générales
+Signaler: Signaler

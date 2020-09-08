@@ -57,7 +57,7 @@
 								<a target="_blank" href="https://www.facebook.com/dialog/share?app_id={{ get_env('OAUTH_FACEBOOK_ID') }}&display=popup&href={{ url('meal_show', {id: meal.id, slug: meal.slug}) }}">
 									<i class="fa fa-facebook m-l-21" aria-hidden="true" title="{{ 'Partager sur facebook' | trans }}"></i>
 								</a>
-								<a target="_blank" class="twitter-share-button" href="https://twitter.com/intent/tweet?url={{url('meal_show', {id: meal.id, slug: meal.slug})}}&hashtags=ariifood,tahiti,polynesie,{{meal.provider.name}}">
+								<a target="_blank" class="twitter-share-button" href="https://twitter.com/intent/tweet?hashtags=ariifood,tahiti,polynesie,{{meal.provider.name}}&url={{url('meal_show', {id: meal.id, slug: meal.slug})}}">
 									<i class="fa fa-twitter m-l-21" aria-hidden="true" title="{{ 'Partager sur twitter' | trans }}"></i>
 								</a>
 							</div>
@@ -65,8 +65,13 @@
 							<div class="collapse" id="collapseCommand">
 								<div class="command-form">
 									<input type="hidden" name="meal_price" value="{{meal.price}}">
-									<input type="hidden" name="lacommand_price" value="{{lacommandPrice}}">
-									{{ render(path('command_new', {'id': meal.id})) }}
+									{{form_start(form)}}
+									{{form_rest(form)}}
+									<span class="prices text-left d-block">
+										<small class="text-muted"></small>
+									</span>
+									<button class="btn" type="submit">{{ "AddToCart" | trans({}, 'form') }}</button>
+									{{form_end(form)}}
 								</div>
 							</div>
 
@@ -107,5 +112,5 @@
 
 {% block javascripts %}
 	<script src="https://www.google.com/recaptcha/api.js?render={{get_env('RECAPTCHA_KEY_3')}}" type="text/javascript"></script>
-	<script src="{{asset('assets/custom/js/meal/app-meal.js')}}"></script>
+	<script src="{{asset('assets/custom/js/meal/app-command.js')}}"></script>
 {% endblock %}

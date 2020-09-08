@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title "Panier" %}
+
+{% block body %}
+
+	<div class="cart-show p-t-130 p-b-95">
+		<div class="row">
+			<div class="col-md">
+				<div class="border border-app">
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th scope="col">#</th>
+								<th scope="col">Nom</th>
+								<th scope="col">Prix</th>
+								<th scope="col">Quantité</th>
+								<th scope="col">Action</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for command in cart %}
+								{% set meal = command.product %}
+								<tr>
+									<th scope="row">{{loop.index}}</th>
+									<td>
+										<a href="{{path('meal_show', {id:meal.id,slug:meal.slug})}}">
+											{{meal.name}}
+										</a>
+									</td>
+									<td>{{meal.price}}</td>
+									<td>{{command.quantity}}</td>
+									<td>
+										{% include "command/cart_delete.html.twig" %}
+									</td>
+								</tr>
+							{% else %}
+								<tr>
+									<td colspan="4">Pas de commande pour le moment.</td>
+								</tr>
+							{% endfor %}
+							{% if cart | length > 0 %}
+								{{ render(path('command_cart_prices')) }}
+							{% endif %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="col-md">{{ render(path('command_new')) }}</div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block javascripts %}
+	<script src="https://www.google.com/recaptcha/api.js?render={{get_env('RECAPTCHA_KEY_3')}}" type="text/javascript"></script>
+	<script src="{{asset('assets/custom/js/meal/app-order.js')}}"></script>
+{% endblock %}

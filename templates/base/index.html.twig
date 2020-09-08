@@ -9,7 +9,7 @@
 
 {# path #}
 {% set fullPathParams = app.request.attributes.get('_route_params') %}
-{% if fullPathParams['id'] is defined %}
+{% if fullPathParams['id'] is defined or app.request.attributes.get('_route') == 'homepage' %}
 	{% set route_name = 'app_home' %}
 {% else %}
 	{% set route_name = app.request.attributes.get('_route') %}
@@ -17,9 +17,9 @@
 {% set fullPath = url(route_name, fullPathParams) %}
 
 {# social #}
-{% set global_twitter = "https://twitter.com/intent/tweet?url=" ~ url('app_home') ~ "hashtags=Arii,Food,Tahiti,Polynesie" %}
+{% set global_twitter = "https://twitter.com/intent/tweet?hashtags=Arii,Food,Tahiti,Polynesie" ~ "&url=" ~ url('app_home') %}
 {% set global_fb = "https://www.facebook.com/dialog/share?app_id=" ~ get_env('OAUTH_FACEBOOK_ID') ~ "&display=popup&href=" ~ url('app_home') %}
-{% set global_insta = "#" %}
+{% set global_insta = "https://www.instagram.com/" %}
 {# color #}
 {% set color1 = "#dcdc0a" %}
 

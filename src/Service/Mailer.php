@@ -2,7 +2,9 @@
 
 namespace App\Service;
 
+use App\Entity\Command;
 use App\Entity\User;
+use App\Repository\CommandRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
@@ -12,21 +14,27 @@ use Symfony\Component\Mime\Address;
 
 class Mailer
 {
-    private $mailer;
-    private $em;
-    private $request;
-    private $user;
+    protected $mailer;
+    protected $em;
+    protected $request;
+    protected $user;
+    protected $cart;
+    protected $commandRepo;
 
     public function __construct(
         MailerInterface $mailerInterface,
         EntityManagerInterface $entityManagerInterface,
         RequestStack $requestStack,
-        UserRepository $userRepository
+        UserRepository $userRepository,
+        CartService $cartService,
+        CommandRepository $commandRepository
     ) {
         $this->mailer = $mailerInterface;
         $this->em = $entityManagerInterface;
         $this->request = $requestStack;
         $this->user = $userRepository;
+        $this->cart = $cartService;
+        $this->commandRepo = $commandRepository;
     }
 
     public function sendConfirmationNewUser(User $user)
@@ -63,15 +71,16 @@ class Mailer
         return false;
     }
 
-    public function sendCommand(array $data)
+    public function sendCommand(Command $command)
     {
         $message = (new TemplatedEmail())
             ->from(new Address('lacommandeariifood@gmail.com', 'Arii Food'))
-            ->to(new Address($data['email']))
-            ->subject('Commande de plat Arii Food')
+            ->to(new Address($command->getEmail()))
+            ->subject($command->getReference().' - Commande de plat')
             ->htmlTemplate('mailer/command.html.twig')
             ->context([
-                'data' => $data,
+                'command' => $command,
+                'carts' => $this->cart->getFullCart(),
             ])
         ;
 

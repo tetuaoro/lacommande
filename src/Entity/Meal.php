@@ -69,11 +69,6 @@ class Meal
     private $slug;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Command::class, mappedBy="meals")
-     */
-    private $commands;
-
-    /**
      * @ORM\Column(type="string", length=255)
      */
     private $img;
@@ -112,6 +107,11 @@ class Meal
      * @ORM\Column(type="array", nullable=true)
      */
     private $bitly = [];
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Command::class, mappedBy="meals")
+     */
+    private $commands;
 
     public function __construct()
     {

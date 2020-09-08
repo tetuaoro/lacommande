@@ -6,6 +6,7 @@ use App\Entity\Command;
 use App\Entity\Meal;
 use App\Entity\Menu;
 use App\Entity\Provider;
+use App\Form\Type\CartType;
 use App\Form\Type\CommandType;
 use App\Form\Type\MealType;
 use App\Form\Type\MenuType;
@@ -25,11 +26,19 @@ class AjaxService
         $this->router = $routerInterface;
     }
 
-    public function command_meal(Command $command, Meal $meal)
+    public function command_meal(Command $command)
     {
         return $this->form->create(CommandType::class, $command, [
             'method' => 'POST',
-            'action' => $this->router->generate('command_new', ['id' => $meal->getId()]),
+            'action' => $this->router->generate('command_new'),
+        ]);
+    }
+
+    public function cart_form(Meal $meal)
+    {
+        return $this->form->create(CartType::class, null, [
+            'method' => 'POST',
+            'action' => $this->router->generate('command_addToCart', ['id' => $meal->getId()]),
         ]);
     }
 

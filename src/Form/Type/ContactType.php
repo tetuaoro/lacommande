@@ -25,7 +25,12 @@ class ContactType extends AbstractType
             ->add('subject', ChoiceType::class, [
                 'translation_domain' => 'form',
                 'choices' => [
-                    'information' => 'information',
+                    'Information' => '0',
+                    'Informatique et Libertés' => '1',
+                    'Commande' => '2',
+                    'Livraison' => '3',
+                    'Conditions Générales' => '4',
+                    'Signaler' => '5',
                 ],
             ])
             ->add('message', TextareaType::class, [

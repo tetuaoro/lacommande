@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Command;
 use App\Entity\Gallery;
 use App\Entity\Meal;
 use App\Repository\MealRepository;
@@ -19,7 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 
 /**
- * @Route("/m/i", name="meal_")
+ * @Route("/product", name="meal_")
  */
 class MealController extends AbstractController
 {
@@ -110,7 +109,7 @@ class MealController extends AbstractController
     }
 
     /**
-     * @Route("/s/{slug}-{id}", name="show", methods={"GET"}, requirements={"slug": "[a-z0-9\-]*"})
+     * @Route("/detail/{slug}-{id}", name="show", methods={"GET"}, requirements={"slug": "[a-z0-9\-]*"})
      */
     public function show(string $slug, Meal $meal, AjaxService $ajaxService): Response
     {
@@ -118,8 +117,7 @@ class MealController extends AbstractController
             return $this->redirectToRoute('meal_show', ['id' => $meal->getId(), 'slug' => $meal->getSlug()]);
         }
 
-        $command = new Command();
-        $form = $ajaxService->command_meal($command, $meal);
+        $form = $ajaxService->cart_form($meal);
 
         return $this->render('meal/show.html.twig', [
             'meal' => $meal,

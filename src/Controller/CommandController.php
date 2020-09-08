@@ -7,6 +7,7 @@ use App\Entity\Meal;
 use App\Form\Type\CommandType;
 use App\Repository\CommandRepository;
 use App\Service\AjaxService;
+use App\Service\CartService;
 use App\Service\Mailer;
 use App\Service\Recaptcha;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -16,7 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/cmd", name="command_")
+ * @Route("/command", name="command_")
  */
 class CommandController extends AbstractController
 {
@@ -33,12 +34,12 @@ class CommandController extends AbstractController
     }
 
     /**
-     * @Route("/new/{id}", name="new", methods={"GET", "POST"})
+     * @Route("/new/", name="new", methods={"GET", "POST"})
      */
-    public function new(Meal $meal, Request $request, Recaptcha $recaptcha, Mailer $mailer, AjaxService $ajaxService): Response
+    public function new(Request $request, CartService $cartService, Recaptcha $recaptcha, Mailer $mailer, AjaxService $ajaxService): Response
     {
         $command = new Command();
-        $form = $ajaxService->command_meal($command, $meal);
+        $form = $ajaxService->command_meal($command);
 
         if ($request->isXmlHttpRequest()) {
             $form->handleRequest($request);
@@ -52,37 +53,40 @@ class CommandController extends AbstractController
                 $form->get('recaptcha')->addError(new FormError('Recaptcha : êtes-vous un robot ?'));
             }
 
-            if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->isSubmitted() && $form->isValid() && $f) {
                 $entityManager = $this->getDoctrine()->getManager();
 
-                $command->setName($meal->getProvider()->getId().'-'.$meal->getId())
-                    ->addMeals($meal)
-                    ->setProvider($meal->getProvider())
-                    ->setPrice($meal->getPrice() * $command->getItems() + 113)
-                ;
-                $meal->commandPlus();
+                $cart = $cartService->getFullCart();
+
+                foreach ($cart as $value) {
+                    /** @var \App\Entity\Meal $meal */
+                    $meal = $value['product'];
+
+                    $meal->commandPlus();
+                    $entityManager->persist($meal);
+
+                    $command->addMeal($meal)
+                        ->addProvider($meal->getProvider())
+                        ->setDetails([
+                            'product' => $meal->getId(),
+                            'quantity' => $value['quantity'],
+                        ])
+                    ;
+                }
+
+                $command->setPrice($cartService->getTotal());
 
                 $entityManager->persist($command);
-                $entityManager->persist($meal);
+                $entityManager->flush();
+                $command->setReference('REF #'.$command->getId());
                 $entityManager->flush();
 
-                $command->setName($command->getName().'-'.$command->getId());
-                $entityManager->flush();
+                $mailer->sendCommand($command);
 
-                $data = [
-                    'id' => $command->getName(),
-                    'name' => $meal->getName(),
-                    'email' => $form->get('email')->getData(),
-                    'provider' => $meal->getProvider(),
-                    'items' => $command->getItems(),
-                    'meal_price' => $meal->getPrice(),
-                    'price' => $command->getPrice(),
-                    'date' => $command->getCreatedAt(),
-                ];
+                $this->addFlash('success', 'Votre commande a été envoyée !');
+                $cartService->reset();
 
-                $mailer->sendCommand($data);
-
-                return new Response('success', Response::HTTP_CREATED);
+                return new Response($this->generateUrl('meal_index'), Response::HTTP_CREATED);
             }
             if ($form->isSubmitted() && !$form->isValid()) {
                 return $this->render('command/_form.html.twig', [
@@ -144,5 +148,78 @@ class CommandController extends AbstractController
         }
 
         return $this->redirectToRoute('command_index');
+    }
+
+    /**
+     * @Route("/cart/all", name="cart")
+     */
+    public function cart_index(CartService $cartService)
+    {
+        return $this->render('command/cart.html.twig', [
+            'cart' => $cartService->getFullCart(),
+            'prices' => $cartService->getTotal(),
+        ]);
+    }
+
+    /**
+     * @Route("/cart/items", name="cart_items")
+     */
+    public function cart_items(CartService $cartService)
+    {
+        return $this->render('command/cart_items.html.twig', [
+            'items' => count($cartService->getFullCart()),
+        ]);
+    }
+
+    /**
+     * @Route("/cart/prices", name="cart_prices")
+     */
+    public function cart_prices(CartService $cartService)
+    {
+        return $this->render('command/cart_prices.html.twig', [
+            'prices' => $cartService->getTotal(),
+        ]);
+    }
+
+    /**
+     * @Route("/cart/add/{id}", name="addToCart", methods={"POST"})
+     */
+    public function add_to_cart(Meal $meal, CartService $cart, Recaptcha $recaptcha, AjaxService $ajaxService, Request $request)
+    {
+        if ($request->isXmlHttpRequest()) {
+            $form = $ajaxService->cart_form($meal);
+            $form->handleRequest($request);
+
+            $f = false;
+            if ($g = $form->get('recaptcha')->getData()) {
+                $f = $recaptcha->captchaverify($g)->success;
+            }
+
+            if ($form->isSubmitted() && !$f) {
+                $form->get('recaptcha')->addError(new FormError('Recaptcha : êtes-vous un robot ?'));
+            }
+
+            if ($form->isSubmitted() && $form->isValid() && $f) {
+                for ($i = 0; $i < $form->get('quantity')->getData(); ++$i) {
+                    $cart->add($meal->getId());
+                }
+
+                return new Response('success', Response::HTTP_CREATED);
+            }
+        }
+
+        return new Response('error', Response::HTTP_METHOD_NOT_ALLOWED);
+    }
+
+    /**
+     * @Route("/cart/remove/{id}", name="removeFromCart", methods={"DELETE"})
+     */
+    public function remove_from_cart(Meal $meal, CartService $cart, Request $request)
+    {
+        if ($this->isCsrfTokenValid('delete'.$meal->getId(), $request->request->get('_token'))) {
+            $cart->remove($meal->getId());
+        }
+
+        return $this->redirectToRoute('command_cart');
     }
 }
