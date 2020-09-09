@@ -35,6 +35,7 @@ class TestController extends AbstractController
 
         return $this->render('test/index.html.twig', [
             'controller_name' => 'TestController',
+            'tz' => date_default_timezone_get(),
             'form' => $form->createView(),
         ]);
     }
