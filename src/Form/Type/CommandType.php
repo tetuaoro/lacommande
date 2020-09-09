@@ -66,7 +66,7 @@ class CommandType extends AbstractType
                         'max' => 'tomorrow',
                     ]),
                 ],
-                'help' => 'Assurez-vous de coordonner parfaitement l\'heure de livraison',
+                'help' => 'help order',
                 'help_attr' => [
                     'class' => 'mt-0 mb-2',
                 ],

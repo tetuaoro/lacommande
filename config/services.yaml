@@ -15,6 +15,9 @@ parameters:
     styles: '%kernel.project_dir%/public/assets/vendor/mailer'
 
 services:
+    Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler:
+            arguments:
+                - '%env(DATABASE_URL)%'
     # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.

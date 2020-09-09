@@ -44,6 +44,8 @@ address: City, Address *(require)
 tel: Phone *(require)
 email: email *(require)
 Information pour la commande: Information order
+help order : Assurez-vous de coordonner parfaitement l'heure de livraison
+
 
 Label: Label
 Page Instagram: Instagram
