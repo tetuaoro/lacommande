@@ -47,6 +47,7 @@ class ContactController extends AbstractController
         return $this->render('contact/new.html.twig', [
             'contact' => $contact,
             'form' => $form->createView(),
+            'tz' => date_default_timezone_get()
         ]);
     }
 
