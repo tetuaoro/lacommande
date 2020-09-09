@@ -25,8 +25,6 @@
 
 
 		<div class="example-wrapper">
-			<h1>TimeZone</h1>
-			<div class="tz">{{tz}}</div>
 			<h1>Hello
 				{{ controller_name }}! ✅</h1>
 
@@ -44,6 +42,11 @@
 				</li>
 			</ul>
 			<section class="test mt-4">
+				<div class="timezone">
+					<h5>TimeZone</h5>
+					<div class="tz">{{tz}}</div>
+				</div>
+				
 				<div class="flash">
 					<h5>Flash Test</h5>
 					<a href="{{path("test_flash", {label: 'success'})}}">Success</a>
