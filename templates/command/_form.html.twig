@@ -1,4 +1,18 @@
 {{ form_start(form) }}
-{{ form_rest(form) }}
+{{ form_row(form.name) }}
+{{ form_row(form.address) }}
+{{ form_row(form.phone) }}
+{{ form_row(form.email) }}
+<div class="row">
+	<div class="col">
+		{{ form_row(form.commandAt.date) }}
+	</div>
+    <div class="col-1"><span>à</span></div>
+	<div class="col">
+		{{ form_row(form.commandAt.time) }}
+	</div>
+</div>
+{{ form_help(form.commandAt) }}
+{{ form_row(form.comment) }}
 <button class="btn" type="submit">{{ "Commander" | trans({}, 'form') }}</button>
 {{ form_end(form) }}

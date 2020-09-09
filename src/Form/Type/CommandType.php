@@ -4,6 +4,7 @@ namespace App\Form\Type;
 
 use App\Entity\Command;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -11,6 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class CommandType extends AbstractType
 {
@@ -48,6 +50,25 @@ class CommandType extends AbstractType
                 'label' => false,
                 'attr' => [
                     'placeholder' => 'email',
+                ],
+            ])
+            ->add('commandAt', DateTimeType::class, [
+                'translation_domain' => 'form',
+                'required' => true,
+                'label' => false,
+                'date_widget' => 'single_text',
+                'time_widget' => 'single_text',
+                'data' => new \DateTime('+1 hours'),
+                'constraints' => [
+                    new Assert\GreaterThan('+1 hours'),
+                    new Assert\Range([
+                        'min' => 'today',
+                        'max' => 'tomorrow',
+                    ]),
+                ],
+                'help' => 'Assurez-vous de coordonner parfaitement l\'heure de livraison',
+                'help_attr' => [
+                    'class' => 'mt-0 mb-2',
                 ],
             ])
             ->add('comment', TextareaType::class, [

@@ -10,6 +10,8 @@ use App\Service\AjaxService;
 use App\Service\CartService;
 use App\Service\Mailer;
 use App\Service\Recaptcha;
+use DateInterval;
+use DatePeriod;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
@@ -155,6 +157,7 @@ class CommandController extends AbstractController
      */
     public function cart_index(CartService $cartService)
     {
+
         return $this->render('command/cart.html.twig', [
             'cart' => $cartService->getFullCart(),
             'prices' => $cartService->getTotal(),
