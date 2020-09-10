@@ -12,7 +12,7 @@ export default function App() {
             <ul>
 
                 {state && state.map((command, index) => (
-                    <li key={index}>{command.name}</li>
+                    <li key={index}>{command.reference} : {command.name} à {command.createdAt}</li>
                 ))}
                 
             </ul>

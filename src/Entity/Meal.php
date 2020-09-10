@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -19,12 +20,14 @@ class Meal
      * @ORM\GeneratedValue()
      * @ORM\SequenceGenerator(sequenceName="id", initialValue=100)
      * @ORM\Column(type="integer")
+     * @Groups({"commandjs"})
      */
     private $id;
 
     /**
      * @Assert\Length(min=8, minMessage="8 caractères minimum")
      * @ORM\Column(type="string", length=255)
+     * @Groups({"commandjs"})
      */
     private $name;
 
@@ -54,6 +57,7 @@ class Meal
      * @ORM\Column(type="integer")
      * @Assert\GreaterThanOrEqual(100)
      * @Assert\LessThanOrEqual(7000)
+     * @Groups({"commandjs"})
      */
     private $price;
 
@@ -66,6 +70,7 @@ class Meal
     /**
      * @Gedmo\Slug(fields={"name"})
      * @ORM\Column(type="string", length=255)
+     * @Groups({"commandjs"})
      */
     private $slug;
 

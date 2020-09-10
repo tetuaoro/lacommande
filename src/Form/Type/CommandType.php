@@ -58,6 +58,7 @@ class CommandType extends AbstractType
                 'label' => false,
                 'date_widget' => 'single_text',
                 'time_widget' => 'single_text',
+                'view_timezone' => 'Pacific/Honolulu',
                 'data' => new \DateTime('+1 hours'),
                 'constraints' => [
                     new Assert\GreaterThan('+1 hours'),

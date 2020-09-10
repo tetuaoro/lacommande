@@ -18,6 +18,7 @@ class Command
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\SequenceGenerator(sequenceName="id", initialValue=100)
+     * @Groups({"commandjs"})
      * @ORM\Column(type="integer")
      */
     private $id;
@@ -25,12 +26,14 @@ class Command
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Assert\Email(message = "Email invalide.")
+     * @Groups({"commandjs"})
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Assert\Regex("/^(87|89)\d{6}$/")
+     * @Groups({"commandjs"})
      */
     private $phone;
 
@@ -42,11 +45,13 @@ class Command
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"commandjs"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups({"commandjs"})
      */
     private $comment;
 
@@ -57,31 +62,37 @@ class Command
 
     /**
      * @ORM\ManyToMany(targetEntity=Meal::class, inversedBy="commands")
+     * @Groups({"commandjs"})
      */
     private $meals;
 
     /**
      * @ORM\ManyToMany(targetEntity=Provider::class, inversedBy="commands")
+     * @Groups({"commandjs"})
      */
     private $providers;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"commandjs"})
      */
     private $reference;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"commandjs"})
      */
     private $address;
 
     /**
      * @ORM\Column(type="datetimetz")
+     * @Groups({"commandjs"})
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetimetz")
+     * @Groups({"commandjs"})
      */
     private $commandAt;
 

@@ -41,6 +41,7 @@ class CommandFixtures extends Fixture implements DependentFixtureInterface
             }
 
             $command->setName($faker->name)
+                ->setReference("REF #{$i}")
                 ->setAddress('Paea')
                 ->setEmail($faker->email)
                 ->setPhone('87423498')

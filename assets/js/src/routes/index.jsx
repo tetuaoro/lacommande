@@ -11,8 +11,7 @@ import App from '../components/App';
  * @param {*} railsContext
  * @returns
  */
-export default function Entry(props, railsContext) {
-
+export default (props, railsContext) => {
 
     if (railsContext.serverSide) {
         return {
@@ -22,11 +21,11 @@ export default function Entry(props, railsContext) {
                 </SFContext.Provider>
             )
         };
-    } else {
-        return (
-            <SFContext.Provider value={{ initialProps: props, context: railsContext }}>
-                <App />
-            </SFContext.Provider>
-        );
     }
-}
+
+    return () => (
+        <SFContext.Provider value={{ initialProps: props, context: railsContext }}>
+            <App />
+        </SFContext.Provider>
+    );
+};
