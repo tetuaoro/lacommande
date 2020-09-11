@@ -30,11 +30,8 @@ class CommandApi extends AbstractController
             AbstractNormalizer::GROUPS => 'commandjs',
         ];
 
-        $commands = $commandRepository->findByProviderOrderByDate($user->getProvider()->getId());
-        dump($commands);
-
         return $this->json(
-            $commands,
+            $commandRepository->findByProviderOrderByDate($user->getProvider()->getId()),
             JsonResponse::HTTP_OK,
             [],
             $defaultContext
