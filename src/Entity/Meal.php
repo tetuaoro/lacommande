@@ -119,6 +119,11 @@ class Meal
      */
     private $commands;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $stock;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
@@ -379,6 +384,18 @@ class Meal
     public function setBitly(?array $bitly): self
     {
         $this->bitly = $bitly;
+
+        return $this;
+    }
+
+    public function getStock(): ?int
+    {
+        return $this->stock;
+    }
+
+    public function setStock(int $stock): self
+    {
+        $this->stock = $stock;
 
         return $this;
     }

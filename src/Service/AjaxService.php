@@ -39,6 +39,7 @@ class AjaxService
         return $this->form->create(CartType::class, null, [
             'method' => 'POST',
             'action' => $this->router->generate('command_addToCart', ['id' => $meal->getId()]),
+            'stock' => $meal->getStock(),
         ]);
     }
 

@@ -122,6 +122,11 @@ class Provider
      */
     private $commands;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $minPriceDelivery;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
@@ -441,6 +446,18 @@ class Provider
     public function setDescription(?string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getMinPriceDelivery(): ?int
+    {
+        return $this->minPriceDelivery;
+    }
+
+    public function setMinPriceDelivery(?int $minPriceDelivery): self
+    {
+        $this->minPriceDelivery = $minPriceDelivery;
 
         return $this;
     }

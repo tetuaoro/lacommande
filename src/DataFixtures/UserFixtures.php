@@ -46,6 +46,7 @@ class UserFixtures extends Fixture
             }
 
             $provider->setName($user->getName())
+                ->setMinPriceDelivery(2500)
                 ->setUrl('http://www.google.com')
                 ->setCode('#'.$faker->ean8)
                 ->setCity($faker->randomElement($cities))

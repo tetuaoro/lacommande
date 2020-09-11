@@ -10,8 +10,6 @@ use App\Service\AjaxService;
 use App\Service\CartService;
 use App\Service\Mailer;
 use App\Service\Recaptcha;
-use DateInterval;
-use DatePeriod;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
@@ -46,41 +44,64 @@ class CommandController extends AbstractController
         if ($request->isXmlHttpRequest()) {
             $form->handleRequest($request);
 
-            $f = false;
+            $cart = $cartService->getFullCart();
+            foreach ($cart as $value) {
+                /** @var \App\Entity\Meal $meal */
+                $meal = $value['product'];
+
+                $min = $meal->getProvider()->getMinPriceDelivery();
+                if ($value['quantity'] * $meal->getPrice() < $min) {
+                    $form->get('stock')->addError(new FormError('Le prix minimum de livraison pour '.$meal->getName().' est de '.$min.' XPF'));
+
+                    break;
+                }
+                if ($value['quantity'] > $meal->getStock()) {
+                    $form->get('min')->addError(new FormError('Le produit est en rupture de stock : '.$meal->getName()));
+
+                    break;
+                }
+            }
+
             if ($g = $form->get('recaptcha')->getData()) {
-                $f = $recaptcha->captchaverify($g)->success;
+                if (!$recaptcha->captchaverify($g)->success) {
+                    $form->get('recaptcha')->addError(new FormError('Recaptcha : êtes-vous un robot ?'));
+                }
             }
 
-            if ($form->isSubmitted() && !$f) {
-                $form->get('recaptcha')->addError(new FormError('Recaptcha : êtes-vous un robot ?'));
-            }
-
-            if ($form->isSubmitted() && $form->isValid() && $f) {
+            if ($form->isSubmitted() && $form->isValid()) {
                 $entityManager = $this->getDoctrine()->getManager();
-
-                $cart = $cartService->getFullCart();
+                $details = [];
 
                 foreach ($cart as $value) {
                     /** @var \App\Entity\Meal $meal */
                     $meal = $value['product'];
 
-                    $meal->commandPlus();
-                    $entityManager->persist($meal);
+                    $meal->commandPlus()
+                        ->setStock($meal->getStock() - $value['quantity'])
+                    ;
 
                     $command->addMeal($meal)
                         ->addProvider($meal->getProvider())
-                        ->setDetails([
+                    ;
+
+                    $details[] = [
+                        [
                             'product' => $meal->getId(),
                             'quantity' => $value['quantity'],
-                        ])
-                    ;
+                        ],
+                    ];
                 }
 
-                $command->setPrice($cartService->getTotal());
+                $command->setPrice($cartService->getTotal())
+                    ->setDetails($details)
+                ;
 
                 $entityManager->persist($command);
                 $entityManager->flush();
-                $command->setReference('REF #'.$command->getId());
+
+                $string = str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZ');
+
+                $command->setReference('REF #'.$command->getId().'-'.substr($string, 25).'-'.substr($string, 1, 3));
                 $entityManager->flush();
 
                 $mailer->sendCommand($command);
@@ -90,11 +111,10 @@ class CommandController extends AbstractController
 
                 return new Response($this->generateUrl('meal_index'), Response::HTTP_CREATED);
             }
-            if ($form->isSubmitted() && !$form->isValid()) {
-                return $this->render('command/_form.html.twig', [
-                    'form' => $form->createView(),
-                ], new Response('error', Response::HTTP_BAD_REQUEST));
-            }
+
+            return $this->render('command/_form.html.twig', [
+                'form' => $form->createView(),
+            ], new Response('error', Response::HTTP_BAD_REQUEST));
         }
 
         return $this->render('command/_form.html.twig', [
@@ -157,7 +177,6 @@ class CommandController extends AbstractController
      */
     public function cart_index(CartService $cartService)
     {
-
         return $this->render('command/cart.html.twig', [
             'cart' => $cartService->getFullCart(),
             'prices' => $cartService->getTotal(),

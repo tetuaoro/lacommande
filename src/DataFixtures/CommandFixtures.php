@@ -28,6 +28,7 @@ class CommandFixtures extends Fixture implements DependentFixtureInterface
         for ($i = 0; $i < 100; ++$i) {
             $command = new Command();
             $meals_ = $faker->randomElements($meals, mt_rand(1, 6));
+            $details = [];
 
             $price = 0;
             /** @var \App\Entity\Meal $meal */
@@ -37,11 +38,23 @@ class CommandFixtures extends Fixture implements DependentFixtureInterface
                 $command->addMeal($meal)
                     ->addProvider($meal->getProvider())
                 ;
+
+                $details[] = [
+                    [
+                        'product' => $meal->getId(),
+                        'quantity' => mt_rand(1, 6),
+                    ],
+                ];
+
                 $meal->commandPlus();
             }
 
+            $string = str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZ');
+            $ref = 'REF #'.$i.'-'.substr($string, 24).'-'.substr($string, 1, 2);
+
             $command->setName($faker->name)
-                ->setReference("REF #{$i}")
+                ->setDetails($details)
+                ->setReference($ref)
                 ->setAddress('Paea')
                 ->setEmail($faker->email)
                 ->setPhone('87423498')

@@ -89,6 +89,22 @@ class CommandType extends AbstractType
                     'data-sitekey' => $_ENV['RECAPTCHA_KEY_3'],
                 ],
             ])
+            ->add('stock', HiddenType::class, [
+                'mapped' => false,
+                'required' => false,
+                'error_bubbling' => false,
+                'attr' => [
+                    'class' => 'stock',
+                ],
+            ])
+            ->add('min', HiddenType::class, [
+                'mapped' => false,
+                'required' => false,
+                'error_bubbling' => false,
+                'attr' => [
+                    'class' => 'min',
+                ],
+            ])
         ;
     }
 

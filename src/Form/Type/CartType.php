@@ -19,7 +19,7 @@ class CartType extends AbstractType
                 'data' => 1,
                 'attr' => [
                     'min' => 1,
-                    'max' => 10,
+                    'max' => $options['stock'],
                     'placeholder' => '1 quantite',
                 ],
             ])
@@ -37,5 +37,9 @@ class CartType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
+        $resolver->setDefaults([
+            'stock' => 99999999,
+        ])
+        ;
     }
 }

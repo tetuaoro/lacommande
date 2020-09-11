@@ -67,6 +67,9 @@
 									<input type="hidden" name="meal_price" value="{{meal.price}}">
 									{{form_start(form)}}
 									{{form_rest(form)}}
+									<div class="alert alert-info" role="alert">
+										stock disponible : {{meal.stock}}
+									</div>
 									<span class="prices text-left d-block">
 										<small class="text-muted"></small>
 									</span>
@@ -105,11 +108,9 @@
 		</div>
 	</div>
 {% endblock %}
-
 {% block stylesheets %}
 	<link rel="stylesheet" href="{{asset('assets/custom/css/meal/meal.css')}}">
 {% endblock %}
-
 {% block javascripts %}
 	<script src="https://www.google.com/recaptcha/api.js?render={{get_env('RECAPTCHA_KEY_3')}}" type="text/javascript"></script>
 	<script src="{{asset('assets/custom/js/meal/app-command.js')}}"></script>
