@@ -64,7 +64,7 @@ class CommandType extends AbstractType
                     new Assert\GreaterThan('+1 hours'),
                     new Assert\Range([
                         'min' => 'today',
-                        'max' => 'tomorrow',
+                        'max' => '+1 month',
                     ]),
                 ],
                 'help' => 'help order',

@@ -18,8 +18,8 @@ class Command
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\SequenceGenerator(sequenceName="id", initialValue=100)
-     * @Groups({"commandjs"})
      * @ORM\Column(type="integer")
+     * @Groups({"commandjs"})
      */
     private $id;
 
@@ -57,6 +57,7 @@ class Command
 
     /**
      * @ORM\Column(type="array")
+     * @Groups({"commandjs"})
      */
     private $details = [];
 

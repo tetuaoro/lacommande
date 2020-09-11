@@ -19,6 +19,19 @@ class CommandRepository extends ServiceEntityRepository
         parent::__construct($registry, Command::class);
     }
 
+    public function findByProviderOrderByDate(int $id)
+    {
+        return $this->createQueryBuilder('c')
+            ->select('c')
+            ->leftJoin('c.providers', 'p')
+            ->where('p.id = :id')
+            ->orderBy('c.commandAt', 'DESC')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     // /**
     //  * @return Command[] Returns an array of Command objects
     //  */
