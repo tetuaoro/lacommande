@@ -64,14 +64,16 @@
 									<span class="ti-user m-l-21 colorated"></span>
 								</button>
 								<div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-left">
-									<a class="dropdown-item text-dark" href="{{path('user_show', {id: app.user.id})}}">
+									<a class="dropdown-item text-dark" href="{{path('user_show', {id: app.user.id, slug: app.user.slug})}}">
 										<i class="far fa-eye mr-lg-1" aria-hidden="true"></i>
 										{{"Profile"|trans({}, 'nav')}}
 									</a>
-									<a class="dropdown-item text-dark" href="{{path('user_manage', {id: app.user.id})}}">
-										<i class="fas fa-cogs mr-lg-1" aria-hidden="true"></i>
-										{{"Administrer"|trans({}, 'nav')}}
-									</a>
+									{% if is_granted('ROLE_PROVIDER', app.user) %}
+										<a class="dropdown-item text-dark" href="{{path('user_manage', {id: app.user.id})}}">
+											<i class="fas fa-cogs mr-lg-1" aria-hidden="true"></i>
+											{{"Administrer"|trans({}, 'nav')}}
+										</a>
+									{% endif %}
 									<div class="dropdown-divider"></div>
 									<a class="dropdown-item text-dark text-justify" href="{{path('app_logout')}}">
 										<i class="fas fa-sign-out-alt mr-lg-1" aria-hidden="true"></i>
@@ -103,7 +105,7 @@
 			</li>
 			{% if app.user %}
 				<li class="t-center m-b-13">
-					<a class="txt19" href="{{path('provider_show', {id: app.user.provider.id, slug: app.user.provider.slug})}}">{{"Profile"|trans({}, 'nav')}}</a>
+					<a class="txt19" href="{{path('user_show', {id: app.user.id, slug: app.user.slug})}}">{{"Profile"|trans({}, 'nav')}}</a>
 				</li>
 			{% endif %}
 			{% if app.debug %}

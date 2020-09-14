@@ -1,0 +1,11 @@
+{% if is_granted('ROLE_LAMBDA') %}
+	{% if fav %}
+		<a href="{{path('meal_favorite', {id:meal.id})}}" title="Supprimez des favoris">
+			<i class="fas fa-star text-app" aria-hidden="true"></i>
+		</a>
+	{% else %}
+		<a href="{{path('meal_favorite', {id:meal.id})}}" title="Ajoutez aux favoris">
+			<i class="far fa-star" aria-hidden="true"></i>
+		</a>
+	{% endif %}
+{% endif %}

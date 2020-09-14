@@ -212,3 +212,6 @@ span.cart-items {
 a.cart-items {
   position: relative;
 }
+.text-app {
+  color: var(--appcolor1);
+}

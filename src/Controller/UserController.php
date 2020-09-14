@@ -96,11 +96,15 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="show", methods={"GET"})
+     * @Route("/{id}-{slug}", name="show", methods={"GET"}, requirements={"slug": "[a-z0-9\-]*"})
      */
-    public function show(User $user): Response
+    public function show(User $user, string $slug): Response
     {
         $this->denyAccessUnlessGranted('USER_VIEW', $user);
+
+        if ($user->getSlug() != $slug) {
+            return $this->redirectToRoute('meal_show', ['id' => $user->getId(), 'slug' => $user->getSlug()]);
+        }
 
         return $this->render('user/show.html.twig', [
             'user' => $user,
@@ -149,9 +153,11 @@ class UserController extends AbstractController
      * @param null|mixed $form
      * @param null|mixed $data
      */
-    public function adminUser(User $user, NormalizerInterface $normalizerInterface)
+    public function adminUser(User $user, UserRepository $userRepository, NormalizerInterface $normalizerInterface)
     {
         $this->denyAccessUnlessGranted('USER_MANAGE', $user);
+
+        $user_ = $userRepository->getAll($user->getId());
 
         $defaultContext = [
             AbstractNormalizer::CIRCULAR_REFERENCE_HANDLER => function ($object, $format, $context) {
@@ -163,7 +169,7 @@ class UserController extends AbstractController
         $stores = $normalizerInterface->normalize($user->getProvider()->getCommands(), 'json', $defaultContext);
 
         return $this->render('user/auth/manage.html.twig', [
-            'user' => $user,
+            'user' => $user_,
             'props' => ['stores' => $stores],
         ]);
     }

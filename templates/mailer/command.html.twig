@@ -28,7 +28,11 @@
 		.command .columns {
 			border-bottom: 1px solid #6c757d;
 		}
+		.command .provider-show {
+			margin: 3px;
+		}
 	</style>
+
 	<container class="command">
 		<row>
 			<columns>
@@ -44,17 +48,42 @@
 				<strong>Quantité</strong>
 			</columns>
 		</row>
-		{% for item in carts %}
-			{% set meal = item.product %}
+		{% for command in cart2 %}
+			{% set provider = command['provider'] %}
+			{% set price = command['price'] %}
+			{% set meals = command['meals'] %}
+			{% set forOne = loop.index %}
 			<row>
 				<columns>
-					<strong>
-						{{loop.index}}
-					</strong>
+					<strong>{{forOne}}</strong>
 				</columns>
-				<columns>{{meal.name}}</columns>
-				<columns>{{meal.price}}</columns>
-				<columns>{{item.quantity}}</columns>
+				<columns>{{provider.name}}</columns>
+				<columns>
+					<button class="provider-show" href="{{url('provider_show', {id:provider.id, slug:provider.slug})}}#contact">Contacter</button>
+				</columns>
+				<columns></columns>
+			</row>
+			{% for meal in meals %}
+				<row>
+					<columns>{{forOne ~ "." ~ loop.index}}</columns>
+					<columns>
+						{{meal['product'].name}}
+					</columns>
+					<columns>
+						{{meal['product'].price}}
+					</columns>
+					<columns>
+						{{meal['quantity']}}
+					</columns>
+				</row>
+			{% endfor %}
+			<row>
+				<columns></columns>
+				<columns></columns>
+				<columns>
+					{{price}} XPF
+				</columns>
+				<columns></columns>
 			</row>
 		{% endfor %}
 		<row>
@@ -68,40 +97,21 @@
 		</row>
 
 		<row>
-			<columns>Date</columns>
+			<columns>Date de livraison</columns>
 			<columns></columns>
 			<columns></columns>
-			<columns>{{command.createdAt|date("d/m/Y")}}</columns>
+			<columns>{{command.commandAt|date("d/m/Y H:i", "Pacific/Honolulu")}}</columns>
+		</row>
+
+		<row>
+			<columns>Date de commande</columns>
+			<columns></columns>
+			<columns></columns>
+			<columns>{{command.createdAt|date("d/m/Y", "Pacific/Honolulu")}}</columns>
 		</row>
 	</container>
 
-	<spacer size="8"></spacer>
-
-	<row>
-		<columns>
-			<center>
-				<h3>Contact des traiteurs :</h3>
-			</center>
-		</columns>
-	</row>
-
-	<row>
-		<columns>
-			<strong>Nom</strong>
-		</columns>
-		<columns>
-			<strong>Profile</strong>
-		</columns>
-	</row>
-	{% for provider in command.providers %}
-		<row>
-			<columns>{{provider.name}}</columns>
-			<columns>
-				<button href="{{url('provider_show', {id:provider.id, slug:provider.slug})}}">Voir le profile</button>
-			</columns>
-		</row>
-	{% endfor %}
-
+	<spacer size="12"></spacer>
 
 	<container>
 		<row>

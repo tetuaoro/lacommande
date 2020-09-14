@@ -97,6 +97,16 @@ class Command
      */
     private $commandAt;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Lambda::class, inversedBy="commands")
+     */
+    private $lambda;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $code;
+
     public function __construct()
     {
         $this->meals = new ArrayCollection();
@@ -289,6 +299,30 @@ class Command
     public function setTimezone(\DateTimeInterface $timezone): self
     {
         $this->timezone = $timezone;
+
+        return $this;
+    }
+
+    public function getLambda(): ?Lambda
+    {
+        return $this->lambda;
+    }
+
+    public function setLambda(?Lambda $lambda): self
+    {
+        $this->lambda = $lambda;
+
+        return $this;
+    }
+
+    public function getCode(): ?string
+    {
+        return $this->code;
+    }
+
+    public function setCode(?string $code): self
+    {
+        $this->code = $code;
 
         return $this;
     }

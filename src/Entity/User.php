@@ -14,7 +14,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="`user`")
  * @UniqueEntity("email", message ="Vous êtes déjà enregistré(e) ?")
  * @UniqueEntity("username", message ="Ce nom d'utilisateur est déjà utilisé.")
- * @UniqueEntity("ntahiti", message ="Ce numéro tahiti est déjà utilisé.")
  * @UniqueEntity("name", message ="Ce nom est déjà utilisé.")
  */
 class User implements UserInterface
@@ -45,11 +44,6 @@ class User implements UserInterface
     private $slug;
 
     /**
-     * @ORM\OneToOne(targetEntity=Provider::class, cascade={"persist", "remove"})
-     */
-    private $provider;
-
-    /**
      * @Assert\Length(min=8, minMessage="l'identifiant doit faire 8 caractères minimum")
      * @ORM\Column(type="string", length=255, unique=true)
      */
@@ -78,9 +72,19 @@ class User implements UserInterface
     private $email;
 
     /**
-     * @ORM\Column(type="string", length=255, unique=true)
+     * @ORM\Column(type="string", length=255)
      */
     private $ntahiti;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $confirmationEmail;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Lambda::class, cascade={"persist", "remove"})
+     */
+    private $lambda;
 
     /**
      * @ORM\OneToOne(targetEntity=Delivery::class, cascade={"persist", "remove"})
@@ -88,9 +92,15 @@ class User implements UserInterface
     private $delivery;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\OneToOne(targetEntity=Provider::class, cascade={"persist", "remove"})
      */
-    private $confirmationEmail;
+    private $provider;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     * @Assert\Regex("/^(87|89)\d{6}$/")
+     */
+    private $phone;
 
     public function __construct()
     {
@@ -248,6 +258,30 @@ class User implements UserInterface
     public function setConfirmationEmail(?string $confirmationEmail): self
     {
         $this->confirmationEmail = $confirmationEmail;
+
+        return $this;
+    }
+
+    public function getLambda(): ?Lambda
+    {
+        return $this->lambda;
+    }
+
+    public function setLambda(?Lambda $lambda): self
+    {
+        $this->lambda = $lambda;
+
+        return $this;
+    }
+
+    public function getPhone(): ?int
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(?int $phone): self
+    {
+        $this->phone = $phone;
 
         return $this;
     }

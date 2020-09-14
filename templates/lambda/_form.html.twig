@@ -1,30 +1,21 @@
 {{ form_start(form) }}
 <h2>{{ "Identifiant" | trans({}, 'connect') }}</h2>
 <hr class="mx-auto size28 bg-dark mb-lg-5 mb-md-3 mb-2">
-{{ form_row(form.name, {'label': false, 'attr': {'placeholder': 'Nom de l\'entreprise'}}) }}
-{{ form_row(form.email, {'label': false, 'attr': {'placeholder': 'Email p'}}) }}
+{{ form_row(form.name, {'label': false, 'attr': {'placeholder': 'Nom et Prénom'}}) }}
+{{ form_row(form.email, {'label': false, 'attr': {'placeholder': 'Email'}}) }}
+{{ form_row(form.phone, {'label': false, 'attr': {'placeholder': 'N° Portable'}}) }}
 {{ form_row(form.username, {'label': false, 'attr': {'placeholder': 'Nom d\'utilisateur pour la connexion'}}) }}
-<h2>Information</h2>
-<hr class="mx-auto size28 bg-dark mb-lg-5 mb-md-3 mb-2">
-<div class="row">
-	<div class="col-md">
-		{{ form_row(form.ntahiti, {'label': false, 'attr': {'placeholder': 'N° T.A.H.I.T.I'}}) }}
-	</div>
-	<div class="col-md">
-		{{ form_row(form.entity, {'label': false, 'help': 'ex: je suis un fournisseur'}) }}
-	</div>
-</div>
 <h2>{{ "Sécurité" | trans({}, 'connect') }}</h2>
 <hr class="mx-auto size28 bg-dark mb-lg-5 mb-md-3 mb-2">
 {{ form_row(form.password.first, {'label': false, 'attr': {'placeholder': 'Mot de passe'}}) }}
 {{ form_row(form.password.second, {'label': false, 'attr': {'placeholder': 'Confirmer le mot de passe'}}) }}
 {{ form_row(form.checked) }}
-<button class="btn btn-validation my-3" title="Accepter les conditions et créer mon compte" disabled>{{ "Créer un compte" | trans({}, 'connect') }}</button>
+<button class="btn btn-validation my-3" title="Accepter les conditions et créer mon compte">{{ "Créer un compte" | trans({}, 'connect') }}</button>
 <p class="mt-2">
 	<small>
 		<em>*
 		</em>En créant un compte sur
-		<a href="{{ path('app_index') }}">{{ nameSite}}</a>, vous acceptez les
+		<a href="{{ path('app_index') }}">{{ nameSite}}</a>, vous certifiez avoir au moins 18 ans, acceptez les
 		<a href="{{path('app_credit')}}">Conditions d'utilisations</a>, ainsi que l'utilisattion des
 		<a href="">Cookies</a>
 		du site.</small>

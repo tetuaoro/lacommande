@@ -29,6 +29,21 @@ class UserRepository extends ServiceEntityRepository
         ;
     }
 
+    public function getAll(int $id)
+    {
+        return $this->createQueryBuilder('u')
+            ->select('u, provider, meals, menus, commands')
+            ->where('u = :id')
+            ->setParameter('id', $id)
+            ->leftJoin('u.provider', 'provider')
+            ->leftJoin('provider.meals', 'meals')
+            ->leftJoin('provider.menus', 'menus')
+            ->leftJoin('provider.commands', 'commands')
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+
     // /**
     //  * @return User[] Returns an array of User objects
     //  */

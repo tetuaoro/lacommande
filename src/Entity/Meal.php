@@ -124,11 +124,17 @@ class Meal
      */
     private $stock;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Lambda::class, mappedBy="meals")
+     */
+    private $lambdas;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
         $this->commands = new ArrayCollection();
         $this->tags = new ArrayCollection();
+        $this->lambdas = new ArrayCollection();
     }
 
     public function __toString()
@@ -396,6 +402,34 @@ class Meal
     public function setStock(int $stock): self
     {
         $this->stock = $stock;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Lambda[]
+     */
+    public function getLambdas(): Collection
+    {
+        return $this->lambdas;
+    }
+
+    public function addLambda(Lambda $lambda): self
+    {
+        if (!$this->lambdas->contains($lambda)) {
+            $this->lambdas[] = $lambda;
+            $lambda->addMeal($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLambda(Lambda $lambda): self
+    {
+        if ($this->lambdas->contains($lambda)) {
+            $this->lambdas->removeElement($lambda);
+            $lambda->removeMeal($this);
+        }
 
         return $this;
     }

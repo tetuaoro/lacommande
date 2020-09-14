@@ -45,21 +45,10 @@ class CommandController extends AbstractController
             $form->handleRequest($request);
 
             $cart = $cartService->getFullCart();
-            foreach ($cart as $value) {
-                /** @var \App\Entity\Meal $meal */
-                $meal = $value['product'];
 
-                $min = $meal->getProvider()->getMinPriceDelivery();
-                if ($value['quantity'] * $meal->getPrice() < $min) {
-                    $form->get('stock')->addError(new FormError('Le prix minimum de livraison pour '.$meal->getName().' est de '.$min.' XPF'));
-
-                    break;
-                }
-                if ($value['quantity'] > $meal->getStock()) {
-                    $form->get('min')->addError(new FormError('Le produit est en rupture de stock : '.$meal->getName()));
-
-                    break;
-                }
+            $checked = $cartService->checkMinDelivery();
+            if (!$checked['check']) {
+                $form->get('stock')->addError(new FormError('Le prix minimum de livraison pour '.$checked['provider']->getName().' est de '.$checked['provider']->getMinPriceDelivery().' XPF'));
             }
 
             if ($g = $form->get('recaptcha')->getData()) {
@@ -96,12 +85,18 @@ class CommandController extends AbstractController
                     ->setDetails($details)
                 ;
 
+                /** @var \App\Entity\User $user */
+                $user = $this->getUser();
+                if ($user && $user->getLambda()) {
+                    $command->setLambda($user->getLambda());
+                }
+
                 $entityManager->persist($command);
                 $entityManager->flush();
 
                 $string = str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZ');
 
-                $command->setReference('REF #'.$command->getId().'-'.substr($string, 25).'-'.substr($string, 1, 3));
+                $command->setReference('REF #'.$command->getId().'-'.substr($string, 24).'-'.substr($string, 1, 2));
                 $entityManager->flush();
 
                 $mailer->sendCommand($command);
@@ -179,6 +174,7 @@ class CommandController extends AbstractController
     {
         return $this->render('command/cart.html.twig', [
             'cart' => $cartService->getFullCart(),
+            'cart2' => $cartService->getFullCartByProvider(),
             'prices' => $cartService->getTotal(),
         ]);
     }
@@ -212,22 +208,19 @@ class CommandController extends AbstractController
             $form = $ajaxService->cart_form($meal);
             $form->handleRequest($request);
 
-            $f = false;
             if ($g = $form->get('recaptcha')->getData()) {
-                $f = $recaptcha->captchaverify($g)->success;
-            }
-
-            if ($form->isSubmitted() && !$f) {
-                $form->get('recaptcha')->addError(new FormError('Recaptcha : êtes-vous un robot ?'));
-            }
-
-            if ($form->isSubmitted() && $form->isValid() && $f) {
-                for ($i = 0; $i < $form->get('quantity')->getData(); ++$i) {
-                    $cart->add($meal->getId());
+                if (!$recaptcha->captchaverify($g)->success) {
+                    $form->get('recaptcha')->addError(new FormError('Recaptcha : êtes-vous un robot ?'));
                 }
+            }
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                $cart->add($meal->getId(), $form->get('quantity')->getData());
 
                 return new Response('success', Response::HTTP_CREATED);
             }
+
+            return new Response('error', Response::HTTP_BAD_REQUEST);
         }
 
         return new Response('error', Response::HTTP_METHOD_NOT_ALLOWED);

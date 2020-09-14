@@ -2,6 +2,8 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Delivery;
+use App\Entity\Lambda;
 use App\Entity\Provider;
 use App\Entity\User;
 use App\Repository\CityRepository;
@@ -29,7 +31,6 @@ class UserFixtures extends Fixture
         // Create User as PROVIDER
         for ($i = 0; $i < 6; ++$i) {
             $user = new User();
-            $provider = new Provider();
 
             $user->setName($faker->company)
                 ->setEmail($faker->companyEmail)
@@ -39,23 +40,42 @@ class UserFixtures extends Fixture
                 ->setCreatedAt($faker->dateTimeBetween())
                 ;
 
-            if (1 == mt_rand(0, 1)) {
-                $roles = $user->getRoles();
+            $rdm = mt_rand(0, 2);
+            $roles = $user->getRoles();
+            if (1 == $rdm) {
+                $provider = new Provider();
                 $roles[] = 'ROLE_PROVIDER';
-                $user->setRoles($roles);
-            }
-
-            $provider->setName($user->getName())
-                ->setMinPriceDelivery(2500)
-                ->setUrl('http://www.google.com')
-                ->setCode('#'.$faker->ean8)
-                ->setCity($faker->randomElement($cities))
-                ->setOpentime($faker->dateTimeBetween())
-                ->setClosetime($faker->dateTimeBetween())
-                ->setCreatedAt($user->getCreatedAt())
+                $provider->setName($user->getName())
+                    ->setMinPriceDelivery(2500)
+                    ->setUrl('https://www.google.com')
+                    ->setCode('#'.$faker->ean8)
+                    ->setCity($faker->randomElement($cities))
+                    ->setOpentime($faker->dateTimeBetween())
+                    ->setClosetime($faker->dateTimeBetween())
+                    ->setCreatedAt($user->getCreatedAt())
                 ;
-
-            $user->setProvider($provider);
+                $user->setRoles($roles)
+                    ->setProvider($provider)
+                ;
+            }
+            if (2 == $rdm) {
+                $lambda = new Lambda();
+                $roles[] = 'ROLE_LAMBDA';
+                $lambda->setName($user->getName());
+                $user->setRoles($roles)
+                    ->setLambda($lambda)
+                ;
+            }
+            if (0 == $rdm) {
+                $delivery = new Delivery();
+                $roles[] = 'ROLE_DELIVERY';
+                $delivery->setName($user->getName())
+                    ->setCity($faker->randomElement($cities))
+                ;
+                $user->setRoles($roles)
+                    ->setDelivery($delivery)
+                    ;
+            }
 
             $manager->persist($user);
         }

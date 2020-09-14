@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{"Commencer"|trans({}, 'connect')}}
+{% endblock %}
+
+{% block body %}
+
+	<div class="user-new p-t-140 p-b-90">
+		<div class="row">
+			<div class="col-md"></div>
+			<div class="col-md-8">
+				<div class="alert alert-info" role="alert">
+					Vous êtes un professionnel ? L'inscription pour vous est par
+					<a href="{{path('user_new')}}" class="alert-link">ici</a>. Cliquer !
+				</div>
+				{{ include('lambda/_form.html.twig') }}
+			</div>
+			<div class="col-md"></div>
+		</div>
+	</div>
+
+{% endblock %}

@@ -80,7 +80,7 @@ class Mailer
             ->htmlTemplate('mailer/command.html.twig')
             ->context([
                 'command' => $command,
-                'carts' => $this->cart->getFullCart(),
+                'cart2' => $this->cart->getFullCartByProvider(),
             ])
         ;
 

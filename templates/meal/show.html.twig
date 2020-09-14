@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% set name = meal.name %}
+{% set provider = meal.provider %}
 
 {% block title %}
 	{{ name }}
@@ -68,25 +69,33 @@
 									{{form_start(form)}}
 									{{form_rest(form)}}
 									<div class="alert alert-info" role="alert">
-										stock disponible : {{meal.stock}}
+										stock disponible :
+										{{meal.stock}}
 									</div>
 									<span class="prices text-left d-block">
 										<small class="text-muted"></small>
 									</span>
 									<button class="btn" type="submit">{{ "AddToCart" | trans({}, 'form') }}</button>
 									{{form_end(form)}}
+									<hr>
 								</div>
 							</div>
 
-							<a href="#" class="txt34 dis-block p-b-6">
+							<span class="txt34 dis-block p-b-6">
 								{{ name }}
-							</a>
+							</span>
+
+							<div class="favorite">
+								{% include "meal/auth/fav.html.twig" %}
+							</div>
 
 							<span class="dis-block t-center txt35 p-b-6">
-								{{ meal.provider.name }}
+								<a href="{{path('provider_show', {id:provider.id,slug:provider.slug})}}">
+									{{ provider.name }}
+								</a>
 							</span>
 							{% if meal.delivery %}
-								<span class="dis-block t-center tt-up fs-13 p-b-35 text-danger">{{"assure"|trans}}</span>
+								<span class="dis-block t-center tt-up fs-13 p-b-35 text-success">{{"assure"|trans}}</span>
 							{% else %}
 								<span class="t-center tt-up fs-13 p-b-35 text-warning">{{"n-assure"|trans}}</span>
 								<button class="d-inline ml-2 text-warning" data-toggle="tooltip" data-placement="top" title="LALALALA">

@@ -37,7 +37,7 @@ class MealFixtures extends Fixture implements DependentFixtureInterface
         $providers = $this->providerRepo->findAll();
         $tags = $this->tagsRepo->findAll();
 
-        for ($i = 0; $i < 30; ++$i) {
+        for ($i = 0; $i < 250; ++$i) {
             $meal = new Meal();
             $gallery = new Gallery();
 

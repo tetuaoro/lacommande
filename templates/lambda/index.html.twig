@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Lambda index
+{% endblock %}
+
+{% block body %}
+	<div class="user-new p-t-140 p-b-90">
+
+		<h1>Lambda index</h1>
+
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>Name</th>
+					<th>actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for lambda in lambdas %}
+					<tr>
+						<td>{{ lambda.id }}</td>
+						<td>{{ lambda.name }}</td>
+						<td>
+							<a href="{{ path('lambda_show', {'id': lambda.id}) }}">show</a>
+							<a href="{{ path('lambda_edit', {'id': lambda.id}) }}">edit</a>
+						</td>
+					</tr>
+				{% else %}
+					<tr>
+						<td colspan="6">no records found</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+
+		<a href="{{ path('lambda_new') }}">Create new</a>
+	</div>
+{% endblock %}

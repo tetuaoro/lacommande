@@ -3,20 +3,23 @@
 namespace App\Service;
 
 use App\Repository\MealRepository;
+use App\Repository\ProviderRepository;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class CartService
 {
     protected $session;
     protected $mealRepository;
+    protected $providerRepo;
 
-    public function __construct(SessionInterface $session, MealRepository $mealRepository)
+    public function __construct(SessionInterface $session, ProviderRepository $providerRepository, MealRepository $mealRepository)
     {
         $this->session = $session;
         $this->mealRepository = $mealRepository;
+        $this->providerRepo = $providerRepository;
     }
 
-    public function add(int $id)
+    public function add(int $id, int $quantity)
     {
         $cart = $this->session->get('cart', []);
 
@@ -24,7 +27,9 @@ class CartService
             $cart[$id] = 0;
         }
 
-        ++$cart[$id];
+        for ($i = 0; $i < $quantity; ++$i) {
+            ++$cart[$id];
+        }
 
         $this->session->set('cart', $cart);
     }
@@ -72,5 +77,57 @@ class CartService
         }
 
         return $total;
+    }
+
+    public function getCartByProvider(): array
+    {
+        $providers = [];
+
+        foreach ($this->getFullCart() as $value) {
+            /** @var \App\Entity\Meal $meal */
+            $meal = $value['product'];
+
+            $providers[$meal->getProvider()->getId()][] = $value;
+        }
+
+        return $providers;
+    }
+
+    public function checkMinDelivery(): array
+    {
+        foreach ($this->getCartByProvider() as $id => $tabs) {
+            $total = 0;
+            foreach ($tabs as $couple) {
+                $total += $couple['product']->getPrice() * $couple['quantity'];
+            }
+
+            $provider = $this->providerRepo->find($id);
+            if ($total < $provider->getMinPriceDelivery()) {
+                return ['check' => false, 'provider' => $provider];
+            }
+        }
+
+        return ['check' => true];
+    }
+
+    public function getFullCartByProvider(): array
+    {
+        $cart = [];
+
+        foreach ($this->getCartByProvider() as $id => $tabs) {
+            $total = 0;
+            $meals = [];
+            foreach ($tabs as $couple) {
+                $total += $couple['product']->getPrice() * $couple['quantity'];
+                $meals[] = $couple;
+            }
+            $cart[] = [
+                'price' => $total,
+                'provider' => $this->providerRepo->find($id),
+                'meals' => $meals,
+            ];
+        }
+
+        return $cart;
     }
 }

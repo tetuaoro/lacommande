@@ -7,7 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -35,7 +35,7 @@ class CommandType extends AbstractType
                     'placeholder' => 'address',
                 ],
             ])
-            ->add('phone', NumberType::class, [
+            ->add('phone', TelType::class, [
                 'translation_domain' => 'form',
                 'required' => true,
                 'label' => false,
@@ -78,6 +78,13 @@ class CommandType extends AbstractType
                 'label' => false,
                 'attr' => [
                     'placeholder' => 'Information pour la commande',
+                ],
+            ])
+            ->add('code', TextType::class, [
+                'translation_domain' => 'form',
+                'required' => false,
+                'attr' => [
+                    'placeholder' => 'Entrer votre code promo',
                 ],
             ])
             ->add('recaptcha', HiddenType::class, [

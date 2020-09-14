@@ -119,10 +119,38 @@ class MealController extends AbstractController
 
         $form = $ajaxService->cart_form($meal);
 
+        /** @var \App\Entity\User $user */
+        $user = $this->getUser();
+        $check = false;
+        if ($user && $user->getLambda()) {
+            $check = $user->getLambda()->checkFavorites($meal);
+        }
+
         return $this->render('meal/show.html.twig', [
             'meal' => $meal,
             'form' => $form->createView(),
+            'fav' => $check,
             'lacommandPrice' => 113,
+        ]);
+    }
+
+    /**
+     * @Route("/detail/favorite/{id}", name="favorite", methods={"GET"})
+     */
+    public function checkFovorites(Meal $meal): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_LAMBDA');
+
+        /** @var \App\Entity\User $user */
+        $user = $this->getUser();
+        if ($lambda = $user->getLambda()) {
+            $lambda->favorite($meal);
+            $this->getDoctrine()->getManager()->flush();
+        }
+
+        return $this->redirectToRoute('meal_show', [
+            'id' => $meal->getId(),
+            'slug' => $meal->getSlug(),
         ]);
     }
 

@@ -19,20 +19,38 @@
 							</tr>
 						</thead>
 						<tbody>
-							{% for command in cart %}
-								{% set meal = command.product %}
+							{% for command in cart2 %}
+								{% set provider = command['provider'] %}
+								{% set price = command['price'] %}
+								{% set meals = command['meals'] %}
+								{% set forOne = loop.index %}
 								<tr>
-									<th scope="row">{{loop.index}}</th>
-									<td>
-										<a href="{{path('meal_show', {id:meal.id,slug:meal.slug})}}">
-											{{meal.name}}
+									<th scope="row">{{forOne}}</th>
+									<td colspan="4">
+										<a href="{{path('provider_show', {id:provider.id,slug:provider.slug})}}">
+											{{provider.name}}
 										</a>
 									</td>
-									<td>{{meal.price}}</td>
-									<td>{{command.quantity}}</td>
-									<td>
-										{% include "command/cart_delete.html.twig" %}
-									</td>
+								</tr>
+								{% for meal in meals %}
+									<tr>
+										<td>{{forOne ~ "." ~ loop.index}}</td>
+										<td>
+											<a href="{{path('meal_show', {id:meal['product'].id,slug:meal['product'].slug})}}">
+												{{meal['product'].name}}
+											</a>
+										</td>
+										<td>{{meal['product'].price}}</td>
+										<td>{{meal['quantity']}}</td>
+										<td>
+											{% include "command/cart_delete.html.twig" with {meal: meal['product']} %}
+										</td>
+									</tr>
+								{% endfor %}
+								<tr>
+									<td></td>
+									<td></td>
+									<td>{{price}} XPF</td>
 								</tr>
 							{% else %}
 								<tr>
@@ -51,11 +69,9 @@
 					{{ render(path('command_new')) }}
 				{% endif %}
 			</div>
-
 		</div>
 	</div>
 {% endblock %}
-
 {% block javascripts %}
 	<script src="https://www.google.com/recaptcha/api.js?render={{get_env('RECAPTCHA_KEY_3')}}" type="text/javascript"></script>
 	<script src="{{asset('assets/custom/js/meal/app-order.js')}}"></script>

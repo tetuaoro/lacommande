@@ -6,6 +6,7 @@ $(document).ready(function () {
       index,
       element
     ) {
+      console.log(element);
       if ($(element).val() == "") {
         $(".btn-validation").attr("disabled", true);
         return false;
