@@ -52,7 +52,19 @@
 				</table>
 
 				{% if is_granted('ROLE_LAMBDA') %}
-					<h3>Meals</h3>
+					<h3>History Order</h3>
+					<ul>
+						{% for command in user.lambda.commands %}
+							<li>
+								{{command.reference}}
+								à
+								{{command.commandAt|date("Y-M-D H:i", "Pacific/Honolulu")}}
+								 - 
+								{{command.createdAt|date("Y-M-D H:i", "Pacific/Honolulu")}}
+							</li>
+						{% endfor %}
+					</ul>
+					<h3>Favorites</h3>
 					<ul>
 						{% for meal in user.lambda.meals %}
 							<li>

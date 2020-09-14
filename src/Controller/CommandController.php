@@ -96,7 +96,7 @@ class CommandController extends AbstractController
 
                 $string = str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZ');
 
-                $command->setReference('REF #'.$command->getId().'-'.substr($string, 24).'-'.substr($string, 1, 2));
+                $command->setReference($command->getId().'-'.substr($string, 24).'-'.substr($string, 1, 2));
                 $entityManager->flush();
 
                 $mailer->sendCommand($command);

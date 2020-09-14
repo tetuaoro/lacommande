@@ -76,7 +76,7 @@ class Mailer
         $message = (new TemplatedEmail())
             ->from(new Address('lacommandeariifood@gmail.com', 'Arii Food'))
             ->to(new Address($command->getEmail()))
-            ->subject($command->getReference().' - Commande de plat')
+            ->subject('REF #'.$command->getReference().' - Commande de plat')
             ->htmlTemplate('mailer/command.html.twig')
             ->context([
                 'command' => $command,
