@@ -1,12 +1,17 @@
 {% extends "base.html.twig" %}
 
+{% block title %}
+	{{status_code}}
+{% endblock %}
 
 {% block body %}
 	<div class="d-flex flex-column justify-content-center align-items-center p-t-140 p-b-100">
-		<i class="far fa-frown fa-10x"></i>
-		<p class="text-dark" style="font-size: 7em">Oups ! error</p>
+		<i class="far fa-frown fa-10x text-app"></i>
+		<p class="text-dark" style="font-size: 7em">Oups !
+			{{status_code}}</p>
 		<p class="text-dark">
 			<small>Cette page n'existe pas ou  une erreur est survenue.</small>
 		</p>
+		<p class="text-danger">{{status_text}}</p>
 	</div>
 {% endblock %}

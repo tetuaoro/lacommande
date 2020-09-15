@@ -8,13 +8,6 @@
 {% endif %}
 
 {# path #}
-{% set fullPathParams = app.request.attributes.get('_route_params') %}
-{% if fullPathParams['id'] is defined or app.request.attributes.get('_route') == 'homepage' %}
-	{% set route_name = 'app_home' %}
-{% else %}
-	{% set route_name = app.request.attributes.get('_route') %}
-{% endif %}
-{% set fullPath = url(route_name, fullPathParams) %}
 
 {# social #}
 {% set  social_link_url = get_env('APP_ENV') == 'dev' ? 'https://bit.ly/2ZDJRpF' : 'https://bit.ly/2ZDJHyz' %}
@@ -25,14 +18,3 @@
 {% set color1 = "#dcdc0a" %}
 
 {% block index %}{% endblock %}
-
-{# controller #}
-{# {% set controllerName = false %}
-{% if controller_name is defined %}
-	{% if controller_name in ['user:new', 'app:credit'] %}
-		{% set page_mode_header = 'mode-1' %}
-	{% endif %}
-	{% if controller_name == 'app' %}
-		{% set controllerName = true %}
-	{% endif %}
-{% endif %} #}

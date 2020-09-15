@@ -40,7 +40,7 @@
 							<div class="dropdown-menu" style="min-width: 1rem;" aria-labelledby="dropdownMenuButton">
 								{% for locale in ['fr', 'en'] %}
 									{% if locale != lang %}
-										<a class="dropdown-item text-dark" href="{{path('app_setlocale', {lang: locale, route: route_name})}}">{{locale}}</a>
+										<a class="dropdown-item text-dark" href="{{path('app_setlocale', {lang: locale})}}">{{locale}}</a>
 									{% endif %}
 								{% endfor %}
 							</div>

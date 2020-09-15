@@ -6,7 +6,6 @@ use App\Repository\GalleryRepository;
 use App\Repository\MealRepository;
 use App\Repository\ProviderRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -71,10 +70,10 @@ class AppController extends AbstractController
      *
      * @return array
      *
-     * @Route("/setlocale/{lang}-{route}", name="setlocale")
+     * @Route("/setlocale/{lang}", name="setlocale")
      */
-    public function setLocaleAction(string $route, string $lang = null, Request $request)
+    public function setLocaleAction(string $lang = null)
     {
-        return $this->redirectToRoute($route, ['_locale' => $lang]);
+        return $this->redirectToRoute('app_home', ['_locale' => $lang]);
     }
 }
