@@ -3,6 +3,7 @@
 namespace App\Form\Type;
 
 use App\Entity\Command;
+use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -18,6 +19,9 @@ class CommandType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        /** @var \App\Entity\User $user */
+        $user = $options['user'];
+
         $builder
             ->add('name', TextType::class, [
                 'translation_domain' => 'form',
@@ -26,14 +30,7 @@ class CommandType extends AbstractType
                 'attr' => [
                     'placeholder' => 'nom',
                 ],
-            ])
-            ->add('address', TextType::class, [
-                'translation_domain' => 'form',
-                'required' => true,
-                'label' => false,
-                'attr' => [
-                    'placeholder' => 'address',
-                ],
+                'data' => $user ? $user->getName() : '',
             ])
             ->add('phone', TelType::class, [
                 'translation_domain' => 'form',
@@ -43,6 +40,7 @@ class CommandType extends AbstractType
                     'placeholder' => 'tel',
                     'pattern' => '(87|89|40)[0-9]{6}',
                 ],
+                'data' => $user ? $user->getPhone() : '',
             ])
             ->add('email', EmailType::class, [
                 'translation_domain' => 'form',
@@ -50,6 +48,15 @@ class CommandType extends AbstractType
                 'label' => false,
                 'attr' => [
                     'placeholder' => 'email',
+                ],
+                'data' => $user ? $user->getEmail() : '',
+            ])
+            ->add('address', TextType::class, [
+                'translation_domain' => 'form',
+                'required' => true,
+                'label' => false,
+                'attr' => [
+                    'placeholder' => 'address',
                 ],
             ])
             ->add('commandAt', DateTimeType::class, [
@@ -84,6 +91,7 @@ class CommandType extends AbstractType
                 'translation_domain' => 'form',
                 'required' => false,
                 'attr' => [
+                    'class' => 'mx-lg-2',
                     'placeholder' => 'Entrer votre code promo',
                 ],
             ])
@@ -118,7 +126,10 @@ class CommandType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
+            'user' => false,
             'data_class' => Command::class,
-        ]);
+        ])
+            ->setAllowedTypes('user', User::class)
+        ;
     }
 }

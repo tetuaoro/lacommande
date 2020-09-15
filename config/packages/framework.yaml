@@ -13,7 +13,7 @@ framework:
         cookie_samesite: lax
         save_path: '%kernel.project_dir%/var/sessions/%kernel.environment%'
         # 2 Days lifetime (172800 seconds)
-        # 1 Month lifetime (2629746 seconds)
+        # 1 Month lifetime (2629746 seconds) without remember_me
         cookie_lifetime: 2629746
 
     #esi: true

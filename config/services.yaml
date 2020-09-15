@@ -9,7 +9,7 @@ parameters:
     locale: 'fr'
     app_locales: 'en|fr'
     # 1 year - 1 second xD
-    cookie_lifetime : 31556951
+    remember_me_lifetime: 31536000
     GC_PATH: '%kernel.project_dir%/config/google_api/project.json'
     images: '%kernel.project_dir%/public/assets/images'
     styles: '%kernel.project_dir%/public/assets/vendor/mailer'
@@ -38,6 +38,10 @@ services:
     App\Controller\:
         resource: '../src/Controller/'
         tags: ['controller.service_arguments']
+        
+    App\Api\:
+        resource: '../src/Api/'
+        tags: ['controller.service_arguments']
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
@@ -62,6 +66,3 @@ services:
             $credentials:
                 key: '%env(AWS_KEY)%'
                 secret: '%env(AWS_SECRET_KEY)%'
-    App\Api\:
-        resource: '../src/Api/'
-        tags: ['controller.service_arguments']

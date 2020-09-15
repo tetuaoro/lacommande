@@ -39,7 +39,7 @@ class CommandController extends AbstractController
     public function new(Request $request, CartService $cartService, Recaptcha $recaptcha, Mailer $mailer, AjaxService $ajaxService): Response
     {
         $command = new Command();
-        $form = $ajaxService->command_meal($command);
+        $form = $ajaxService->command_meal($command, $this->getUser());
 
         if ($request->isXmlHttpRequest()) {
             $form->handleRequest($request);

@@ -21,7 +21,7 @@ security:
                     - App\Security\UserAuthenticator
             remember_me:
                 secret:   '%env(APP_SECRET)%'
-                lifetime: '%cookie_lifetime%'
+                lifetime: '%remember_me_lifetime%'
                 secure: true
             logout:
                 path: app_logout

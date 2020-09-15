@@ -2,6 +2,7 @@ controllers:
     resource: ../../src/Controller/
     type: annotation
     prefix: /{_locale}
+    schemes: [https]
     requirements:
         _locale: '%app_locales%'
     defaults:
@@ -11,6 +12,7 @@ api:
     resource: ../../src/Api/
     type: annotation
     prefix: /api
+    schemes: [https]
 
 kernel:
     resource: ../../src/Kernel.php
