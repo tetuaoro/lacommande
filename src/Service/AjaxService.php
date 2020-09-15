@@ -27,7 +27,7 @@ class AjaxService
         $this->router = $routerInterface;
     }
 
-    public function command_meal(Command $command, User $user)
+    public function command_meal(Command $command, ?User $user)
     {
         return $this->form->create(CommandType::class, $command, [
             'method' => 'POST',

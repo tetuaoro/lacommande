@@ -129,7 +129,7 @@ class CommandType extends AbstractType
             'user' => false,
             'data_class' => Command::class,
         ])
-            ->setAllowedTypes('user', User::class)
+            ->setAllowedTypes('user', [User::class, 'null'])
         ;
     }
 }
