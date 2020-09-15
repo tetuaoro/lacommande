@@ -55,10 +55,10 @@
 								<a data-toggle="collapse" href="#collapseCommand" role="button" aria-expanded="false" aria-controls="collapseCommand">
 									<i class="fas fa-shopping-cart" aria-hidden="true" title="{% if meal_view %}Vous ne pouvez pas commander votre propre produit !{% else %}{{'Ajouter au panier' | trans}}{% endif %}"></i>
 								</a>
-								<a target="_blank" href="https://www.facebook.com/dialog/share?app_id={{ get_env('OAUTH_FACEBOOK_ID') }}&display=popup&href={{ url('meal_show', {id: meal.id, slug: meal.slug}) }}">
+								<a target="_blank" href="https://www.facebook.com/dialog/share?app_id={{ get_env('OAUTH_FACEBOOK_ID') }}&display=popup&href={{meal.bitly.link}}">
 									<i class="fa fa-facebook m-l-21" aria-hidden="true" title="{{ 'Partager sur facebook' | trans }}"></i>
 								</a>
-								<a target="_blank" class="twitter-share-button" href="https://twitter.com/intent/tweet?hashtags=ariifood,tahiti,polynesie,{{meal.provider.name}}&url={{url('meal_show', {id: meal.id, slug: meal.slug})}}">
+								<a target="_blank" class="twitter-share-button" href="https://twitter.com/intent/tweet?hashtags=ariifood,tahiti,polynesie,{{meal.provider.name}}&url={{meal.bitly.link}}">
 									<i class="fa fa-twitter m-l-21" aria-hidden="true" title="{{ 'Partager sur twitter' | trans }}"></i>
 								</a>
 							</div>

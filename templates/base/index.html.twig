@@ -17,8 +17,9 @@
 {% set fullPath = url(route_name, fullPathParams) %}
 
 {# social #}
-{% set global_twitter = "https://twitter.com/intent/tweet?hashtags=Arii,Food,Tahiti,Polynesie" ~ "&url=" ~ url('app_home') %}
-{% set global_fb = "https://www.facebook.com/dialog/share?app_id=" ~ get_env('OAUTH_FACEBOOK_ID') ~ "&display=popup&href=" ~ url('app_home') %}
+{% set  social_link_url = get_env('APP_ENV') == 'dev' ? 'https://bit.ly/2ZDJRpF' : 'https://bit.ly/2ZDJHyz' %}
+{% set global_twitter = "https://twitter.com/intent/tweet?hashtags=Arii,Food,Tahiti,Polynesie" ~ "&url=" ~ social_link_url %}
+{% set global_fb = "https://www.facebook.com/dialog/share?app_id=" ~ get_env('OAUTH_FACEBOOK_ID') ~ "&display=popup&href=" ~ social_link_url %}
 {% set global_insta = "https://www.instagram.com/" %}
 {# color #}
 {% set color1 = "#dcdc0a" %}
