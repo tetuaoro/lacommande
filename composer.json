@@ -13,6 +13,8 @@
         "doctrine/doctrine-fixtures-bundle": "^3.3",
         "doctrine/doctrine-migrations-bundle": "^3.0",
         "doctrine/orm": "^2.7",
+        "endroid/qr-code": "^3.9",
+        "endroid/qr-code-bundle": "^3.4",
         "fzaninotto/faker": "^1.9",
         "google/cloud-storage": "^1.22",
         "knplabs/knp-paginator-bundle": "^5.3",

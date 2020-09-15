@@ -83,7 +83,7 @@ class MealController extends AbstractController
                 $entityManager->persist($meal);
                 $entityManager->flush();
 
-                $bitlink = $bitlyService->create_url($this->generateUrl('meal_show', ['id' => $meal->getId(), 'slug' => $meal->getSlug()], UrlGenerator::ABSOLUTE_URL));
+                $bitlink = $bitlyService->create_url($this->generateUrl('meal_show', ['id' => $meal->getId(), 'slug' => $meal->getSlug()], UrlGenerator::ABSOLUTE_URL), $meal->getName());
 
                 $meal->setBitly($bitlink);
                 $entityManager->flush();
@@ -192,7 +192,7 @@ class MealController extends AbstractController
                 $entityManager->flush();
 
                 if ($bitly = $meal->getBitly()) {
-                    $bitlink = $bitlyService->update_url($bitly['id'], $this->generateUrl('meal_show', ['id' => $meal->getId(), 'slug' => $meal->getSlug()], UrlGenerator::ABSOLUTE_URL));
+                    $bitlink = $bitlyService->update_url($bitly['id'], $this->generateUrl('meal_show', ['id' => $meal->getId(), 'slug' => $meal->getSlug()], UrlGenerator::ABSOLUTE_URL), $meal->getName());
                     $meal->setBitly($bitlink);
                 }
 

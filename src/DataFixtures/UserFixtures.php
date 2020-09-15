@@ -6,7 +6,6 @@ use App\Entity\Delivery;
 use App\Entity\Lambda;
 use App\Entity\Provider;
 use App\Entity\User;
-use App\Repository\CityRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
@@ -15,18 +14,15 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class UserFixtures extends Fixture
 {
     protected $password;
-    protected $cityRepo;
 
-    public function __construct(CityRepository $cityRepository, UserPasswordEncoderInterface $userPasswordEncoderInterface)
+    public function __construct(UserPasswordEncoderInterface $userPasswordEncoderInterface)
     {
         $this->password = $userPasswordEncoderInterface;
-        $this->cityRepo = $cityRepository;
     }
 
     public function load(ObjectManager $manager)
     {
         $faker = (new Factory())->create('fr_FR');
-        $cities = $this->cityRepo->findAll();
 
         // Create User as PROVIDER
         for ($i = 0; $i < 6; ++$i) {
@@ -49,7 +45,7 @@ class UserFixtures extends Fixture
                     ->setMinPriceDelivery(2500)
                     ->setUrl('https://www.google.com')
                     ->setCode('#'.$faker->ean8)
-                    ->setCity($faker->randomElement($cities))
+
                     ->setOpentime($faker->dateTimeBetween())
                     ->setClosetime($faker->dateTimeBetween())
                     ->setCreatedAt($user->getCreatedAt())
@@ -70,7 +66,7 @@ class UserFixtures extends Fixture
                 $delivery = new Delivery();
                 $roles[] = 'ROLE_DELIVERY';
                 $delivery->setName($user->getName())
-                    ->setCity($faker->randomElement($cities))
+
                 ;
                 $user->setRoles($roles)
                     ->setDelivery($delivery)

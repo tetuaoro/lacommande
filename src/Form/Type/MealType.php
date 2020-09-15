@@ -28,6 +28,9 @@ class MealType extends AbstractType
             ->add('price', IntegerType::class, [
                 'translation_domain' => 'form',
             ])
+            ->add('stock', IntegerType::class, [
+                'translation_domain' => 'form',
+            ])
             ->add('tags', TagsType::class, [
                 'translation_domain' => 'form',
             ])

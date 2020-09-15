@@ -105,23 +105,23 @@
 /* // Large devices (desktops, 992px and up) */
 @media (min-width: 992px) {
   .user-manage .manage-meal {
-    grid-template-columns: repeat(5, auto);
+    grid-template-columns: repeat(4, auto);
     grid-gap: 13px;
   }
 }
 
 /* // Extra large devices (large desktops, 1200px and up) */
-@media (min-width: 1200px) {
+/* @media (min-width: 1200px) {
   .user-manage .manage-meal {
     grid-template-columns: repeat(7, auto);
     grid-gap: 13px;
   }
-}
+} */
 
 /* XXLarge screens ----------- */
-@media only screen and(min-width: 1824px) {
+/* @media only screen and(min-width: 1824px) {
   .user-manage .manage-meal {
     grid-template-columns: repeat(12, auto);
     grid-gap: 15px;
   }
-}
+} */

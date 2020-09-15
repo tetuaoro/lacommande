@@ -52,8 +52,10 @@ class MealFixtures extends Fixture implements DependentFixtureInterface
             }
 
             $name = ucfirst($faker->word);
+            $env = 'dev' == $_ENV['APP_ENV'];
 
             $meal->setName($name)
+                ->setBitly(['link' => $env ? 'https://bit.ly/2ZDJRpF' : 'https://bit.ly/2ZDJHyz'])
                 ->setProvider($faker->randomElement($providers))
                 ->setPrice($faker->numberBetween(100, 7000))
                 ->setStock($faker->numberBetween(0, 500))

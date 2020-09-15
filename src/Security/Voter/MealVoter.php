@@ -3,7 +3,6 @@
 namespace App\Security\Voter;
 
 use App\Entity\Meal;
-use App\Repository\UserRepository;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\Security;
@@ -17,12 +16,10 @@ class MealVoter extends Voter
     public const DELETE = 'MEAL_DELETE';
 
     private $security;
-    private $user;
 
-    public function __construct(Security $security, UserRepository $userRepository)
+    public function __construct(Security $security)
     {
         $this->security = $security;
-        $this->user = $userRepository;
     }
 
     protected function supports($attribute, $subject)
@@ -45,14 +42,10 @@ class MealVoter extends Voter
             return true;
         }
 
-        $user_ = $token->getUser();
+        /** @var \App\Entity\User $user */
+        $user = $token->getUser();
         // if the user is anonymous, do not grant access
-        if (!$user_ instanceof UserInterface) {
-            return false;
-        }
-
-        $user = $this->user->findOneBy(['username' => $user_->getUsername()]);
-        if (!$user) {
+        if (!$user instanceof UserInterface) {
             return false;
         }
 

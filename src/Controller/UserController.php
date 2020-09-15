@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Delivery;
 use App\Entity\Provider;
 use App\Entity\User;
+use App\Form\Type\RegisterType;
 use App\Form\Type\UserType;
 use App\Repository\UserRepository;
 use App\Service\Mailer;
@@ -91,6 +92,27 @@ class UserController extends AbstractController
         return $this->render('user/new.html.twig', [
             'controller_name' => 'user:new',
             'user' => $user,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/create-new-super", name="register")
+     */
+    public function new_user(Request $request)
+    {
+        $form = $this->createForm(RegisterType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ('lambda' == $form->get('choice')->getData()) {
+                return $this->redirectToRoute('lambda_new');
+            }
+
+            return $this->redirectToRoute('user_new');
+        }
+
+        return $this->render('user/register.html.twig', [
             'form' => $form->createView(),
         ]);
     }

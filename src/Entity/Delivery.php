@@ -39,6 +39,7 @@ class Delivery
     /**
      * @ORM\ManyToOne(targetEntity=City::class, inversedBy="Deliveries")
      * @ORM\JoinColumn(nullable=false)
+     * @ORM\Column(nullable=true)
      */
     private $city;
 

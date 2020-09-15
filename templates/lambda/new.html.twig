@@ -9,12 +9,24 @@
 	<div class="user-new p-t-140 p-b-90">
 		<div class="row">
 			<div class="col-md"></div>
-			<div class="col-md-8">
+			<div class="col-md-4">
 				<div class="alert alert-info" role="alert">
 					Vous êtes un professionnel ? L'inscription pour vous est par
-					<a href="{{path('user_new')}}" class="alert-link">ici</a>. Cliquer !
+					<a href="{{path('user_new')}}" class="alert-link">ici</a>. Cliquez !
 				</div>
-				{{ include('lambda/_form.html.twig') }}
+				<hr class="mx-auto size28 bg-dark mb-lg-5 mb-md-3 mb-2">
+				<div class="border border-app p-1">
+					{{ include('lambda/_form.html.twig') }}
+				</div>
+				<p class="mt-2">
+					<small>
+						<em>*
+						</em>En créant un compte sur
+						<a href="{{ path('app_index') }}">{{ nameSite}}</a>, vous certifiez avoir au moins 18 ans, acceptez les
+						<a href="{{path('app_credit')}}">Conditions d'utilisations</a>, ainsi que l'utilisattion des
+						<a href="">Cookies</a>
+						du site.</small>
+				</p>
 			</div>
 			<div class="col-md"></div>
 		</div>

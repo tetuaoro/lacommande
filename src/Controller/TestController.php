@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Menu;
 use App\Entity\User;
+use App\Form\Type\RegisterType;
 use App\Service\AjaxService;
 use App\Service\Mailer;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -65,5 +66,28 @@ class TestController extends AbstractController
         }
 
         return $this->redirectToRoute('test_index');
+    }
+
+    /**
+     * @Route("/form/dynamic", name="formulaire", methods={"GET", "POST"})
+     */
+    public function formulaire(Request $request)
+    {
+        $form = $this->createForm(RegisterType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // $choice = $form->get('choice')->getData();
+
+            if ('lambda' == $form->get('choice')->getData()) {
+                return $this->redirectToRoute('lambda_new');
+            }
+
+            return $this->redirectToRoute('user_new');
+        }
+
+        return $this->render('test/formulaire.html.twig', [
+            'form' => $form->createView(),
+        ]);
     }
 }

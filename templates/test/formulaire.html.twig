@@ -1,0 +1,25 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+	<section class="form p-t-130 p-b-95">
+		<div class="row">
+			<div class="col-md"></div>
+			{% if form.lambda is defined %}
+				<div class="col-md-4">
+					{% include "lambda/_form.html.twig" with {form:form.lambda} %}
+				</div>
+			{% else %}
+				<div class="col-md-6">
+					{% if form.provider is defined %}
+						{% include "user/_form.html.twig" with {form:form.provider} %}
+					{% else %}
+						{{form_start(form)}}
+						{{form_rest(form)}}
+						{{form_end(form)}}
+					{% endif %}
+				</div>
+			{% endif %}
+			<div class="col-md"></div>
+		</div>
+	</div>
+</section>{% endblock %}

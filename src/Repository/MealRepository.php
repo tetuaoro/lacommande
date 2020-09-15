@@ -22,6 +22,7 @@ class MealRepository extends ServiceEntityRepository
     public function findLastMeal($how = 3)
     {
         return $this->createQueryBuilder('m')
+            ->where('m.stock > 0')
             ->orderBy('m.createdAt', 'DESC')
             ->setMaxResults($how)
             ->getQuery()
@@ -34,6 +35,7 @@ class MealRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('m')
             ->select('COUNT(c) AS HIDDEN cmds', 'm')
             ->leftJoin('m.commands', 'c')
+            ->where('m.stock > 0')
             ->orderBy('cmds', 'DESC')
             ->groupBy('m')
             ->setMaxResults($how)

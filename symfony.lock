@@ -2,6 +2,9 @@
     "aws/aws-sdk-php": {
         "version": "3.147.12"
     },
+    "bacon/bacon-qr-code": {
+        "version": "2.0.2"
+    },
     "behat/transliterator": {
         "version": "v1.3.0"
     },
@@ -20,6 +23,9 @@
             "config/packages/ch_cookie_consent.yaml",
             "config/routes/ch_cookie_consent.yaml"
         ]
+    },
+    "dasprid/enum": {
+        "version": "1.0.2"
     },
     "doctrine/annotations": {
         "version": "1.0",
@@ -118,6 +124,15 @@
     "egulias/email-validator": {
         "version": "2.1.18"
     },
+    "endroid/installer": {
+        "version": "1.2.3"
+    },
+    "endroid/qr-code": {
+        "version": "3.9.1"
+    },
+    "endroid/qr-code-bundle": {
+        "version": "3.4.3"
+    },
     "firebase/php-jwt": {
         "version": "v5.2.0"
     },
@@ -151,6 +166,9 @@
     "heroku/heroku-buildpack-php": {
         "version": "v178"
     },
+    "khanamiryan/qrcode-detector-decoder": {
+        "version": "1.0.3"
+    },
     "knplabs/knp-components": {
         "version": "v2.4.2"
     },
@@ -180,6 +198,9 @@
     },
     "mtdowling/jmespath.php": {
         "version": "2.6.0"
+    },
+    "myclabs/php-enum": {
+        "version": "1.7.6"
     },
     "nacmartin/phpexecjs": {
         "version": "v3.0.0"

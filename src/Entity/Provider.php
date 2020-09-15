@@ -79,6 +79,7 @@ class Provider
     /**
      * @ORM\ManyToOne(targetEntity=City::class, inversedBy="providers")
      * @ORM\JoinColumn(nullable=false)
+     * @ORM\Column(nullable=true)
      */
     private $city;
 

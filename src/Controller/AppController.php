@@ -35,7 +35,7 @@ class AppController extends AbstractController
     }
 
     /**
-     * @Route("/public/credit/cgu-cgv-ml", name="credit")
+     * @Route("/public/legal/terms-of-use", name="credit")
      */
     public function credit()
     {
@@ -45,7 +45,7 @@ class AppController extends AbstractController
     }
 
     /**
-     * @Route("/public/rgpd", name="rgpd")
+     * @Route("/public/legal/privacy-policy", name="rgpd")
      */
     public function rgpd()
     {

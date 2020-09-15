@@ -1,4 +1,4 @@
-{% if is_granted('MEAL_VIEW', meal) %}
+{% if meal_view %}
 	<div class="card">
 		<div class="card-body">
 			<ul class="list-group list-group-flush">
@@ -9,7 +9,10 @@
 					</span>
 				</li>
 				<li class="list-group-item">Lien :
-					<a href="{{meal.bitly ? meal.bitly.link : '#'}}">{{meal.bitly ? meal.bitly.link : 'none'}}</a>
+					<a href="{{meal.bitly.link}}">{{meal.bitly.link}}</a>
+				</li>
+				<li class="list-group-item">
+					<img src="{{ qr_code_url(meal.bitly.link, {size:150,label:meal.name}) }}"/>
 				</li>
 				<li class="list-group-item">Depuis :
 					{{meal.createdAt|date('d/m/y')}}

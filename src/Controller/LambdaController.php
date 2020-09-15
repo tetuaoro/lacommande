@@ -57,7 +57,7 @@ class LambdaController extends AbstractController
 
             $mailer->sendConfirmationNewUser($user);
 
-            $this->addFlash('success', 'L\'utilisateur a bien été créé. Veillez a confirmé votre adresse mail pour bénéficier des avantages sur ARII FOOD.');
+            $this->addFlash('success', 'L\'utilisateur a bien été créé. Veillez a confirmé votre adresse mail pour bénéficier des avantages sur le site.');
 
             return $this->redirectToRoute('app_login');
         }

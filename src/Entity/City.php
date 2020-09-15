@@ -32,11 +32,13 @@ class City
 
     /**
      * @ORM\OneToMany(targetEntity=Provider::class, mappedBy="city")
+     * @ORM\Column(nullable=true)
      */
     private $providers;
 
     /**
      * @ORM\OneToMany(targetEntity=Delivery::class, mappedBy="city")
+     * @ORM\Column(nullable=true)
      */
     private $Deliveries;
 

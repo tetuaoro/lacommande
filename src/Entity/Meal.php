@@ -121,6 +121,7 @@ class Meal
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Assert\GreaterThan(0)
      */
     private $stock;
 

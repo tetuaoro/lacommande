@@ -11,14 +11,14 @@ class BitlyService
         $this->env = $env;
     }
 
-    public function create_url(string $link, string $title = null)
+    public function create_url(string $link, string $title = '')
     {
         $apiv4 = 'https://api-ssl.bitly.com/v4/bitlinks';
         $genericAccessToken = '11bbc353066e23d1c0733634ae12cc250b2b62c6';
 
         $data = [
             'long_url' => $link,
-            'title' => uniqid('lacommande').'-'.$this->env.'-'.$title ? $title : '',
+            'title' => $title,
             'tags' => [
                 'lacommande',
                 $this->env,
@@ -42,13 +42,14 @@ class BitlyService
         return json_decode($result, true);
     }
 
-    public function update_url(string $id, string $link, string $title = null)
+    public function update_url(string $id, string $link, string $title = '')
     {
         $apiv4 = 'https://api-ssl.bitly.com/v4/bitlinks/'.$id;
         $genericAccessToken = '11bbc353066e23d1c0733634ae12cc250b2b62c6';
 
         $data = [
             'long_url' => $link,
+            'title' => $title,
         ];
         $payload = json_encode($data);
 

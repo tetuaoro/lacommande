@@ -9,12 +9,21 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Routing\RouterInterface;
 
 class UserType extends AbstractType
 {
+    protected $router;
+
+    public function __construct(RouterInterface $routerInterface)
+    {
+        $this->router = $routerInterface;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -50,6 +59,11 @@ class UserType extends AbstractType
                 'mapped' => false,
                 'required' => true,
                 'label' => 'J\'accepte les conditions',
+            ])
+            ->add('envoyer', SubmitType::class, [
+                'attr' => [
+                    'class' => 'btn',
+                ],
             ])
         ;
     }
