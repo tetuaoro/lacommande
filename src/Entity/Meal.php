@@ -33,6 +33,7 @@ class Meal
 
     /**
      * @ORM\Column(type="datetimetz")
+     * @Groups({"commandjs"})
      */
     private $createdAt;
 
@@ -76,6 +77,7 @@ class Meal
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"commandjs"})
      */
     private $img;
 

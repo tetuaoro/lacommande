@@ -1,6 +1,6 @@
 import React from 'react';
 import { renderToString } from 'react-dom/server';
-import { SFContext } from './context';
+import { SFContext } from '../stores/context';
 import App from '../components/App';
 
 /**

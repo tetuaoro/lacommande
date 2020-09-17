@@ -16,6 +16,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGenerator;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 /**
  * @Route("/product", name="meal_")
@@ -37,15 +39,17 @@ class MealController extends AbstractController
             ]
         );
 
+        // dd($mealRepository->getMealByProvider($this->getUser()->getProvider())->getResult());
+
         return $this->render('meal/index.html.twig', [
             'meals' => $meals,
         ]);
     }
 
     /**
-     * @Route("/n/new", name="new", methods={"POST", "GET"})
+     * @Route("/new-meal", name="new", methods={"POST", "GET"})
      */
-    public function new(AjaxService $ajaxService, Recaptcha $recaptcha, BitlyService $bitlyService, Storage $storage, Request $request): Response
+    public function new(AjaxService $ajaxService,BitlyService $bitlyService, Storage $storage, Request $request): Response
     {
         $this->denyAccessUnlessGranted('ROLE_PROVIDER');
 
@@ -58,16 +62,7 @@ class MealController extends AbstractController
         if ($request->isXmlHttpRequest()) {
             $form->handleRequest($request);
 
-            $f = false;
-            if ($g = $form->get('recaptcha')->getData()) {
-                $f = $recaptcha->captchaverify($g)->success;
-            }
-
-            if ($form->isSubmitted() && !$f) {
-                $form->get('recaptcha')->addError(new FormError('Recaptcha : êtes-vous un robot ?'));
-            }
-
-            if ($form->isSubmitted() && $form->isValid() && $f) {
+            if ($form->isSubmitted() && $form->isValid()) {
                 $entityManager = $this->getDoctrine()->getManager();
                 $image = $form->get('image')->getData();
                 $provider = $user->getProvider();
@@ -88,9 +83,14 @@ class MealController extends AbstractController
                 $meal->setBitly($bitlink);
                 $entityManager->flush();
 
-                $this->addFlash('success', 'Assiette créée avec succès.');
+                $defaultContext = [
+                    AbstractNormalizer::CIRCULAR_REFERENCE_HANDLER => function ($object, $format, $context) {
+                        return $object->getId();
+                    },
+                    AbstractNormalizer::GROUPS => 'commandjs',
+                ];
 
-                return new Response($this->generateUrl('user_manage', ['id' => $user->getId(), 'view' => 'v-pills-meal']), Response::HTTP_CREATED);
+                return $this->json($meal, Response::HTTP_CREATED, [], $defaultContext);
             }
             if ($form->isSubmitted() && !$form->isValid()) {
                 return $this->render(
@@ -118,6 +118,8 @@ class MealController extends AbstractController
         }
 
         $form = $ajaxService->cart_form($meal);
+
+        dump($this->generateUrl('meal_show', ['id' => $meal->getId(), 'slug' => $meal->getSlug()]));
 
         /** @var \App\Entity\User $user */
         $user = $this->getUser();

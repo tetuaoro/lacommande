@@ -1,17 +1,53 @@
-{% extends "base.html.twig" %}
+{% extends "base/index.html.twig" %}
 
-{% block title %}
-	{{status_code}}
-{% endblock %}
-
-{% block body %}
-	<div class="d-flex flex-column justify-content-center align-items-center p-t-140 p-b-100">
-		<i class="far fa-frown fa-10x text-app"></i>
-		<p class="text-dark" style="font-size: 7em">Oups !
-			{{status_code}}</p>
-		<p class="text-dark">
-			<small>Cette page n'existe pas ou  une erreur est survenue.</small>
-		</p>
-		<p class="text-danger">{{status_text}}</p>
-	</div>
+{% block index %}
+	<!DOCTYPE html>
+	<html lang="{{lang}}">
+		<head>
+			<title>
+				{{"Oups ! " ~ status_code ~ " error"}}
+			</title>
+			<meta charset="UTF-8">
+			<meta name="viewport" content="width=device-width, initial-scale=1">
+			<link rel="icon" type="image/png" href="{{asset('assets/images/icons/favicon.png')}}">
+			<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+			<link rel="stylesheet" type="text/css" href="{{asset('assets/custom/css/app-style.css') }}">
+		</head>
+		<body class="d-flex flex-column">
+			<div class="header">
+				<nav class="navbar navbar-expand-lg navbar-dark bg-info">
+					<a class="navbar-brand" href="{{path('app_index') }}">
+						<img src="{{asset('assets/images/icons/icon-position-map.png') }}" class="d-inline-block align-top" alt="IMG-LOGO" loading="lazy">
+					</a>
+					<button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse" id="navbarSupportedContent">
+						<ul class="navbar-nav mr-auto">
+							<li class="nav-item active">
+								<a class="nav-link" href="{{path('contact_new') }}">Signaler une erreur</a>
+							</li>
+						</ul>
+					</div>
+				</nav>
+			</div>
+			<div id="main" class="mt-2">
+				<div class="d-flex flex-column justify-content-center align-items-center">
+					<i class="far fa-frown fa-10x text-danger"></i>
+					<p class="text-danger" style="font-size: 7em">{{status_code}}</p>
+					<p class="text-dark">
+						<small>Cette page n'existe pas ou  une erreur est survenue.</small>
+					</p>
+					<h2>{{status_text}}</h2>
+				</div>
+			</div>
+			<div class="footer mt-auto">
+				<footer></footer>
+			</div>
+			<script src="https://kit.fontawesome.com/9132b45b0a.js" crossorigin="anonymous"></script>
+			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+			<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+			<script type="text/javascript" src="{{asset('assets/vendor/bootstrap/js/bootstrap.min.js')}}"></script>
+		</body>
+	</html>
 {% endblock %}

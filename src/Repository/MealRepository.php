@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Meal;
+use App\Entity\Provider;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -57,6 +58,15 @@ class MealRepository extends ServiceEntityRepository
     public function paginator()
     {
         return $this->createQueryBuilder('m')->getQuery();
+    }
+
+    public function getMealByProvider(Provider $provider)
+    {
+        return $this->createQueryBuilder('m')
+            ->where('m.provider = :id')
+            ->setParameter('id', $provider->getId())
+            ->getQuery()
+        ;
     }
 
     // /**

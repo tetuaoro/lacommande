@@ -1,36 +1,62 @@
-{% extends "base.html.twig" %}
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<title>
+			{% block title %}Administrer
+			{% endblock %}
+		</title>
 
-{% block header %}
-	<header>
-		<nav class="navbar navbar-expand-lg navbar-dark bg-warning fixed-left">
-			<a class="navbar-brand" href="{{path('app_index')}}">{{nameSite}}</a>
-		</nav>
-	</header>
-{% endblock %}
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="icon" type="image/png" href="{{asset('assets/images/icons/favicon.png')}}">
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+		<link rel="stylesheet" type="text/css" href="{{asset('assets/custom/css/app-style.css') }}"> {% block stylesheets %}{% endblock %}
 
-{% block bodyfull %}
-	<section class="user-auth user-manage bg-faIcon pt-4 pb-4" data-fa-icon="&#xf2e7">
-		{% block user %}{% endblock %}
-	</section>
-{% endblock %}
+		<link rel="stylesheet" type="text/css" href="{{asset('assets/custom/vendor/rte/richTextEditor.css')}}">
+		<link rel="stylesheet" type="text/css" href="{{asset('assets/vendor/select2/select2.min.css')}}">
+		<link rel="stylesheet" type="text/css" href="{{asset('assets/custom/css/user/app-auth.css')}}">
+		{{ encore_entry_link_tags('app') }}
+	</head>
+	<body class="ch-cookie-consent-body">
+		<div>
+			{% block header %}
+				<header>
+					<nav class="navbar navbar-expand-lg navbar-dark bg-warning fixed-left">
+						<a class="navbar-brand" href="{{path('app_index')}}">Arii Food</a>
+					</nav>
+				</header>
+			{% endblock %}
+			{% block bodyfull %}
+				<section class="user-auth user-manage bg-faIcon pt-4 pb-4" data-fa-icon="&#xf2e7">
+					{% block user %}{% endblock %}
+				</section>
+			{% endblock %}
+			{% block footer %}
+				<footer id="user-footer"></footer>
+			{% endblock %}
+		</div>
+		<script src="https://kit.fontawesome.com/9132b45b0a.js" crossorigin="anonymous"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 
-{% block footer %}
-	<footer id="user-footer"></footer>
-{% endblock %}
+		<script type="text/javascript" src="{{asset('assets/vendor/bootstrap/js/bootstrap.min.js')}}"></script>
 
-{% block stylesheets %}
-	<link rel="stylesheet" type="text/css" href="{{asset('assets/custom/vendor/rte/richTextEditor.css')}}">
-	<link rel="stylesheet" type="text/css" href="{{asset('assets/vendor/select2/select2.min.css')}}">
-	<link rel="stylesheet" type="text/css" href="{{asset('assets/custom/css/user/app-auth.css')}}">
-	 {{ encore_entry_link_tags('app') }}
-{% endblock %}
+		<script src="{{asset('assets/vendor/custom/js/loadingoverlay.min.js')}}"></script>
 
-{% block javascripts %}
-	<script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
-	<script src="https://www.google.com/recaptcha/api.js?render={{get_env('RECAPTCHA_KEY_3')}}" type="text/javascript"></script>
-	<script src="{{asset('assets/vendor/custom/js/loadingoverlay.min.js')}}"></script>
-	<script src="{{asset('assets/custom/vendor/rte/richTextEditor.js')}}"></script>
-	<script src="{{asset('assets/vendor/select2/select2.min.js')}}"></script>
-	<script src="{{asset('assets/custom/js/user/app-auth.js')}}"></script>
-	 {{ encore_entry_script_tags('app') }}
-{% endblock %}
+
+		<script src="{{asset('assets/custom/js/app.js')}}"></script>
+		<script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
+		<script src="https://www.google.com/recaptcha/api.js?render={{get_env('RECAPTCHA_KEY_3')}}" type="text/javascript"></script>
+		<script src="{{asset('assets/vendor/custom/js/loadingoverlay.min.js')}}"></script>
+		<script src="{{asset('assets/custom/vendor/rte/richTextEditor.js')}}"></script>
+		<script src="{{asset('assets/vendor/select2/select2.min.js')}}"></script>
+		<script src="{{asset('assets/custom/js/user/app-auth.js')}}"></script>
+		{{ encore_entry_script_tags('app') }}
+		{% block javascripts %}{% endblock %}
+
+		{% if chcookieconsent_isCookieConsentSavedByUser() == false %}
+			{{ render(path('ch_cookie_consent.show_if_cookie_consent_not_set')) }}
+		{% endif %}
+
+	</body>
+</html>

@@ -5,54 +5,5 @@
 {% endblock %}
 
 {% block user %}
-	<div class="container">
-		<div class="row">
-			<div class="col-md-2">
-				{% set active = app.request.get('view') ? app.request.get('view') : '' %}
-				<div class="nav flex-md-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-					<a class="nav-link mb-3{% if active == 'v-pills-meal' or active == '' %} active{% endif %}" id="v-pills-meal-tab" data-fa-icon="&#xf2e7" data-toggle="pill" href="#v-pills-meal" role="tab" aria-controls="v-pills-meal" aria-selected="true">
-						{{"meal"|trans({}, 'user')}}
-					</a>
-					<a class="nav-link mb-3{% if active == 'v-pills-menu' %} active{% endif %}" id="v-pills-menu-tab" data-fa-icon="&#xf6d7" data-toggle="pill" href="#v-pills-menu" role="tab" aria-controls="v-pills-menu" aria-selected="false">
-						{{"menu"|trans({}, 'user')}}
-					</a>
-					<a class="nav-link mb-3{% if active == 'v-pills-command' %} active{% endif %}" id="v-pills-command-tab" data-fa-icon="&#xf6d7" data-toggle="pill" href="#v-pills-command" role="tab" aria-controls="v-pills-command" aria-selected="false">
-						{{"command"|trans({}, 'user')}}
-					</a>
-				</div>
-			</div>
-			<div class="col-md">
-				<div class="tab-content" id="v-pills-tabContent">
-					<div class="tab-pane fade{% if active == 'v-pills-meal' or active == '' %} show active{% endif %}" id="v-pills-meal" role="tabpanel" aria-labelledby="v-pills-meal-tab">
-						{% include "user/auth/manage/meal.html.twig" %}
-					</div>
-					<div class="tab-pane fade{% if active == 'v-pills-menu' %} show active{% endif %}" id="v-pills-menu" role="tabpanel" aria-labelledby="v-pills-menu-tab">
-						{% include "user/auth/manage/menu.html.twig" %}
-					</div>
-					<div class="tab-pane fade{% if active == 'v-pills-command' %} show active{% endif %}" id="v-pills-command" role="tabpanel" aria-labelledby="v-pills-command-tab">
-						{% include "user/auth/manage/command.html.twig" %}
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="modal" id="deleteModal" tabindex="-1">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title"></h5>
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-					<div class="modal-body">
-						<p>{{"Confirmez la suppression de cet objet."}}</p>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-dismiss="modal">{{"Annuler"}}</button>
-						<button id="meal-btn-delete-confirm" type="button" class="btn btn-danger">{{"Confirmer"}}</button>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+	<div>{{ react_component('Manage') }}</div>
 {% endblock %}

@@ -1,4 +1,4 @@
-import ReactOnRails from 'react-on-rails';
-import Entry from "./src/routes/index";
+import ReactOnRails from "react-on-rails";
+import Entry from "./src/routes/manage";
 
-ReactOnRails.register({ Command : Entry });
+ReactOnRails.register({Manage: Entry});

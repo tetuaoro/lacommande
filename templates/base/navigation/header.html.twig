@@ -14,17 +14,25 @@
 						<nav class="menu">
 							<ul class="main_menu">
 								<li>
-									<a href="{{path('app_home') }}">{{ "Accueil" | trans({}, 'nav') }}</a>
+									<a href="{{path('app_home') }}">
+										<i class="fas fa-home" aria-hidden="true"></i>
+										{{ "Accueil" | trans({}, 'nav') }}</a>
 								</li>
 								<li>
-									<a href="{{path('meal_index') }}">{{ "Les plats" | trans({}, 'nav') }}</a>
+									<a href="{{path('meal_index') }}">
+										<i class="fas fa-utensils" aria-hidden="true"></i>
+										{{ "Les plats" | trans({}, 'nav') }}</a>
 								</li>
 								<li>
-									<a href="{{path('contact_new') }}">Contact</a>
+									<a href="{{path('contact_new') }}">
+										<i class="fas fa-address-book" aria-hidden="true"></i>
+										Contact</a>
 								</li>
 								{% if app.debug %}
 									<li>
-										<a href="{{path('test_index') }}">Test</a>
+										<a href="{{path('test_index') }}">
+											<i class="fas fa-vial" aria-hidden="true"></i>
+											Test</a>
 									</li>
 								{% endif %}
 							</ul>
@@ -68,7 +76,7 @@
 										<i class="far fa-eye mr-lg-1" aria-hidden="true"></i>
 										{{"Profile"|trans({}, 'nav')}}
 									</a>
-									{% if is_granted('ROLE_PROVIDER', app.user) %}
+									{% if is_granted('ROLE_PROVIDER') %}
 										<a class="dropdown-item text-dark" href="{{path('user_manage', {id: app.user.id})}}">
 											<i class="fas fa-cogs mr-lg-1" aria-hidden="true"></i>
 											{{"Administrer"|trans({}, 'nav')}}
@@ -98,29 +106,49 @@
 		<button class="btn-hide-sidebar ti-close color0-hov trans-0-4"></button>
 
 		<ul class="menu-sidebar p-t-70 p-b-70">
-			<li class="t-center m-b-30">
-				<a href="{% if app.user %}{{path('user_manage', {id: app.user.id})}}{% else %}{{path('app_login')}}{% endif %}" class="border-bottom size1 flex-c-m trans-0-4 m-l-r-auto{% if app.user %} colorated{% endif %}">
+			<li class="t-center m-b-13">
+				<a href="{% if app.user %}{{path('user_show', {id: app.user.id, slug: app.user.slug})}}{% else %}{{path('app_login')}}{% endif %}" class="{% if app.user %}colorated{% endif %}">
 					<span class="ti-user"></span>
 				</a>
 			</li>
-			{% if app.user %}
-				<li class="t-center m-b-13">
-					<a class="txt19" href="{{path('user_show', {id: app.user.id, slug: app.user.slug})}}">{{"Profile"|trans({}, 'nav')}}</a>
-				</li>
-			{% endif %}
 			{% if app.debug %}
 				<li class="t-center m-b-13">
-					<a class="txt19 text-warning" href="{{path('test_index')}}">Test</a>
+					<a class="txt19 text-warning" href="{{path('test_index')}}">
+						<i class="fas fa-bars" aria-hidden="true"></i>
+						Test</a>
 				</li>
 			{% endif %}
+			{% if is_granted('ROLE_PROVIDER') %}
+				<li class="t-center m-b-13">
+					<a class="txt19" href="{{path('user_manage', {id: app.user.id})}}">
+						<i class="fas fa-cogs" aria-hidden="true"></i>
+						{{"Administrer"|trans({}, 'nav')}}
+					</a>
+				</li>
+			{% endif %}
+			{% if app.user %}
+				<li class="t-center m-b-13">
+					<a class="txt19" href="{{path('app_logout')}}">
+						<i class="fas fa-sign-out-alt" aria-hidden="true"></i>
+						{{"Logout"|trans({}, 'nav')}}
+					</a>
+				</li>
+			{% endif %}
+			<hr class="w-50 mx-auto">
 			<li class="t-center m-b-13">
-				<a href="{{path('app_index')}}" class="txt19">{{ "Accueil" | trans({}, 'nav') }}</a>
+				<a href="{{path('app_index')}}" class="txt19">
+					<i class="fas fa-home" aria-hidden="true"></i>
+					{{ "Accueil" | trans({}, 'nav') }}</a>
 			</li>
 			<li class="t-center m-b-13">
-				<a href="{{path('meal_index')}}" class="txt19">{{ "Les plats" | trans({}, 'nav') }}</a>
+				<a href="{{path('meal_index')}}" class="txt19">
+					<i class="fas fa-utensils" aria-hidden="true"></i>
+					{{ "Les plats" | trans({}, 'nav') }}</a>
 			</li>
 			<li class="t-center m-b-33">
-				<a href="{{path('contact_new')}}" class="txt19">Contact</a>
+				<a href="{{path('contact_new')}}" class="txt19">
+					<i class="fas fa-address-book" aria-hidden="true"></i>
+					Contact</a>
 			</li>
 
 			<li class="t-center">

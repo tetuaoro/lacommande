@@ -38,6 +38,7 @@
 }
 .bg-card-img-hover:hover {
   background: rgba(0, 0, 0, 0.5);
+  color: #fff;
 }
 
 /* SELECT2 */
