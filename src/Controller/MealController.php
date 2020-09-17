@@ -17,7 +17,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
-use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 /**
  * @Route("/product", name="meal_")
@@ -49,7 +48,7 @@ class MealController extends AbstractController
     /**
      * @Route("/new-meal", name="new", methods={"POST", "GET"})
      */
-    public function new(AjaxService $ajaxService,BitlyService $bitlyService, Storage $storage, Request $request): Response
+    public function new(AjaxService $ajaxService, BitlyService $bitlyService, Storage $storage, Request $request): Response
     {
         $this->denyAccessUnlessGranted('ROLE_PROVIDER');
 
@@ -118,8 +117,6 @@ class MealController extends AbstractController
         }
 
         $form = $ajaxService->cart_form($meal);
-
-        dump($this->generateUrl('meal_show', ['id' => $meal->getId(), 'slug' => $meal->getSlug()]));
 
         /** @var \App\Entity\User $user */
         $user = $this->getUser();
