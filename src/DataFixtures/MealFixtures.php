@@ -59,6 +59,7 @@ class MealFixtures extends Fixture implements DependentFixtureInterface
                 ->setProvider($faker->randomElement($providers))
                 ->setPrice($faker->numberBetween(100, 7000))
                 ->setStock($faker->numberBetween(0, 500))
+                ->setIsDelete(false)
                 ->setRecipe($paragraphs_recipe)
                 ->setDescription($paragraphs_description)
                 ->setImg($faker->randomElement($images))
