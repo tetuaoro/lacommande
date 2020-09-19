@@ -1,4 +1,4 @@
-$(document).ready(function () {
+jQuery(() => {
   var oDocs = [];
 
   $.fn.richTextEditor = function () {
@@ -9,6 +9,7 @@ $(document).ready(function () {
   function initRichTextEditor() {
     oDocs.forEach((oDoc) => {
       oDoc.addEventListener("paste", function (event) {
+        console.log("paste event");
         event.preventDefault();
         formatDoc(
           oDoc,
@@ -20,19 +21,19 @@ $(document).ready(function () {
       if ($(oDoc).next(".rte.textarea").length == 0) {
         $(oDoc).after(`<div class="rte textarea">
         <div class="toolBar">
-          <button class="btn" type="button" title="{{'gras'|trans({}, 'rte')}}" onclick="formatDoc(this, 'bold');">
+          <button class="btn" type="button" title="gras" onclick="formatDoc(this, 'bold');">
             <i class="fas fa-bold" aria-hidden="true"></i>
           </button>
-          <button class="btn" type="button" title="{{'italique'|trans({}, 'rte')}}" onclick="formatDoc(this, 'italic');">
+          <button class="btn" type="button" title="italique" onclick="formatDoc(this, 'italic');">
             <i class="fas fa-italic" aria-hidden="true"></i>
           </button>
-          <button class="btn" type="button" title="{{'souligne'|trans({}, 'rte')}}" onclick="formatDoc(this, 'underline');">
+          <button class="btn" type="button" title="souligne" onclick="formatDoc(this, 'underline');">
             <i class="fas fa-underline" aria-hidden="true"></i>
           </button>
-          <button class="btn" type="button" title="{{'list'|trans({}, 'rte')}}" onclick="formatDoc(this, 'insertunorderedlist');">
+          <button class="btn" type="button" title=""liste" onclick="formatDoc(this, 'insertunorderedlist');">
             <i class="fas fa-list-ul" aria-hidden="true"></i>
           </button>
-          <button class="btn" type="button" title="{{'colle'|trans({}, 'rte')}}" onclick="formatDoc(this, 'paste');">
+          <button class="btn" type="button" title="colle" onclick="formatDoc(this, 'paste');">
             <i class="fas fa-paste" aria-hidden="true"></i>
           </button>
         </div>
@@ -47,7 +48,7 @@ $(document).ready(function () {
         $(oDoc)
           .next(".rte.textarea")
           .find(".textBox")
-          .keyup(function (e) {
+          .on("keyup", function (e) {
             setTimeout(() => {
               $(oDoc).val($(this).html());
             }, 700);
@@ -58,6 +59,9 @@ $(document).ready(function () {
 });
 
 function formatDoc(sDoc, sCmd, sValue) {
-  document.execCommand(sCmd, false, sValue);
   sDoc.focus();
+  document.execCommand(sCmd, false, sValue);
+  if (sCmd != "paste") {
+    $(sDoc).toggleClass("btnRteActive");
+  }
 }

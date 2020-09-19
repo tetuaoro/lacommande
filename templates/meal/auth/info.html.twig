@@ -15,7 +15,7 @@
 					<a href="{{meal.bitly.link}}">{{meal.bitly.link}}</a>
 				</li>
 				<li class="list-group-item">
-					<img src="{{ qr_code_url(meal.bitly.link, {size:150,label:meal.name}) }}"/>
+					<img src="{{ qr_code_url(meal.bitly.link, {size:150}) }}"/>
 				</li>
 				<li class="list-group-item">Depuis :
 					{{meal.createdAt|date('d/m/y')}}

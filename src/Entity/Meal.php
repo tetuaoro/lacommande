@@ -132,6 +132,11 @@ class Meal
      */
     private $lambdas;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isDelete;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
@@ -433,6 +438,18 @@ class Meal
             $this->lambdas->removeElement($lambda);
             $lambda->removeMeal($this);
         }
+
+        return $this;
+    }
+
+    public function getIsDelete(): ?bool
+    {
+        return $this->isDelete;
+    }
+
+    public function setIsDelete(bool $isDelete): self
+    {
+        $this->isDelete = $isDelete;
 
         return $this;
     }

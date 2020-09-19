@@ -22,8 +22,8 @@ class MealRepository extends ServiceEntityRepository
 
     public function findLastMeal($how = 3)
     {
-        return $this->createQueryBuilder('m')
-            ->where('m.stock > 0')
+        return $this->getMealIsNotDelete()
+            ->andWhere('m.stock > 0')
             ->orderBy('m.createdAt', 'DESC')
             ->setMaxResults($how)
             ->getQuery()
@@ -33,10 +33,10 @@ class MealRepository extends ServiceEntityRepository
 
     public function findPopular($how = 8)
     {
-        return $this->createQueryBuilder('m')
+        return $this->getMealIsNotDelete()
             ->select('COUNT(c) AS HIDDEN cmds', 'm')
             ->leftJoin('m.commands', 'c')
-            ->where('m.stock > 0')
+            ->andWhere('m.stock > 0')
             ->orderBy('cmds', 'DESC')
             ->groupBy('m')
             ->setMaxResults($how)
@@ -47,7 +47,7 @@ class MealRepository extends ServiceEntityRepository
 
     public function findMealWithOutMenu($id)
     {
-        return $this->createQueryBuilder('m')
+        return $this->getMealIsNotDelete()
             ->leftJoin('m.provider', 'p')
             ->andWhere('p.id = :id')
             ->setParameter('id', $id)
@@ -57,16 +57,21 @@ class MealRepository extends ServiceEntityRepository
 
     public function paginator()
     {
-        return $this->createQueryBuilder('m')->getQuery();
+        return $this->getMealIsNotDelete()->getQuery();
     }
 
     public function getMealByProvider(Provider $provider)
     {
-        return $this->createQueryBuilder('m')
-            ->where('m.provider = :id')
+        return $this->getMealIsNotDelete()
+            ->andWhere('m.provider = :id')
             ->setParameter('id', $provider->getId())
             ->getQuery()
         ;
+    }
+
+    private function getMealIsNotDelete()
+    {
+        return $this->createQueryBuilder('m')->where('m.isDelete = false');
     }
 
     // /**

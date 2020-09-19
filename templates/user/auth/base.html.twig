@@ -22,7 +22,10 @@
 			{% block header %}
 				<header>
 					<nav class="navbar navbar-expand-lg navbar-dark bg-warning fixed-left">
-						<a class="navbar-brand" href="{{path('app_index')}}">Arii Food</a>
+						<a class="navbar-brand" href="{{path('app_index')}}">
+							<img src="{{asset('assets/images/icons/logo.png') }}" alt="IMG-LOGO">
+						</a>
+						<a class="navbar-brand mx-auto h2">{{user.name}}</a>
 					</nav>
 				</header>
 			{% endblock %}
@@ -46,11 +49,9 @@
 
 		<script src="{{asset('assets/custom/js/app.js')}}"></script>
 		<script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
-		<script src="https://www.google.com/recaptcha/api.js?render={{get_env('RECAPTCHA_KEY_3')}}" type="text/javascript"></script>
 		<script src="{{asset('assets/vendor/custom/js/loadingoverlay.min.js')}}"></script>
 		<script src="{{asset('assets/custom/vendor/rte/richTextEditor.js')}}"></script>
 		<script src="{{asset('assets/vendor/select2/select2.min.js')}}"></script>
-		<script src="{{asset('assets/custom/js/user/app-auth.js')}}"></script>
 		{{ encore_entry_script_tags('app') }}
 		{% block javascripts %}{% endblock %}
 

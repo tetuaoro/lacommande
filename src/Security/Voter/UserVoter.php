@@ -34,19 +34,22 @@ class UserVoter extends Voter
             && $subject instanceof User;
     }
 
+    /**
+     * Undocumented function.
+     *
+     * @param [type]           $attribute
+     * @param \App\Entity\User $subject
+     */
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
     {
         if ($this->security->isGranted('ROLE_ADMIN')) {
             return true;
         }
 
-        $user_ = $token->getUser();
+        /** @var \App\Entity\User $user */
+        $user = $token->getUser();
         // if the user is anonymous, do not grant access
-        if (!$user_ instanceof UserInterface) {
-            return false;
-        }
-        $user = $this->user->findOneBy(['username' => $user_->getUsername()]);
-        if (!$user) {
+        if (!$user instanceof UserInterface) {
             return false;
         }
 

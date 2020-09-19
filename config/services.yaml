@@ -52,6 +52,7 @@ services:
     App\Service\BitlyService:
             arguments:
                 $env: '%env(APP_ENV)%'
+                $token: '%env(BITLY_TOKEN)%'
     App\Service\Recaptcha:
             arguments:
                 $recapkey: '%env(RECAPTCHA_KEY_3)%'

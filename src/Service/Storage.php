@@ -76,7 +76,7 @@ class Storage
         $image_info = getimagesize($source);
 
         $orginalName = pathinfo($source->getClientOriginalName(), PATHINFO_FILENAME);
-        $objectName = $this->env.'-images/'.$provider->getId().'/meal/'.$this->slugger->slug($orginalName).'-'.uniqid().'.'.$source->guessExtension();
+        $objectName = $this->env.'-images/'.$provider->getId().'/meals/'.$this->slugger->slug($orginalName).'-'.uniqid().'.'.$source->guessExtension();
 
         if ($this->checkMealObject($meal, $orginalName)) {
             $meta = [

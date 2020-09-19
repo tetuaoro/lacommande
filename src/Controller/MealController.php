@@ -7,11 +7,9 @@ use App\Entity\Meal;
 use App\Repository\MealRepository;
 use App\Service\AjaxService;
 use App\Service\BitlyService;
-use App\Service\Recaptcha;
 use App\Service\Storage;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -73,13 +71,15 @@ class MealController extends AbstractController
                 $gallery = new Gallery();
                 $gallery->setUrl($meal->getImg())
                 ;
-                $meal->setGallery($gallery);
+                $meal->setGallery($gallery)
+                    ->setIsDelete(false)
+                ;
                 $entityManager->persist($meal);
                 $entityManager->flush();
 
-                $bitlink = $bitlyService->create_url($this->generateUrl('meal_show', ['id' => $meal->getId(), 'slug' => $meal->getSlug()], UrlGenerator::ABSOLUTE_URL), $meal->getName());
-
-                $meal->setBitly($bitlink);
+                $meal->setBitly(
+                    $bitlyService->bitThis($this->generateUrl('meal_show', ['id' => $meal->getId(), 'slug' => $meal->getSlug()], UrlGenerator::ABSOLUTE_URL), $meal->getName())
+                );
                 $entityManager->flush();
 
                 $defaultContext = [
@@ -108,10 +108,14 @@ class MealController extends AbstractController
     }
 
     /**
-     * @Route("/detail/{slug}-{id}", name="show", methods={"GET"}, requirements={"slug": "[a-z0-9\-]*"})
+     * @Route("/details/{slug}-{id}", name="show", methods={"GET"}, requirements={"slug": "[a-z0-9\-]*"})
      */
     public function show(string $slug, Meal $meal, AjaxService $ajaxService): Response
     {
+        if ($meal->getIsDelete()) {
+            throw $this->createNotFoundException('Cette assiette n\'existe plus !');
+        }
+
         if ($meal->getSlug() != $slug) {
             return $this->redirectToRoute('meal_show', ['id' => $meal->getId(), 'slug' => $meal->getSlug()]);
         }
@@ -134,7 +138,7 @@ class MealController extends AbstractController
     }
 
     /**
-     * @Route("/detail/favorite/{id}", name="favorite", methods={"GET"})
+     * @Route("/favorite/{id}", name="favorite", methods={"GET"})
      */
     public function checkFovorites(Meal $meal): Response
     {
@@ -154,9 +158,9 @@ class MealController extends AbstractController
     }
 
     /**
-     * @Route("/e/{id}/edit", name="edit", methods={"POST", "GET"})
+     * @Route("/edit-meal-{id}", name="edit", methods={"POST", "GET"})
      */
-    public function edit(Request $request, Meal $meal, BitlyService $bitlyService, Storage $storage, AjaxService $ajaxService, Recaptcha $recaptcha): Response
+    public function edit(Request $request, Meal $meal, Storage $storage, AjaxService $ajaxService): Response
     {
         $this->denyAccessUnlessGranted('MEAL_EDIT', $meal);
 
@@ -164,19 +168,11 @@ class MealController extends AbstractController
         $user = $this->getUser();
 
         $form = $ajaxService->edit_meal($meal);
+
         if ($request->isXmlHttpRequest()) {
             $form->handleRequest($request);
 
-            $f = false;
-            if ($g = $form->get('recaptcha')->getData()) {
-                $f = $recaptcha->captchaverify($g)->success;
-            }
-
-            if ($form->isSubmitted() && !$f) {
-                $form->get('recaptcha')->addError(new FormError('Recaptcha : êtes-vous un robot ?'));
-            }
-
-            if ($form->isSubmitted() && $form->isValid() && $f) {
+            if ($form->isSubmitted() && $form->isValid()) {
                 $entityManager = $this->getDoctrine()->getManager();
                 $image = $form->get('image')->getData();
                 if ($image) {
@@ -188,18 +184,17 @@ class MealController extends AbstractController
                     $meal->getGallery()->setUrl($meal->getImg())
                     ;
                 }
+
+                $defaultContext = [
+                    AbstractNormalizer::CIRCULAR_REFERENCE_HANDLER => function ($object, $format, $context) {
+                        return $object->getId();
+                    },
+                    AbstractNormalizer::GROUPS => 'commandjs',
+                ];
+
                 $entityManager->flush();
 
-                if ($bitly = $meal->getBitly()) {
-                    $bitlink = $bitlyService->update_url($bitly['id'], $this->generateUrl('meal_show', ['id' => $meal->getId(), 'slug' => $meal->getSlug()], UrlGenerator::ABSOLUTE_URL), $meal->getName());
-                    $meal->setBitly($bitlink);
-                }
-
-                $entityManager->flush();
-
-                $this->addFlash('success', 'Assiette modifiée avec succès.');
-
-                return new Response($this->generateUrl('user_manage', ['id' => $user->getId(), 'view' => 'v-pills-meal']), Response::HTTP_CREATED);
+                return $this->json($meal, Response::HTTP_ACCEPTED, [], $defaultContext);
             }
             if ($form->isSubmitted() && !$form->isValid()) {
                 return $this->render(

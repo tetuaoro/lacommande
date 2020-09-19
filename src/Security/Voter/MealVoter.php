@@ -64,7 +64,7 @@ class MealVoter extends Voter
 
                 break;
             case self::VIEW:
-                return $subject->getProvider() === $user->getProvider();
+                return $subject->getProvider() === $user->getProvider() || !$subject->getIsDelete();
 
                 break;
         }

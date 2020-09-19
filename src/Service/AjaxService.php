@@ -74,7 +74,7 @@ class AjaxService
 
     public function create_meal(Meal $meal)
     {
-        return $this->form->createNamed('meal-create', MealType::class, $meal, [
+        return $this->form->create(MealType::class, $meal, [
             'method' => 'POST',
             'action' => $this->router->generate('meal_new'),
         ]);
@@ -82,9 +82,9 @@ class AjaxService
 
     public function edit_meal(Meal $meal)
     {
-        return $this->form->createNamed('meal-edit-'.$meal->getId(), MealType::class, $meal, [
+        return $this->form->create(MealType::class, $meal, [
             'method' => 'POST',
-            'action' => $this->router->generate('meal_edit', ['id' => $meal->getId(), 'slug' => $meal->getSlug()]),
+            'action' => $this->router->generate('meal_edit', ['id' => $meal->getId()]),
         ]);
     }
 

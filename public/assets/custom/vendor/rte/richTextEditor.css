@@ -27,3 +27,6 @@
 .rte .toolBar {
 	border-bottom: 1px solid var(--appcolor1);
 }
+.rte .toolBar .btnRteActive {
+  background-color: var(--warning);
+}
