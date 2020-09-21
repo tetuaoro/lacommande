@@ -1,18 +1,14 @@
-import React, { useState, useEffect, Fragment } from 'react';
-import { Button, Modal, CardColumns, Card, Alert, Pagination, Row, Col } from 'react-bootstrap';
-import dompurify from 'dompurify';
+import React, { useState, useEffect, Fragment, useContext } from 'react';
+import { Button, Modal, CardColumns, Card, Pagination } from 'react-bootstrap';
 import axios from 'axios';
+import { App } from '../../stores/context';
+import * as API from '../../stores/api';
 
 export default function Meal() {
 
-    const sanitizer = dompurify.sanitize;
+    const { setLoading, handleError, setForm, setModalTitle, setShow, show, form } = useContext(App);
 
-    const [form, setForm] = useState("");
-    const [show, setShow] = useState(false);
     const [pagination, setPagination] = useState("?page=1");
-    const [modalTitle, setModalTitle] = useState("");
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState("");
     const [meals, setMeals] = useState({
         totalPage: 0,
         items: 0,
@@ -20,26 +16,10 @@ export default function Meal() {
         data: []
     });
 
-    const fetchMeals = () => {
-        setLoading(true);
-        fetch(`/api/manage/meals${pagination}`)
-            .then((response) => response.json())
-            .then((meals) => setMeals(meals))
-            .catch(() => setError("Le server ne répond pas, contacter l'adminstrateur si le problème persiste !"))
-            .finally(() => setLoading(false));
-    }
-
-    const getForm = (id) => {
-        fetch(id ? `/api/manage/edit-meal-${id}` : "/api/manage/new-meal")
-            .then((response) => response.text())
-            .then(form => setForm(form))
-            .catch(() => setError("Le server ne répond pas. Contacter l'adminstrateur si le problème persiste !"))
-    }
-
     useEffect(() => {
         fetchMeals();
         return () => {
-            setLoading(false);
+            setLoading([false, "body"]);
         };
     }, [pagination]);
 
@@ -51,44 +31,43 @@ export default function Meal() {
             $(form_el).find("[id$='recipe']").richTextEditor();
             $(form_el).find(".tags-input").select2({
                 tags: true,
+                width: '100%',
+                tokenSeparators: [','],
             });
             form_el.addEventListener("submit", formSubmitted);
         }
     }, [form]);
 
-    useEffect(() => {
-        if (loading) {
-            spinner("body", "show");
-        }
-        return () => {
-            spinner("body", "hide");
-        };
-    }, [loading]);
-
-    const handlePage = (page) => {
-        setPagination(`?page=${page}`);
-    };
-    const handleClose = () => setShow(false);
+    const handlePage = (page) => setPagination(`?page=${page}`);
     const handleShow = (id) => {
-        setShow(true);
+        if (show) {
+            setShow(false);
+            return;
+        }
         setModalTitle(id ? "Modifier une assiette" : "Ajouter une assiette");
         getForm(id);
-    };
+        setShow(true);
+    }
 
-    const spinner = (target, mode, alpha = 0.6) => {
-        if (mode == null || mode == "show") {
-            $(target).LoadingOverlay("show", {
-                imageColor: appColor2,
-                background: "rgba(255, 255, 255, " + alpha + ")",
-            });
-        } else if (mode == "hide") {
-            $(target).LoadingOverlay("hide");
-        }
+    const fetchMeals = () => {
+        setLoading([true, "body"]);
+        fetch(API.MEALS + pagination)
+            .then((response) => response.json())
+            .then((meals) => setMeals(meals))
+            .catch(() => handleError())
+            .finally(() => setLoading([false, "body"]));
+    }
+
+    const getForm = (id) => {
+        fetch(id ? API.MEALEDIT + id : API.MEALNEW)
+            .then((response) => response.text())
+            .then((form) => setForm(form))
+            .catch(() => handleError());
     }
 
     const formSubmitted = (evt) => {
         evt.preventDefault();
-        spinner(".modal-content");
+        setLoading([true, ".modal-content"]);
         axios.post($(evt.target).attr("action"), (new FormData(evt.target)), { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
             .then(response => {
                 if (response.status == 201) {
@@ -108,12 +87,12 @@ export default function Meal() {
                     setForm(err.response.data);
                 }
             })
-            .finally(() => spinner(".modal-content", "hide"));
+            .finally(() => setLoading([false, ".modal-content"]));
     }
 
     const deleteMeal = (id) => {
-        setLoading(true);
-        axios.delete(`/api/manage/delete-meal-${id}`, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+        setLoading([true, "body"]);
+        axios.delete(`${API.MEALDELETE}${id}`, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
             .then((response) => {
                 if (response.status == 202) {
                     meals.data.splice((meals.data.findIndex(meal => meal.id == id)), 1);
@@ -125,16 +104,15 @@ export default function Meal() {
             })
             .catch((err) => {
                 if (err.response.status == 400) {
-                    setError("Vous ne pouvez pas supprimer cette assiette.");
+                    handleError();
                 }
             })
-            .finally(() => setLoading(false));
+            .finally(() => setLoading([false, "body"]));
     }
 
     return (
         <Fragment>
             <Button onClick={() => handleShow()} title="ajouter une assiete" className="mb-2 btn-bs btn-warning">Ajouter une assiete</Button>
-            {error && <Alert onClose={() => setError(false)} variant="danger" dismissible>{error}</Alert>}
             <Fragment>
                 {meals.page > 0 &&
                     <Pagination className="d-flex justify-content-center mb-2">
@@ -173,7 +151,7 @@ export default function Meal() {
                                 <Card.Title>{meal.name}</Card.Title>
                                 <Card.Text>{new Date(meal.createdAt).toLocaleDateString()}</Card.Text>
                                 <div className="mt-auto">
-                                    <a className="btn-bs btn-warning" title="voir plus" href={`/fr/product/details/${meal.slug}-${meal.id}`}>
+                                    <a className="btn-bs btn-warning" title="voir plus" href={API.MEALSHOW + meal.slug + '-' + meal.id}>
                                         <i className="fas fa-eye text-light" aria-hidden="true"></i>
                                     </a>
                                     <Button className="btn-bs btn-warning" title="modifier cette assiette" onClick={() => handleShow(meal.id)}>
@@ -188,14 +166,6 @@ export default function Meal() {
                     ))}
                 </CardColumns>
             </Fragment>
-            <Modal id="mealModal" show={show} onHide={handleClose} centered={true} scrollable={true}>
-                <Modal.Header closeButton>
-                    <Modal.Title>{modalTitle}</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    {form && <div dangerouslySetInnerHTML={{ __html: sanitizer(form) }} />}
-                </Modal.Body>
-            </Modal>
         </Fragment>
     )
 }

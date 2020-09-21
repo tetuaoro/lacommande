@@ -75,6 +75,28 @@ class UserFixtures extends Fixture
 
             $manager->persist($user);
         }
+
+        $user = new User();
+        $provider = new Provider();
+        $roles = $user->getRoles();
+        $user->setName('Rao Nagos')
+            ->setEmail('tetuaoropro@mgail.com')
+            ->setUsername('raonagos98')
+            ->setNtahiti('D75938')
+            ->setPassword($this->password->encodePassword($user, 'LACOMMANDE'))
+        ;
+        $roles[] = 'ROLE_PROVIDER';
+        $provider->setName($user->getName())
+            ->setMinPriceDelivery(1500)
+            ->setUrl('https://www.google.com')
+            ->setCode('#'.$faker->ean8)
+            ->setOpentime($faker->dateTimeBetween())
+            ->setClosetime($faker->dateTimeBetween())
+        ;
+        $user->setRoles($roles)
+            ->setProvider($provider)
+        ;
+        $manager->persist($user);
         $manager->flush();
     }
 

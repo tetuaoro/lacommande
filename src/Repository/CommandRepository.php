@@ -3,8 +3,10 @@
 namespace App\Repository;
 
 use App\Entity\Command;
+use App\Entity\Provider;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Form\FormInterface;
 
 /**
  * @method null|Command find($id, $lockMode = null, $lockVersion = null)
@@ -19,14 +21,19 @@ class CommandRepository extends ServiceEntityRepository
         parent::__construct($registry, Command::class);
     }
 
-    public function findByProviderOrderByDate(int $id)
+    public function findByProviderOrderByCommandDate(Provider $provider, FormInterface $form)
     {
         return $this->createQueryBuilder('c')
             ->select('c')
             ->leftJoin('c.providers', 'p')
             ->where('p.id = :id')
-            ->orderBy('c.commandAt', 'DESC')
-            ->setParameter('id', $id)
+            ->andWhere('c.commandAt '.$form->get('compare')->getData().' :date')
+            ->orderBy('c.commandAt', $form->get('order')->getData())
+            ->setMaxResults($form->get('limit')->getData())
+            ->setParameters([
+                'id' => $provider->getId(),
+                'date' => $form->get('date')->getData(),
+            ])
             ->getQuery()
             ->getResult()
         ;

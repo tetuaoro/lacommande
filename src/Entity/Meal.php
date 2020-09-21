@@ -20,20 +20,20 @@ class Meal
      * @ORM\GeneratedValue()
      * @ORM\SequenceGenerator(sequenceName="id", initialValue=100)
      * @ORM\Column(type="integer")
-     * @Groups({"commandjs"})
+     * @Groups({"mealjs", "commandjs", "menujs"})
      */
     private $id;
 
     /**
      * @Assert\Length(min=8, minMessage="8 caractères minimum")
      * @ORM\Column(type="string", length=255)
-     * @Groups({"commandjs"})
+     * @Groups({"mealjs", "commandjs", "menujs"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="datetimetz")
-     * @Groups({"commandjs"})
+     * @Groups({"mealjs", "commandjs"})
      */
     private $createdAt;
 
@@ -58,7 +58,7 @@ class Meal
      * @ORM\Column(type="integer")
      * @Assert\GreaterThanOrEqual(100)
      * @Assert\LessThanOrEqual(7000)
-     * @Groups({"commandjs"})
+     * @Groups({"commandjs", "menujs"})
      */
     private $price;
 
@@ -71,13 +71,13 @@ class Meal
     /**
      * @Gedmo\Slug(fields={"name"})
      * @ORM\Column(type="string", length=255)
-     * @Groups({"commandjs"})
+     * @Groups({"mealjs", "commandjs", "menujs"})
      */
     private $slug;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"commandjs"})
+     * @Groups({"mealjs", "commandjs"})
      */
     private $img;
 

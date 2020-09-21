@@ -6,6 +6,7 @@ use App\Repository\MenuRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=MenuRepository::class)
@@ -17,6 +18,7 @@ class Menu
      * @ORM\GeneratedValue()
      * @ORM\SequenceGenerator(sequenceName="id", initialValue=100)
      * @ORM\Column(type="integer")
+     * @Groups({"menujs"})
      */
     private $id;
 
@@ -33,11 +35,13 @@ class Menu
     /**
      * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="menus", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"menujs"})
      */
     private $category;
 
     /**
      * @ORM\OneToMany(targetEntity=Meal::class, mappedBy="menu")
+     * @Groups({"menujs"})
      */
     private $meals;
 
@@ -113,6 +117,15 @@ class Menu
         if (!$this->meals->contains($meal)) {
             $this->meals[] = $meal;
             $meal->setMenu($this);
+        }
+
+        return $this;
+    }
+
+    public function resetMeals(): self
+    {
+        foreach ($this->meals as $meal) {
+            $this->removeMeal($meal);
         }
 
         return $this;

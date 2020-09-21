@@ -4,9 +4,8 @@ namespace App\Form\Type;
 
 use App\Entity\Meal;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -76,25 +75,13 @@ class MealType extends AbstractType
                     ]),
                 ],
             ])
-            ->add('recaptcha', HiddenType::class, [
-                'mapped' => false,
-                'required' => true,
-                'error_bubbling' => false,
-                'attr' => [
-                    'class' => 'recaptcha-check',
-                    'data-sitekey' => $_ENV['RECAPTCHA_KEY_3'],
-                ],
-            ])
-            ->add('delivery', CheckboxType::class, [
+            ->add('delivery', ChoiceType::class, [
                 'translation_domain' => 'form',
                 'label' => 'livraison',
-                'required' => false,
-                'label_attr' => [
-                    'class' => 'custom-control-label',
-                ],
-                'attr' => [
-                    'class' => 'custom-control-input',
-                    'checked' => true,
+                'data' => true,
+                'choices' => [
+                    'récupère sur place' => false,
+                    'livre chez toi' => true,
                 ],
             ])
         ;
@@ -139,6 +126,9 @@ class MealType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Meal::class,
+            'attr' => [
+                'id' => 'mealForm',
+            ],
         ]);
     }
 }

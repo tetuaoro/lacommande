@@ -22,4 +22,19 @@ const SFContext = React.createContext({
     },
 });
 
-export { SFContext };
+/**
+ * Loading function base on spinnerLoader
+ * @returns React.Context
+ */
+const App = React.createContext({
+    loading: [],
+    show: false,
+    form: "",
+    handleError: () => { },
+    setLoading: () => { },
+    setForm: () => { },
+    setShow: () => { },
+    setModalTitle: () => { }
+});
+
+export { SFContext, App };

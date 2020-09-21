@@ -1,14 +1,10 @@
-{{ form_start(form, {'attr': {'class': 'custom', 'id': 'mealForm'}}) }}
-{{ form_errors(form.recaptcha) }}
+{{ form_start(form) }}
 <fieldset>
 	{{ form_row(form.name) }}
 	{{ form_row(form.price) }}
 	{{ form_row(form.stock) }}
 	{{ form_row(form.image) }}
-	<div class="custom-control custom-switch">
-		{{ form_row(form.delivery) }}
-	</div>
-	{{ form_widget(form.recaptcha) }}
+	{{ form_row(form.delivery) }}
 	<button type="button" class="btn d-block mb-3 btn-form-collapse" data-toggle="collapse" data-target=".multi-collapse" aria-expanded="false" aria-controls="multiCollapseExample1 multiCollapseExample2">
 		{{"Plus d'option"|trans({}, 'form')}}
 		<i class="fas fa-plus-circle ml-1" aria-hidden="true"></i>

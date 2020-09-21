@@ -30,57 +30,6 @@ class MenuController extends AbstractController
     }
 
     /**
-     * @Route("/new/", name="new", methods={"GET", "POST"})
-     */
-    public function new(Request $request, AjaxService $ajaxService, Recaptcha $recaptcha): Response
-    {
-        $this->denyAccessUnlessGranted('ROLE_PROVIDER');
-
-        $menu = new Menu();
-
-        /** @var \App\Entity\User $user */
-        $user = $this->getUser();
-        $provider = $user->getProvider();
-        $form = $ajaxService->create_menu($menu, $provider);
-
-        if ($request->isXmlHttpRequest()) {
-            $form->handleRequest($request);
-
-            $f = false;
-            if ($g = $form->get('recaptcha')->getData()) {
-                $f = $recaptcha->captchaverify($g)->success;
-            }
-            if ($form->isSubmitted() && !$f) {
-                $form->get('recaptcha')->addError(new FormError('Recaptcha : êtes-vous un robot ?'));
-            }
-            if ($form->isSubmitted() && !$form->isValid()) {
-                return $this->render(
-                    'menu/_form.html.twig',
-                    [
-                        'form' => $form->createView(),
-                    ],
-                    new Response('error', Response::HTTP_BAD_REQUEST)
-                );
-            }
-
-            if ($form->isSubmitted() && $form->isValid() && $f) {
-                $entityManager = $this->getDoctrine()->getManager();
-                $menu->setProvider($provider);
-                $entityManager->persist($menu);
-                $entityManager->flush();
-
-                $this->addFlash('success', 'Menu créé avec success.');
-
-                return new Response($this->generateUrl('user_manage', ['id' => $user->getId(), 'view' => 'v-pills-menu']), Response::HTTP_CREATED);
-            }
-        }
-
-        return $this->render('menu/_form.html.twig', [
-            'form' => $form->createView(),
-        ]);
-    }
-
-    /**
      * @Route("/{id}", name="show", methods={"GET"})
      */
     public function show(Menu $menu): Response
@@ -100,7 +49,7 @@ class MenuController extends AbstractController
         /** @var \App\Entity\User $user */
         $user = $this->getUser();
         $provider = $user->getProvider();
-        $form = $ajaxService->edit_menu($menu, $provider);
+        $form = $ajaxService->menuForm($menu, $provider);
 
         if ($request->isXmlHttpRequest()) {
             $form->handleRequest($request);
@@ -149,6 +98,7 @@ class MenuController extends AbstractController
 
         if ($this->isCsrfTokenValid('delete'.$menu->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
+            $menu->resetMeals();
             $entityManager->remove($menu);
             $entityManager->flush();
         }

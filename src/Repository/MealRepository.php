@@ -45,12 +45,12 @@ class MealRepository extends ServiceEntityRepository
         ;
     }
 
-    public function findMealWithOutMenu($id)
+    public function findMealWithOutMenu(Provider $provider)
     {
         return $this->getMealIsNotDelete()
             ->leftJoin('m.provider', 'p')
-            ->andWhere('p.id = :id')
-            ->setParameter('id', $id)
+            ->andWhere('p = :id')
+            ->setParameter('id', $provider->getId())
             ->orderBy('m.name', 'ASC')
         ;
     }

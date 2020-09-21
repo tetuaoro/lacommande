@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Menu;
+use App\Entity\Provider;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -25,6 +26,17 @@ class MenuRepository extends ServiceEntityRepository
             ->select('COUNT(c) AS HIDDEN ct', 'm')
             ->leftJoin('m.category', 'c')
             ->groupBy('m')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function findMyMenu(Provider $provider)
+    {
+        return $this->createQueryBuilder('m')
+            ->leftJoin('m.provider', 'p')
+            ->where('p = :id')
+            ->setParameter('id', $provider->getId())
             ->getQuery()
             ->getResult()
         ;

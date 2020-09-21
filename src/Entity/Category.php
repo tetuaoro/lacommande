@@ -23,7 +23,7 @@ class Category
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"category_api"})
+     * @Groups({"menujs"})
      */
     private $name;
 

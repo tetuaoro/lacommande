@@ -8,7 +8,6 @@ use App\Entity\Provider;
 use App\Repository\MealRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -23,26 +22,20 @@ class MenuType extends AbstractType
             ->add('meals', EntityType::class, [
                 'translation_domain' => 'form',
                 'class' => Meal::class,
+                'required' => false,
                 'multiple' => true,
                 'by_reference' => false,
                 'query_builder' => function (MealRepository $r) use ($provider) {
-                    return $r->findMealWithOutMenu($provider->getId());
+                    return $r->findMealWithOutMenu($provider);
                 },
                 // @var \App\Entity\Meal $meal
                 'group_by' => function ($meal, $key, $value) {
                     if ($meal && $meal->getMenu()) {
-                        return 'Déjà Associé';
+                        return '2) Déjà Associée';
                     }
+
+                    return '1) Pas encore associée';
                 },
-            ])
-            ->add('recaptcha', HiddenType::class, [
-                'mapped' => false,
-                'required' => true,
-                'error_bubbling' => false,
-                'attr' => [
-                    'class' => 'recaptcha-check',
-                    'data-sitekey' => $_ENV['RECAPTCHA_KEY_3'],
-                ],
             ])
             ->add('category', CategoryType::class, [
                 'translation_domain' => 'form',
@@ -55,6 +48,9 @@ class MenuType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Menu::class,
             'provider' => false,
+            'attr' => [
+                'id' => 'menuForm',
+            ],
         ]);
 
         $resolver->setAllowedTypes('provider', Provider::class);

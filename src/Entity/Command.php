@@ -107,6 +107,12 @@ class Command
      */
     private $code;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     * @Groups({"commandjs"})
+     */
+    private $validate;
+
     public function __construct()
     {
         $this->meals = new ArrayCollection();
@@ -211,6 +217,11 @@ class Command
     public function getProviders(): Collection
     {
         return $this->providers;
+    }
+
+    public function findProvider(Provider $provider): bool
+    {
+        return $this->providers->contains($provider);
     }
 
     public function addProvider(Provider $provider): self
@@ -323,6 +334,18 @@ class Command
     public function setCode(?string $code): self
     {
         $this->code = $code;
+
+        return $this;
+    }
+
+    public function getValidate(): ?bool
+    {
+        return $this->validate;
+    }
+
+    public function setValidate(?bool $validate): self
+    {
+        $this->validate = $validate;
 
         return $this;
     }

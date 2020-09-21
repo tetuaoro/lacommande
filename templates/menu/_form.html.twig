@@ -1,9 +1,7 @@
 {{ form_start(form) }}
-{{ form_errors(form.recaptcha) }}
 <fieldset>
 	{{ form_row(form.meals) }}
 	{{ form_row(form.category) }}
-	{{ form_row(form.recaptcha) }}
 	<button class="btn">{{ button_label|default('Enregistrer') }}</button>
 </fieldset>
 {{ form_end(form) }}

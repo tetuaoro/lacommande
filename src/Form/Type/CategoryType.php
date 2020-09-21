@@ -35,6 +35,7 @@ class CategoryType extends AbstractType
             'class' => Category::class,
             'attr' => [
                 'class' => 'category-input',
+                'data-maximum-selection-length' => 1,
             ],
         ]);
     }

@@ -45,15 +45,6 @@ class AjaxService
         ]);
     }
 
-    public function create_menu(Menu $menu, Provider $provider)
-    {
-        return $this->form->create(MenuType::class, $menu, [
-            'method' => 'POST',
-            'action' => $this->router->generate('menu_new'),
-            'provider' => $provider,
-        ]);
-    }
-
     public function test_create_menu(Menu $menu, Provider $provider)
     {
         return $this->form->create(MenuType::class, $menu, [
@@ -63,28 +54,20 @@ class AjaxService
         ]);
     }
 
-    public function edit_menu(Menu $menu, Provider $provider)
+    public function menuForm(Menu $menu, Provider $provider)
     {
         return $this->form->create(MenuType::class, $menu, [
             'method' => 'POST',
-            'action' => $this->router->generate('menu_edit', ['id' => $menu->getId()]),
+            'action' => ($menu && $menu->getId()) ? $this->router->generate('manage_menu_edit', ['id' => $menu->getId()]) : $this->router->generate('manage_menu_new'),
             'provider' => $provider,
         ]);
     }
 
-    public function create_meal(Meal $meal)
+    public function mealForm(Meal $meal)
     {
         return $this->form->create(MealType::class, $meal, [
             'method' => 'POST',
-            'action' => $this->router->generate('meal_new'),
-        ]);
-    }
-
-    public function edit_meal(Meal $meal)
-    {
-        return $this->form->create(MealType::class, $meal, [
-            'method' => 'POST',
-            'action' => $this->router->generate('meal_edit', ['id' => $meal->getId()]),
+            'action' => ($meal && $meal->getId()) ? $this->router->generate('manage_meal_edit', ['id' => $meal->getId()]) : $this->router->generate('manage_meal_new'),
         ]);
     }
 
