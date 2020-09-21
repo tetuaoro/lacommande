@@ -29,10 +29,10 @@ const SFContext = React.createContext({
 const App = React.createContext({
     loading: [],
     show: false,
-    form: "",
+    content: "",
     handleError: () => { },
     setLoading: () => { },
-    setForm: () => { },
+    setModalContent: () => { },
     setShow: () => { },
     setModalTitle: () => { }
 });

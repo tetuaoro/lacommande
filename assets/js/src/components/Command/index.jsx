@@ -36,7 +36,7 @@ export default function Command() {
 
 function AppTable({ compare = "=", limit = 20, orderBy = "DESC" }) {
 
-    const { setLoading, handleError, setShow, form, setForm, setModalTitle } = useContext(App);
+    const { setLoading, handleError, setShow, setModalContent, setModalTitle } = useContext(App);
 
     const [commands, setCommands] = useState([]);
 
@@ -72,7 +72,7 @@ function AppTable({ compare = "=", limit = 20, orderBy = "DESC" }) {
         setLoading[true, ".modal-content"];
         fetch(API.COMMANDINFO + id)
             .then(res => res.text())
-            .then(res => setForm(res))
+            .then(info => setModalContent(info))
             .catch(err => handleError())
             .finally(() => setLoading([false, ".modal-content"]))
     }

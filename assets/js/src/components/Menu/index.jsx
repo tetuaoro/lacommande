@@ -6,7 +6,7 @@ import * as API from '../../stores/api';
 
 export default function Menu() {
 
-    const { setLoading, handleError, setForm, setModalTitle, setShow, show, form } = useContext(App);
+    const { setLoading, handleError, setModalContent, setModalTitle, setShow, show, content } = useContext(App);
 
     const [menus, setMenus] = useState([]);
 
@@ -26,7 +26,7 @@ export default function Menu() {
             });
             form_el.addEventListener("submit", formSubmitted);
         }
-    }, [form]);
+    }, [content]);
 
     const handleShow = (id) => {
         if (show) {
@@ -50,7 +50,7 @@ export default function Menu() {
     const getForm = (id) => {
         fetch(id ? API.MENUEDIT + id : API.MENUNEW)
             .then((response) => response.text())
-            .then((form) => setForm(form))
+            .then((form) => setModalContent(form))
             .catch(() => handleError());
     }
 
@@ -66,7 +66,7 @@ export default function Menu() {
             })
             .catch(err => {
                 if (err.response.status == 400) {
-                    setForm(err.response.data);
+                    setModalContent(err.response.data);
                 }
             })
             .finally(() => setLoading([false, ".modal-content"]));
@@ -120,7 +120,7 @@ export default function Menu() {
                                 <tr key={index2}>
                                     <th className="text-center">{(index1 + 1) + "." + (index2 + 1)}</th>
                                     <td><a href={API.MEALSHOW + meal.slug + "-" + meal.id}>{meal.name}</a> </td>
-                                    <td>{meal.price}</td>
+                                    <td>{meal.price} XPF</td>
                                 </tr>
                             )
                             )}

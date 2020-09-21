@@ -18,7 +18,7 @@ export default function App() {
     const [loading, setLoading] = useState([false, "body"]);
     const [error, setError] = useState("");
 
-    const [form, setForm] = useState("");
+    const [content, setModalContent] = useState("");
     const [modalTitle, setModalTitle] = useState("");
     const [show, setShow] = useState(false);
 
@@ -31,12 +31,12 @@ export default function App() {
         };
     }, [loading[0]]);
 
-    const handleShow = () => {
+    const clear = () => {
         if (show) {
             setShow(false);
         }
-        if (form) {
-            setForm(false);
+        if (content) {
+            setModalContent(false);
         }
     }
 
@@ -79,18 +79,18 @@ export default function App() {
                     </div>
                 </div>
                 <div className="col-md user-manage">
-                    <AppContext.Provider value={{ loading: loading, setLoading: setLoading, handleError: handleError, show: show, setShow: setShow, setForm: setForm, setModalTitle: setModalTitle, form: form }}>
+                    <AppContext.Provider value={{ loading: loading, setLoading: setLoading, handleError: handleError, show: show, setShow: setShow, setModalContent: setModalContent, setModalTitle: setModalTitle, content: content }}>
                         {component == 1 && <Meal />}
                         {component == 2 && <Menu />}
                         {component == 3 && <Command />}
                         {component == 4 && <Subuser />}
                         {component == 5 && <Notification />}
-                        <Modal show={show} onHide={handleShow} centered={true} scrollable={true}>
+                        <Modal show={show} onHide={clear} centered={true} scrollable={true}>
                             <Modal.Header closeButton>
                                 <Modal.Title>{modalTitle}</Modal.Title>
                             </Modal.Header>
                             <Modal.Body>
-                                {form && <div dangerouslySetInnerHTML={{ __html: sanitizer(form) }} />}
+                                {content && <div dangerouslySetInnerHTML={{ __html: sanitizer(content) }} />}
                             </Modal.Body>
                         </Modal>
                     </AppContext.Provider>

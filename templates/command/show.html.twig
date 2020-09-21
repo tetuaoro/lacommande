@@ -14,7 +14,9 @@
 		</tr>
 		<tr>
 			<th>Items</th>
-			<td>de</td>
+			<td>
+				{{command.meals|map(meal => meal.name)|join(', ', ' et ')}}
+			</td>
 		</tr>
 	</tbody>
 </table>

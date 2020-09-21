@@ -6,7 +6,7 @@ import * as API from '../../stores/api';
 
 export default function Meal() {
 
-    const { setLoading, handleError, setForm, setModalTitle, setShow, show, form } = useContext(App);
+    const { setLoading, handleError, setModalContent, setModalTitle, setShow, show, content } = useContext(App);
 
     const [pagination, setPagination] = useState("?page=1");
     const [meals, setMeals] = useState({
@@ -36,7 +36,7 @@ export default function Meal() {
             });
             form_el.addEventListener("submit", formSubmitted);
         }
-    }, [form]);
+    }, [content]);
 
     const handlePage = (page) => setPagination(`?page=${page}`);
     const handleShow = (id) => {
@@ -61,7 +61,7 @@ export default function Meal() {
     const getForm = (id) => {
         fetch(id ? API.MEALEDIT + id : API.MEALNEW)
             .then((response) => response.text())
-            .then((form) => setForm(form))
+            .then((form) => setModalContent(form))
             .catch(() => handleError());
     }
 
@@ -84,7 +84,7 @@ export default function Meal() {
             })
             .catch(err => {
                 if (err.response.status == 400) {
-                    setForm(err.response.data);
+                    setModalContent(err.response.data);
                 }
             })
             .finally(() => setLoading([false, ".modal-content"]));

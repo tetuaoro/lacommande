@@ -399,12 +399,15 @@ class ManageApi extends AbstractController
     /**
      * @Route("/command-show-{id}", name="command_show", methods={"GET"})
      */
-    public function commandShow(Command $command)
+    public function commandShow(Command $command, CommandRepository $commandRepository)
     {
         $this->denyAccessUnlessGranted('COMMAND_VIEW', $command);
 
+        /** @var \App\Entity\User $user */
+        $user = $this->getUser();
+
         return $this->render('command/show.html.twig', [
-            'command' => $command,
+            'command' => $commandRepository->getFiltererByProvider($command->getId(), $user->getProvider()),
         ]);
     }
 }

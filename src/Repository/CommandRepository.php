@@ -23,19 +23,56 @@ class CommandRepository extends ServiceEntityRepository
 
     public function findByProviderOrderByCommandDate(Provider $provider, FormInterface $form)
     {
-        return $this->createQueryBuilder('c')
+        $q = $this->createQueryBuilder('c')
             ->select('c')
             ->leftJoin('c.providers', 'p')
-            ->where('p.id = :id')
-            ->andWhere('c.commandAt '.$form->get('compare')->getData().' :date')
+            ->where('p = :id')
+            ;
+
+        $compare = $form->get('compare')->getData();
+        $date = $form->get('date')->getData();
+        $tomorrow = (new \DateTime($date))->modify('+1 day')->setTime(0, 0);
+        $today = (new \DateTime($date))->setTime(0, 0);
+
+        if ('=' == $compare) {
+            $q->andWhere('c.commandAt BETWEEN :today AND :tomorrow')
+                ->setParameters([
+                    'today' => $today,
+                    'tomorrow' => $tomorrow,
+                ])
+            ;
+        } elseif ('<' == $compare) {
+            $q->andWhere('c.commandAt < :today')
+                ->setParameter('today', $today)
+            ;
+        } else {
+            $q->andWhere('c.commandAt > :tomorrow')
+                ->setParameter('tomorrow', $tomorrow)
+            ;
+        }
+
+        return $q
             ->orderBy('c.commandAt', $form->get('order')->getData())
             ->setMaxResults($form->get('limit')->getData())
-            ->setParameters([
-                'id' => $provider->getId(),
-                'date' => $form->get('date')->getData(),
-            ])
+            ->setParameter('id', $provider->getId())
             ->getQuery()
             ->getResult()
+        ;
+    }
+
+    public function getFiltererByProvider($id, Provider $provider)
+    {
+        return $this->createQueryBuilder('c')
+            ->select('c, m')
+            ->leftJoin('c.meals', 'm')
+            ->where('m.provider = :pid')
+            ->andWhere('c = :cid')
+            ->setParameters([
+                'pid' => $provider->getId(),
+                'cid' => $id,
+            ])
+            ->getQuery()
+            ->getSingleResult()
         ;
     }
 
@@ -62,8 +99,8 @@ class CommandRepository extends ServiceEntityRepository
             ->select('COUNT(p) AS HIDDEN cmds', 'm', 'c')
             ->leftJoin('c.providers', 'p')
             ->leftJoin('p.meals', 'm')
-            ->where('c.id = :idp')
-            ->setParameter('idp', $id)
+            ->where('c = :id')
+            ->setParameter('id', $id)
             ->getQuery()
             ->getResult()
         ;

@@ -50,7 +50,7 @@ class CommandFixtures extends Fixture implements DependentFixtureInterface
             }
 
             $string = str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZ');
-            $ref = 'REF #'.$i.'-'.substr($string, 24).'-'.substr($string, 1, 2);
+            $ref = $i.'-'.substr($string, 24).'-'.substr($string, 1, 2);
 
             $command->setName($faker->name)
                 ->setDetails($details)
