@@ -11,6 +11,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ * @ORM\Table(options={"auto_increment": 100})
  * @ORM\Entity(repositoryClass=MealRepository::class)
  */
 class Meal
@@ -18,7 +19,6 @@ class Meal
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
-     * @ORM\SequenceGenerator(sequenceName="id", initialValue=100)
      * @ORM\Column(type="integer")
      * @Groups({"mealjs", "commandjs", "menujs"})
      */
@@ -42,11 +42,6 @@ class Meal
      * @ORM\Column(type="text", nullable=true)
      */
     private $recipe;
-
-    /**
-     * @ORM\Column(type="array", nullable=true)
-     */
-    private $picture = [];
 
     /**
      * @Assert\Length(min=20, minMessage="20 caractères minimum")
@@ -97,12 +92,12 @@ class Meal
     private $tags;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="integer")
      */
     private $totalcommand;
 
     /**
-     * @ORM\Column(type="boolean", nullable=true)
+     * @ORM\Column(type="boolean")
      */
     private $delivery;
 
@@ -112,7 +107,7 @@ class Meal
     private $menu;
 
     /**
-     * @ORM\Column(type="array", nullable=true)
+     * @ORM\Column(type="array")
      */
     private $bitly = [];
 

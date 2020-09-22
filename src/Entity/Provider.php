@@ -10,6 +10,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
+ * @ORM\Table(options={"auto_increment": 100})
  * @ORM\Entity(repositoryClass=ProviderRepository::class)
  */
 class Provider
@@ -17,7 +18,6 @@ class Provider
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
-     * @ORM\SequenceGenerator(sequenceName="id", initialValue=100)
      * @ORM\Column(type="integer")
      * @Groups({"commandjs"})
      */
@@ -43,16 +43,6 @@ class Provider
      * @ORM\Column(type="datetimetz")
      */
     private $createdAt;
-
-    /**
-     * @ORM\Column(type="datetimetz")
-     */
-    private $opentime;
-
-    /**
-     * @ORM\Column(type="datetimetz")
-     */
-    private $closetime;
 
     /**
      * @ORM\OneToMany(targetEntity=Meal::class, mappedBy="provider")
@@ -109,6 +99,8 @@ class Provider
     private $imgInfo = [];
 
     /**
+     * banière.
+     *
      * @ORM\Column(type="text", nullable=true)
      */
     private $label;

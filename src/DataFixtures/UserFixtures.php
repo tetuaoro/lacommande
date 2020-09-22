@@ -25,7 +25,7 @@ class UserFixtures extends Fixture
         $faker = (new Factory())->create('fr_FR');
 
         // Create User as PROVIDER
-        for ($i = 0; $i < 6; ++$i) {
+        for ($i = 0; $i < 30; ++$i) {
             $user = new User();
 
             $user->setName($faker->company)
@@ -86,6 +86,8 @@ class UserFixtures extends Fixture
             ->setPassword($this->password->encodePassword($user, 'LACOMMANDE'))
         ;
         $roles[] = 'ROLE_PROVIDER';
+        $roles[] = 'ROLE_ADMIN';
+        $roles[] = 'ROLE_SUPERADMIN';
         $provider->setName($user->getName())
             ->setMinPriceDelivery(1500)
             ->setUrl('https://www.google.com')

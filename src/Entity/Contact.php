@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ * @ORM\Table(options={"auto_increment": 100})
  * @ORM\Entity(repositoryClass=ContactRepository::class)
  */
 class Contact
@@ -14,7 +15,6 @@ class Contact
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
-     * @ORM\SequenceGenerator(sequenceName="id", initialValue=100)
      * @ORM\Column(type="integer")
      */
     private $id;

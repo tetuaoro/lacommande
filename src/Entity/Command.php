@@ -10,6 +10,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ * @ORM\Table(options={"auto_increment": 100})
  * @ORM\Entity(repositoryClass=CommandRepository::class)
  */
 class Command
@@ -17,34 +18,33 @@ class Command
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
-     * @ORM\SequenceGenerator(sequenceName="id", initialValue=100)
      * @ORM\Column(type="integer")
      * @Groups({"commandjs"})
      */
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255)
      * @Assert\Email(message = "Email invalide.")
      * @Groups({"commandjs"})
      */
     private $email;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     * @Assert\Regex("/^(87|89)\d{6}$/")
+     * @ORM\Column(type="string", length=255)
+     * @Assert\Regex("/^(87|89|40|92)\d{6}$/")
      * @Groups({"commandjs"})
      */
     private $phone;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="integer")
      * @Groups({"commandjs"})
      */
     private $price;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255)
      * @Groups({"commandjs"})
      */
     private $name;
@@ -80,7 +80,7 @@ class Command
     private $reference;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255)
      * @Groups({"commandjs"})
      */
     private $address;
@@ -103,12 +103,14 @@ class Command
     private $lambda;
 
     /**
+     * code promo.
+     *
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $code;
 
     /**
-     * @ORM\Column(type="boolean", nullable=true)
+     * @ORM\Column(type="boolean")
      * @Groups({"commandjs"})
      */
     private $validate;

@@ -15,7 +15,7 @@ class TagsFixtures extends Fixture
         // $manager->persist($product);
         $faker = (new Factory())->create('fr_FR');
 
-        for ($i = 0; $i < 10; ++$i) {
+        for ($i = 0; $i < 60; ++$i) {
             $tag = new Tags();
             $tag->setName($faker->word);
 

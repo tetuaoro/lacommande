@@ -37,7 +37,7 @@ class MealFixtures extends Fixture implements DependentFixtureInterface
         $providers = $this->providerRepo->findAll();
         $tags = $this->tagsRepo->findAll();
 
-        for ($i = 0; $i < 250; ++$i) {
+        for ($i = 0; $i < 400; ++$i) {
             $meal = new Meal();
             $gallery = new Gallery();
 
@@ -59,6 +59,8 @@ class MealFixtures extends Fixture implements DependentFixtureInterface
                 ->setProvider($faker->randomElement($providers))
                 ->setPrice($faker->numberBetween(100, 7000))
                 ->setStock($faker->numberBetween(0, 500))
+                ->setTotalcommand(1)
+                ->setDelivery(false)
                 ->setIsDelete(false)
                 ->setRecipe($paragraphs_recipe)
                 ->setDescription($paragraphs_description)

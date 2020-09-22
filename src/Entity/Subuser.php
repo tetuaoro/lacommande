@@ -6,6 +6,7 @@ use App\Repository\SubuserRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * @ORM\Table(options={"auto_increment": 100})
  * @ORM\Entity(repositoryClass=SubuserRepository::class)
  */
 class Subuser
@@ -13,7 +14,6 @@ class Subuser
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
-     * @ORM\SequenceGenerator(sequenceName="id", initialValue=100)
      * @ORM\Column(type="integer")
      */
     private $id;

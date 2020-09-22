@@ -91,6 +91,7 @@ class ManageApi extends AbstractController
                 $meal->setImg($info['mediaLink'])
                     ->setProvider($provider)
                     ->setImgInfo($info)
+                    ->setTotalcommand(0)
                 ;
                 $gallery = new Gallery();
                 $gallery->setUrl($meal->getImg())

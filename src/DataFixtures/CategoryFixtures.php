@@ -14,7 +14,7 @@ class CategoryFixtures extends Fixture
         // $manager->persist($product);
 
         $cat = new Category();
-        $cat->setName('chaud');
+        $cat->setName('Chaud');
         $manager->persist($cat);
         $manager->flush();
     }

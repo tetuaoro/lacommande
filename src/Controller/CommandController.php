@@ -44,7 +44,7 @@ class CommandController extends AbstractController
         if ($request->isXmlHttpRequest()) {
             $form->handleRequest($request);
 
-            $cart = $cartService->getFullCart();
+            // $cart = ;
 
             $checked = $cartService->checkMinDelivery();
             if (!$checked['check']) {
@@ -61,12 +61,12 @@ class CommandController extends AbstractController
                 $entityManager = $this->getDoctrine()->getManager();
                 $details = [];
 
-                foreach ($cart as $value) {
+                foreach ($cartService->getFullCart() as $cart) {
                     /** @var \App\Entity\Meal $meal */
-                    $meal = $value['product'];
+                    $meal = $cart['product'];
 
                     $meal->commandPlus()
-                        ->setStock($meal->getStock() - $value['quantity'])
+                        ->setStock($meal->getStock() - $cart['quantity'])
                     ;
 
                     $command->addMeal($meal)
@@ -74,15 +74,13 @@ class CommandController extends AbstractController
                     ;
 
                     $details[] = [
-                        [
-                            'product' => $meal->getId(),
-                            'quantity' => $value['quantity'],
-                        ],
+                        $meal->getId() => $cart['quantity'],
                     ];
                 }
 
                 $command->setPrice($cartService->getTotal())
                     ->setDetails($details)
+                    ->setValidate(false)
                 ;
 
                 /** @var \App\Entity\User $user */

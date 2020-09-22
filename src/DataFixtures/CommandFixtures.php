@@ -25,7 +25,7 @@ class CommandFixtures extends Fixture implements DependentFixtureInterface
         $faker = (new Factory())->create('fr_FR');
         $meals = $this->mealRepo->findAll();
 
-        for ($i = 0; $i < 100; ++$i) {
+        for ($i = 0; $i < 300; ++$i) {
             $command = new Command();
             $meals_ = $faker->randomElements($meals, mt_rand(1, 6));
             $details = [];
@@ -40,10 +40,7 @@ class CommandFixtures extends Fixture implements DependentFixtureInterface
                 ;
 
                 $details[] = [
-                    [
-                        'product' => $meal->getId(),
-                        'quantity' => mt_rand(1, 6),
-                    ],
+                    $meal->getId() => mt_rand(1, 6),
                 ];
 
                 $meal->commandPlus();
@@ -62,6 +59,7 @@ class CommandFixtures extends Fixture implements DependentFixtureInterface
                 ->setPrice($price)
                 ->setCommandAt($faker->dateTimeBetween('-1 years', '+3 days', 'UTC'))
                 ->setTimezone($faker->dateTime)
+                ->setValidate(false)
             ;
 
             $manager->persist($command);

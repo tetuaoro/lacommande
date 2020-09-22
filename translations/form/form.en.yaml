@@ -39,7 +39,7 @@ Plus d'option: More options
 Tags: Tags
 selectlabel__: selectlabel__
 
-nom : Name
+nom : Name *(require)
 address: City, Address *(require)
 tel: Phone *(require)
 email: email *(require)

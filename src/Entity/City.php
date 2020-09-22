@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * @ORM\Table(options={"auto_increment": 100})
  * @ORM\Entity(repositoryClass=CityRepository::class)
  */
 class City
@@ -15,7 +16,6 @@ class City
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
-     * @ORM\SequenceGenerator(sequenceName="id", initialValue=100)
      * @ORM\Column(type="integer")
      */
     private $id;
@@ -40,12 +40,12 @@ class City
      * @ORM\OneToMany(targetEntity=Delivery::class, mappedBy="city")
      * @ORM\Column(nullable=true)
      */
-    private $Deliveries;
+    private $deliveries;
 
     public function __construct()
     {
         $this->providers = new ArrayCollection();
-        $this->Deliveries = new ArrayCollection();
+        $this->deliveries = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -113,13 +113,13 @@ class City
      */
     public function getDeliveries(): Collection
     {
-        return $this->Deliveries;
+        return $this->deliveries;
     }
 
     public function addDelivery(Delivery $delivery): self
     {
-        if (!$this->Deliveries->contains($delivery)) {
-            $this->Deliveries[] = $delivery;
+        if (!$this->deliveries->contains($delivery)) {
+            $this->deliveries[] = $delivery;
             $delivery->setCity($this);
         }
 
@@ -128,8 +128,8 @@ class City
 
     public function removeDelivery(Delivery $delivery): self
     {
-        if ($this->Deliveries->contains($delivery)) {
-            $this->Deliveries->removeElement($delivery);
+        if ($this->deliveries->contains($delivery)) {
+            $this->deliveries->removeElement($delivery);
             // set the owning side to null (unless already changed)
             if ($delivery->getCity() === $this) {
                 $delivery->setCity(null);

@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
- * @ORM\Table(name="`user`")
+ * @ORM\Table(name="`user`", options={"auto_increment": 100})
  * @UniqueEntity("email", message ="Vous êtes déjà enregistré(e) ?")
  * @UniqueEntity("username", message ="Ce nom d'utilisateur est déjà utilisé.")
  * @UniqueEntity("name", message ="Ce nom est déjà utilisé.")
@@ -21,7 +21,6 @@ class User implements UserInterface
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
-     * @ORM\SequenceGenerator(sequenceName="id", initialValue=100)
      * @ORM\Column(type="integer")
      */
     private $id;
@@ -73,6 +72,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(min=6,max=9)
      */
     private $ntahiti;
 
@@ -98,7 +98,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="integer", nullable=true)
-     * @Assert\Regex("/^(87|89)\d{6}$/")
+     * @Assert\Regex("/^(87|89|40|92)\d{6}$/")
      */
     private $phone;
 

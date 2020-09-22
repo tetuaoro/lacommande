@@ -38,7 +38,7 @@ Plus d'option: Plus d'option
 Tags: Tags
 selectlabel__: selectlabel__
 
-nom : Nom
+nom : Nom *(requis)
 address: Ville, Rue, N° maison *(requis)
 tel: N° téléphone *(requis)
 email: email *(requis)

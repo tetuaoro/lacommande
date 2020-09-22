@@ -25,7 +25,6 @@ class CommandType extends AbstractType
         $builder
             ->add('name', TextType::class, [
                 'translation_domain' => 'form',
-                'required' => false,
                 'label' => false,
                 'attr' => [
                     'placeholder' => 'nom',
@@ -34,17 +33,15 @@ class CommandType extends AbstractType
             ])
             ->add('phone', TelType::class, [
                 'translation_domain' => 'form',
-                'required' => true,
                 'label' => false,
                 'attr' => [
                     'placeholder' => 'tel',
-                    'pattern' => '(87|89|40)[0-9]{6}',
+                    'pattern' => '(87|89|40|92)[0-9]{6}',
                 ],
                 'data' => $user ? $user->getPhone() : '',
             ])
             ->add('email', EmailType::class, [
                 'translation_domain' => 'form',
-                'required' => true,
                 'label' => false,
                 'attr' => [
                     'placeholder' => 'email',
@@ -53,7 +50,6 @@ class CommandType extends AbstractType
             ])
             ->add('address', TextType::class, [
                 'translation_domain' => 'form',
-                'required' => true,
                 'label' => false,
                 'attr' => [
                     'placeholder' => 'address',
@@ -61,7 +57,6 @@ class CommandType extends AbstractType
             ])
             ->add('commandAt', DateTimeType::class, [
                 'translation_domain' => 'form',
-                'required' => true,
                 'label' => false,
                 'date_widget' => 'single_text',
                 'time_widget' => 'single_text',

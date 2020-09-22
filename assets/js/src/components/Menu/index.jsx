@@ -113,7 +113,6 @@ export default function Menu() {
                                     <Button className="mb-2 btn-bs btn-danger" onClick={() => deleteMenu(menu.id)}>
                                         <i className="fas fa-trash" aria-hidden="true"></i>
                                     </Button>
-
                                 </td>
                             </tr>
                             {menu.meals.map((meal, index2) => (

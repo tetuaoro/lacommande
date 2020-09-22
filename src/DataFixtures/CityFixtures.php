@@ -15,7 +15,7 @@ class CityFixtures extends Fixture
         // $manager->persist($product);
         $faker = (new Factory())->create('fr_FR');
 
-        for ($i = 0; $i < 10; ++$i) {
+        for ($i = 0; $i < 70; ++$i) {
             $city = new City();
 
             $city->setName($faker->country)
