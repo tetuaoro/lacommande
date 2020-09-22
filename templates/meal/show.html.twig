@@ -48,6 +48,9 @@
 							<a target="_blank" href="{{ meal.img }}" data-lightbox="meal-show" data-title="{{ meal.name ~ ' souvoureux...' }}">
 								<img src="{{ meal.img }}" title="Agrandir l'image" alt="IGM-MEAL">
 							</a>
+							<a class="d-none" target="_blank" href="{{ qr_code_url(meal.bitly.link, {size:1920}) }}" data-lightbox="meal-show" data-title="{{ 'code qr pour ' ~ meal.name }}">
+								<img alt="IGM-MEAL" src=""/>
+							</a>
 						</div>
 						<div class="text-blo5 size34 t-center bo-rad-10 p-t-90 p-l-35 p-r-35 p-b-30">
 
