@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import dompurify from 'dompurify';
-import { Alert, Container, Modal } from 'react-bootstrap';
+import { Alert, Col, Container, Modal, Nav, Row, Table } from 'react-bootstrap';
 import { App as AppContext } from '../../stores/context';
 import Command from '../Command';
 import Meal from '../Meal';
@@ -56,29 +56,19 @@ export default function App() {
     return (
         <Container>
             {error && <Alert onClose={() => setError(false)} variant="danger" dismissible>{error}</Alert>}
-            <div className="row container-fluid">
-                <div className="col-md-2">
-                    <div className="table-responsive-md">
-                        <div className="nav flex-md-column nav-pills d-md-ruby" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                            <a onClick={() => setComponent(1)} className="nav-link mb-3 btn" id="v-pills-meal-tab" data-fa-icon="&#xf2e7" data-toggle="pill" href="#v-pills-meal" role="tab" aria-controls="v-pills-meal" aria-selected="true">
-                                Assiettes
-					        </a>
-                            <a onClick={() => setComponent(2)} className="nav-link mb-3 btn" id="v-pills-menu-tab" data-fa-icon="&#xf0c9" data-toggle="pill" href="#v-pills-menu" role="tab" aria-controls="v-pills-menu" aria-selected="false">
-                                Carte/Menu
-					        </a>
-                            <a onClick={() => setComponent(3)} className="nav-link mb-3 btn active" id="v-pills-command-tab" data-fa-icon="&#xf07a" data-toggle="pill" href="#v-pills-command" role="tab" aria-controls="v-pills-command" aria-selected="false">
-                                Mes commandes
-					        </a>
-                            <a onClick={() => setComponent(4)} className="nav-link mb-3 btn" id="v-pills-command-tab" data-fa-icon="&#xf07a" data-toggle="pill" href="#v-pills-command" role="tab" aria-controls="v-pills-command" aria-selected="false">
-                                Suppléant
-					        </a>
-                            <a onClick={() => setComponent(5)} className="nav-link mb-3 btn" id="v-pills-command-tab" data-fa-icon="&#xf07a" data-toggle="pill" href="#v-pills-command" role="tab" aria-controls="v-pills-command" aria-selected="false">
-                                Notfication
-					        </a>
-                        </div>
-                    </div>
-                </div>
-                <div className="col-md user-manage">
+            <Row>
+                <Col md={2}>
+                    <Table responsive="md">
+                        <Nav variant="pills" className="flex-md-column d-md-ruby" defaultActiveKey={3}>
+                            <Nav.Link className="btn mb-2" eventKey={1} onClick={() => setComponent(1)}>Assiettes</Nav.Link>
+                            <Nav.Link className="btn mb-2" eventKey={2} onClick={() => setComponent(2)}>Carte/Menu</Nav.Link>
+                            <Nav.Link className="btn mb-2" eventKey={3} onClick={() => setComponent(3)}>Mes commandes</Nav.Link>
+                            <Nav.Link className="btn mb-2" eventKey={4} onClick={() => setComponent(4)}>Suppléant</Nav.Link>
+                            <Nav.Link className="btn mb-2" eventKey={5} onClick={() => setComponent(5)}>Notfication</Nav.Link>
+                        </Nav>
+                    </Table>
+                </Col>
+                <Col className="user-manage">
                     <AppContext.Provider value={{ loading: loading, setLoading: setLoading, handleError: handleError, show: show, setShow: setShow, setModalContent: setModalContent, setModalTitle: setModalTitle, content: content }}>
                         {component == 1 && <Meal />}
                         {component == 2 && <Menu />}
@@ -94,8 +84,8 @@ export default function App() {
                             </Modal.Body>
                         </Modal>
                     </AppContext.Provider>
-                </div>
-            </div>
+                </Col>
+            </Row>
         </Container>
     )
 }
