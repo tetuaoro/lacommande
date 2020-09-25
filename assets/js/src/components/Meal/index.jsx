@@ -71,7 +71,10 @@ export default function Meal() {
         axios.post($(evt.target).attr("action"), (new FormData(evt.target)), { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
             .then(response => {
                 if (response.status == 201) {
-                    setMeals({ data: [...meals.data, response.data] });
+                    setMeals({
+                        ...meals,
+                        data: [...meals.data, response.data]
+                    });
                 }
                 if (response.status == 202) {
                     meals.data.splice((meals.data.findIndex(meal => meal.id == response.data.id)), 1, response.data);
