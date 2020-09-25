@@ -63,8 +63,6 @@ class MealController extends AbstractController
 
         $openingHours = OpeningHours::create($meal->getProvider()->getOpenHours());
 
-        dump($meal->getImgInfo());
-
         return $this->render('meal/show.html.twig', [
             'meal' => $meal,
             'form' => $form->createView(),

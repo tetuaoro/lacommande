@@ -135,7 +135,7 @@
 				{% for key, times in provider.openHours %}
 					<li class="list-group-item border-0 bg-transparent">
 						<span class="d-block text-uppercase">
-							{{key}} :
+							{{key|trans}} :
 						</span>
 						{{times|map(time => time)|join(', ')}}
 					</li>
