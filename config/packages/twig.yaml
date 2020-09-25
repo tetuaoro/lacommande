@@ -7,3 +7,5 @@ twig:
         '%images%': images
         # point this wherever your css files live
         '%styles%': styles
+    date:
+        timezone: Pacific/Honolulu

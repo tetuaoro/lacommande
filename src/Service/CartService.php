@@ -113,10 +113,12 @@ class CartService
 
     public function checkOpenHours(\DateTime $dateTime): array
     {
+        $timezone = new \DateTimeZone('Pacific/Honolulu');
+
         foreach ($this->getCartByProvider() as $id => $tabs) {
             $provider = $this->providerRepo->find($id);
 
-            $openingHours = OpeningHours::create($provider->getOpenHours());
+            $openingHours = OpeningHours::create($provider->getOpenHours(), $timezone);
 
             if (!$openingHours->isOpenAt($dateTime)) {
                 return ['check' => false, 'provider' => $provider];
