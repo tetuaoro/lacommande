@@ -31,8 +31,11 @@ class CommandRepository extends ServiceEntityRepository
 
         $compare = $form->get('compare')->getData();
         $date = $form->get('date')->getData();
-        $tomorrow = (new \DateTime($date))->modify('+1 day')->setTime(0, 0);
-        $today = (new \DateTime($date))->setTime(0, 0);
+
+        $timezone = new \DateTimeZone('Pacific/Honolulu');
+
+        $tomorrow = (new \DateTime($date, $timezone))->modify('+1 day')->setTime(0, 0);
+        $today = (new \DateTime($date, $timezone))->setTime(0, 0);
 
         if ('=' == $compare) {
             $q->andWhere('c.commandAt BETWEEN :today AND :tomorrow')
