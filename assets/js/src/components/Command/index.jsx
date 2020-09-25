@@ -48,7 +48,7 @@ function AppTable({ compare = "=", limit = 20, orderBy = "DESC" }) {
         setLoading([true, "body"]);
 
         const form = new FormData();
-        form.append('form[date]', new Date().toUTCString());
+        form.append('form[date]', new Date().toString());
         form.append('form[compare]', compare);
         form.append('form[limit]', limit);
         form.append('form[order]', orderBy);

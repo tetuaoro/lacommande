@@ -32,10 +32,9 @@ class CommandRepository extends ServiceEntityRepository
         $compare = $form->get('compare')->getData();
         $date = $form->get('date')->getData();
 
-        $timezone = new \DateTimeZone('Pacific/Honolulu');
-
-        $tomorrow = (new \DateTime($date))->setTimezone($timezone)->modify('+1 day')->setTime(0, 0);
-        $today = (new \DateTime($date))->setTimezone($timezone)->setTime(0, 0);
+        // https://stackoverflow.com/questions/13421635/failed-to-parse-time-string-at-position-41-i-double-timezone-specification
+        $today = date_create_from_format('D M d Y H:i:s e+', $date)->setTime(0, 0);
+        $tomorrow = date_create_from_format('D M d Y H:i:s e+', $date)->modify('+1 day')->setTime(0, 0);
 
         if ('=' == $compare) {
             $q->andWhere('c.commandAt BETWEEN :today AND :tomorrow')
