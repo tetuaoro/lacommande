@@ -44,11 +44,14 @@ class CommandController extends AbstractController
         if ($request->isXmlHttpRequest()) {
             $form->handleRequest($request);
 
-            // $cart = ;
-
             $checked = $cartService->checkMinDelivery();
             if (!$checked['check']) {
                 $form->get('stock')->addError(new FormError('Le prix minimum de livraison pour '.$checked['provider']->getName().' est de '.$checked['provider']->getMinPriceDelivery().' XPF'));
+            }
+
+            $checked = $cartService->checkOpenHours($form->get('commandAt')->getData());
+            if (!$checked['check']) {
+                $form->get('openHours')->addError(new FormError('Verifier vos horaires de livraison pour '.$checked['provider']->getName()));
             }
 
             if ($g = $form->get('recaptcha')->getData()) {

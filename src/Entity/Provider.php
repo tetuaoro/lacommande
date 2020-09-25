@@ -120,6 +120,16 @@ class Provider
      */
     private $minPriceDelivery;
 
+    /**
+     * @ORM\Column(type="array", nullable=true)
+     */
+    private $openHours = [];
+
+    /**
+     * @ORM\Column(type="array")
+     */
+    private $bitly = [];
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
@@ -451,6 +461,30 @@ class Provider
     public function setMinPriceDelivery(?int $minPriceDelivery): self
     {
         $this->minPriceDelivery = $minPriceDelivery;
+
+        return $this;
+    }
+
+    public function getOpenHours(): ?array
+    {
+        return $this->openHours;
+    }
+
+    public function setOpenHours(?array $openHours): self
+    {
+        $this->openHours = $openHours;
+
+        return $this;
+    }
+
+    public function getBitly(): ?array
+    {
+        return $this->bitly;
+    }
+
+    public function setBitly(array $bitly): self
+    {
+        $this->bitly = $bitly;
 
         return $this;
     }

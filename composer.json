@@ -21,6 +21,7 @@
         "limenius/react-bundle": "^5.0",
         "phpdocumentor/reflection-docblock": "^5.2",
         "sensio/framework-extra-bundle": "^5.1",
+        "spatie/opening-hours": "^2.9",
         "stof/doctrine-extensions-bundle": "^1.4",
         "symfony/apache-pack": "^1.0",
         "symfony/asset": "5.1.*",

@@ -6,6 +6,7 @@ use App\Entity\Meal;
 use App\Repository\MealRepository;
 use App\Service\AjaxService;
 use Knp\Component\Pager\PaginatorInterface;
+use Spatie\OpeningHours\OpeningHours;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -60,11 +61,15 @@ class MealController extends AbstractController
             $check = $user->getLambda()->checkFavorites($meal);
         }
 
+        $openingHours = OpeningHours::create($meal->getProvider()->getOpenHours());
+
+        dump($meal->getImgInfo());
+
         return $this->render('meal/show.html.twig', [
             'meal' => $meal,
             'form' => $form->createView(),
             'fav' => $check,
-            'lacommandPrice' => 113,
+            'openTime' => $openingHours->nextOpen(new \DateTime('now', new \DateTimeZone('Pacific/Honolulu'))),
         ]);
     }
 

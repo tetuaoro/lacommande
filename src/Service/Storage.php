@@ -194,6 +194,8 @@ class Storage
      */
     private function removeMealObject(Meal $meal)
     {
-        return $this->storage->object($meal->getImgInfo()['name'])->delete();
+        if (array_key_exists('id', $meal->getImgInfo())) {
+            return $this->storage->object($meal->getImgInfo()['name'])->delete();
+        }
     }
 }

@@ -5,13 +5,35 @@
 {% set menus = provider.menus %}
 {% set half_first = menus|slice(0, menus|length / 2) %}
 {% set half_second = menus|slice(menus|length / 2) %}
+{% set half_first_m = meals|slice(0, meals|length / 2) %}
+{% set half_second_m = meals|slice(meals|length / 2) %}
 
 {% block title %}
 	{{title_}}
 {% endblock %}
 
+{% block metatags %}
+	<meta property="twitter:card" content="summary_large_image">
+	<meta property="twitter:site" content="@ariifood">
+	<meta property="twitter:title" content="{{ title_ ~ ' sur ' ~ nameSite }}">
+	<meta property="twitter:description" content="{{ provider.description | htmldump }}">
+	<meta property="twitter:creator" content="@ariifood">
+	<meta property="twitter:image" content="{{ provider.bgImg }}">
+	<meta property="twitter:domain" content="">
+	<meta property="twitter:url" content="{{provider.bitly.link}}"/>
+	<meta property="twitter:widgets:border-color" content="{{color1}}">
+	<link rel="canonical" href="{{provider.bitly.link}}">
+	<meta property="fb:app_id" content="{{get_env('OAUTH_FACEBOOK_ID')}}">
+	<meta property="og:url" content="{{provider.bitly.link}}"/>
+	<meta property="og:type" content="article"/>
+	<meta property="og:title" content="{{ title_ ~ ' sur ' ~ nameSite }}"/>
+	<meta property="og:description" content="{{ provider.description | htmldump }}"/>
+	<meta property="og:image" content="{{ provider.bgImg }}"/>
+{% endblock %}
+
 {% block bodyfull %}
 	<div class="provider-show">
+
 		<section class="bg-title-page pos-relative p-t-170 p-b-80 p-l-15 p-r-15" style="background-image: url({{provider.bgImg}});">
 			<h1 class="tit6 t-center{% if provider.bgImg == '' %} text-dark{% endif %}">
 				{{ title_ }}
@@ -29,12 +51,15 @@
 			{% endif %}
 		</section>
 
-		<section class="section-mainmenu p-t-110 p-b-70 bg1-pattern">
+		<section id="menu" class="bg1-pattern section-mainmenu p-t-110 p-b-70">
+			<span class="tit2 t-center d-flex justify-content-center m-b-55">
+				Notre Carte
+			</span>
 			<div class="container">
 				<div class="row">
 					<div class="col-md-10 col-lg-6 p-r-35 p-r-15-lg m-l-r-auto">
 						{% for menu in half_first %}
-							<div class="wrap-item-mainmenu p-b-22">
+							<div class="wrap-item-mainmenu">
 								<h3 id="{{menu.category.name}}" class="tit-mainmenu tit10 p-b-25">
 									{{menu.category.name}}
 								</h3>
@@ -48,7 +73,8 @@
 											<div class="line-item-mainmenu bg3-pattern"></div>
 
 											<div class="price-item-mainmenu txt22">
-												{{meal.price}} XPF
+												{{meal.price}}
+												XPF
 											</div>
 										</div>
 
@@ -60,10 +86,9 @@
 							</div>
 						{% endfor %}
 					</div>
-
 					<div class="col-md-10 col-lg-6 p-l-35 p-l-15-lg m-l-r-auto">
 						{% for menu in half_second %}
-							<div class="wrap-item-mainmenu p-b-22">
+							<div class="wrap-item-mainmenu">
 								<h3 id="{{menu.category.name}}" class="tit-mainmenu tit10 p-b-25">
 									{{menu.category.name}}
 								</h3>
@@ -77,7 +102,8 @@
 											<div class="line-item-mainmenu bg3-pattern"></div>
 
 											<div class="price-item-mainmenu txt22">
-												{{meal.price}} XPF
+												{{meal.price}}
+												XPF
 											</div>
 										</div>
 
@@ -93,8 +119,7 @@
 			</div>
 		</section>
 
-
-		<section class="bg2-pattern pos-relative p-t-116 p-b-110 t-center p-l-15 p-r-15">
+		<section id="openHours" class="bg2-pattern pos-relative p-t-116 p-b-110 t-center p-l-15 p-r-15">
 			{% if edit %}
 				<span class="bgImg-edit">
 					<a href="" data-toggle="modal" data-target="#providerModal">
@@ -103,22 +128,139 @@
 					</a>
 				</span>
 			{% endif %}
-			<span class="tit2 t-center">
-				Réseaux sociaux
+			<span class="tit2 t-center m-b-35">
+				Nos Horaires et Lieux de livraison
 			</span>
-
-			<p class="t-center m-t-35 size32 m-l-r-auto">
-				{{provider.description}}
-			</p>
+			<ul class="list-group m-t-35 list-group-horizontal-md d-flex justify-content-center">
+				{% for key, times in provider.openHours %}
+					<li class="list-group-item border-0 bg-transparent">
+						<span class="d-block text-uppercase">
+							{{key}} :
+						</span>
+						{{times|map(time => time)|join(', ')}}
+					</li>
+				{% endfor %}
+			</ul>
 		</section>
+
 		<div class="parallax0 parallax100" style="background-image: url({{asset('assets/images/bg-cover-video-02.jpg')}});">
 			<div class="overlay0-parallax t-center size33"></div>
 		</div>
-		<div class="provider-editable">
+
+		<section id="meal-section" class="section-lunch bg2-pattern p-t-110 p-b-40">
+			<span class="tit2 t-center d-flex justify-content-center m-b-35">
+				Nos produits
+			</span>
+			<div class="container">
+				<div class="pagination mt-1 justify-content-center p-b-20">
+					{{ knp_pagination_render(meals, null, {}, {size: 'small', rounded: true}) }}
+				</div>
+				<div class="row">
+					<div class="col-md-6 col-lg-6 m-l-r-auto">
+						{% for meal in half_first_m %}
+							<div class="meal-card">
+								<div class="blo3 flex-w flex-col-l-sm m-b-30 meal-hover" data-href="{{path('meal_show', {id: meal.id, slug: meal.slug})}}">
+									<div class="pic-blo3 size20 bo-rad-10 hov-img-zoom m-r-28">
+										<a href="{{path('meal_show', {id: meal.id, slug: meal.slug})}}"><img src="{{ meal.img }}" alt="IMG-LUNCH"></a>
+									</div>
+
+									<div class="text-blo3 size21 flex-col-l-m">
+										<a href="{{path('meal_show', {id: meal.id, slug: meal.slug})}}" class="txt21 m-b-3">
+											{{ meal.name }}
+										</a>
+
+										<div class="txt23">
+											{{ meal.description | truncate(40) | raw }}
+										</div>
+
+										<span class="txt22 m-t-20">
+											{{ meal.price ~ " XPF"}}
+										</span>
+									</div>
+								</div>
+							</div>
+						{% endfor %}
+					</div>
+					<div class="col-md-6 col-lg-6 m-l-r-auto">
+						{% for meal in half_second_m %}
+							<div class="meal-card">
+								<div class="blo3 flex-w flex-col-l-sm m-b-30 meal-hover" data-href="{{path('meal_show', {id: meal.id, slug: meal.slug})}}">
+									<div class="pic-blo3 size20 bo-rad-10 hov-img-zoom m-r-28">
+										<a href="{{ path('meal_show', {id: meal.id, slug: meal.slug}) }}"><img src="{{ meal.img }}" alt="IMG-LUNCH"></a>
+									</div>
+
+									<div class="text-blo3 size21 flex-col-l-m">
+										<a href="{{ path('meal_show', {id: meal.id, slug: meal.slug}) }}" class="txt21 m-b-3">
+											{{ meal.name }}
+										</a>
+
+										<div class="txt23">
+											{{ meal.description | truncate(40) | raw }}
+										</div>
+
+										<span class="txt22 m-t-20">
+											{{ meal.price ~ " XPF"}}
+										</span>
+									</div>
+								</div>
+							</div>
+						{% endfor %}
+					</div>
+				</div>
+				<div class="pagination mt-1 justify-content-center p-t-20">
+					{{ knp_pagination_render(meals, null, {}, {size: 'small', rounded: true}) }}
+				</div>
+			</div>
+		</section>
+
+		<section id="social" class="bg1-pattern pos-relative p-t-116 p-b-110 t-center p-l-15 p-r-15">
 			{% if edit %}
-				{% include "provider/edit.html.twig" %}
+				<span class="bgImg-edit">
+					<a href="" data-toggle="modal" data-target="#providerModal">
+						{{"modifier"}}
+						<i class="fas fa-edit fa-2x" aria-hidden="true"></i>
+					</a>
+				</span>
 			{% endif %}
-		</div>
+			<span class="tit2 t-center m-b-35">
+				Nos Réseaux sociaux
+			</span>
+			<p class="t-center m-t-35 size32 m-l-r-auto">
+				{{provider.description}}
+			</p>
+			<ul class="list-group list-group-horizontal-xl d-flex justify-content-center">
+				{% if provider.linkfb %}
+					<li class="list-group-item border-0 bg-transparent">
+						<a href="{{provider.linkfb}}" target="_blank">
+							<span>Page Facebook</span>
+							<i class="fab fa-facebook fa-3x align-middle" aria-hidden="true"></i>
+						</a>
+					</li>
+				{% endif %}
+				{% if provider.linkinsta %}
+					<li class="list-group-item border-0 bg-transparent">
+						<a href="{{provider.linkinsta}}" target="_blank">
+							<span>Page Instagram</span>
+							<i class="fab fa-instagram fa-3x align-middle" aria-hidden="true"></i>
+						</a>
+					</li>
+				{% endif %}
+				{% if provider.linktwitter %}
+					<li class="list-group-item border-0 bg-transparent">
+						<a href="{{provider.linktwitter}}" target="_blank">
+							<span>Page Twitter</span>
+							<i class="fab fa-twitter fa-3x align-middle" aria-hidden="true"></i>
+						</a>
+					</li>
+				{% endif %}
+			</ul>
+		</section>
+
+		{% if edit %}
+			<div class="provider-editable">
+				{% include "provider/edit.html.twig" %}
+			</div>
+		{% endif %}
 	</div>
 {% endblock %}
 
@@ -143,4 +285,6 @@
 	<script type="text/javascript">
 		$('.parallax100').parallax100();
 	</script>
+	<script src="{{asset('assets/custom/js/item-click-path.js')}}"></script>
+	<script src="{{asset('assets/custom/js/meal/app-pagination.js')}}"></script>
 {% endblock %}

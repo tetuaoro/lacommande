@@ -22,6 +22,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * @Route("/manage", name="manage_")
@@ -31,7 +32,7 @@ class ManageApi extends AbstractController
     /**
      * @Route("/meals", name="meals", methods={"GET"})
      */
-    public function meals(MealRepository $mealRepository, NormalizerInterface $normalizerInterface, PaginatorInterface $paginator, Request $request)
+    public function meals(MealRepository $mealRepository, SerializerInterface $serializerInterface, NormalizerInterface $normalizerInterface, PaginatorInterface $paginator, Request $request)
     {
         /** @var \App\Entity\User $user */
         $user = $this->getUser();
@@ -56,8 +57,10 @@ class ManageApi extends AbstractController
             AbstractNormalizer::GROUPS => 'mealjs',
         ];
 
+        $totalPage = $meals->getTotalItemCount() / $nb_items;
+
         $data = [
-            'totalPage' => round($meals->getTotalItemCount() / $nb_items),
+            'totalPage' => floor($totalPage) == $totalPage ? $totalPage : floor($totalPage) + 1,
             'items' => $meals->getTotalItemCount(),
             'page' => $meals->getCurrentPageNumber(),
             'data' => $normalizerInterface->normalize($meals, 'json', $defaultContext),

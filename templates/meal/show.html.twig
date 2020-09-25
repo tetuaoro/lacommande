@@ -16,11 +16,11 @@
 	<meta property="twitter:creator" content="@ariifood">
 	<meta property="twitter:image" content="{{ meal.img }}">
 	<meta property="twitter:domain" content="">
-	<meta property="twitter:url" content="{{ url('meal_show', {id: meal.id, slug: meal.slug}) }}"/>
+	<meta property="twitter:url" content="{{meal.bitly.link}}"/>
 	<meta property="twitter:widgets:border-color" content="{{color1}}">
 	<link rel="canonical" href="{{url('meal_show', {id: meal.id, slug: meal.slug})}}">
 	<meta property="fb:app_id" content="{{get_env('OAUTH_FACEBOOK_ID')}}">
-	<meta property="og:url" content="{{ url('meal_show', {id: meal.id, slug: meal.slug}) }}"/>
+	<meta property="og:url" content="{{meal.bitly.link}}"/>
 	<meta property="og:type" content="article"/>
 	<meta property="og:title" content="{{ meal.name ~ ' à ' ~ meal.price ~ ' XPF' }}"/>
 	<meta property="og:description" content="{{ meal.description | htmldump }}"/>
@@ -74,8 +74,18 @@
 											{{form_start(form)}}
 											{{form_rest(form)}}
 											<div class="alert alert-info" role="alert">
-												stock disponible :
-												{{meal.stock}}
+												<p>
+													stock disponible :
+													{{meal.stock}}
+												</p>
+												<p>
+													min livraison :
+													{{meal.provider.minPriceDelivery}}
+													XPF
+												</p>
+												<p>
+													<a href="{{path('provider_show', {id:meal.provider.id,slug:meal.provider.slug})}}#openHours">prochaine overture : {{openTime|date('H:i')}}</a>
+												</p>
 											</div>
 											<span class="prices text-left d-block">
 												<small class="text-muted"></small>

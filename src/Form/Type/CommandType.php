@@ -63,10 +63,9 @@ class CommandType extends AbstractType
                 'view_timezone' => 'Pacific/Honolulu',
                 'data' => new \DateTime('+1 hours'),
                 'constraints' => [
-                    new Assert\GreaterThan('+1 hours'),
                     new Assert\Range([
-                        'min' => 'today',
-                        'max' => '+1 month',
+                        'min' => 'now',
+                        'max' => '+6 month',
                     ]),
                 ],
                 'help' => 'help order',
@@ -113,6 +112,14 @@ class CommandType extends AbstractType
                 'error_bubbling' => false,
                 'attr' => [
                     'class' => 'min',
+                ],
+            ])
+            ->add('openHours', HiddenType::class, [
+                'mapped' => false,
+                'required' => false,
+                'error_bubbling' => false,
+                'attr' => [
+                    'class' => 'openHours',
                 ],
             ])
         ;

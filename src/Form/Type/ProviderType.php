@@ -19,6 +19,7 @@ class ProviderType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('openHours', OpenHoursType::class)
             ->add('label', TextType::class, [
                 'translation_domain' => 'form',
                 'required' => false,
@@ -78,7 +79,6 @@ class ProviderType extends AbstractType
                     ]),
                 ],
             ])
-
         ;
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {

@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Repository\MealRepository;
 use App\Repository\ProviderRepository;
+use Spatie\OpeningHours\OpeningHours;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class CartService
@@ -103,6 +104,21 @@ class CartService
 
             $provider = $this->providerRepo->find($id);
             if ($total < $provider->getMinPriceDelivery()) {
+                return ['check' => false, 'provider' => $provider];
+            }
+        }
+
+        return ['check' => true];
+    }
+
+    public function checkOpenHours(\DateTime $dateTime): array
+    {
+        foreach ($this->getCartByProvider() as $id => $tabs) {
+            $provider = $this->providerRepo->find($id);
+
+            $openingHours = OpeningHours::create($provider->getOpenHours());
+
+            if (!$openingHours->isOpenAt($dateTime)) {
                 return ['check' => false, 'provider' => $provider];
             }
         }

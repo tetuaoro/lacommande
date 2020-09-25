@@ -1,5 +1,22 @@
 {{ form_start(form) }}
 <fieldset>
+	{% set half_first = form.openHours|slice(0, form.openHours|length / 2) %}
+	{% set half_second = form.openHours|slice(form.openHours|length / 2) %}
+	<div class="row">
+		{% for timeField in half_first %}
+			<div class="col-md">
+				{{form_row(timeField)}}
+			</div>
+		{% endfor %}
+	</div>
+	<div class="row">
+		{% for timeField in half_second %}
+			<div class="col-md">
+				{{form_row(timeField)}}
+			</div>
+		{% endfor %}
+	</div>
+	<hr>
 	{{ form_row(form.label) }}
 	{{ form_row(form.description) }}
 	{{ form_row(form.image) }}

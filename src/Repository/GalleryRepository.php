@@ -22,6 +22,8 @@ class GalleryRepository extends ServiceEntityRepository
     public function findLastest($how = 12)
     {
         return $this->createQueryBuilder('g')
+            ->leftJoin('g.meal', 'm')
+            ->where('m.isDelete = false')
             ->orderBy('g.createdAt', 'DESC')
             ->setMaxResults($how)
             ->getQuery()

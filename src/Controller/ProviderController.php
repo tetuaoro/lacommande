@@ -4,9 +4,11 @@ namespace App\Controller;
 
 use App\Entity\Provider;
 use App\Form\Type\ProviderType;
+use App\Repository\MealRepository;
 use App\Repository\ProviderRepository;
 use App\Service\AjaxService;
 use App\Service\Storage;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -57,7 +59,7 @@ class ProviderController extends AbstractController
     /**
      * @Route("/{slug}-{id}", name="show", methods={"GET"}, requirements={"slug": "[a-z0-9\-]*"})
      */
-    public function show(string $slug, Provider $provider): Response
+    public function show(string $slug, Provider $provider, PaginatorInterface $paginator, MealRepository $mealRepository, Request $request): Response
     {
         if ($slug != $provider->getSlug()) {
             return $this->redirectToRoute('provider_show', [
@@ -66,8 +68,19 @@ class ProviderController extends AbstractController
             ]);
         }
 
+        $meals = $paginator->paginate(
+            $mealRepository->getMealByProvider($provider),
+            $request->query->get('page', 1),
+            14,
+            [
+                $paginator::DEFAULT_SORT_FIELD_NAME => 'm.name',
+                $paginator::DEFAULT_SORT_DIRECTION => 'asc',
+            ]
+        );
+
         return $this->render('provider/show.html.twig', [
             'provider' => $provider,
+            'meals' => $meals,
         ]);
     }
 

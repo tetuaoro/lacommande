@@ -2,8 +2,7 @@
 <html lang="fr">
 	<head>
 		<title>
-			{% block title %}Administrer
-			{% endblock %}
+			{% block title "Administrer" %}
 		</title>
 
 		<meta charset="UTF-8">
@@ -22,10 +21,7 @@
 			{% block header %}
 				<header>
 					<nav class="navbar navbar-expand-lg navbar-dark bg-warning fixed-left">
-						<a class="navbar-brand" href="{{path('app_index')}}">
-							<img src="{{asset('assets/images/icons/logo.png') }}" alt="IMG-LOGO">
-						</a>
-						<a class="navbar-brand mx-auto h2" href="{{path('provider_show', {id:user.provider.id,slug:user.provider.slug})}}">{{user.name}}</a>
+						<a class="navbar-brand mx-auto h2 text-uppercase" href="{{path('provider_show', {id:user.provider.id,slug:user.provider.slug})}}">{{user.name}}</a>
 					</nav>
 				</header>
 			{% endblock %}
