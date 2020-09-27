@@ -1,21 +1,33 @@
 <table class="table">
 	<tbody>
 		<tr>
-			<th>Id</th>
-			<td>{{ command.id }}</td>
-		</tr>
-		<tr>
-			<th>Name</th>
+			<th>Nom</th>
 			<td>{{ command.name }}</td>
 		</tr>
 		<tr>
-			<th>CommandAt</th>
+			<th>Date de commande</th>
 			<td>{{ command.commandAt ? command.commandAt|date('Y-m-d H:i:s') : '' }}</td>
 		</tr>
 		<tr>
-			<th>Items</th>
+			<th>Produit</th>
 			<td>
-				{{command.meals|map(meal => meal.name)|join(', ', ' et ')}}
+				{{command.meals|map(meal => "<a href=" ~ path('meal_show', {id:meal.id,slug:meal.slug}) ~ " title=" ~ meal.id ~ ">" ~ meal.name ~ " (" ~ details[meal.id] ~ "X)</a>")|join(', ', ' et ')|raw}}
+			</td>
+		</tr>
+		<tr>
+			<th>Adresse</th>
+			<td>
+				{{command.address}}
+			</td>
+		</tr>
+		<tr>
+			<th>Prix</th>
+			<td>
+				{{price}}
+				XPF
+				{% if price != command.price %}
+					<span class="text-info">({{command.price}})</span>
+				{% endif %}
 			</td>
 		</tr>
 	</tbody>

@@ -10,5 +10,6 @@ export const MENUNEW = "/api/manage/new-menu";
 export const MENUEDIT = "/api/manage/edit-menu-";
 export const MENUDELETE = "/api/manage/delete-menu-";
 
-export const COMMANDS = "/api/manage/commands";
-export const COMMANDINFO = "/api/manage/command-show-";
+export const COMMANDS = "/api/command/";
+export const COMMANDINFO = "/api/command/show-";
+export const COMMANDVALIDATE = "/api/command/validate-";

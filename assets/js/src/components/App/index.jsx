@@ -29,7 +29,7 @@ export default function App() {
         return () => {
             spinner(loading[1], "hide");
         };
-    }, [loading[0]]);
+    }, [loading]);
 
     const clear = () => {
         if (show) {

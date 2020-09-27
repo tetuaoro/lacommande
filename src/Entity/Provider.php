@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Table(options={"auto_increment": 100})
@@ -28,16 +29,6 @@ class Provider
      * @Groups({"commandjs"})
      */
     private $name;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $code;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $url;
 
     /**
      * @ORM\Column(type="datetimetz")
@@ -79,17 +70,17 @@ class Provider
     private $bgImg;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255)
      */
     private $linkfb;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255)
      */
     private $linkinsta;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255)
      */
     private $linktwitter;
 
@@ -116,12 +107,13 @@ class Provider
     private $commands;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="integer")
+     * @Assert\GreaterThanOrEqual(100)
      */
     private $minPriceDelivery;
 
     /**
-     * @ORM\Column(type="array", nullable=true)
+     * @ORM\Column(type="array")
      */
     private $openHours = [];
 

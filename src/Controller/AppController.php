@@ -53,6 +53,16 @@ class AppController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/public/legal/privacy-policy-document", name="rgpd_doc")
+     */
+    public function rgpd_doc()
+    {
+        return $this->render('app/rgpd/rgpd.html.twig', [
+            'controller_name' => 'app:rgpd',
+        ]);
+    }
+
     public function gallery_html(string $who, GalleryRepository $galleryRepo)
     {
         $lastgalls = $galleryRepo->findLastest();

@@ -1,0 +1,23 @@
+{% extends "mailer/base.html.twig" %}
+
+{% block body %}
+
+	<row>
+		<columns small="2" large="3">
+			<p>
+				{{command.message}}
+			</p>
+		</columns>
+	</row>
+
+	<spacer size="8"></spacer>
+
+	<row>
+		<columns small="2" large="3"></columns>
+		<columns>
+			<button class="provider-show" href="{{url('provider_show', {id:provider.id, slug:provider.slug})}}#contact">Contacter</button>
+		</columns>
+		<columns small="2" large="3"></columns>
+	</row>
+
+{% endblock %}

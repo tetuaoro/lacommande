@@ -29,6 +29,7 @@ class MealFixtures extends Fixture implements DependentFixtureInterface
 
         $faker = (new Factory())->create('fr_FR');
         $images = [];
+        $env = 'dev' == $_ENV['APP_ENV'];
 
         for ($i = 0; $i < 11; ++$i) {
             $images[] = 'https://lorempixel.com/1920/1920/food/'.$i.'/';
@@ -52,7 +53,6 @@ class MealFixtures extends Fixture implements DependentFixtureInterface
             }
 
             $name = ucfirst($faker->word);
-            $env = 'dev' == $_ENV['APP_ENV'];
 
             $meal->setName($name)
                 ->setBitly(['link' => $env ? 'https://bit.ly/2ZDJRpF' : 'https://bit.ly/2ZDJHyz'])

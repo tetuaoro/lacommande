@@ -2,11 +2,9 @@
 
 namespace App\Api;
 
-use App\Entity\Command;
 use App\Entity\Gallery;
 use App\Entity\Meal;
 use App\Entity\Menu;
-use App\Repository\CommandRepository;
 use App\Repository\MealRepository;
 use App\Repository\MenuRepository;
 use App\Service\AjaxService;
@@ -14,7 +12,6 @@ use App\Service\BitlyService;
 use App\Service\Storage;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -358,60 +355,5 @@ class ManageApi extends AbstractController
         }
 
         return new Response('error', Response::HTTP_BAD_REQUEST);
-    }
-
-    /**
-     * @Route("/commands", name="commands", methods={"POST"})
-     */
-    public function commands(CommandRepository $commandRepository, Request $request)
-    {
-        /** @var \App\Entity\User $user */
-        $user = $this->getUser();
-
-        $this->denyAccessUnlessGranted('USER_MANAGE', $user);
-
-        $form = $this->createForm(FormType::class, [], ['csrf_protection' => false])
-            ->add('date')
-            ->add('compare')
-            ->add('limit')
-            ->add('order')
-        ;
-
-        if ($request->isXmlHttpRequest()) {
-            $form->handleRequest($request);
-
-            if ($form->isSubmitted() && $form->isValid()) {
-                $defaultContext = [
-                    AbstractNormalizer::CIRCULAR_REFERENCE_HANDLER => function ($object, $format, $context) {
-                        return $object->getId();
-                    },
-                    AbstractNormalizer::GROUPS => 'commandjs',
-                ];
-
-                return $this->json(
-                    $commandRepository->findByProviderOrderByCommandDate($user->getProvider(), $form),
-                    JsonResponse::HTTP_OK,
-                    [],
-                    $defaultContext
-                );
-            }
-        }
-
-        return new Response('success', Response::HTTP_NOT_ACCEPTABLE);
-    }
-
-    /**
-     * @Route("/command-show-{id}", name="command_show", methods={"GET"})
-     */
-    public function commandShow(Command $command, CommandRepository $commandRepository)
-    {
-        $this->denyAccessUnlessGranted('COMMAND_VIEW', $command);
-
-        /** @var \App\Entity\User $user */
-        $user = $this->getUser();
-
-        return $this->render('command/show.html.twig', [
-            'command' => $commandRepository->getFiltererByProvider($command->getId(), $user->getProvider()),
-        ]);
     }
 }

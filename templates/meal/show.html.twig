@@ -80,11 +80,10 @@
 												</p>
 												<p>
 													min livraison :
-													{{meal.provider.minPriceDelivery}}
-													XPF
+													{{meal.delivery ? meal.provider.minPriceDelivery ~ " XPF" : "à récupérer sur place"}}
 												</p>
 												<p>
-													<a href="{{path('provider_show', {id:meal.provider.id,slug:meal.provider.slug})}}#openHours">prochaine overture : {{openTime|date('H:i')}}</a>
+													<a href="{{path('provider_show', {id:meal.provider.id,slug:meal.provider.slug})}}#openHours">prochaine overture : {{openTime|date('d/m/y H:i')}}</a>
 												</p>
 											</div>
 											<span class="prices text-left d-block">

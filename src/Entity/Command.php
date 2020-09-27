@@ -115,6 +115,11 @@ class Command
      */
     private $validate;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $message;
+
     public function __construct()
     {
         $this->meals = new ArrayCollection();
@@ -348,6 +353,18 @@ class Command
     public function setValidate(?bool $validate): self
     {
         $this->validate = $validate;
+
+        return $this;
+    }
+
+    public function getMessage(): ?string
+    {
+        return $this->message;
+    }
+
+    public function setMessage(?string $message): self
+    {
+        $this->message = $message;
 
         return $this;
     }

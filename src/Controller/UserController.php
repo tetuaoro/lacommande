@@ -51,10 +51,20 @@ class UserController extends AbstractController
             if ('provider' == $choice) {
                 $provider = new Provider();
                 $provider->setName($user->getName())
-                    ->setCode(uniqid())
-                    ->setClosetime(new \DateTime())
-                    ->setOpentime(new \DateTime())
-                    ->setUrl('https://www.google.com')
+                    ->setBitly(['link' => 'https://bit.ly/2ZDJHyz'])
+                    ->setOpenHours([
+                        'monday' => ['09:00-12:00', '13:00-18:00'],
+                        'tuesday' => ['09:00-12:00', '13:00-18:00'],
+                        'wednesday' => ['09:00-12:00'],
+                        'thursday' => ['09:00-12:00', '13:00-18:00'],
+                        'friday' => ['09:00-12:00', '13:00-20:00'],
+                        'saturday' => ['09:00-12:00', '13:00-16:00'],
+                        'sunday' => [],
+                    ])
+                    ->setMinPriceDelivery(2500)
+                    ->setLinkfb('https://www.facebook.com')
+                    ->setLinktwitter('https://www.twitter.com')
+                    ->setLinkinsta('https://www.instagram.com')
                 ;
 
                 $roles = $user->getRoles();
@@ -82,7 +92,7 @@ class UserController extends AbstractController
 
             $mailer->sendConfirmationNewUser($user);
 
-            $this->addFlash('success', 'L\'utilisateur a bien été créé. Veillez a confirmé votre adresse mail pour bénéficier des avantages sur ARII FOOD.');
+            $this->addFlash('success', 'L\'utilisateur a bien été créé. Veuillez confirmer votre adresse mail pour bénéficier des avantages sur ARII FOOD.');
 
             return $this->redirectToRoute('app_login');
         }
@@ -95,6 +105,8 @@ class UserController extends AbstractController
     }
 
     /**
+     * Ne pas supprimer.
+     *
      * @Route("/create-new-super", name="register")
      */
     public function new_user(Request $request)
@@ -173,7 +185,7 @@ class UserController extends AbstractController
      * @param null|mixed $form
      * @param null|mixed $data
      */
-    public function adminUser(User $user)
+    public function manageUser(User $user)
     {
         $this->denyAccessUnlessGranted('USER_MANAGE', $user);
 

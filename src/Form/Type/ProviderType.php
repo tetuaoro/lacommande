@@ -5,6 +5,7 @@ namespace App\Form\Type;
 use App\Entity\Provider;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
@@ -28,6 +29,9 @@ class ProviderType extends AbstractType
             ->add('description', TextareaType::class, [
                 'translation_domain' => 'form',
                 'required' => false,
+            ])
+            ->add('minPriceDelivery', IntegerType::class, [
+                'translation_domain' => 'form',
             ])
             ->add('linkinsta', UrlType::class, [
                 'translation_domain' => 'form',

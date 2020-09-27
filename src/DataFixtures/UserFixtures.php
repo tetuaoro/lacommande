@@ -23,6 +23,7 @@ class UserFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         $faker = (new Factory())->create('fr_FR');
+        $env = 'dev' == $_ENV['APP_ENV'];
 
         // Create User as PROVIDER
         for ($i = 0; $i < 30; ++$i) {
@@ -38,16 +39,25 @@ class UserFixtures extends Fixture
 
             $rdm = mt_rand(0, 2);
             $roles = $user->getRoles();
+
             if (1 == $rdm) {
                 $provider = new Provider();
                 $roles[] = 'ROLE_PROVIDER';
                 $provider->setName($user->getName())
                     ->setMinPriceDelivery(2500)
-                    ->setUrl('https://www.google.com')
-                    ->setCode('#'.$faker->ean8)
-
-                    ->setOpentime($faker->dateTimeBetween())
-                    ->setClosetime($faker->dateTimeBetween())
+                    ->setBitly(['link' => $env ? 'https://bit.ly/2ZDJRpF' : 'https://bit.ly/2ZDJHyz'])
+                    ->setOpenHours([
+                        'monday' => ['09:00-12:00', '13:00-18:00'],
+                        'tuesday' => ['09:00-12:00', '13:00-18:00'],
+                        'wednesday' => ['09:00-12:00'],
+                        'thursday' => ['09:00-12:00', '13:00-18:00'],
+                        'friday' => ['09:00-12:00', '13:00-20:00'],
+                        'saturday' => ['09:00-12:00', '13:00-16:00'],
+                        'sunday' => [],
+                    ])
+                    ->setLinkfb('https://www.facebook.com')
+                    ->setLinktwitter('https://www.twitter.com')
+                    ->setLinkinsta('https://www.instagram.com')
                     ->setCreatedAt($user->getCreatedAt())
                 ;
                 $user->setRoles($roles)
@@ -90,10 +100,19 @@ class UserFixtures extends Fixture
         $roles[] = 'ROLE_SUPERADMIN';
         $provider->setName($user->getName())
             ->setMinPriceDelivery(1500)
-            ->setUrl('https://www.google.com')
-            ->setCode('#'.$faker->ean8)
-            ->setOpentime($faker->dateTimeBetween())
-            ->setClosetime($faker->dateTimeBetween())
+            ->setBitly(['link' => $env ? 'https://bit.ly/2ZDJRpF' : 'https://bit.ly/2ZDJHyz'])
+            ->setOpenHours([
+                'monday' => ['09:00-12:00', '13:00-18:00'],
+                'tuesday' => ['09:00-12:00', '13:00-18:00'],
+                'wednesday' => ['09:00-12:00'],
+                'thursday' => ['09:00-12:00', '13:00-18:00'],
+                'friday' => ['09:00-12:00', '13:00-20:00'],
+                'saturday' => ['09:00-12:00', '13:00-16:00'],
+                'sunday' => [],
+            ])
+            ->setLinkfb('https://www.facebook.com')
+            ->setLinktwitter('https://www.twitter.com')
+            ->setLinkinsta('https://www.instagram.com')
         ;
         $user->setRoles($roles)
             ->setProvider($provider)

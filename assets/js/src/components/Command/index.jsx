@@ -34,15 +34,39 @@ export default function Command() {
     )
 }
 
-function AppTable({ compare = "=", limit = 20, orderBy = "DESC" }) {
+function AppTable({ compare = "=", orderBy = "DESC" }) {
 
-    const { setLoading, handleError, setShow, setModalContent, setModalTitle } = useContext(App);
+    const { setLoading, handleError, setShow, setModalContent, content, setModalTitle } = useContext(App);
 
     const [commands, setCommands] = useState([]);
+    const [state, setState] = useState(0);
 
     useEffect(() => {
         fetchCommands();
     }, []);
+
+    useEffect(() => {
+        const form_el = document.getElementById("validateForm");
+        if (form_el) {
+            form_el.addEventListener("submit", formSubmitted);
+        }
+    }, [state]);
+
+    const formSubmitted = (evt) => {
+        evt.preventDefault();
+        setLoading([true, ".modal-content"]);
+        axios.post($(evt.target).attr("action"), (new FormData(evt.target)), { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+            .then(() => {
+                fetchCommands();
+                setShow(false);
+            })
+            .catch(err => {
+                if (err.response.status == 400) {
+                    setModalContent(err.response.data);
+                }
+            })
+            .finally(() => setLoading([false, ".modal-content"]));
+    }
 
     const fetchCommands = () => {
         setLoading([true, "body"]);
@@ -50,7 +74,6 @@ function AppTable({ compare = "=", limit = 20, orderBy = "DESC" }) {
         const form = new FormData();
         form.append('form[date]', new Date().toString());
         form.append('form[compare]', compare);
-        form.append('form[limit]', limit);
         form.append('form[order]', orderBy);
 
         axios.post(API.COMMANDS, form, { headers: { "X-Requested-With": "XMLHttpRequest" } })
@@ -62,10 +85,30 @@ function AppTable({ compare = "=", limit = 20, orderBy = "DESC" }) {
 
     const handleInfo = (id) => {
         if (id) {
-            setShow(true);
             setModalTitle("Commande Info");
+            setShow(true);
             getInfo(id);
         }
+    }
+
+    const handleValidate = (command, evt) => {
+        evt.stopPropagation();
+
+        if (command.id && !command.validate) {
+            setModalTitle("Valider");
+            setShow(true);
+            getForm(command.id);
+        }
+    }
+
+    const getForm = (id) => {
+        fetch(API.COMMANDVALIDATE + id)
+            .then((response) => response.text())
+            .then((form) => {
+                setModalContent(form);
+                setState(state + 1);
+            })
+            .catch(() => handleError());
     }
 
     const getInfo = (id) => {
@@ -75,6 +118,16 @@ function AppTable({ compare = "=", limit = 20, orderBy = "DESC" }) {
             .then(info => setModalContent(info))
             .catch(err => handleError())
             .finally(() => setLoading([false, ".modal-content"]))
+    }
+
+    const bgColor = (bool) => {
+        if (bool) {
+            return {
+                backgroundColor: 'rgba(25,255,25,0.5)'
+            }
+        }
+
+        return {}
     }
 
     return (
@@ -89,7 +142,7 @@ function AppTable({ compare = "=", limit = 20, orderBy = "DESC" }) {
                 </thead>
                 <tbody>
                     {commands && commands.map((command, index) => (
-                        <tr key={index}>
+                        <tr key={index} onClick={() => handleInfo(command.id)} style={bgColor(command.validate)}>
                             <th>{index + 1}</th>
                             <th className="text-capitalize">
                                 {
@@ -99,8 +152,14 @@ function AppTable({ compare = "=", limit = 20, orderBy = "DESC" }) {
                                 }
                             </th>
                             <td>
-                                <Button className="btn-bs btn-warning" onClick={() => handleInfo(command.id)}>
-                                    <i className="fas fa-eye" aria-hidden="true"></i>
+                                <Button disabled={command.validate} title="valider cette commande" className="btn-bs btn-warning" onClick={(e) => handleValidate(command, e)}>
+                                    <i className="fas fa-check text-success" aria-hidden="true"></i>
+                                </Button>
+                                <Button title="annuler cette commande" className="btn-bs btn-warning" onClick={() => handleInfo(command.id)}>
+                                    <i className="fas fa-times text-danger" aria-hidden="true"></i>
+                                </Button>
+                                <Button title="envoyer un message" className="btn-bs btn-warning" onClick={() => handleInfo(command.id)}>
+                                    <i className="fas fa-comment-dots text-secondary" aria-hidden="true"></i>
                                 </Button>
                             </td>
                         </tr>

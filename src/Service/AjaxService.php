@@ -12,8 +12,9 @@ use App\Form\Type\CommandType;
 use App\Form\Type\MealType;
 use App\Form\Type\MenuType;
 use App\Form\Type\ProviderType;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormFactoryInterface;
-use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Routing\RouterInterface;
 
 class AjaxService
@@ -34,6 +35,22 @@ class AjaxService
             'action' => $this->router->generate('command_new'),
             'user' => $user,
         ]);
+    }
+
+    public function validateCommand(Command $command, Provider $provider)
+    {
+        return $this->form->create(FormType::class, $command, [
+            'csrf_protection' => false,
+            'attr' => [
+                'id' => 'validateForm',
+            ],
+            'method' => 'POST',
+            'action' => $this->router->generate('command_api_validate', ['id' => $command->getId()]),
+        ])
+            ->add('message', TextareaType::class, [
+                'data' => $provider->getName().' : Nous validons votre commande ! Merci de nous faire confiance.',
+            ])
+        ;
     }
 
     public function cart_form(Meal $meal)
@@ -77,22 +94,5 @@ class AjaxService
             'method' => 'POST',
             'action' => $this->router->generate('provider_edit', ['id' => $provider->getId()]),
         ]);
-    }
-
-    public function getErrorsFromForm(FormInterface $form)
-    {
-        $errors = [];
-        foreach ($form->getErrors() as $error) {
-            $errors[] = $error->getMessage();
-        }
-        foreach ($form->all() as $childForm) {
-            if ($childForm instanceof FormInterface) {
-                if ($childErrors = $this->getErrorsFromForm($childForm)) {
-                    $errors[$childForm->getName()] = $childErrors;
-                }
-            }
-        }
-
-        return $errors;
     }
 }

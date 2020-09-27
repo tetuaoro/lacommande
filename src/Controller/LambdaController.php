@@ -23,6 +23,8 @@ class LambdaController extends AbstractController
      */
     public function index(LambdaRepository $lambdaRepository): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
         return $this->render('lambda/index.html.twig', [
             'lambdas' => $lambdaRepository->findAll(),
         ]);
@@ -33,6 +35,8 @@ class LambdaController extends AbstractController
      */
     public function new(Request $request, Mailer $mailer, UserPasswordEncoderInterface $password): Response
     {
+        $this->denyAccessUnlessGranted('IS_ANONYMOUS');
+
         $user = new User();
         $form = $this->createForm(LambdaType::class, $user);
         $form->handleRequest($request);
@@ -57,7 +61,7 @@ class LambdaController extends AbstractController
 
             $mailer->sendConfirmationNewUser($user);
 
-            $this->addFlash('success', 'L\'utilisateur a bien été créé. Veillez a confirmé votre adresse mail pour bénéficier des avantages sur le site.');
+            $this->addFlash('success', 'L\'utilisateur a bien été créé. Veuillez confirmer votre adresse mail pour bénéficier des avantages sur le site.');
 
             return $this->redirectToRoute('app_login');
         }

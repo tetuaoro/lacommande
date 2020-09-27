@@ -12,15 +12,60 @@
 {% set ADDRESS = "Paea, 98711 PK 21,900 VALLÉE OROFERO - BP 330071" %}
 
 {% block title %}
-	{{ "RGPD | Le règlement général de protection des données" }}
+	{{ "Règlement général de protection des données" }}
 {% endblock %}
 
 {% block body %}
-	<div class="credit p-t-135 p-b-95">
-		<div class="row">
-			<div class="col-md"></div>
-			<div class="col-md-8 txt10">
-				<h1>RPGD</h1>
+<div class="credit p-t-135 p-b-95">
+	<div class="row">
+		<div class="col-md"></div>
+		<div class="col-md-8 txt10">
+			<h1 class="text-center">Données personnelles</h1>
+
+			<pre style="white-space: pre-line;">
+				
+				{{SITENAME}} s'engage à ce que les traitements de données personnelles effectués sur {{SITEDOMAIN}} soient conformes au règlement général sur la protection des données (RGPD) et à la loi Informatique et Libertés.
+				
+				<hr>
+
+				<h6>Politique de protection des données</h6>
+
+				Chaque service en ligne limite la collecte des données personnelles au strict nécessaire (minimisation des données) et s’accompagne d’une information sur :
+
+				<ul>
+					<li>- le responsable du traitement et les objectifs du recueil de ces données (finalités) ;</li>
+					<li>- les catégories de personnes concernées ;</li>
+					<li>- les destinataires des données (uniquement la {{SITENAME}} en principe, sauf précision lorsqu'une transmission à un tiers est nécessaire) ;</li>
+					<li>- la durée de conservation des données ;</li>
+					<li>- les mesures de sécurité (description générale) ;</li>
+				</ul>
+
+				<a href="{{path('app_rgpd_doc')}}" class="btn btn-info">Voir le document</a>
+
+				<h6>Exercer vos droits</h6>
+				
+				Pour toute information ou exercice de vos droits Informatique et Libertés sur les traitements de données personnelles gérés par {{SITENAME}}, vous pouvez contacter son délégué à la protection des données (DPO) via le formulaire de contacte du site sous le libellé "Informatique et Libertés".
+
+				<h6>A propos des cookies</h6>
+
+				Nous utilisons différents cookies sur le site pour améliorer l’interactivité du site et  nos services.
+
+				<strong>Qu'est-ce qu'un "cookie" ?</strong>
+
+				Un "cookie" est une suite d'informations, généralement de petite taille et identifié par un nom, qui peut être transmis à votre navigateur par un site web sur lequel vous vous connectez. Votre navigateur web le conservera pendant une certaine durée, et le renverra au serveur web chaque fois que vous vous y re-connecterez. Les cookies ont de multiples usages : ils peuvent servir à mémoriser votre identifiant client auprès d'un site marchand, le contenu courant de votre panier d'achat, un identifiant permettant de tracer votre navigation pour des finalités statistiques ou publicitaires, etc.
+				Ces cookies permettent au site de fonctionner de manière optimale. Vous pouvez vous y opposer et les supprimer en utilisant les paramètres de votre navigateur, cependant votre expérience utilisateur risque d’être dégradée.
+
+				2 types de cookies sont déposés sur le site {{SITENAME}} :
+				
+				<ul>
+					<li>- la session</li>
+					<li>- des boutons de partage (twitter et facebook)</li>
+				</ul>
+
+				Ces fonctionnalités utilisent des cookies tiers directement déposés par ces services. Lors de votre première visite, un bandeau vous informe de la présence de ces cookies et vous invite à indiquer votre choix. Ils ne sont déposés que si vous les acceptez ou que vous poursuivez votre navigation sur le site en visitant une seconde page. Vous pouvez à tout moment vous informer et paramétrer vos cookies pour les accepter ou les refuser en vous rendant sur cette page présente en bas de chaque page du site. Vous pourrez indiquer votre préférence soit globalement pour le site, soit service par service.
+				
+				</pre>
+
 			</div>
 			<div class="col-md"></div>
 		</div>

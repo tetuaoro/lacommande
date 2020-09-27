@@ -46,6 +46,7 @@ class CommandRepository extends ServiceEntityRepository
         } elseif ('<' == $compare) {
             $q->andWhere('c.commandAt < :today')
                 ->setParameter('today', $today)
+                ->setMaxResults(20)
             ;
         } else {
             $q->andWhere('c.commandAt > :tomorrow')
@@ -53,9 +54,9 @@ class CommandRepository extends ServiceEntityRepository
             ;
         }
 
+        $q->orderBy('c.commandAt', $form->get('order')->getData());
+
         return $q
-            ->orderBy('c.commandAt', $form->get('order')->getData())
-            ->setMaxResults($form->get('limit')->getData())
             ->setParameter('id', $provider->getId())
             ->getQuery()
             ->getResult()

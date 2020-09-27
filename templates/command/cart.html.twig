@@ -50,7 +50,8 @@
 								<tr>
 									<td></td>
 									<td></td>
-									<td>{{price}} XPF</td>
+									<td>{{price}}
+										XPF</td>
 								</tr>
 							{% else %}
 								<tr>
@@ -73,6 +74,8 @@
 	</div>
 {% endblock %}
 {% block javascripts %}
-	<script src="https://www.google.com/recaptcha/api.js?render={{get_env('RECAPTCHA_KEY_3')}}" type="text/javascript"></script>
-	<script src="{{asset('assets/custom/js/meal/app-order.js')}}"></script>
+	{% if cart2 %}
+		<script src="https://www.google.com/recaptcha/api.js?render={{get_env('RECAPTCHA_KEY_3')}}" type="text/javascript"></script>
+		<script src="{{asset('assets/custom/js/meal/app-order.js')}}"></script>
+	{% endif %}
 {% endblock %}
