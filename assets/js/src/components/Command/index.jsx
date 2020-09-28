@@ -74,7 +74,7 @@ function AppTable({ compare = "=", orderBy = "DESC" }) {
         setLoading([true, "body"]);
 
         const form = new FormData();
-        form.append('form[date]', new Date().toString());
+        form.append('form[date]', new Date().toUTCString());
         form.append('form[compare]', compare);
         form.append('form[order]', compare == "<" ? orderBy : "ASC");
 
