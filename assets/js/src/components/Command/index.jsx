@@ -3,6 +3,7 @@ import { Button, Nav, Table } from 'react-bootstrap';
 import axios from 'axios';
 import { App } from '../../stores/context';
 import * as API from '../../stores/api';
+import moment from 'moment';
 
 export default function Command() {
 
@@ -74,7 +75,7 @@ function AppTable({ compare = "=", orderBy = "DESC" }) {
         setLoading([true, "body"]);
 
         const form = new FormData();
-        form.append('form[date]', new Date().toUTCString());
+        form.append('form[date]', moment().format('Y-M-D H:m:s Z'));
         form.append('form[compare]', compare);
         form.append('form[order]', compare == "<" ? orderBy : "ASC");
 
