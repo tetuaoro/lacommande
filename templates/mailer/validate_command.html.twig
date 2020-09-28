@@ -2,22 +2,32 @@
 
 {% block body %}
 
+	<spacer size="12"></spacer>
+
 	<row>
 		<columns small="2" large="3">
 			<p>
 				{{command.message}}
 			</p>
+			{% if bool == 1 %}
+				<p>
+					Date de livraison :
+					<strong>
+						{{command.commandAt|date("d M Y H:i")}}
+					</strong>
+				</p>
+			{% endif %}
 		</columns>
 	</row>
 
-	<spacer size="8"></spacer>
+	<spacer size="6"></spacer>
 
 	<row>
-		<columns small="2" large="3"></columns>
 		<columns>
-			<button class="provider-show" href="{{url('provider_show', {id:provider.id, slug:provider.slug})}}#contact">Contacter</button>
+			<center>
+				<button class="provider-show" href="{{bool == 1 ? url('provider_show', {id:user.provider.id, slug:user.provider.slug}) ~ '#contact' : 'mailto:' ~ user.email ~ '?subject=' ~ command.reference}}">{{bool == 1 ? "Contacter" : "Répondre"}}</button>
+			</center>
 		</columns>
-		<columns small="2" large="3"></columns>
 	</row>
 
 {% endblock %}

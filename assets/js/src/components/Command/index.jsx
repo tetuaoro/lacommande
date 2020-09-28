@@ -48,6 +48,7 @@ function AppTable({ compare = "=", orderBy = "DESC" }) {
     useEffect(() => {
         const form_el = document.getElementById("validateForm");
         if (form_el) {
+            autosize($('textarea'));
             form_el.addEventListener("submit", formSubmitted);
         }
     }, [state]);
@@ -63,6 +64,7 @@ function AppTable({ compare = "=", orderBy = "DESC" }) {
             .catch(err => {
                 if (err.response.status == 400) {
                     setModalContent(err.response.data);
+                    setState(state + 1);
                 }
             })
             .finally(() => setLoading([false, ".modal-content"]));
@@ -74,7 +76,7 @@ function AppTable({ compare = "=", orderBy = "DESC" }) {
         const form = new FormData();
         form.append('form[date]', new Date().toString());
         form.append('form[compare]', compare);
-        form.append('form[order]', orderBy);
+        form.append('form[order]', compare == "<" ? orderBy : "ASC");
 
         axios.post(API.COMMANDS, form, { headers: { "X-Requested-With": "XMLHttpRequest" } })
             .then(res => setCommands(res.data))
@@ -91,18 +93,15 @@ function AppTable({ compare = "=", orderBy = "DESC" }) {
         }
     }
 
-    const handleValidate = (command, evt) => {
+    const handleCommand = (id, bool, evt) => {
         evt.stopPropagation();
-
-        if (command.id && !command.validate) {
-            setModalTitle("Valider");
-            setShow(true);
-            getForm(command.id);
-        }
+        setModalTitle(bool == 2 ? "Envoyer un message" : bool == 1 ? "Valider" : "Annuler");
+        setShow(true);
+        getForm(id, bool);
     }
 
-    const getForm = (id) => {
-        fetch(API.COMMANDVALIDATE + id)
+    const getForm = (id, bool) => {
+        fetch(bool == 2 ? API.COMMANDCUSTOMMESS + id : API.COMMANDVALIDATE + id + "-" + bool)
             .then((response) => response.text())
             .then((form) => {
                 setModalContent(form);
@@ -123,7 +122,11 @@ function AppTable({ compare = "=", orderBy = "DESC" }) {
     const bgColor = (bool) => {
         if (bool) {
             return {
-                backgroundColor: 'rgba(25,255,25,0.5)'
+                backgroundColor: 'rgba(25,255,25,0.5)',
+            }
+        } else if (bool == false) {
+            return {
+                backgroundColor: 'rgba(255,25,0,0.5)',
             }
         }
 
@@ -152,13 +155,13 @@ function AppTable({ compare = "=", orderBy = "DESC" }) {
                                 }
                             </th>
                             <td>
-                                <Button disabled={command.validate} title="valider cette commande" className="btn-bs btn-warning" onClick={(e) => handleValidate(command, e)}>
+                                <Button disabled={command.validate} title="valider cette commande" className="btn-bs btn-warning" onClick={(e) => handleCommand(command.id, 1, e)}>
                                     <i className="fas fa-check text-success" aria-hidden="true"></i>
                                 </Button>
-                                <Button title="annuler cette commande" className="btn-bs btn-warning" onClick={() => handleInfo(command.id)}>
+                                <Button disabled={command.validate == false} title="annuler cette commande" className="btn-bs btn-warning" onClick={(e) => handleCommand(command.id, 0, e)}>
                                     <i className="fas fa-times text-danger" aria-hidden="true"></i>
                                 </Button>
-                                <Button title="envoyer un message" className="btn-bs btn-warning" onClick={() => handleInfo(command.id)}>
+                                <Button title="envoyer un message" className="btn-bs btn-warning" onClick={(e) => handleCommand(command.id, 2, e)}>
                                     <i className="fas fa-comment-dots text-secondary" aria-hidden="true"></i>
                                 </Button>
                             </td>

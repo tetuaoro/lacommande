@@ -103,14 +103,14 @@ class Command
     private $lambda;
 
     /**
-     * code promo.
+     * Code promo.
      *
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $code;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean", nullable=true)
      * @Groups({"commandjs"})
      */
     private $validate;

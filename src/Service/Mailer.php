@@ -3,7 +3,6 @@
 namespace App\Service;
 
 use App\Entity\Command;
-use App\Entity\Provider;
 use App\Entity\User;
 use App\Repository\CommandRepository;
 use App\Repository\UserRepository;
@@ -88,16 +87,17 @@ class Mailer
         $this->mailer->send($message);
     }
 
-    public function validateCommand(Command $command, Provider $provider)
+    public function validateCommand(Command $command, int $bool, User $user)
     {
         $message = (new TemplatedEmail())
             ->from(new Address('lacommandeariifood@gmail.com', 'Arii Food'))
             ->to(new Address($command->getEmail()))
-            ->subject('Commande validée')
+            ->subject(0 == $bool ? 'Commande refusée' : (1 == $bool ? 'Commande validée' : $user->getProvider()->getName()))
             ->htmlTemplate('mailer/validate_command.html.twig')
             ->context([
                 'command' => $command,
-                'provider' => $provider,
+                'user' => $user,
+                'bool' => $bool,
             ])
         ;
 

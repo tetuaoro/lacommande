@@ -45,8 +45,8 @@ class CommandRepository extends ServiceEntityRepository
             ;
         } elseif ('<' == $compare) {
             $q->andWhere('c.commandAt < :today')
-                ->setParameter('today', $today)
                 ->setMaxResults(20)
+                ->setParameter('today', $today)
             ;
         } else {
             $q->andWhere('c.commandAt > :tomorrow')

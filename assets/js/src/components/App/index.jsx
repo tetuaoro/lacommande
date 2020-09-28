@@ -40,7 +40,7 @@ export default function App() {
         }
     }
 
-    const handleError = () => setError("Le server ne répond pas, contacter l'adminstrateur si le problème persiste !");
+    const handleError = (msg) => setError(msg ? msg : "Le server ne répond pas, contacter l'adminstrateur si le problème persiste !");
 
     const spinner = (target, mode, alpha = 0.6) => {
         if (mode == null || mode == "show") {

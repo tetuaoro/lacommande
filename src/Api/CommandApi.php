@@ -86,16 +86,18 @@ class CommandApi extends AbstractController
     }
 
     /**
-     * @Route("/validate-{id}", name="validate", methods={"POST", "GET"})
+     * https://stackoverflow.com/questions/30538431/symfony-2-when-and-why-does-a-route-parameter-get-automatically-converted.
+     *
+     * @Route("/validate-{id}-{bool}", name="validate", methods={"POST", "GET"}, requirements={"bool": "0|1"})
      */
-    public function validate(Command $command, Mailer $mailer, Request $request, AjaxService $ajaxService)
+    public function validate(Command $command, bool $bool, Mailer $mailer, Request $request, AjaxService $ajaxService)
     {
         /** @var \App\Entity\User $user */
         $user = $this->getUser();
 
         $this->denyAccessUnlessGranted('USER_MANAGE', $user);
 
-        $form = $ajaxService->validateCommand($command, $user->getProvider());
+        $form = $ajaxService->validateCommand($command, $bool, $user);
 
         if ($request->isXmlHttpRequest()) {
             $form->handleRequest($request);
@@ -103,10 +105,45 @@ class CommandApi extends AbstractController
             if ($form->isSubmitted() && $form->isValid()) {
                 $em = $this->getDoctrine()->getManager();
 
-                $mailer->validateCommand($command, $user->getProvider());
-                $command->setValidate(true);
+                $mailer->validateCommand($command, $bool, $user);
+                $command->setValidate($bool);
 
                 $em->flush();
+
+                return new Response('success', Response::HTTP_CREATED);
+            }
+
+            if ($form->isSubmitted() && !$form->isValid()) {
+                return $this->render('command/validate.html.twig', [
+                    'form' => $form->createView(),
+                ], new Response('error', Response::HTTP_BAD_REQUEST));
+            }
+        }
+
+        return $this->render('command/validate.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * https://stackoverflow.com/questions/30538431/symfony-2-when-and-why-does-a-route-parameter-get-automatically-converted.
+     *
+     * @Route("/message-{id}", name="message", methods={"POST", "GET"})
+     */
+    public function custom_message(Command $command, Mailer $mailer, Request $request, AjaxService $ajaxService)
+    {
+        /** @var \App\Entity\User $user */
+        $user = $this->getUser();
+
+        $this->denyAccessUnlessGranted('USER_MANAGE', $user);
+
+        $form = $ajaxService->customMessageCommand($command, $user);
+
+        if ($request->isXmlHttpRequest()) {
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                $mailer->validateCommand($command, 2, $user);
 
                 return new Response('success', Response::HTTP_CREATED);
             }

@@ -1,12 +1,16 @@
 <table class="table">
 	<tbody>
 		<tr>
+			<th>Référence</th>
+			<td>{{ command.reference }}</td>
+		</tr>
+		<tr>
 			<th>Nom</th>
 			<td>{{ command.name }}</td>
 		</tr>
 		<tr>
 			<th>Date de commande</th>
-			<td>{{ command.commandAt ? command.commandAt|date('Y-m-d H:i:s') : '' }}</td>
+			<td>{{ command.commandAt ? command.commandAt|date('d M Y H:i') : '' }}</td>
 		</tr>
 		<tr>
 			<th>Produit</th>

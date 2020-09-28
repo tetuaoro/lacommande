@@ -83,7 +83,6 @@ class CommandController extends AbstractController
 
                 $command->setPrice($cartService->getTotal())
                     ->setDetails($details)
-                    ->setValidate(false)
                 ;
 
                 /** @var \App\Entity\User $user */

@@ -12,10 +12,13 @@ use App\Form\Type\CommandType;
 use App\Form\Type\MealType;
 use App\Form\Type\MenuType;
 use App\Form\Type\ProviderType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class AjaxService
 {
@@ -37,18 +40,66 @@ class AjaxService
         ]);
     }
 
-    public function validateCommand(Command $command, Provider $provider)
+    public function validateCommand(Command $command, bool $bool, User $user)
+    {
+        $provider = $user->getProvider();
+
+        return $this->form->create(FormType::class, $command, [
+            'csrf_protection' => false,
+            'attr' => [
+                'id' => 'validateForm',
+            ],
+            'translation_domain' => 'form',
+            'method' => 'POST',
+            'action' => $this->router->generate('command_api_validate', ['id' => $command->getId(), 'bool' => $bool ? $bool : 0]),
+        ])
+            ->add('message', TextareaType::class, [
+                'data' => $bool ?
+                $provider->getName().' : Nous validons votre commande n° '.$command->getReference().' ! Merci de nous faire confiance.' :
+                $provider->getName().' : Nous ne pouvons pas donner suite à votre commande n° '.$command->getReference().'.',
+            ])
+            ->add('commandAt', DateTimeType::class, [
+                'translation_domain' => 'form',
+                'label' => false,
+                'date_widget' => 'single_text',
+                'time_widget' => 'single_text',
+                'view_timezone' => 'Pacific/Honolulu',
+                'constraints' => [
+                    new Assert\Range([
+                        'min' => 'now',
+                        'max' => '+6 month',
+                    ]),
+                ],
+                'help' => 'help order',
+                'help_attr' => [
+                    'class' => 'mt-0 mb-2',
+                ],
+            ])
+        ;
+    }
+
+    public function customMessageCommand(Command $command, User $user)
     {
         return $this->form->create(FormType::class, $command, [
             'csrf_protection' => false,
             'attr' => [
                 'id' => 'validateForm',
             ],
+            'translation_domain' => 'form',
             'method' => 'POST',
-            'action' => $this->router->generate('command_api_validate', ['id' => $command->getId()]),
+            'action' => $this->router->generate('command_api_message', ['id' => $command->getId()]),
         ])
-            ->add('message', TextareaType::class, [
-                'data' => $provider->getName().' : Nous validons votre commande ! Merci de nous faire confiance.',
+            ->add('message', TextareaType::class)
+            ->add('sendTo', TextType::class, [
+                'data' => $command->getEmail(),
+                'mapped' => false,
+            ])
+            ->add('sendFrom', TextType::class, [
+                'data' => $user->getEmail(),
+                'mapped' => false,
+                'attr' => [
+                    'disabled' => true,
+                ],
             ])
         ;
     }

@@ -51,7 +51,7 @@ function checkRecaptcha(element, fn) {
           $("button .show-form-command").css("color", "inherit");
           $("#collapseCommand").collapse("hide");
           setTimeout(() => {
-            $(".command-submit").LoadingOverlay("show", {
+            $("body").LoadingOverlay("show", {
               image: "",
               text: "Ajouter au panier",
               textClass: "tit2 t-center",
@@ -59,7 +59,7 @@ function checkRecaptcha(element, fn) {
             });
           }, 1450);
           setTimeout(() => {
-            $(".command-submit").LoadingOverlay("hide");
+            $("body").LoadingOverlay("hide");
           }, 4570);
         }
         if (xhr.status == 400) {

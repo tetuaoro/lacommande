@@ -13,3 +13,4 @@ export const MENUDELETE = "/api/manage/delete-menu-";
 export const COMMANDS = "/api/command/";
 export const COMMANDINFO = "/api/command/show-";
 export const COMMANDVALIDATE = "/api/command/validate-";
+export const COMMANDCUSTOMMESS = "/api/command/message-";
