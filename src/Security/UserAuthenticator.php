@@ -94,6 +94,11 @@ class UserAuthenticator extends AbstractFormLoginAuthenticator
         if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
             return new RedirectResponse($targetPath);
         }
+        /** @var \App\Entity\User $user */
+        $user = $token->getUser();
+        if ($user->getProvider() || $user->getSubuser()) {
+            return new RedirectResponse($this->urlGenerator->generate('user_manage', ['id' => $user->getId()]));
+        }
 
         return new RedirectResponse($this->urlGenerator->generate('app_home'));
 

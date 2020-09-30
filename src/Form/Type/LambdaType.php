@@ -27,37 +27,35 @@ class LambdaType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
-                'translation_domain' => 'connect',
             ])
             ->add('email', EmailType::class, [
-                'translation_domain' => 'connect',
             ])
             ->add('username', TextType::class, [
-                'translation_domain' => 'connect',
             ])
             ->add('phone', TelType::class, [
-                'translation_domain' => 'connect',
                 'help' => '87XXXXXX ou 89XXXXXX',
+                'attr' => [
+                    'placeholder' => 'tel',
+                    'pattern' => '^(?:\+689)?(87|89|92|40)(\d{6})$',
+                ],
             ])
             ->add('password', RepeatedType::class, [
-                'translation_domain' => 'connect',
                 'required' => true,
                 'type' => PasswordType::class,
                 'options' => ['attr' => ['class' => 'password-field']],
             ])
             ->add('checked', CheckboxType::class, [
-                'translation_domain' => 'connect',
                 'mapped' => false,
                 'required' => true,
                 'label' => 'J\'accepte les conditions',
             ])
         ;
-
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
+            'translation_domain' => 'connect',
             'data_class' => User::class,
         ]);
     }

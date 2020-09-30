@@ -69,6 +69,17 @@ class MealRepository extends ServiceEntityRepository
         ;
     }
 
+    public function getCountMeals(Provider $provider)
+    {
+        return $this->getMealIsNotDelete()
+            ->select('COUNT(m)')
+            ->andWhere('m.provider = :id')
+            ->setParameter('id', $provider->getId())
+            ->getQuery()
+            ->getSingleScalarResult()
+        ;
+    }
+
     private function getMealIsNotDelete()
     {
         return $this->createQueryBuilder('m')->where('m.isDelete = false');

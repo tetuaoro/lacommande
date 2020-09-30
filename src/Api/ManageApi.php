@@ -69,9 +69,16 @@ class ManageApi extends AbstractController
     /**
      * @Route("/new-meal", name="meal_new", methods={"GET", "POST"})
      */
-    public function mealNew(AjaxService $ajaxService, Request $request, Storage $storage, BitlyService $bitlyService)
+    public function mealNew(AjaxService $ajaxService, MealRepository $mealRepository, Request $request, Storage $storage, BitlyService $bitlyService)
     {
         $this->denyAccessUnlessGranted('ROLE_PROVIDER');
+
+        /** @var \App\Entity\User $user */
+        $user = $this->getUser();
+
+        if ($mealRepository->getCountMeals($user->getProvider()) >= 20) {
+            return new Response('Le quota de 20 assiettes a été atteint ! Vous ne pouvez plus en ajouter.', Response::HTTP_CONFLICT);
+        }
 
         $meal = new Meal();
 

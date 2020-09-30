@@ -69,8 +69,7 @@
 			<div id="flash" class="flash-js text-break">
 				{% for label, messages in app.flashes %}
 					{% for message in messages %}
-						<span class="flash-span"></span>
-						<div class="alert alert-{{label}} anime-flash-message-1" role="alert">
+						<div class="alert alert-{{label}} shadow" role="alert">
 							{% if label == 'danger' %}
 								<i class="fas fa-exclamation-triangle mr-1" aria-hidden="true"></i>
 							{% else %}

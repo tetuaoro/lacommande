@@ -15,6 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @UniqueEntity("email", message ="Vous êtes déjà enregistré(e) ?")
  * @UniqueEntity("username", message ="Ce nom d'utilisateur est déjà utilisé.")
  * @UniqueEntity("name", message ="Ce nom est déjà utilisé.")
+ * @UniqueEntity("ntahiti", message ="Ce numéro tahiti est déjà utilisé.")
  */
 class User implements UserInterface
 {
@@ -65,7 +66,7 @@ class User implements UserInterface
     private $salt;
 
     /**
-     * @ORM\Column(type="string", length=255, unique=true)
+     * @ORM\Column(type="string", length=255, unique=true, nullable=true)
      * @Assert\Email(message = "Une adresse mail.")
      */
     private $email;
@@ -92,15 +93,25 @@ class User implements UserInterface
     private $delivery;
 
     /**
-     * @ORM\OneToOne(targetEntity=Provider::class, cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=Provider::class, inversedBy="user", cascade={"persist", "remove"})
      */
     private $provider;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
-     * @Assert\Regex("/^(87|89|40|92)\d{6}$/")
+     * @ORM\OneToOne(targetEntity=Subuser::class, cascade={"persist", "remove"})
+     */
+    private $subuser;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Assert\Regex("/^(?:689)?(87|89|92|40)(\d{6})$/")
      */
     private $phone;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $validate;
 
     public function __construct()
     {
@@ -282,6 +293,30 @@ class User implements UserInterface
     public function setPhone(?int $phone): self
     {
         $this->phone = $phone;
+
+        return $this;
+    }
+
+    public function getSubuser(): ?Subuser
+    {
+        return $this->subuser;
+    }
+
+    public function setSubuser(?Subuser $subuser): self
+    {
+        $this->subuser = $subuser;
+
+        return $this;
+    }
+
+    public function getValidate(): ?bool
+    {
+        return $this->validate;
+    }
+
+    public function setValidate(bool $validate): self
+    {
+        $this->validate = $validate;
 
         return $this;
     }

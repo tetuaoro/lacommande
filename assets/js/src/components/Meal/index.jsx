@@ -59,10 +59,15 @@ export default function Meal() {
     }
 
     const getForm = (id) => {
-        fetch(id ? API.MEALEDIT + id : API.MEALNEW)
-            .then((response) => response.text())
-            .then((form) => setModalContent(form))
-            .catch(() => handleError());
+        axios.get(id ? API.MEALEDIT + id : API.MEALNEW)
+            .then((response) => setModalContent(response.data))
+            .catch((err) => {
+                if (err.response.status == 409) {
+                    handleError(err.response.data);
+                } else {
+                    handleError();
+                }
+            });
     }
 
     const formSubmitted = (evt) => {

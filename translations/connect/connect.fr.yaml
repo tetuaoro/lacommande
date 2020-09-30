@@ -29,6 +29,15 @@ N° Portable: N° Portable
 
 Choice: Choisir...
 commander: Je veux devenir client
-vendre: Je veux vendre mes plats
-livrer: Je veux livrer leur plat
+vendre: Je veux vendre mes produits
+livrer: Je suis livreur indépendant
 Envoyer: Envoyer
+
+Name: Nom
+Username: Nom d'utilisateur
+Password: Mot de passe
+
+tel: Téléphone de contact
++68987XXXXXX: +68987XXXXXX
+pk18-Paea-Papara: pk18-Paea-Papara
+city: Ville de livraison

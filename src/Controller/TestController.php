@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Menu;
 use App\Entity\User;
 use App\Form\Type\RegisterType;
 use App\Service\AjaxService;
@@ -23,21 +22,9 @@ class TestController extends AbstractController
      */
     public function index(AjaxService $ajaxService, Request $request)
     {
-        $menu = new Menu();
-        /** @var \App\Entity\User $user */
-        $user = $this->getUser();
-        $form = $ajaxService->test_create_menu($menu, $user->getProvider());
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted()) {
-            dump('ok');
-        }
-
         return $this->render('test/index.html.twig', [
             'controller_name' => 'TestController',
             'tz' => date_default_timezone_get(),
-            'form' => $form->createView(),
         ]);
     }
 

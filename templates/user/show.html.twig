@@ -8,30 +8,28 @@
 	<div class="user-show p-t-130 p-b-90">
 		<div class="row">
 			<div class="col-md"></div>
-			<div class="col-md-10">
-				<h1>Profile utilisateur</h1>
+			<div class="col-md-10 table-responsive">
+				<h1>{{ user.name }}</h1>
 
 				<table class="table">
 					<tbody>
-						<tr>
-							<th>Nom</th>
-							<td>{{ user.name }}</td>
-						</tr>
 						<tr>
 							<th>Membre depuis</th>
 							<td>{{ user.createdAt|date('Y-m-d H:i:s') }}</td>
 						</tr>
 						<tr>
-							<th>Slug</th>
-							<td>{{ user.slug }}</td>
-						</tr>
-						<tr>
 							<th>Nom d'utilisateur</th>
 							<td>{{ user.username }}</td>
 						</tr>
+						{% if not is_granted('ROLE_LAMBDA') %}
+							<tr>
+								<th>N° T.A.H.I.T.I</th>
+								<td>{{ user.ntahiti }}</td>
+							</tr>
+						{% endif %}
 						<tr>
-							<th>N° T.A.H.I.T.I</th>
-							<td>{{ user.ntahiti }}</td>
+							<th>Téléphone</th>
+							<td>{{ user.phone }}</td>
 						</tr>
 						<tr>
 							<th>Email</th>
@@ -46,10 +44,10 @@
 						{% for command in user.lambda.commands %}
 							<li class="list-group-item">
 								{{command.reference}}
-								à
-								{{command.commandAt|date("Y-M-D H:i", "Pacific/Honolulu")}}
-								-
-								{{command.createdAt|date("Y-M-D H:i", "Pacific/Honolulu")}}
+								- pour le
+								{{command.commandAt|date("d/m/Y H:i")}}
+								- commandé le 
+								{{command.createdAt|date("d/m/Y H:i")}}
 							</li>
 						{% else %}
 							<li class="list-group-item">

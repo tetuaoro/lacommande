@@ -14,7 +14,6 @@ class RegisterType extends AbstractType
     {
         $builder
             ->add('choice', ChoiceType::class, [
-                'translation_domain' => 'connect',
                 'choices' => [
                     'commander' => 'lambda',
                     'vendre' => 'provider',
@@ -22,7 +21,6 @@ class RegisterType extends AbstractType
                 ],
             ])
             ->add('envoyer', SubmitType::class, [
-                'translation_domain' => 'connect',
                 'attr' => [
                     'class' => 'btn',
                 ],
@@ -32,5 +30,6 @@ class RegisterType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
+        $resolver->setDefault('translation_domain', 'connect');
     }
 }

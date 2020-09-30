@@ -10,10 +10,6 @@
 
 		<section class="section-welcome bg1-pattern p-t-120 p-b-105">
 			<div class="container">
-				<div class="search-sidebar2 m-l-r-auto size39 bo2 pos-relative">
-					<input class="input-search-sidebar2 txt10 p-l-20 p-r-55" type="text" name="search" placeholder="Search">
-					<button class="btn-search-sidebar2 flex-c-m ti-search trans-0-4"></button>
-				</div>
 				<div class="sidebar2 p-t-20 p-b-20 p-l-20 p-l-0-md p-t-0-md">
 					<div class="row">
 						<div class="col-md">
@@ -102,7 +98,7 @@
 				<div class="container">
 					<div class="row">
 						{% for meal in lastmeals %}
-							<div class="col-md-4 p-t-30">
+							<div class="col-md-2 p-t-30">
 								<div class="blo1">
 									<div class="wrap-pic-blo1 bo-rad-10 hov-img-zoom">
 										<a href="{{ path('meal_show', {id: meal.id, slug: meal.slug}) }}"><img src="{{ meal.img }}" alt="IMG-INTRO"></a>

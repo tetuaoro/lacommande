@@ -57,7 +57,7 @@ Page Twitter: Twitter
 le lien vers votre twitter: link to twitter
 Bannière: Banner
 une image 1900x545: picture 1900x545px
-"image : exactement 1900x545": "picture : exactly 1900x545px"
+"image : min 1900x545": "picture : min 1900x545px"
 
 Nom: Name
 Meals: Meals
@@ -77,3 +77,14 @@ Entrer votre code promo: Entrer your code
 Message : Message
 Send to: Send to
 Send from: From
+
+
+Monday: Monday
+Tuesday: Tuesday
+Wednesday: Wednesday
+Thursday: Thursday
+Friday: Friday
+Saturday: Saturday
+Sunday: Sunday
+
+City: City

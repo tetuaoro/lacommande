@@ -40,17 +40,8 @@ class CommandRepository extends ServiceEntityRepository
         //https://stackoverflow.com/questions/33035497/php-comparing-two-datetime-objects-with-different-timezones
         $tz = new \DateTimeZone('UTC');
         $today = (new \DateTime($date))->setTime(0, 0)->setTimezone($tz);
-        $tomorrow = (new \DateTime($date))->modify('+1 day')->setTime(0, 0)->setTimezone($tz);
-
-        // $tzp = new \DateTimeZone('Pacific/Honolulu');
-
-        /* $test = (new \DateTime('2020-09-29 00:59:00+00'));
-        $tm = $tomorrow;
-        $td = $today;
-        $tm->setTimezone($tz);
-        $td->setTimezone($tz);
-
-        dump($td, $tm, $test, $td < $test, $tm > $test); */
+        $tomorrow = clone $today;
+        $tomorrow->modify('+1 day');
 
         if ('=' == $compare) {
             $q->andWhere('c.commandAt BETWEEN :today AND :tomorrow')

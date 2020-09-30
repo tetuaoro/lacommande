@@ -32,7 +32,7 @@ class Command
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\Regex("/^(87|89|40|92)\d{6}$/")
+     * @Assert\Regex("/^(?:\+689)?(87|89|92|40)(\d{6})$/")
      * @Groups({"commandjs"})
      */
     private $phone;

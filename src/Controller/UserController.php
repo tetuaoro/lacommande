@@ -2,17 +2,18 @@
 
 namespace App\Controller;
 
-use App\Entity\Delivery;
 use App\Entity\Provider;
 use App\Entity\User;
 use App\Form\Type\RegisterType;
 use App\Form\Type\UserType;
 use App\Repository\UserRepository;
+use App\Service\BitlyService;
 use App\Service\Mailer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
@@ -35,7 +36,7 @@ class UserController extends AbstractController
     /**
      * @Route("/new", name="new", methods={"GET","POST"})
      */
-    public function new(Request $request, Mailer $mailer, UserPasswordEncoderInterface $password): Response
+    public function new(Request $request, BitlyService $bitlyService, Mailer $mailer, UserPasswordEncoderInterface $password): Response
     {
         $this->denyAccessUnlessGranted('IS_ANONYMOUS');
 
@@ -46,53 +47,41 @@ class UserController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
 
-            $choice = $form->get('entity')->getData();
-
-            if ('provider' == $choice) {
-                $provider = new Provider();
-                $provider->setName($user->getName())
-                    ->setBitly(['link' => 'https://bit.ly/2ZDJHyz'])
-                    ->setOpenHours([
-                        'monday' => ['09:00-12:00', '13:00-18:00'],
-                        'tuesday' => ['09:00-12:00', '13:00-18:00'],
-                        'wednesday' => ['09:00-12:00'],
-                        'thursday' => ['09:00-12:00', '13:00-18:00'],
-                        'friday' => ['09:00-12:00', '13:00-20:00'],
-                        'saturday' => ['09:00-12:00', '13:00-16:00'],
-                        'sunday' => [],
-                    ])
-                    ->setMinPriceDelivery(2500)
-                    ->setLinkfb('https://www.facebook.com')
-                    ->setLinktwitter('https://www.twitter.com')
-                    ->setLinkinsta('https://www.instagram.com')
+            $provider = new Provider();
+            $provider->setName($user->getName())
+                ->setOpenHours([
+                    'monday' => ['09:00-12:00', '13:00-18:00'],
+                    'tuesday' => ['09:00-12:00', '13:00-18:00'],
+                    'wednesday' => ['09:00-12:00'],
+                    'thursday' => ['09:00-12:00', '13:00-18:00'],
+                    'friday' => ['09:00-12:00', '13:00-20:00'],
+                    'saturday' => ['09:00-12:00', '13:00-16:00'],
+                    'sunday' => [],
+                ])
+                ->setMinPriceDelivery(2500)
+                ->setCity($form->get('city')->getData())
                 ;
 
-                $roles = $user->getRoles();
-                $roles[] = 'ROLE_PROVIDER';
-                $user->setProvider($provider)
-                    ->setRoles($roles)
-                ;
-            } elseif ('delivery' == $choice) {
-                $delivery = new Delivery();
-                $delivery->setName($user->getName())
-                ;
-
-                $roles = $user->getRoles();
-                $roles[] = 'ROLE_DELIVERY';
-                $user->setDelivery($delivery)
-                    ->setRoles($roles)
-                ;
-            }
-
+            $roles = $user->getRoles();
+            $roles[] = 'ROLE_PROVIDER';
             // password
-            $user->setPassword($password->encodePassword($user, $user->getPassword()));
+            $user->setPassword($password->encodePassword($user, $user->getPassword()))
+                ->setRoles($roles)
+                ->setProvider($provider)
+                ->setValidate(true)
+            ;
 
             $entityManager->persist($user);
             $entityManager->flush();
 
+            $provider->setBitly(
+                $bitlyService->bitThis($this->generateUrl('provider_show', ['id' => $provider->getId(), 'slug' => $provider->getSlug()], UrlGenerator::ABSOLUTE_URL), $provider->getName())
+            );
+            $entityManager->flush();
+
             $mailer->sendConfirmationNewUser($user);
 
-            $this->addFlash('success', 'L\'utilisateur a bien été créé. Veuillez confirmer votre adresse mail pour bénéficier des avantages sur ARII FOOD.');
+            $this->addFlash('success', 'L\'utilisateur a bien été créé. Veuillez confirmer votre adresse mail pour bénéficier des avantages sur Arii Food.');
 
             return $this->redirectToRoute('app_login');
         }
@@ -117,6 +106,10 @@ class UserController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             if ('lambda' == $form->get('choice')->getData()) {
                 return $this->redirectToRoute('lambda_new');
+            }
+
+            if ('delivery' == $form->get('choice')->getData()) {
+                return $this->redirectToRoute('delivery_new');
             }
 
             return $this->redirectToRoute('user_new');

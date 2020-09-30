@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Provider;
-use App\Form\Type\ProviderType;
 use App\Repository\MealRepository;
 use App\Repository\ProviderRepository;
 use App\Service\AjaxService;
@@ -32,31 +31,6 @@ class ProviderController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="new", methods={"GET","POST"})
-     */
-    public function new(Request $request): Response
-    {
-        $this->denyAccessUnlessGranted('ROLE_ADMIN');
-
-        $provider = new Provider();
-        $form = $this->createForm(ProviderType::class, $provider);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($provider);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('provider_index');
-        }
-
-        return $this->render('provider/new.html.twig', [
-            'provider' => $provider,
-            'form' => $form->createView(),
-        ]);
-    }
-
-    /**
      * @Route("/{slug}-{id}", name="show", methods={"GET"}, requirements={"slug": "[a-z0-9\-]*"})
      */
     public function show(string $slug, Provider $provider, PaginatorInterface $paginator, MealRepository $mealRepository, Request $request): Response
@@ -79,6 +53,7 @@ class ProviderController extends AbstractController
         );
 
         return $this->render('provider/show.html.twig', [
+            'controller_name' => 'provider:show',
             'provider' => $provider,
             'meals' => $meals,
         ]);

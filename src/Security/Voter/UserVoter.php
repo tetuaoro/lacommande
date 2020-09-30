@@ -72,7 +72,7 @@ class UserVoter extends Voter
 
                 break;
             case self::MANAGE:
-                return $subject === $user;
+                return $subject->getProvider() === $user->getProvider();
 
                 break;
         }

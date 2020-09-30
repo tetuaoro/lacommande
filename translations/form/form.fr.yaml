@@ -55,7 +55,7 @@ Page Twitter: Page Twitter
 le lien vers votre twitter: le lien vers votre twitter
 Bannière: Bannière
 une image 1900x545: une image 1900x545
-"image : exactement 1900x545": "image : exactement 1900x545"
+"image : min 1900x545": "image : min 1900x545"
 
 Nom: Nom
 Meals: Assiettes
@@ -75,3 +75,15 @@ Entrer votre code promo: Entrer votre code promo
 Message : Message
 Send to: Envoyé à
 Send from: De
+
+
+
+Monday: Lundi
+Tuesday: Mardi
+Wednesday: Mercredi
+Thursday: Jeudi
+Friday: Vendredi
+Saturday: Samedi
+Sunday: Dimanche
+
+City: Ville/Commune

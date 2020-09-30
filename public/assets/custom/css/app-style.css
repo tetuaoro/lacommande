@@ -130,43 +130,12 @@ label.required::after {
   left: 15px;
   max-width: 300px;
 }
-#flash .flash-span {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100px;
-  display: block;
-  box-sizing: border-box;
-}
-#flash .flash-span:nth-child(1) {
-  transform: rotate(0deg);
-}
-#flash .flash-span::before {
-  content: "";
-  position: absolute;
-  top: -2px;
-  width: 100%;
-  height: 3px;
-  background: var(--appcolor1);
-  animation: borderq 4s linear infinite;
-}
-@keyframes borderq {
-  0% {
-    transform: scaleX(0);
-    transform-origin: left;
-  }
-  50% {
-    transform: scaleX(1);
-    transform-origin: left;
-  }
-  50.1% {
-    transform: scaleX(1);
-    transform-origin: right;
-  }
-  100% {
-    transform: scaleX(0);
-    transform-origin: right;
+
+/* // Medium devices (tablets, 768px and up) */
+@media (max-width: 768px) {
+  #flash {
+    left: 50%;
+    transform: translateX(-50%);
   }
 }
 

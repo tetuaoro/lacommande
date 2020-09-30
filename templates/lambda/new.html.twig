@@ -15,16 +15,16 @@
 					<a href="{{path('user_new')}}" class="alert-link">ici</a>. Cliquez !
 				</div>
 				<hr class="mx-auto size28 bg-dark mb-lg-5 mb-md-3 mb-2">
-				<div class="border border-app p-1">
+				<div class="border border-app p-3">
 					{{ include('lambda/_form.html.twig') }}
 				</div>
 				<p class="mt-2">
 					<small>
 						<em>*
 						</em>En créant un compte sur
-						<a href="{{ path('app_index') }}">{{ nameSite}}</a>, vous certifiez avoir au moins 18 ans, acceptez les
+						<a href="{{ path('app_index') }}">{{ nameSite}}</a>, vous certifiez être majeur, acceptez les
 						<a href="{{path('app_credit')}}">Conditions d'utilisations</a>, ainsi que l'utilisattion des
-						<a href="">Cookies</a>
+						<a href="{{path('app_rgpd')}}">Cookies</a>
 						du site.</small>
 				</p>
 			</div>

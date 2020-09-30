@@ -5,10 +5,10 @@ namespace App\Controller;
 use App\Entity\Contact;
 use App\Form\Type\ContactType;
 use App\Repository\ContactRepository;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/contact", name="contact_")
@@ -47,7 +47,7 @@ class ContactController extends AbstractController
         return $this->render('contact/new.html.twig', [
             'contact' => $contact,
             'form' => $form->createView(),
-            'tz' => date_default_timezone_get()
+            'tz' => date_default_timezone_get(),
         ]);
     }
 
@@ -60,28 +60,6 @@ class ContactController extends AbstractController
 
         return $this->render('contact/show.html.twig', [
             'contact' => $contact,
-        ]);
-    }
-
-    /**
-     * @Route("/{id}/edit", name="edit", methods={"GET","POST"})
-     */
-    public function edit(Request $request, Contact $contact): Response
-    {
-        $this->denyAccessUnlessGranted('ROLE_ADMIN');
-
-        $form = $this->createForm(ContactType::class, $contact);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('index');
-        }
-
-        return $this->render('contact/edit.html.twig', [
-            'contact' => $contact,
-            'form' => $form->createView(),
         ]);
     }
 

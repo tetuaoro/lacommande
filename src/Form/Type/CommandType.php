@@ -36,7 +36,7 @@ class CommandType extends AbstractType
                 'label' => false,
                 'attr' => [
                     'placeholder' => 'tel',
-                    'pattern' => '(87|89|40|92)[0-9]{6}',
+                    'pattern' => '^(?:\+689)?(87|89|92|40)(\d{6})$',
                 ],
                 'data' => $user ? $user->getPhone() : '',
             ])

@@ -55,7 +55,7 @@ class CommandApi extends AbstractController
             }
         }
 
-        return new Response('success', Response::HTTP_NOT_ACCEPTABLE);
+        return new Response('error', Response::HTTP_NOT_ACCEPTABLE);
     }
 
     /**

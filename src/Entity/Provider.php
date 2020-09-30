@@ -58,9 +58,7 @@ class Provider
     private $subusers;
 
     /**
-     * @ORM\ManyToOne(targetEntity=City::class, inversedBy="providers")
-     * @ORM\JoinColumn(nullable=false)
-     * @ORM\Column(nullable=true)
+     * @ORM\Column(type="string", length=255)
      */
     private $city;
 
@@ -70,17 +68,17 @@ class Provider
     private $bgImg;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $linkfb;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $linkinsta;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $linktwitter;
 
@@ -121,6 +119,11 @@ class Provider
      * @ORM\Column(type="array")
      */
     private $bitly = [];
+
+    /**
+     * @ORM\OneToOne(targetEntity=User::class, mappedBy="provider", cascade={"persist", "remove"})
+     */
+    private $user;
 
     public function __construct()
     {
@@ -349,12 +352,12 @@ class Provider
         return $this;
     }
 
-    public function getCity(): ?City
+    public function getCity(): ?string
     {
         return $this->city;
     }
 
-    public function setCity(?City $city): self
+    public function setCity(?string $city): self
     {
         $this->city = $city;
 
@@ -477,6 +480,24 @@ class Provider
     public function setBitly(array $bitly): self
     {
         $this->bitly = $bitly;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        // set (or unset) the owning side of the relation if necessary
+        $newProvider = null === $user ? null : $this;
+        if ($user->getProvider() !== $newProvider) {
+            $user->setProvider($newProvider);
+        }
 
         return $this;
     }

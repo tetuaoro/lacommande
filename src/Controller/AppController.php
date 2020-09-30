@@ -19,7 +19,7 @@ class AppController extends AbstractController
      */
     public function index(MealRepository $mealRepo, ProviderRepository $providerRepo)
     {
-        $lastmeals = $mealRepo->findLastMeal();
+        $lastmeals = $mealRepo->findLastMeal(6);
         $meal_recap = $mealRepo->findLastMeal(8);
         $meal_popular = $mealRepo->findPopular(4);
         $prov_recap = $providerRepo->findLastProvider(8);

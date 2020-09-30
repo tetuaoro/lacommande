@@ -11,7 +11,10 @@
 		{{ form_row(form.ntahiti, {'label': false, 'attr': {'placeholder': 'N° T.A.H.I.T.I'}}) }}
 	</div>
 	<div class="col-md">
-		{{ form_row(form.entity, {'label': false, 'help': 'ex: je suis un fournisseur'}) }}
+		{{ form_row(form.phone, {'label': false, 'help': '+68987XXXXXX'}) }}
+	</div>
+	<div class="col-md">
+		{{ form_row(form.city, {'label': false, 'help': 'pk18-Paea-Papara'}) }}
 	</div>
 </div>
 <h2>{{ "Sécurité" | trans({}, 'connect') }}</h2>
@@ -26,7 +29,7 @@
 		</em>En créant un compte sur
 		<a href="{{ path('app_index') }}">{{ nameSite}}</a>, vous acceptez les
 		<a href="{{path('app_credit')}}">Conditions d'utilisations</a>, ainsi que l'utilisattion des
-		<a href="">Cookies</a>
+		<a href="{{path('app_rgpd')}}">Cookies</a>
 		du site.</small>
 </p>
 {{ form_end(form) }}

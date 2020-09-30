@@ -14,7 +14,7 @@ export default function App() {
 
     const sanitizer = dompurify.sanitize;
 
-    const [component, setComponent] = useState(3);
+    const [component, setComponent] = useState(2);
     const [loading, setLoading] = useState([false, "body"]);
     const [error, setError] = useState("");
 
@@ -31,6 +31,12 @@ export default function App() {
         };
     }, [loading]);
 
+    useEffect(() => {
+        if (error) {
+            setError(false);
+        }
+    }, [content]);
+
     const clear = () => {
         if (show) {
             setShow(false);
@@ -38,6 +44,10 @@ export default function App() {
         if (content) {
             setModalContent(false);
         }
+    }
+
+    const handleComponent = (number) => {
+        setComponent(number);
     }
 
     const handleError = (msg) => setError(msg ? msg : "Le server ne répond pas, contacter l'adminstrateur si le problème persiste !");
@@ -59,22 +69,29 @@ export default function App() {
             <Row>
                 <Col md={2}>
                     <Table responsive="md">
-                        <Nav variant="pills" className="flex-md-column d-md-ruby" defaultActiveKey={3}>
-                            <Nav.Link className="btn mb-2" eventKey={1} onClick={() => setComponent(1)}>Assiettes</Nav.Link>
-                            <Nav.Link className="btn mb-2" eventKey={2} onClick={() => setComponent(2)}>Carte/Menu</Nav.Link>
-                            <Nav.Link className="btn mb-2" eventKey={3} onClick={() => setComponent(3)}>Mes commandes</Nav.Link>
-                            <Nav.Link className="btn mb-2" eventKey={4} onClick={() => setComponent(4)}>Suppléant</Nav.Link>
-                            <Nav.Link className="btn mb-2" eventKey={5} onClick={() => setComponent(5)}>Notfication</Nav.Link>
+                        <Nav variant="pills" className="flex-md-column d-md-ruby" defaultActiveKey={2}>
+                            {["Assiettes", "Carte/Menu", "Mes commandes", "Suppléant", "Notfication"].map((name, index) => (
+                                <Nav.Link key={index} className="btn mb-2" eventKey={index} onClick={() => handleComponent(index)}>{name}</Nav.Link>
+                            ))}
                         </Nav>
                     </Table>
                 </Col>
                 <Col className="user-manage">
-                    <AppContext.Provider value={{ loading: loading, setLoading: setLoading, handleError: handleError, show: show, setShow: setShow, setModalContent: setModalContent, setModalTitle: setModalTitle, content: content }}>
-                        {component == 1 && <Meal />}
-                        {component == 2 && <Menu />}
-                        {component == 3 && <Command />}
-                        {component == 4 && <Subuser />}
-                        {component == 5 && <Notification />}
+                    <AppContext.Provider value={{
+                        show: show,
+                        loading: loading,
+                        setShow: setShow,
+                        setLoading: setLoading,
+                        handleError: handleError,
+                        setModalTitle: setModalTitle,
+                        setModalContent: setModalContent,
+                        content: content
+                    }}>
+                        {component == 0 && <Meal />}
+                        {component == 1 && <Menu />}
+                        {component == 2 && <Command />}
+                        {component == 3 && <Subuser />}
+                        {component == 4 && <Notification />}
                         <Modal show={show} onHide={clear} centered={true} scrollable={true}>
                             <Modal.Header closeButton>
                                 <Modal.Title>{modalTitle}</Modal.Title>

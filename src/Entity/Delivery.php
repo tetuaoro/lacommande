@@ -37,9 +37,7 @@ class Delivery
     private $createdAt;
 
     /**
-     * @ORM\ManyToOne(targetEntity=City::class, inversedBy="Deliveries")
-     * @ORM\JoinColumn(nullable=false)
-     * @ORM\Column(nullable=true)
+     * @ORM\Column(type="string", length=255)
      */
     private $city;
 
@@ -90,12 +88,12 @@ class Delivery
         return $this;
     }
 
-    public function getCity(): ?City
+    public function getCity(): string
     {
         return $this->city;
     }
 
-    public function setCity(?City $city): self
+    public function setCity(string $city): self
     {
         $this->city = $city;
 

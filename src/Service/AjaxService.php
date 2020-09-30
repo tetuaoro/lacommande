@@ -12,6 +12,7 @@ use App\Form\Type\CommandType;
 use App\Form\Type\MealType;
 use App\Form\Type\MenuType;
 use App\Form\Type\ProviderType;
+use App\Form\Type\SubuserType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -29,6 +30,14 @@ class AjaxService
     {
         $this->form = $formFactoryInterface;
         $this->router = $routerInterface;
+    }
+
+    public function subForm(User $subuser)
+    {
+        return $this->form->create(SubuserType::class, $subuser, [
+            'method' => 'POST',
+            'action' => $this->router->generate('sub_new'),
+        ]);
     }
 
     public function command_meal(Command $command, ?User $user)

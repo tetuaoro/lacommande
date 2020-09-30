@@ -22,19 +22,16 @@ class ProviderType extends AbstractType
         $builder
             ->add('openHours', OpenHoursType::class)
             ->add('label', TextType::class, [
-                'translation_domain' => 'form',
                 'required' => false,
                 'label' => 'Label',
             ])
+            ->add('city', TextType::class)
             ->add('description', TextareaType::class, [
-                'translation_domain' => 'form',
                 'required' => false,
             ])
             ->add('minPriceDelivery', IntegerType::class, [
-                'translation_domain' => 'form',
             ])
             ->add('linkinsta', UrlType::class, [
-                'translation_domain' => 'form',
                 'required' => false,
                 'label' => 'Page Instagram',
                 'attr' => [
@@ -42,7 +39,6 @@ class ProviderType extends AbstractType
                 ],
             ])
             ->add('linkfb', UrlType::class, [
-                'translation_domain' => 'form',
                 'required' => false,
                 'label' => 'Page Facebook',
                 'attr' => [
@@ -50,7 +46,6 @@ class ProviderType extends AbstractType
                 ],
             ])
             ->add('linktwitter', UrlType::class, [
-                'translation_domain' => 'form',
                 'required' => false,
                 'label' => 'Page Twitter',
                 'attr' => [
@@ -58,7 +53,6 @@ class ProviderType extends AbstractType
                 ],
             ])
             ->add('image', FileType::class, [
-                'translation_domain' => 'form',
                 'required' => true,
                 'mapped' => false,
                 'data_class' => null,
@@ -69,7 +63,7 @@ class ProviderType extends AbstractType
                 'label_attr' => [
                     'data-browse' => 'Ajouter une image',
                 ],
-                'help' => 'image : exactement 1900x545',
+                'help' => 'image : min 1900x545',
                 'help_attr' => [
                     'class' => 'pt-2',
                 ],
@@ -78,8 +72,6 @@ class ProviderType extends AbstractType
                         'maxSize' => '5M',
                         'minWidth' => '1900',
                         'minHeight' => '545',
-                        'maxWidth' => '1900',
-                        'maxHeight' => '545',
                     ]),
                 ],
             ])
@@ -92,7 +84,6 @@ class ProviderType extends AbstractType
             if ($provider->getBgImg()) {
                 $event->getForm()->remove('image')
                     ->add('image', FileType::class, [
-                        'translation_domain' => 'form',
                         'required' => false,
                         'mapped' => false,
                         'data_class' => null,
@@ -103,7 +94,7 @@ class ProviderType extends AbstractType
                         'label_attr' => [
                             'data-browse' => 'Modifier l\'image',
                         ],
-                        'help' => 'image : exactement 1900x545',
+                        'help' => 'image : min 1900x545',
                         'help_attr' => [
                             'class' => 'pt-2',
                         ],
@@ -112,8 +103,6 @@ class ProviderType extends AbstractType
                                 'maxSize' => '5M',
                                 'minWidth' => '1900',
                                 'minHeight' => '545',
-                                'maxWidth' => '1900',
-                                'maxHeight' => '545',
                             ]),
                         ],
                     ])
@@ -125,6 +114,7 @@ class ProviderType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
+            'translation_domain' => 'form',
             'data_class' => Provider::class,
         ]);
     }

@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Command;
 use App\Entity\Meal;
-use App\Form\Type\CommandType;
 use App\Repository\CommandRepository;
 use App\Service\AjaxService;
 use App\Service\CartService;
@@ -126,28 +125,6 @@ class CommandController extends AbstractController
 
         return $this->render('command/show.html.twig', [
             'command' => $command,
-        ]);
-    }
-
-    /**
-     * @Route("/{id}/edit", name="edit", methods={"GET","POST"})
-     */
-    public function edit(Request $request, Command $command): Response
-    {
-        $this->denyAccessUnlessGranted('ROLE_ADMIN');
-
-        $form = $this->createForm(CommandType::class, $command);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('command_index');
-        }
-
-        return $this->render('command/edit.html.twig', [
-            'command' => $command,
-            'form' => $form->createView(),
         ]);
     }
 

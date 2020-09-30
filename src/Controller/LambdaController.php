@@ -50,10 +50,11 @@ class LambdaController extends AbstractController
             $roles = $user->getRoles();
             $roles[] = 'ROLE_LAMBDA';
 
-            $user->setNtahiti('000000')
+            $user->setNtahiti('111111')
                 ->setPassword($password->encodePassword($user, $user->getPassword()))
                 ->setLambda($lambda)
                 ->setRoles($roles)
+                ->setValidate(true)
             ;
 
             $entityManager->persist($user);

@@ -19,102 +19,153 @@
 
 
 <!-- Footer -->
+
 <footer class="bg1">
 	<div class="container p-t-40 p-b-70">
-		<div class="row">
-			<div class="col-sm-6 col-md-4 p-t-50">
-				<h4 class="txt13 m-b-33">
-					Contact
-				</h4>
+		{% if controller_name is defined and controller_name == 'provider:show' %}
+			<div class="row">
+				<div class="col-sm-6 col-md-4 p-t-50">
+					<h4 class="txt13 m-b-33">
+						Contact
+					</h4>
 
-				<ul class="m-b-70">
-					<li class="txt14 m-b-14">
-						<i class="fa fa-map-marker fs-16 dis-inline-block size19" aria-hidden="true"></i>
-						Paea, Tahiti Polynésie Française
-					</li>
+					<ul class="m-b-70">
+						<li class="txt14 m-b-14">
+							<i class="fa fa-phone fs-16 dis-inline-block size19" aria-hidden="true"></i>
+							{{provider.user.phone}}
+						</li>
 
-					<li class="txt14 m-b-14">
-						<i class="fa fa-phone fs-16 dis-inline-block size19" aria-hidden="true"></i>
-						(+689) pas de téléphone
-					</li>
+						<li class="txt14 m-b-14">
+							<i class="fa fa-envelope fs-13 dis-inline-block size19" aria-hidden="true"></i>
+							{{provider.user.email}}
+						</li>
+					</ul>
 
-					<li class="txt14 m-b-14">
-						<i class="fa fa-envelope fs-13 dis-inline-block size19" aria-hidden="true"></i>
-						support@ariifood.pf
-					</li>
-				</ul>
-
-				<!-- - -->
-				<h4 class="txt13 m-b-32">
-					Horaires d'ouverture au public
-				</h4>
-
-				<ul>
-					<li class="txt14">
-						08:45 AM – 12:00 AM
-					</li>
-
-					<li class="txt14">
-						Tous les jours
-					</li>
-				</ul>
-			</div>
-
-			{# <div class="col-sm-6 col-md-4 p-t-50">
-				<h4 class="txt13 m-b-33">
-					Latest twitter
-				</h4>
-
-				<div class="m-b-25">
-					<span class="fs-13 color2 m-r-5">
-						<i class="fa fa-twitter" aria-hidden="true"></i>
-					</span>
-					<a href="assets/#" class="txt15">
-						@colorlib
-					</a>
-
-					<p class="txt14 m-b-18">
-						Activello is a good option. It has a slider built into that displays the featured image in the slider.
-						<a href="assets/#" class="txt15">
-							https://buff.ly/2zaSfAQ
-						</a>
-					</p>
-
-					<span class="txt16">
-						21 Dec 2017
-					</span>
+					<!-- - -->
+					<h4 class="txt13 m-b-32">
+						Horaires d'ouverture au public
+					</h4>
+					<table>
+						<tbody>
+							{% for key, times in provider.openHours %}
+								<tr class="txt14">
+									<th>
+										{{key|trans}}
+									</th>
+									<td>
+										{{times ? times|map(time => time)|join(', ') : "(Fermé)"|trans}}
+									</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
 				</div>
 
-				<div>
-					<span class="fs-13 color2 m-r-5">
-						<i class="fa fa-twitter" aria-hidden="true"></i>
-					</span>
-					<a href="assets/#" class="txt15">
-						@colorlib
-					</a>
+				<div class="col-sm-6 col-md-4 p-t-50">
+					<h4 class="txt13 m-b-38">
+						Gallerie
+					</h4>
 
-					<p class="txt14 m-b-18">
-						Activello is a good option. It has a slider built into that displays
-						<a href="assets/#" class="txt15">
-							https://buff.ly/2zaSfAQ
-						</a>
-					</p>
-
-					<span class="txt16">
-						21 Dec 2017
-					</span>
+					<!-- Gallery footer -->
+					{{ render(controller('App\\Controller\\AppController::gallery_html', {who: 'footer'})) }}
 				</div>
-			</div> #}
-
-			<div class="col-sm-6 col-md-4 p-t-50">
-				<h4 class="txt13 m-b-38">
-					Gallerie
-				</h4>
-
-				<!-- Gallery footer -->
-				{{ render(controller('App\\Controller\\AppController::gallery_html', {who: 'footer'})) }}
 			</div>
-		</div>
+		{% else %}
+			<div class="row">
+				<div class="col-sm-6 col-md-4 p-t-50">
+					<h4 class="txt13 m-b-33">
+						Contact
+					</h4>
+
+					<ul class="m-b-70">
+						<li class="txt14 m-b-14">
+							<i class="fa fa-map-marker fs-16 dis-inline-block size19" aria-hidden="true"></i>
+							Paea, Tahiti Polynésie Française
+						</li>
+
+						<li class="txt14 m-b-14">
+							<i class="fa fa-phone fs-16 dis-inline-block size19" aria-hidden="true"></i>
+							(+689) pas de téléphone
+						</li>
+
+						<li class="txt14 m-b-14">
+							<i class="fa fa-envelope fs-13 dis-inline-block size19" aria-hidden="true"></i>
+							support@ariifood.pf
+						</li>
+					</ul>
+
+					<!-- - -->
+					<h4 class="txt13 m-b-32">
+						Horaires d'ouverture au public
+					</h4>
+
+					<ul>
+						<li class="txt14">
+							08:45 AM – 12:00 AM
+						</li>
+
+						<li class="txt14">
+							Tous les jours
+						</li>
+					</ul>
+				</div>
+
+				{# <div class="col-sm-6 col-md-4 p-t-50">
+																																																													<h4 class="txt13 m-b-33">
+																																																														Latest twitter
+																																																													</h4>
+																																																									
+																																																													<div class="m-b-25">
+																																																														<span class="fs-13 color2 m-r-5">
+																																																															<i class="fa fa-twitter" aria-hidden="true"></i>
+																																																														</span>
+																																																														<a href="assets/#" class="txt15">
+																																																															@colorlib
+																																																														</a>
+																																																									
+																																																														<p class="txt14 m-b-18">
+																																																															Activello is a good option. It has a slider built into that displays the featured image in the slider.
+																																																															<a href="assets/#" class="txt15">
+																																																																https://buff.ly/2zaSfAQ
+																																																															</a>
+																																																														</p>
+																																																									
+																																																														<span class="txt16">
+																																																															21 Dec 2017
+																																																														</span>
+																																																													</div>
+																																																									
+																																																													<div>
+																																																														<span class="fs-13 color2 m-r-5">
+																																																															<i class="fa fa-twitter" aria-hidden="true"></i>
+																																																														</span>
+																																																														<a href="assets/#" class="txt15">
+																																																															@colorlib
+																																																														</a>
+																																																									
+																																																														<p class="txt14 m-b-18">
+																																																															Activello is a good option. It has a slider built into that displays
+																																																															<a href="assets/#" class="txt15">
+																																																																https://buff.ly/2zaSfAQ
+																																																															</a>
+																																																														</p>
+																																																									
+																																																														<span class="txt16">
+																																																															21 Dec 2017
+																																																														</span>
+																																																													</div>
+																																																												</div> #}
+
+				<div class="col-sm-6 col-md-4 p-t-50">
+					<h4 class="txt13 m-b-38">
+						Gallerie
+					</h4>
+
+					<!-- Gallery footer -->
+					{{ render(controller('App\\Controller\\AppController::gallery_html', {who: 'footer'})) }}
+				</div>
+			</div>
+		{% endif %}
 	</div>
 
 	<div class="end-footer bg2">

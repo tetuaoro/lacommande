@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title "Livreur" %}
+
+{% block body %}
+	<div class="delivery p-t-115 p-b-123">
+		<div class="row">
+			<div class="col-md"></div>
+			<div class="col-md-6">
+				<div class="alert alert-info shadow">
+					<p class="text-bold">
+						Désolé ! Le service pour livreur n'est pas encore disponible sur le site. Contactez les modérateurs via le
+						<a href="{{path('contact_new')}}" class="alert-link">formulaire de contact</a>
+						pour plus de renseignement, sous le libellé "livraison". Merci d'avoir pensé à Arii Food !
+					</p>
+				</div>
+			</div>
+			<div class="col-md"></div>
+		</div>
+	</div>
+{% endblock %}

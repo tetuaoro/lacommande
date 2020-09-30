@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Subuser index{% endblock %}
+
+{% block body %}
+    <h1>Subuser index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for subuser in subusers %}
+            <tr>
+                <td>{{ subuser.id }}</td>
+                <td>{{ subuser.name }}</td>
+                <td>
+                    <a href="{{ path('subuser_show', {'id': subuser.id}) }}">show</a>
+                    <a href="{{ path('subuser_edit', {'id': subuser.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('subuser_new') }}">Create new</a>
+{% endblock %}
