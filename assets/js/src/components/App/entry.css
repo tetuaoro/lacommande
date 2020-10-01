@@ -1,3 +1,4 @@
+
 @media (max-width: 768px) {
   .d-md-ruby {
     display: table;
@@ -6,4 +7,11 @@
   .d-md-ruby a {
     display: table-cell;
   }
+}
+
+.d-btn-fixed {
+  position: fixed !important;
+  left: 1rem;
+  bottom: 1rem;
+  z-index: 1000;
 }

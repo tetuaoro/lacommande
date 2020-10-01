@@ -64,6 +64,7 @@ export default function Meal() {
             .catch((err) => {
                 if (err.response.status == 409) {
                     handleError(err.response.data);
+                    setShow(false);
                 } else {
                     handleError();
                 }
@@ -120,9 +121,12 @@ export default function Meal() {
 
     return (
         <Fragment>
-            <Button onClick={() => handleShow()} title="ajouter une assiete" className="mb-2 btn-bs btn-warning">Ajouter une assiete</Button>
+            <Button onClick={() => handleShow()} title="ajouter une assiete" className="mb-2 btn-bs btn-warning d-none d-md-block">Ajouter une assiete</Button>
+            <Button onClick={() => handleShow()} title="ajouter une assiete" className="btn-bs btn-warning d-md-none d-btn-fixed rounded-circle">
+                <i className="fas fa-plus fa-2x" aria-hidden="true"></i>
+            </Button>
             <Fragment>
-                {meals.page > 0 &&
+                {meals.items > 0 && meals.page > 0 &&
                     <Pagination className="d-flex justify-content-center mb-2">
                         {meals.page > 1 &&
                             <Fragment>

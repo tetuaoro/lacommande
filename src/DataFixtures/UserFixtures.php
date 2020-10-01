@@ -2,7 +2,6 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Delivery;
 use App\Entity\Lambda;
 use App\Entity\Provider;
 use App\Entity\User;
@@ -32,7 +31,9 @@ class UserFixtures extends Fixture
             $user->setName($faker->company)
                 ->setEmail($faker->companyEmail)
                 ->setUsername($faker->userName)
+                ->setPhone('68987123456')
                 ->setNtahiti($faker->md5)
+                ->setValidate(true)
                 ->setPassword($this->password->encodePassword($user, 'LACOMMANDE'))
                 ->setCreatedAt($faker->dateTimeBetween())
                 ;
@@ -45,6 +46,7 @@ class UserFixtures extends Fixture
                 $roles[] = 'ROLE_PROVIDER';
                 $provider->setName($user->getName())
                     ->setMinPriceDelivery(2500)
+                    ->setCity('Papara-pk18')
                     ->setBitly(['link' => $env ? 'https://bit.ly/2ZDJRpF' : 'https://bit.ly/2ZDJHyz'])
                     ->setOpenHours([
                         'monday' => ['09:00-12:00', '13:00-18:00'],
@@ -72,16 +74,6 @@ class UserFixtures extends Fixture
                     ->setLambda($lambda)
                 ;
             }
-            if (0 == $rdm) {
-                $delivery = new Delivery();
-                $roles[] = 'ROLE_DELIVERY';
-                $delivery->setName($user->getName())
-
-                ;
-                $user->setRoles($roles)
-                    ->setDelivery($delivery)
-                    ;
-            }
 
             $manager->persist($user);
         }
@@ -90,15 +82,18 @@ class UserFixtures extends Fixture
         $provider = new Provider();
         $roles = $user->getRoles();
         $user->setName('Rao Nagos')
-            ->setEmail('tetuaoropro@mgail.com')
+            ->setEmail('tetuaoropro@gmail.com')
             ->setUsername('raonagos98')
+            ->setPhone('68987123456')
             ->setNtahiti('D75938')
             ->setPassword($this->password->encodePassword($user, 'LACOMMANDE'))
-        ;
+            ->setValidate(true)
+            ;
         $roles[] = 'ROLE_PROVIDER';
         $roles[] = 'ROLE_ADMIN';
         $roles[] = 'ROLE_SUPERADMIN';
         $provider->setName($user->getName())
+            ->setCity('Paea noa')
             ->setMinPriceDelivery(1500)
             ->setBitly(['link' => $env ? 'https://bit.ly/2ZDJRpF' : 'https://bit.ly/2ZDJHyz'])
             ->setOpenHours([

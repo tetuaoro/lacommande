@@ -4,6 +4,7 @@ import axios from 'axios';
 import { App } from '../../stores/context';
 import * as API from '../../stores/api';
 import moment from 'moment';
+import { setInterval } from 'core-js';
 
 export default function Command() {
 
@@ -43,7 +44,20 @@ function AppTable({ compare = "=", orderBy = "DESC" }) {
     const [state, setState] = useState(0);
 
     useEffect(() => {
-        fetchCommands();
+        const form = new FormData();
+        form.append('form[date]', moment().format('Y-M-D H:m:s Z'));
+        form.append('form[compare]', compare);
+        form.append('form[order]', compare == "<" ? orderBy : "ASC");
+
+        fetchCommands(form);
+        
+        const si = setInterval(() => {
+            fetchBackG(form);
+        }, 7000);
+
+        return () => {
+            clearInterval(si);
+        }
     }, []);
 
     useEffect(() => {
@@ -71,18 +85,19 @@ function AppTable({ compare = "=", orderBy = "DESC" }) {
             .finally(() => setLoading([false, ".modal-content"]));
     }
 
-    const fetchCommands = () => {
+    const fetchCommands = (form) => {
         setLoading([true, "body"]);
-
-        const form = new FormData();
-        form.append('form[date]', moment().format('Y-M-D H:m:s Z'));
-        form.append('form[compare]', compare);
-        form.append('form[order]', compare == "<" ? orderBy : "ASC");
-
         axios.post(API.COMMANDS, form, { headers: { "X-Requested-With": "XMLHttpRequest" } })
             .then(res => setCommands(res.data))
             .catch(err => handleError())
             .finally(() => setLoading([false, "body"]))
+            ;
+    }
+
+    const fetchBackG = (form) => {
+        axios.post(API.COMMANDS, form, { headers: { "X-Requested-With": "XMLHttpRequest" } })
+            .then(res => setCommands(res.data))
+            .catch(err => handleError())
             ;
     }
 

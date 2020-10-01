@@ -184,3 +184,10 @@ a.cart-items {
 .text-app {
   color: var(--appcolor1);
 }
+
+/* Login */
+.custom-control-input:checked ~ .custom-control-label::before {
+  color: #fff;
+  border-color: var(--appcolor1);
+  background-color: var(--appcolor1);
+}

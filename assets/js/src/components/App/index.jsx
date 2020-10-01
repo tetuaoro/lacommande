@@ -8,7 +8,7 @@ import Menu from '../Menu';
 import Notification from '../Notifications';
 import Subuser from '../Subuser';
 
-import './app.css';
+import './entry.css';
 
 export default function App() {
 
@@ -47,6 +47,9 @@ export default function App() {
     }
 
     const handleComponent = (number) => {
+        if (error) {
+            setError(false);
+        }
         setComponent(number);
     }
 

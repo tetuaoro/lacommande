@@ -91,7 +91,10 @@ export default function Menu() {
 
     return (
         <Fragment>
-            <Button onClick={() => handleShow()} title="ajouter un menu" className="mb-2 btn-bs btn-warning">Ajouter un menu</Button>
+            <Button onClick={() => handleShow()} title="ajouter un menu" className="mb-2 btn-bs btn-warning d-none d-md-block">Ajouter un menu</Button>
+            <Button onClick={() => handleShow()} title="ajouter un menu" className="btn-bs btn-warning d-md-none d-btn-fixed rounded-circle">
+                <i className="fas fa-plus fa-2x" aria-hidden="true"></i>
+            </Button>
             <Table hover>
                 <thead>
                     <tr>

@@ -57,9 +57,8 @@ class CommandFixtures extends Fixture implements DependentFixtureInterface
                 ->setPhone('87423498')
                 ->setComment($faker->paragraph)
                 ->setPrice($price)
-                ->setCommandAt($faker->dateTimeBetween('-1 years', '+3 days', 'UTC'))
+                ->setCommandAt($faker->dateTimeBetween('-1 years', '+10 days', 'UTC'))
                 ->setTimezone($faker->dateTime)
-                ->setValidate(false)
             ;
 
             $manager->persist($command);

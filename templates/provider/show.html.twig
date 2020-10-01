@@ -15,7 +15,7 @@
 {% block metatags %}
 	<meta property="twitter:card" content="summary_large_image">
 	<meta property="twitter:site" content="@ariifood">
-	<meta property="twitter:title" content="{{ title_ ~ ' sur ' ~ nameSite }}">
+	<meta property="twitter:title" content="{{ title_ ~ ' - ' ~ provider.label }}">
 	<meta property="twitter:description" content="{{ provider.description | htmldump }}">
 	<meta property="twitter:creator" content="@ariifood">
 	<meta property="twitter:image" content="{{ provider.bgImg }}">
@@ -26,7 +26,7 @@
 	<meta property="fb:app_id" content="{{get_env('OAUTH_FACEBOOK_ID')}}">
 	<meta property="og:url" content="{{provider.bitly.link}}"/>
 	<meta property="og:type" content="article"/>
-	<meta property="og:title" content="{{ title_ ~ ' sur ' ~ nameSite }}"/>
+	<meta property="og:title" content="{{ title_ ~ ' - ' ~ provider.label }}"/>
 	<meta property="og:description" content="{{ provider.description | htmldump }}"/>
 	<meta property="og:image" content="{{ provider.bgImg }}"/>
 {% endblock %}
