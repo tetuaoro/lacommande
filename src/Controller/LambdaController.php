@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Lambda;
 use App\Entity\User;
 use App\Form\Type\LambdaType;
+use App\Message\SendEmailMessage;
 use App\Repository\LambdaRepository;
 use App\Service\Mailer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -60,7 +61,7 @@ class LambdaController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            $mailer->sendConfirmationNewUser($user);
+            $this->dispatchMessage(new SendEmailMessage($mailer->sendConfirmationNewUser($user)));
 
             $this->addFlash('success', 'L\'utilisateur a bien été créé. Veuillez confirmer votre adresse mail pour bénéficier des avantages sur le site.');
 

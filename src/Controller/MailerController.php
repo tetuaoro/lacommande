@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Message\SendEmailMessage;
 use App\Service\Mailer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -49,7 +50,8 @@ class MailerController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $mailer->sendConfirmationNewUser($this->getUser());
+            $this->dispatchMessage(new SendEmailMessage($mailer->sendConfirmationNewUser($this->getUser())))
+            ;
         }
 
         return $this->render('mailer/index.html.twig', [

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Command;
 use App\Entity\Meal;
+use App\Message\SendEmailMessage;
 use App\Repository\CommandRepository;
 use App\Service\AjaxService;
 use App\Service\CartService;
@@ -98,7 +99,8 @@ class CommandController extends AbstractController
                 $command->setReference($command->getId().'-'.substr($string, 24).'-'.substr($string, 1, 2));
                 $entityManager->flush();
 
-                $mailer->sendCommand($command);
+                $this->dispatchMessage(new SendEmailMessage($mailer->sendCommand($command)))
+                ;
 
                 $this->addFlash('success', 'Votre commande a été envoyée !');
                 $cartService->reset();

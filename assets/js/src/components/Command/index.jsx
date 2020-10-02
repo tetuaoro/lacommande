@@ -56,7 +56,7 @@ function AppTable({ compare = "=", orderBy = "DESC" }) {
 
         const si = setInterval(() => {
             fetchBackG(form);
-        }, 10000);
+        }, 30000);
 
         return () => {
             clearInterval(si);

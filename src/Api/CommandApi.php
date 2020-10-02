@@ -3,6 +3,7 @@
 namespace App\Api;
 
 use App\Entity\Command;
+use App\Message\SendEmailMessage;
 use App\Repository\CommandRepository;
 use App\Service\AjaxService;
 use App\Service\Mailer;
@@ -105,7 +106,8 @@ class CommandApi extends AbstractController
             if ($form->isSubmitted() && $form->isValid()) {
                 $em = $this->getDoctrine()->getManager();
 
-                $mailer->validateCommand($command, $bool, $user);
+                $this->dispatchMessage(new SendEmailMessage($mailer->validateCommand($command, $bool, $user)));
+
                 $command->setValidate($bool);
 
                 $em->flush();
@@ -143,7 +145,7 @@ class CommandApi extends AbstractController
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
-                $mailer->validateCommand($command, 2, $user);
+                $this->dispatchMessage(new SendEmailMessage($mailer->validateCommand($command, 2, $user)));
 
                 return new Response('success', Response::HTTP_CREATED);
             }

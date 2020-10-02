@@ -6,6 +6,7 @@ use App\Entity\Provider;
 use App\Entity\User;
 use App\Form\Type\RegisterType;
 use App\Form\Type\UserType;
+use App\Message\SendEmailMessage;
 use App\Repository\UserRepository;
 use App\Service\BitlyService;
 use App\Service\Mailer;
@@ -79,7 +80,7 @@ class UserController extends AbstractController
             );
             $entityManager->flush();
 
-            $mailer->sendConfirmationNewUser($user);
+            $this->dispatchMessage(new SendEmailMessage($mailer->sendConfirmationNewUser($user)));
 
             $this->addFlash('success', 'L\'utilisateur a bien été créé. Veuillez confirmer votre adresse mail pour bénéficier des avantages sur Arii Food.');
 
