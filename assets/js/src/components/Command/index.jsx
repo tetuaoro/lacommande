@@ -42,6 +42,7 @@ function AppTable({ compare = "=", orderBy = "DESC" }) {
 
     const [commands, setCommands] = useState([]);
     const [state, setState] = useState(0);
+    const [formData, setFData] = useState('');
 
     useEffect(() => {
         const form = new FormData();
@@ -49,11 +50,13 @@ function AppTable({ compare = "=", orderBy = "DESC" }) {
         form.append('form[compare]', compare);
         form.append('form[order]', compare == "<" ? orderBy : "ASC");
 
+        setFData(form);
+
         fetchCommands(form);
-        
+
         const si = setInterval(() => {
             fetchBackG(form);
-        }, 7000);
+        }, 10000);
 
         return () => {
             clearInterval(si);
@@ -73,7 +76,7 @@ function AppTable({ compare = "=", orderBy = "DESC" }) {
         setLoading([true, ".modal-content"]);
         axios.post($(evt.target).attr("action"), (new FormData(evt.target)), { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
             .then(() => {
-                fetchCommands();
+                fetchCommands(formData);
                 setShow(false);
             })
             .catch(err => {

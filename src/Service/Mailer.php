@@ -102,43 +102,4 @@ class Mailer
 
         $this->mailer->send($message);
     }
-
-    public function userNotifyMessage(User $user, $message, $subject)
-    {
-        $email = $user->getEmail();
-
-        $message_ = (new TemplatedEmail())
-            ->from('chansondufenua@gmail.com')
-            ->to(new Address($email))
-            ->subject($subject)
-            ->htmlTemplate('emails/userNotify.html.twig')
-            ->context([
-                'user' => $user,
-                'message' => $message,
-                'subject' => $subject,
-            ])
-                ;
-
-        $this->mailer->send($message_);
-    }
-
-    public function userNotifyNotification($form)
-    {
-        $email = $form->getData()['email'];
-        $message = $form->getData()['message'];
-        $subject = $form->getData()['subject'];
-
-        $message_ = (new TemplatedEmail())
-            ->from('chansondufenua@gmail.com')
-            ->to(new Address($email))
-            ->subject($subject)
-            ->htmlTemplate('emails/userNotify.html.twig')
-            ->context([
-                'message' => $message,
-                'subject' => $subject,
-            ])
-                ;
-
-        $this->mailer->send($message_);
-    }
 }
