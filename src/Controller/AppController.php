@@ -2,10 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\Newletter;
 use App\Repository\GalleryRepository;
 use App\Repository\MealRepository;
 use App\Repository\ProviderRepository;
+use App\Service\AjaxService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -30,6 +33,31 @@ class AppController extends AbstractController
             'meal_recap' => $meal_recap,
             'prov_recap' => $prov_recap,
             'meal_popular' => $meal_popular,
+        ]);
+    }
+
+    /**
+     * @Route("/newletter", name="newletter", methods={"POST", "GET"})
+     */
+    public function newletter(Request $request, AjaxService $ajaxService)
+    {
+        $newletter = new Newletter();
+        $form = $ajaxService->newletter($newletter);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted()) {
+            if ($form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($newletter);
+                $em->flush();
+                $this->addFlash('success', 'Vous êtes abonné !');
+            }
+
+            return $this->redirectToRoute('app_home');
+        }
+
+        return $this->render('app/app/newletter_form.html.twig', [
+            'form' => $form->createView(),
         ]);
     }
 
@@ -63,13 +91,15 @@ class AppController extends AbstractController
         ]);
     }
 
-    public function gallery_html(string $who, GalleryRepository $galleryRepo)
+    /**
+     * @Route("/gallery", name="gallery", methods={"GET"})
+     */
+    public function gallery(GalleryRepository $galleryRepo)
     {
         $lastgalls = $galleryRepo->findLastest();
 
-        return $this->render('base/gallery/gal.html.twig', [
+        return $this->render('app/app/gal.html.twig', [
             'lastgalleries' => $lastgalls,
-            'who' => $who,
         ]);
     }
 

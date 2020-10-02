@@ -5,12 +5,14 @@ namespace App\Service;
 use App\Entity\Command;
 use App\Entity\Meal;
 use App\Entity\Menu;
+use App\Entity\Newletter;
 use App\Entity\Provider;
 use App\Entity\User;
 use App\Form\Type\CartType;
 use App\Form\Type\CommandType;
 use App\Form\Type\MealType;
 use App\Form\Type\MenuType;
+use App\Form\Type\NewLetterType;
 use App\Form\Type\ProviderType;
 use App\Form\Type\SubuserType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
@@ -30,6 +32,14 @@ class AjaxService
     {
         $this->form = $formFactoryInterface;
         $this->router = $routerInterface;
+    }
+
+    public function newletter(Newletter $newletter)
+    {
+        return $this->form->create(NewLetterType::class, $newletter, [
+            'method' => 'POST',
+            'action' => $this->router->generate('app_newletter'),
+        ]);
     }
 
     public function subForm(User $subuser)

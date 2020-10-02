@@ -23,18 +23,20 @@
 	</row>
 
 	{% block footer %}
-		<row class="footer">
-			<columns>
-				<p>
-					<strong>Ceci est un message automatique, merci de ne pas répondre à cet email.</strong>
-				</p>
-				<p>
-					<em>
-						{{ nameSite }},
-					</em>
-				</p>
-			</columns>
-		</row>
+		{% block message_auto %}
+			<row class="footer">
+				<columns>
+					<p>
+						<strong>Ceci est un message automatique, merci de ne pas répondre à cet email.</strong>
+					</p>
+					<p>
+						<em>
+							{{ nameSite }},
+						</em>
+					</p>
+				</columns>
+			</row>
+		{% endblock %}
 		<row class="bottom">
 			<columns>
 				<center>

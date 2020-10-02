@@ -74,7 +74,7 @@ class Mailer
     {
         $message = (new TemplatedEmail())
             ->from(new Address(self::EMAIL, 'Arii Food'))
-            ->to(new Address($command->getEmail()))
+            ->to(new Address($command->getEmail(), $command->getName()))
             ->subject('REF #'.$command->getReference().' - Commande de plat')
             ->htmlTemplate('mailer/command.html.twig')
             ->context([
@@ -90,7 +90,7 @@ class Mailer
     {
         $message = (new TemplatedEmail())
             ->from(new Address(self::EMAIL, 'Arii Food'))
-            ->to(new Address($command->getEmail()))
+            ->to(new Address($command->getEmail(), $command->getName()))
             ->subject(0 == $bool ? 'Commande refusée' : (1 == $bool ? 'Commande validée' : $user->getProvider()->getName()))
             ->htmlTemplate('mailer/validate_command.html.twig')
             ->context([

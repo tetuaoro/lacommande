@@ -15,6 +15,7 @@ framework:
         # 2 Days lifetime (172800 seconds)
         # 1 Month lifetime (2629746 seconds) without remember_me
         cookie_lifetime: 2629746
+        gc_maxlifetime: 2629746
 
     #esi: true
     #fragments: true

@@ -136,6 +136,7 @@ label.required::after {
   #flash {
     left: 50%;
     transform: translateX(-50%);
+    max-width: auto;
   }
 }
 

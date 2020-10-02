@@ -1,0 +1,7 @@
+	<div class="wrap-gallery-footer flex-w">
+		{% for img in lastgalleries %}
+			<a class="item-gallery-footer wrap-pic-w" target="_blank" href="{{ img.url }}" data-lightbox="gallery-footer">
+				<img src="{{ img.url }}" alt="GALLERY">
+			</a>
+		{% endfor %}
+	</div>
