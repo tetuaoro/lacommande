@@ -14,6 +14,7 @@ use Symfony\Component\Mime\Address;
 
 class Mailer
 {
+    public const EMAIL = 'noreply@ariifood.pf';
     protected $mailer;
     protected $em;
     protected $request;
@@ -39,15 +40,13 @@ class Mailer
 
     public function sendConfirmationNewUser(User $user)
     {
-        $email = $user->getEmail();
-
         $token = rtrim(strtr(base64_encode(random_bytes(32)), '+/', '-_'), '=');
 
         $user->setConfirmationEmail($token);
         $this->em->flush();
 
         $message = (new TemplatedEmail())
-            ->from(new Address('lacommandeariifood@gmail.com', 'Arii Food'))
+            ->from(new Address(self::EMAIL, 'Arii Food'))
             ->to(new Address($user->getEmail(), $user->getName()))
             ->subject('Confirmation e-mail Arii Food')
             ->htmlTemplate('mailer/signup.html.twig')
@@ -74,7 +73,7 @@ class Mailer
     public function sendCommand(Command $command)
     {
         $message = (new TemplatedEmail())
-            ->from(new Address('lacommandeariifood@gmail.com', 'Arii Food'))
+            ->from(new Address(self::EMAIL, 'Arii Food'))
             ->to(new Address($command->getEmail()))
             ->subject('REF #'.$command->getReference().' - Commande de plat')
             ->htmlTemplate('mailer/command.html.twig')
@@ -90,7 +89,7 @@ class Mailer
     public function validateCommand(Command $command, int $bool, User $user)
     {
         $message = (new TemplatedEmail())
-            ->from(new Address('lacommandeariifood@gmail.com', 'Arii Food'))
+            ->from(new Address(self::EMAIL, 'Arii Food'))
             ->to(new Address($command->getEmail()))
             ->subject(0 == $bool ? 'Commande refusée' : (1 == $bool ? 'Commande validée' : $user->getProvider()->getName()))
             ->htmlTemplate('mailer/validate_command.html.twig')
