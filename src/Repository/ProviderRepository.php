@@ -21,7 +21,7 @@ class ProviderRepository extends ServiceEntityRepository
 
     public function findLastProvider($how = 3)
     {
-        return $this->createQueryBuilder('p')
+        return $this->getAllowProvider()
             ->orderBy('p.createdAt', 'DESC')
             ->setMaxResults($how)
             ->getQuery()
@@ -31,11 +31,20 @@ class ProviderRepository extends ServiceEntityRepository
 
     public function getRandomProvider()
     {
-        return $this->createQueryBuilder('p')
+        return $this->getAllowProvider()
             ->orderBy('p.createdAt', 'DESC')
             ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult()
+        ;
+    }
+
+    private function getAllowProvider()
+    {
+        return $this->createQueryBuilder('p')
+            ->leftJoin('p.user', 'u')
+            ->where('u.confirmationEmail IS NULL')
+            ->andWhere('u.validate = true')
         ;
     }
 

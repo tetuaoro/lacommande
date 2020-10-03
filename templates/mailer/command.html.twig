@@ -36,7 +36,7 @@
 	<container class="command">
 		<row>
 			<columns>
-				<strong>#</strong>
+				<strong>C#</strong>
 			</columns>
 			<columns>
 				<strong>Nom</strong>
@@ -48,7 +48,7 @@
 				<strong>Quantité</strong>
 			</columns>
 		</row>
-		{% for command in cart2 %}
+		{% for command in cart %}
 			{% set provider = command['provider'] %}
 			{% set price = command['price'] %}
 			{% set meals = command['meals'] %}
@@ -70,7 +70,7 @@
 						{{meal['product'].name}}
 					</columns>
 					<columns>
-						{{meal['product'].price}}
+						{{meal['product'].price}} XPF
 					</columns>
 					<columns>
 						{{meal['quantity']}}
@@ -82,6 +82,15 @@
 				<columns></columns>
 				<columns>
 					{{price}} XPF
+				</columns>
+				<columns></columns>
+			</row>
+			{% else %}
+			<row>
+				<columns></columns>
+				<columns></columns>
+				<columns>
+					Votre commande doit d'abord être approuvée !
 				</columns>
 				<columns></columns>
 			</row>
@@ -100,14 +109,14 @@
 			<columns>Date de livraison</columns>
 			<columns></columns>
 			<columns></columns>
-			<columns>{{command.commandAt|date("d/m/Y H:i", "Pacific/Honolulu")}}</columns>
+			<columns>{{command.commandAt|date("d/m/Y H:i")}}</columns>
 		</row>
 
 		<row>
 			<columns>Date de commande</columns>
 			<columns></columns>
 			<columns></columns>
-			<columns>{{command.createdAt|date("d/m/Y", "Pacific/Honolulu")}}</columns>
+			<columns>{{command.createdAt|date("d/m/Y")}}</columns>
 		</row>
 	</container>
 

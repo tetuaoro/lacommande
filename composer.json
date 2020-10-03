@@ -5,7 +5,6 @@
         "php": "^7.2.5",
         "ext-ctype": "*",
         "ext-iconv": "*",
-        "aws/aws-sdk-php": "^3.147",
         "composer/package-versions-deprecated": "^1.10",
         "connectholland/cookie-consent-bundle": "^0.9.1",
         "doctrine/annotations": "^1.0",

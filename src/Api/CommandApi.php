@@ -71,7 +71,7 @@ class CommandApi extends AbstractController
 
         /** @var \App\Entity\Command $command */
         $command = $commandRepository->getFiltererByProvider($command->getId(), $user->getProvider());
-        $details = array_replace(...$command->getDetails());
+        $details = $command->getDetails();
 
         $price = 0;
         /** @var \App\Entity\Meal $meal */
@@ -106,7 +106,7 @@ class CommandApi extends AbstractController
             if ($form->isSubmitted() && $form->isValid()) {
                 $em = $this->getDoctrine()->getManager();
 
-                $this->dispatchMessage(new SendEmailMessage($mailer->validateCommand($command, $bool, $user)));
+                $this->dispatchMessage(new SendEmailMessage(3, $user->getId(), $command->getId(), $bool));
 
                 $command->setValidate($bool);
 
@@ -145,7 +145,7 @@ class CommandApi extends AbstractController
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
-                $this->dispatchMessage(new SendEmailMessage($mailer->validateCommand($command, 2, $user)));
+                $this->dispatchMessage(new SendEmailMessage(3, $user->getId(), $command->getId(), 2));
 
                 return new Response('success', Response::HTTP_CREATED);
             }

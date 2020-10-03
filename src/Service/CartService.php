@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\Command;
 use App\Repository\MealRepository;
 use App\Repository\ProviderRepository;
 use Spatie\OpeningHours\OpeningHours;
@@ -147,5 +148,43 @@ class CartService
         }
 
         return $cart;
+    }
+
+    public function getFullCartFromCommand(Command $command): array
+    {
+        $cart = [];
+        $TADA = $this->getCartFromCommand($command);
+
+        foreach ($TADA as $provider_id => $meals_) {
+            $total = 0;
+            $meals = [];
+            foreach ($meals_ as $couple) {
+                $total += $couple['product']->getPrice() * $couple['quantity'];
+                $meals[] = $couple;
+            }
+            $cart[] = [
+                'price' => $total,
+                'provider' => $this->providerRepo->find($provider_id),
+                'meals' => $meals,
+            ];
+        }
+
+        return $cart;
+    }
+
+    private function getCartFromCommand(Command $command): array
+    {
+        $providers = [];
+
+        foreach ($command->getDetails() as $meal_id => $quantity) {
+            $meal = $this->mealRepository->find($meal_id);
+
+            $providers[$meal->getProvider()->getId()][] = [
+                'product' => $meal,
+                'quantity' => $quantity,
+            ];
+        }
+
+        return $providers;
     }
 }

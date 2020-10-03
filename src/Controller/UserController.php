@@ -13,8 +13,10 @@ use App\Service\Mailer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGenerator;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
@@ -80,7 +82,7 @@ class UserController extends AbstractController
             );
             $entityManager->flush();
 
-            $this->dispatchMessage(new SendEmailMessage($mailer->sendConfirmationNewUser($user)));
+            $this->dispatchMessage(new SendEmailMessage(1, $user->getId(), 1, 1));
 
             $this->addFlash('success', 'L\'utilisateur a bien été créé. Veuillez confirmer votre adresse mail pour bénéficier des avantages sur Arii Food.');
 
@@ -160,17 +162,21 @@ class UserController extends AbstractController
     /**
      * @Route("/{id}", name="delete", methods={"DELETE"})
      */
-    public function delete(Request $request, User $user): Response
+    public function delete(Request $request, User $user, SessionInterface $session, TokenStorageInterface $token): Response
     {
-        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        $this->denyAccessUnlessGranted('USER_DELETE', $user);
 
         if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
+
+            $session->invalidate();
+            $token->setToken(null);
+
             $entityManager->remove($user);
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('index');
+        return $this->redirectToRoute('app_logout');
     }
 
     /**

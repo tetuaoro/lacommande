@@ -23,7 +23,6 @@
                 <td>{{ command.createdAt ? command.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
                     <a href="{{ path('command_show', {'id': command.id}) }}">show</a>
-                    <a href="{{ path('command_edit', {'id': command.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}

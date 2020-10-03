@@ -82,7 +82,7 @@ class CommandController extends AbstractController
                 }
 
                 $command->setPrice($cartService->getTotal())
-                    ->setDetails($details)
+                    ->setDetails(array_replace(...$details))
                 ;
 
                 /** @var \App\Entity\User $user */
@@ -99,11 +99,9 @@ class CommandController extends AbstractController
                 $command->setReference($command->getId().'-'.substr($string, 24).'-'.substr($string, 1, 2));
                 $entityManager->flush();
 
-                $this->dispatchMessage(new SendEmailMessage($mailer->sendCommand($command)))
-                ;
-
                 $this->addFlash('success', 'Votre commande a été envoyée !');
                 $cartService->reset();
+                $this->dispatchMessage(new SendEmailMessage(2, 1, $command->getId(), 1));
 
                 return new Response($this->generateUrl('meal_index'), Response::HTTP_CREATED);
             }

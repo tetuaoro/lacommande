@@ -50,7 +50,7 @@ class CommandFixtures extends Fixture implements DependentFixtureInterface
             $ref = $i.'-'.substr($string, 24).'-'.substr($string, 1, 2);
 
             $command->setName($faker->name)
-                ->setDetails($details)
+                ->setDetails(array_replace(...$details))
                 ->setReference($ref)
                 ->setAddress('Paea')
                 ->setEmail($faker->email)

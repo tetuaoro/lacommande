@@ -1,7 +1,4 @@
 {
-    "aws/aws-sdk-php": {
-        "version": "3.147.12"
-    },
     "bacon/bacon-qr-code": {
         "version": "2.0.2"
     },
@@ -195,9 +192,6 @@
     },
     "monolog/monolog": {
         "version": "2.1.1"
-    },
-    "mtdowling/jmespath.php": {
-        "version": "2.6.0"
     },
     "myclabs/php-enum": {
         "version": "1.7.6"

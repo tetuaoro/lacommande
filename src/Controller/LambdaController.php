@@ -61,7 +61,7 @@ class LambdaController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            $this->dispatchMessage(new SendEmailMessage($mailer->sendConfirmationNewUser($user)));
+            $this->dispatchMessage(new SendEmailMessage(1, $user->getId(), 1, 1));
 
             $this->addFlash('success', 'L\'utilisateur a bien été créé. Veuillez confirmer votre adresse mail pour bénéficier des avantages sur le site.');
 
