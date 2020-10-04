@@ -125,6 +125,11 @@ class Provider
      */
     private $user;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $viewer;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
@@ -498,6 +503,25 @@ class Provider
         if ($user->getProvider() !== $newProvider) {
             $user->setProvider($newProvider);
         }
+
+        return $this;
+    }
+
+    public function getViewer(): ?int
+    {
+        return $this->viewer;
+    }
+
+    public function setViewer(int $viewer): self
+    {
+        $this->viewer = $viewer;
+
+        return $this;
+    }
+
+    public function plusOneViewer(): self
+    {
+        ++$this->viewer;
 
         return $this;
     }

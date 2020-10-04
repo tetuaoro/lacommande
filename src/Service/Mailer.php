@@ -32,9 +32,7 @@ class Mailer
 
     public function sendConfirmationNewUser(User $user)
     {
-        $token = rtrim(strtr(base64_encode(random_bytes(32)), '+/', '-_'), '=');
-
-        $user->setConfirmationEmail($token);
+        
         $this->em->flush();
 
         return (new TemplatedEmail())

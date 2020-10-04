@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\Type\RegisterType;
-use App\Service\AjaxService;
 use App\Service\Mailer;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,7 +19,7 @@ class TestController extends AbstractController
     /**
      * @Route("/", name="index", methods={"GET", "POST"})
      */
-    public function index(AjaxService $ajaxService, Request $request)
+    public function index()
     {
         return $this->render('test/index.html.twig', [
             'controller_name' => 'TestController',

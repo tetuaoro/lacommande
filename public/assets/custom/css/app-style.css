@@ -136,7 +136,8 @@ label.required::after {
   #flash {
     left: 50%;
     transform: translateX(-50%);
-    max-width: auto;
+    max-width: max-content;
+    min-width: 300px;
   }
 }
 
@@ -191,4 +192,21 @@ a.cart-items {
   color: #fff;
   border-color: var(--appcolor1);
   background-color: var(--appcolor1);
+}
+
+/* chef icon */
+.chef-svg {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  background-size: cover;
+}
+.chef-icon {
+  background-image: url("../fonts/chef-white.svg")
+}
+.chef-icon-o {
+  background-image: url("../fonts/chef.svg")
+}
+.chef-parent:hover .chef-icon {
+  background-image: url("../fonts/chef-app.svg")
 }

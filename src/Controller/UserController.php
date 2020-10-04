@@ -63,6 +63,7 @@ class UserController extends AbstractController
                 ])
                 ->setMinPriceDelivery(2500)
                 ->setCity($form->get('city')->getData())
+                ->setViewer(0)
                 ;
 
             $roles = $user->getRoles();
@@ -72,6 +73,7 @@ class UserController extends AbstractController
                 ->setRoles($roles)
                 ->setProvider($provider)
                 ->setValidate(true)
+                ->setConfirmationEmail(rtrim(strtr(base64_encode(random_bytes(32)), '+/', '-_'), '='))
             ;
 
             $entityManager->persist($user);
@@ -99,7 +101,7 @@ class UserController extends AbstractController
     /**
      * Ne pas supprimer.
      *
-     * @Route("/create-new-super", name="register")
+     * @Route("/create-new-super-customer", name="register")
      */
     public function new_user(Request $request)
     {

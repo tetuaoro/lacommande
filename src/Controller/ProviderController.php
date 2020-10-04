@@ -12,6 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * @Route("/public/provider", name="provider_")
@@ -21,25 +22,38 @@ class ProviderController extends AbstractController
     /**
      * @Route("/", name="index", methods={"GET"})
      */
-    public function index(ProviderRepository $providerRepository): Response
+    public function index(ProviderRepository $providerRepository, PaginatorInterface $paginator, Request $request): Response
     {
-        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        $providers = $paginator->paginate(
+            $providerRepository->paginator(),
+            $request->query->get('page', 1),
+            5,
+            [
+                $paginator::DEFAULT_SORT_FIELD_NAME => 'p.createdAt',
+                $paginator::DEFAULT_SORT_DIRECTION => 'desc',
+            ]
+        );
 
         return $this->render('provider/index.html.twig', [
-            'providers' => $providerRepository->findAll(),
+            'providers' => $providers,
         ]);
     }
 
     /**
      * @Route("/{slug}-{id}", name="show", methods={"GET"}, requirements={"slug": "[a-z0-9\-]*"})
      */
-    public function show(string $slug, Provider $provider, PaginatorInterface $paginator, MealRepository $mealRepository, Request $request): Response
+    public function show(string $slug, Security $security, Provider $provider, ProviderRepository $providerRepository, PaginatorInterface $paginator, MealRepository $mealRepository, Request $request): Response
     {
         if ($slug != $provider->getSlug()) {
             return $this->redirectToRoute('provider_show', [
                 'id' => $provider->getId(),
                 'slug' => $provider->getSlug(),
             ]);
+        }
+
+        if (!$security->isGranted('USER_MANAGE', $this->getUser())) {
+            $provider->plusOneViewer();
+            $this->getDoctrine()->getManager()->flush();
         }
 
         $meals = $paginator->paginate(
@@ -56,6 +70,8 @@ class ProviderController extends AbstractController
             'controller_name' => 'provider:show',
             'provider' => $provider,
             'meals' => $meals,
+            'commands' => $providerRepository->getTotalCommand($provider),
+            'avgPriceMeal' => $providerRepository->getAVGPriceMeal($provider),
         ]);
     }
 

@@ -34,10 +34,13 @@
 {% block bodyfull %}
 	<div class="provider-show">
 
+
 		<section class="bg-title-page pos-relative p-t-170 p-b-70 p-l-15 p-r-15" style="background-image: url({{provider.bgImg}});">
-			<h1 class="tit6 t-center{% if provider.bgImg == '' %} text-dark{% endif %}">
-				{{ title_ }}
-			</h1>
+			<a class="" target="_blank" href="{{ qr_code_url(provider.bitly.link, {size:1920}) }}" data-lightbox="provider-show" data-title="{{ 'code qr pour ' ~ provider.name }}">
+				<h1 class="tit6 t-center{% if provider.bgImg == '' %} text-dark{% endif %}">
+					{{ title_ }}
+				</h1>
+			</a>
 			<h1 class="t-center h5{% if provider.bgImg == '' %} text-dark{% else %} text-light{% endif %}">
 				{{provider.label}}
 			</h1>
@@ -50,14 +53,26 @@
 					<i class="fa fa-twitter m-l-21 fa-2x{% if provider.bgImg == '' %} text-dark{% endif %}" aria-hidden="true" title="{{ 'Partager sur twitter' | trans }}"></i>
 				</a>
 			</div>
-			{% if edit %}
-				<span class="bgImg-edit">
+			<span class="bgImg-edit">
+				<span  data-toggle="tooltip" data-placement="top" title="les vues" class="badge badge-danger">
+					<i class="fas fa-eye" aria-hidden="true"></i>
+					{{provider.viewer}}
+				</span>
+				<span  data-toggle="tooltip" data-placement="top" title="total des commandes" class="badge badge-warning">
+					<i class="fas fa-shopping-cart" aria-hidden="true"></i>
+					{{commands|round}}
+				</span>
+				<span  data-toggle="tooltip" data-placement="top" title="moyenne des prix des produits" class="badge badge-info">
+					<i class="fas fa-utensils" aria-hidden="true"></i>
+					{{avgPriceMeal|round}} XPF
+				</span>
+				{% if edit %}
 					<a href="" data-toggle="modal" data-target="#providerModal">
 						{{"changer le fond"}}
 						<i class="fas fa-edit fa-2x" aria-hidden="true"></i>
 					</a>
-				</span>
-			{% endif %}
+				{% endif %}
+			</span>
 		</section>
 
 		{% if menus|length > 0 %}
@@ -154,9 +169,6 @@
 				{% endfor %}
 			</ul>
 		</section>
-		<div class="parallax0 parallax100" style="background-image: url({{asset('assets/images/bg-cover-video-02.jpg')}});">
-			<div class="overlay0-parallax t-center size33"></div>
-		</div>
 		{% if meals|length > 0 %}
 			<section id="meal-section" class="section-lunch bg1-pattern p-t-90 p-b-40">
 				<span class="tit2 t-center d-flex justify-content-center m-b-35">
@@ -282,7 +294,6 @@
 			position: absolute;
 			bottom: 10px;
 			right: 10px;
-
 		}
 	</style>
 {% endblock %}

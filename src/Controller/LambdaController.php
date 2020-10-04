@@ -56,6 +56,7 @@ class LambdaController extends AbstractController
                 ->setLambda($lambda)
                 ->setRoles($roles)
                 ->setValidate(true)
+                ->setConfirmationEmail(rtrim(strtr(base64_encode(random_bytes(32)), '+/', '-_'), '='))
             ;
 
             $entityManager->persist($user);

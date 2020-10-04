@@ -1,45 +1,80 @@
-{% extends 'base/provider.html.twig' %}
+{% extends 'base.html.twig' %}
 
-{% block title %}Provider index{% endblock %}
+{% set title_ = "Les Fournisseurs" | trans({}, 'nav') %}
+{% set half_first = providers|slice(0, providers|length / 2) %}
+{% set half_second = providers|slice(providers|length / 2) %}
 
-{% block body %}
-    <h1>Provider index</h1>
+{% block title %}
+	{{ title_ }}
+{% endblock %}
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Code</th>
-                <th>Url</th>
-                <th>CreatedAt</th>
-                <th>Opentime</th>
-                <th>Closetime</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for provider in providers %}
-            <tr>
-                <td>{{ provider.id }}</td>
-                <td>{{ provider.name }}</td>
-                <td>{{ provider.code }}</td>
-                <td>{{ provider.url }}</td>
-                <td>{{ provider.createdAt ? provider.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ provider.opentime ? provider.opentime|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ provider.closetime ? provider.closetime|date('Y-m-d H:i:s') : '' }}</td>
-                <td>
-                    <a href="{{ path('provider_show', {'id': provider.id}) }}">show</a>
-                    <a href="{{ path('provider_edit', {'id': provider.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="8">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+{% block bodyfull %}
+	<div class="provider">
+		<section class="bg-title-page flex-c-m p-t-160 p-b-80 p-l-15 p-r-15" style="background-image: url({{asset('assets/images/bg-title-page-01.jpg')}});">
+			<h2 class="tit6 t-center">
+				{{ title_ }}
+			</h2>
+		</section>
 
-    <a href="{{ path('provider_new') }}">Create new</a>
+		<section id="provider-section" class="section-lunch bgwhite">
+			<div class="container">
+				<div class="pagination mt-1 justify-content-center p-t-108 p-b-20">
+					{{ knp_pagination_render(providers, null, {}, {size: 'small', rounded: true}) }}
+				</div>
+				<div class="row">
+					<div class="col-md-6 col-lg-6 m-l-r-auto">
+						{% for provider in half_first %}
+							<div class="provider-card">
+								<div class="blo3 flex-w flex-col-l-sm m-b-30 provider-hover" data-href="{{path('provider_show', {id: provider.id, slug: provider.slug})}}">
+									<div class="pic-blo3 size20 bo-rad-10 hov-img-zoom m-r-28">
+										<a href="{{path('provider_show', {id: provider.id, slug: provider.slug})}}"><img src="{{ provider.bgImg }}" alt="PROVIDER-BGIMG"></a>
+									</div>
+
+									<div class="text-blo3 size21 flex-col-l-m">
+										<a href="{{path('provider_show', {id: provider.id, slug: provider.slug})}}" class="txt21 m-b-3">
+											{{ provider.name }}
+										</a>
+
+										<div class="txt23">
+											{{ provider.description | truncate(40) | raw }}
+										</div>
+									</div>
+								</div>
+							</div>
+						{% endfor %}
+					</div>
+
+					<div class="col-md-6 col-lg-6 m-l-r-auto">
+						{% for provider in half_second %}
+							<div class="provider-card">
+								<div class="blo3 flex-w flex-col-l-sm m-b-30 provider-hover" data-href="{{path('provider_show', {id: provider.id, slug: provider.slug})}}">
+									<div class="pic-blo3 size20 bo-rad-10 hov-img-zoom m-r-28">
+										<a href="{{ path('provider_show', {id: provider.id, slug: provider.slug}) }}"><img src="{{ provider.bgImg }}" alt="PROVIDER-BGIMG"></a>
+									</div>
+
+									<div class="text-blo3 size21 flex-col-l-m">
+										<a href="{{ path('provider_show', {id: provider.id, slug: provider.slug}) }}" class="txt21 m-b-3">
+											{{ provider.name }}
+										</a>
+
+										<div class="txt23">
+											{{ provider.description | truncate(40) | raw }}
+										</div>
+									</div>
+								</div>
+							</div>
+						{% endfor %}
+					</div>
+				</div>
+				<div class="pagination mt-1 justify-content-center p-t-20 p-b-70">
+					{{ knp_pagination_render(providers, null, {}, {size: 'small', rounded: true}) }}
+				</div>
+			</div>
+		</section>
+	</div>
+{% endblock %}
+
+{% block javascripts %}
+	<script src="{{asset('assets/custom/js/item-click-path.js')}}"></script>
+	<script src="{{asset('assets/custom/js/provider/app-pagination.js')}}"></script>
 {% endblock %}

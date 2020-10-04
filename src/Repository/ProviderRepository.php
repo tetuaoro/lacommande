@@ -19,6 +19,35 @@ class ProviderRepository extends ServiceEntityRepository
         parent::__construct($registry, Provider::class);
     }
 
+    public function getAVGPriceMeal(Provider $provider)
+    {
+        return $this->createQueryBuilder('p')
+            ->select('AVG(m.price)')
+            ->leftJoin('p.meals', 'm')
+            ->where('p = :id')
+            ->setParameter('id', $provider->getId())
+            ->getQuery()
+            ->getSingleScalarResult()
+        ;
+    }
+
+    public function getTotalCommand(Provider $provider)
+    {
+        return $this->createQueryBuilder('p')
+            ->select('COUNT(c)')
+            ->leftJoin('p.commands', 'c')
+            ->where('p = :id')
+            ->setParameter('id', $provider->getId())
+            ->getQuery()
+            ->getSingleScalarResult()
+        ;
+    }
+
+    public function paginator()
+    {
+        return $this->getAllowProvider()->getQuery();
+    }
+
     public function findLastProvider($how = 3)
     {
         return $this->getAllowProvider()

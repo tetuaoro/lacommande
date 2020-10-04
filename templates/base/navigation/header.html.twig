@@ -24,17 +24,21 @@
 										{{ "Les plats" | trans({}, 'nav') }}</a>
 								</li>
 								<li>
+									<a class="chef-parent" href="{{path('provider_index') }}">
+										<span class="chef-svg chef-icon"></span>
+										{{ "Fournisseurs" | trans({}, 'nav') }}</a>
+								</li>
+
+								<li>
+									<a href="{{path('command_cart') }}">
+										<i class="fas fa-shopping-cart" aria-hidden="true"></i>
+										{{ "Mon panier" | trans({}, 'nav') }}</a>
+								</li>
+								<li>
 									<a href="{{path('contact_new') }}">
 										<i class="fas fa-address-book" aria-hidden="true"></i>
 										Contact</a>
 								</li>
-								{% if app.debug %}
-									<li>
-										<a href="{{path('test_index') }}">
-											<i class="fas fa-vial" aria-hidden="true"></i>
-											Test</a>
-									</li>
-								{% endif %}
 							</ul>
 						</nav>
 					</div>
@@ -126,14 +130,6 @@
 					</a>
 				</li>
 			{% endif %}
-			{% if app.user %}
-				<li class="t-center m-b-13">
-					<a class="txt19" href="{{path('app_logout')}}">
-						<i class="fas fa-sign-out-alt" aria-hidden="true"></i>
-						{{"Logout"|trans({}, 'nav')}}
-					</a>
-				</li>
-			{% endif %}
 			<hr class="w-50 mx-auto">
 			<li class="t-center m-b-13">
 				<a href="{{path('app_index')}}" class="txt19">
@@ -145,17 +141,32 @@
 					<i class="fas fa-utensils" aria-hidden="true"></i>
 					{{ "Les plats" | trans({}, 'nav') }}</a>
 			</li>
+			<li class="t-center m-b-13">
+				<a class="chef-parent txt19" href="{{path('provider_index') }}">
+					<span class="chef-svg chef-icon-o"></span>
+					{{ "Fournisseurs" | trans({}, 'nav') }}</a>
+			</li>
+			<li class="t-center m-b-13">
+				<a href="{{path('command_cart') }}" class="txt19">
+					<i class="fas fa-shopping-cart" aria-hidden="true"></i>
+					{{ "Mon panier" | trans({}, 'nav') }}</a>
+			</li>
 			<li class="t-center m-b-33">
 				<a href="{{path('contact_new')}}" class="txt19">
 					<i class="fas fa-address-book" aria-hidden="true"></i>
 					Contact</a>
 			</li>
 
-			<li class="t-center">
-				<a href="" class="btn3 flex-c-m size13 txt11 trans-0-4 m-l-r-auto">
-					{{ "Réservation" | trans({}, 'nav') }}
-				</a>
-			</li>
+
+			{% if app.user %}
+				<hr class="w-50 mx-auto">
+				<li class="t-center m-b-13">
+					<a class="txt19" href="{{path('app_logout')}}">
+						<i class="fas fa-sign-out-alt" aria-hidden="true"></i>
+						{{"Logout"|trans({}, 'nav')}}
+					</a>
+				</li>
+			{% endif %}
 		</ul>
 	</aside>
 

@@ -8,12 +8,17 @@
 <footer class="bg1">
 	<div class="container p-t-40 p-b-70">
 			<div class="row">
-				<div class="col-sm-6 col-md-4 p-t-50">
+				<div id="contact" class="col-sm-6 col-md-4 p-t-50">
 					<h4 class="txt13 m-b-33">
 						Contact
 					</h4>
 		{% if controller_name is defined and controller_name == 'provider:show' %}
 					<ul class="m-b-70">
+						<li class="txt14 m-b-14">
+							<i class="fa fa-user fs-16 dis-inline-block size19" aria-hidden="true"></i>
+							{{provider.name}}
+						</li>
+
 						<li class="txt14 m-b-14">
 							<i class="fa fa-phone fs-16 dis-inline-block size19" aria-hidden="true"></i>
 							{{provider.user.phone}}
