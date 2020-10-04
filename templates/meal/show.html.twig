@@ -46,7 +46,7 @@
 					<div class="blo5 pos-relative p-t-80 command-submit">
 						<div class="pic-blo5 size40 bo4 wrap-cir-pic hov-img-zoom ab-c-t">
 							<a target="_blank" href="{{ meal.img }}" data-lightbox="meal-show" data-title="{{ meal.name ~ ' souvoureux...' }}">
-								<img src="{{ meal.img }}" title="Agrandir l'image" alt="IGM-MEAL">
+								<img style="min-height:160px;" src="{{ meal.img }}" title="Agrandir l'image" alt="IGM-MEAL">
 							</a>
 							<a class="d-none" target="_blank" href="{{ qr_code_url(meal.bitly.link, {size:1920}) }}" data-lightbox="meal-show" data-title="{{ 'code qr pour ' ~ meal.name }}">
 								<img alt="IGM-MEAL" src=""/>
@@ -55,6 +55,7 @@
 						<div class="text-blo5 size34 t-center bo-rad-10 p-t-90 p-l-35 p-r-35 p-b-30">
 
 							<div class="btn-group-meal">
+
 								<a data-toggle="collapse" href="#collapseCommand" role="button" aria-expanded="false" aria-controls="collapseCommand">
 									<i class="fas fa-shopping-cart" aria-hidden="true" title="{% if meal_view %}Vous ne pouvez pas commander votre propre produit !{% else %}{{'Ajouter au panier' | trans}}{% endif %}"></i>
 								</a>
@@ -66,6 +67,8 @@
 								</a>
 							</div>
 
+							<div></div>
+
 							{% if false == meal_view %}
 								<div class="collapse" id="collapseCommand">
 									<div class="border border-app rounded p-2">
@@ -73,22 +76,28 @@
 											<input type="hidden" name="meal_price" value="{{meal.price}}">
 											{{form_start(form)}}
 											{{form_rest(form)}}
-											<div class="alert alert-info" role="alert">
-												<p>
-													stock disponible :
+											<div class="alert" role="alert">
+												<span class="badge badge-success py-1" title="stock restant">
+													<i class="fas fa-layer-group mr-1" aria-hidden="true"></i>
+													stock
 													{{meal.stock}}
-												</p>
-												<p>
-													min livraison :
-													{{meal.delivery ? meal.provider.minPriceDelivery ~ " XPF" : "à récupérer sur place"}}
-													<strong>
-														{{meal.provider.city}}
-													</strong>
-												</p>
-												<p>
-													<a href="{{path('provider_show', {id:meal.provider.id,slug:meal.provider.slug})}}#openHours">prochaine overture :
-														{{openTime|date('d/m/y H:i')}}</a>
-												</p>
+												</span>
+												<span class="badge badge-danger py-1" title="minimum de livraison">
+													{% if meal.delivery %}
+														<i class="fas fa-truck mr-1" aria-hidden="true"></i>
+														<i class="fas fa-less-than-equal mr-2" aria-hidden="true"></i>
+														{{meal.provider.minPriceDelivery}}
+														XPF
+													{% else %}
+														à récupérer sur place
+													{% endif %}
+												</span>
+												<span class="badge badge-info py-1" title="prochaine ouverture">
+													<i class="fas fa-clock mr-2" aria-hidden="true"></i>
+													<a class="link-a" href="{{path('provider_show', {id:meal.provider.id,slug:meal.provider.slug})}}#openHours">
+														{{openTime|date('d/m/y H:i')}}
+													</a>
+												</span>
 											</div>
 											<span class="prices text-left d-block">
 												<small class="text-muted"></small>
@@ -125,9 +134,6 @@
 
 							<div class="rte t-center">
 								{{ meal.description | raw }}
-							</div>
-							<div class="rte text-justify">
-								{{ meal.recipe | raw }}
 							</div>
 						</div>
 					</div>

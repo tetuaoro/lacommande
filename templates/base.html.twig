@@ -40,9 +40,9 @@
 			<link rel="stylesheet" type="text/css" href="{{asset('assets/css/main.css') }}">
 			<link rel="stylesheet" type="text/css" href="{{asset('assets/css/util.css') }}">
 			<link rel="stylesheet" type="text/css" href="{{asset('assets/custom/css/app-style.css') }}">
-			
+
 			{% block stylesheets %}{% endblock %}
-			
+
 		</head>
 		<body class="ch-cookie-consent-body{% if controller_name is defined and controller_name == 'app' %} animsition{% endif %}{% if modalOpen is defined and modalOpen == 'open' %} modal-open{% endif %}">
 			{% block header %}
@@ -66,20 +66,33 @@
 				</div>
 			{% endblock %}
 
-			<div id="flash" class="flash-js text-break">
-				{% for label, messages in app.flashes %}
-					{% for message in messages %}
-						<div class="alert alert-{{label}} shadow" role="alert">
-							{% if label == 'danger' %}
-								<i class="fas fa-exclamation-triangle mr-1" aria-hidden="true"></i>
-							{% else %}
-								<i class="far fa-thumbs-up mr-1" aria-hidden="true"></i>
-							{% endif %}
+			{% for label, messages in app.flashes %}
+				{% for message in messages %}
+					<div id="flash" class="toast" style="opacity:1;" role="alert" aria-live="assertive" aria-atomic="true">
+						<div class="toast-header">
+							<svg class="bd-placeholder-img rounded mr-2" width="20" height="20" xmlns="http://www.w3.org/2000/svg" preserveaspectratio="xMidYMid slice" focusable="false" role="img">
+								<rect width="100%" height="100%" fill="{% if label == 'danger' %}#dc3545{% else %}#28a745{% endif %}"></rect>
+							</svg>
+							<strong class="mr-auto">
+								{% if label == 'danger' %}
+									<i class="fas fa-exclamation-triangle mr-1" aria-hidden="true"></i>
+									Erreur
+								{% else %}
+									<i class="far fa-thumbs-up mr-1" aria-hidden="true"></i>
+									Succèss
+								{% endif %}
+							</strong>
+							<small>maintenant</small>
+							<button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+								<span aria-hidden="true">×</span>
+							</button>
+						</div>
+						<div class="toast-body">
 							{{ message }}
 						</div>
-					{% endfor %}
+					</div>
 				{% endfor %}
-			</div>
+			{% endfor %}
 
 			<script src="https://kit.fontawesome.com/9132b45b0a.js" crossorigin="anonymous"></script>
 			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -91,13 +104,12 @@
 			<script src="{{asset('assets/vendor/custom/js/anime.min.js')}}"></script>
 			<script src="{{asset('assets/vendor/custom/js/loadingoverlay.min.js')}}"></script>
 			<script src="{{asset('assets/custom/js/app-anime.js')}}"></script>
-			
+
 			{% block javascripts %}{% endblock %}
-			
+
 			<script src="{{asset('assets/js/main.js')}}"></script>
 			<script src="{{asset('assets/custom/js/app.js')}}"></script>
 
-			
 
 			{% if chcookieconsent_isCookieConsentSavedByUser() == false %}
 				{{ render(path('ch_cookie_consent.show_if_cookie_consent_not_set')) }}

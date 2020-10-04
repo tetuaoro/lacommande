@@ -28,7 +28,6 @@ export default function Meal() {
         if (form_el) {
             bsCustomFileInput.init();
             $(form_el).find("[id$='description']").richTextEditor();
-            $(form_el).find("[id$='recipe']").richTextEditor();
             $(form_el).find(".tags-input").select2({
                 tags: true,
                 width: '100%',

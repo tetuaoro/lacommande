@@ -40,13 +40,6 @@ class MealType extends AbstractType
                     'class' => 'richTextEditor-hide',
                 ],
             ])
-            ->add('recipe', TextareaType::class, [
-                'translation_domain' => 'form',
-                'required' => false,
-                'attr' => [
-                    'class' => 'richTextEditor-hide',
-                ],
-            ])
             ->add('image', FileType::class, [
                 'translation_domain' => 'form',
                 'required' => true,
@@ -68,10 +61,6 @@ class MealType extends AbstractType
                         'maxSize' => '5M',
                         'minWidth' => '480',
                         'minHeight' => '480',
-                        'maxWidth' => '1920',
-                        'maxHeight' => '1920',
-                        'allowLandscape' => false,
-                        'allowPortrait' => false,
                     ]),
                 ],
             ])
@@ -110,10 +99,6 @@ class MealType extends AbstractType
                                 'maxSize' => '5M',
                                 'minWidth' => '480',
                                 'minHeight' => '480',
-                                'maxWidth' => '1920',
-                                'maxHeight' => '1920',
-                                'allowLandscape' => false,
-                                'allowPortrait' => false,
                             ]),
                         ],
                     ])

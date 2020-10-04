@@ -61,6 +61,7 @@ class UserFixtures extends Fixture
                     ->setLinktwitter('https://www.twitter.com')
                     ->setLinkinsta('https://www.instagram.com')
                     ->setCreatedAt($user->getCreatedAt())
+                    ->setViewer(0)
                 ;
                 $user->setRoles($roles)
                     ->setProvider($provider)
@@ -108,7 +109,8 @@ class UserFixtures extends Fixture
             ->setLinkfb('https://www.facebook.com')
             ->setLinktwitter('https://www.twitter.com')
             ->setLinkinsta('https://www.instagram.com')
-        ;
+            ->setViewer(0)
+            ;
         $user->setRoles($roles)
             ->setProvider($provider)
         ;

@@ -23,7 +23,7 @@ Confirmer le mot de passe: Confirmer le mot de passe
 'ex: je suis un fournisseur': 'ex: je suis un fournisseur'
 Nom et Prénom: Nom et Prénom
 Téléphone: Téléphone
-Email p: Email de contact
+Email p: Email de contact client
 N° Portable: N° Portable
 87XXXXXX ou 89XXXXXX: 87XXXXXX ou 89XXXXXX
 
@@ -37,7 +37,7 @@ Name: Nom
 Username: Nom d'utilisateur
 Password: Mot de passe
 
-tel: Téléphone de contact
+tel: Téléphone de contact client
 +68987XXXXXX: +68987XXXXXX
 pk18-Paea-Papara: pk18-Paea-Papara
 city: Ville de livraison

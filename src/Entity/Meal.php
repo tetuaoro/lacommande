@@ -41,12 +41,6 @@ class Meal
      * @Assert\Length(min=20, minMessage="20 caractères minimum")
      * @ORM\Column(type="text", nullable=true)
      */
-    private $recipe;
-
-    /**
-     * @Assert\Length(min=20, minMessage="20 caractères minimum")
-     * @ORM\Column(type="text", nullable=true)
-     */
     private $description;
 
     /**

@@ -24,7 +24,7 @@ Contactez-nous: Contactez-nous
 Commander: Commander
 AddToCart: Ajouter au panier
 
-'image : carré, 1920px max et 480 min': 'image : carré, 1920px max et 480 min'
+'image : carré, 1920px max et 480 min': 'image : 480px min'
 'ex: information': 'ex: information'
 une image carré: une image carré
 
@@ -55,7 +55,7 @@ Page Twitter: Page Twitter
 le lien vers votre twitter: le lien vers votre twitter
 Bannière: Bannière
 une image 1900x545: une image 1900x545
-"image : min 1900x545": "image : min 1900x545"
+"image : min 1900x545": "image : 1900px min"
 
 Nom: Nom
 Meals: Assiettes

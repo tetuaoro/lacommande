@@ -1,13 +1,13 @@
 {{form_start(form)}}
-		<span class="txt5 m-10">
-			{{ "Abonnement à la newletter" | trans }}
-		</span>
-		<div class="pos-relative txt10 m-10">
-{{form_rest(form)}}
-			<i class="fa fa-envelope py-auto ab-r-m m-r-18" aria-hidden="true"></i>
-		</div>
-		<!-- Button3 -->
-		<button type="submit" class="btn3 flex-c-m size18 txt11 trans-0-4 m-10">
-			{{ "S'abonner" | trans }}
-		</button>
+<span class="txt5 m-10">
+	{{ "Abonnement à la newletter" | trans }}
+</span>
+<div class="pos-relative txt10">
+	{{form_widget(form.email)}}
+	<i class="fa fa-envelope ab-r-m m-r-18" aria-hidden="true"></i>
+</div>
+<!-- Button3 -->
+<button type="submit" class="btn3 flex-c-m size18 txt11 trans-0-4 m-10">
+	{{ "S'abonner" | trans }}
+</button>
 {{form_end(form)}}

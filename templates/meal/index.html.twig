@@ -25,7 +25,7 @@
 					<div class="col-md-6 col-lg-6 m-l-r-auto">
 						{% for meal in half_first %}
 							<div class="meal-card">
-								<div class="blo3 flex-w flex-col-l-sm m-b-30 meal-hover" data-href="{{path('meal_show', {id: meal.id, slug: meal.slug})}}">
+								<div class="blo3 flex-w m-b-30 meal-hover" data-href="{{path('meal_show', {id: meal.id, slug: meal.slug})}}">
 									<div class="pic-blo3 size20 bo-rad-10 hov-img-zoom m-r-28">
 										<a href="{{path('meal_show', {id: meal.id, slug: meal.slug})}}"><img src="{{ meal.img }}" alt="IMG-LUNCH"></a>
 									</div>
@@ -51,7 +51,7 @@
 					<div class="col-md-6 col-lg-6 m-l-r-auto">
 						{% for meal in half_second %}
 							<div class="meal-card">
-								<div class="blo3 flex-w flex-col-l-sm m-b-30 meal-hover" data-href="{{path('meal_show', {id: meal.id, slug: meal.slug})}}">
+								<div class="blo3 flex-w m-b-30 meal-hover" data-href="{{path('meal_show', {id: meal.id, slug: meal.slug})}}">
 									<div class="pic-blo3 size20 bo-rad-10 hov-img-zoom m-r-28">
 										<a href="{{ path('meal_show', {id: meal.id, slug: meal.slug}) }}"><img src="{{ meal.img }}" alt="IMG-LUNCH"></a>
 									</div>

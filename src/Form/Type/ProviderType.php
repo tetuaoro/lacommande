@@ -71,7 +71,6 @@ class ProviderType extends AbstractType
                     new Image([
                         'maxSize' => '5M',
                         'minWidth' => '1900',
-                        'minHeight' => '545',
                     ]),
                 ],
             ])
@@ -102,7 +101,6 @@ class ProviderType extends AbstractType
                             new Image([
                                 'maxSize' => '5M',
                                 'minWidth' => '1900',
-                                'minHeight' => '545',
                             ]),
                         ],
                     ])

@@ -32,11 +32,8 @@ class TestController extends AbstractController
      */
     public function flash(string $label)
     {
-        if ('success' == $label) {
-            $this->addFlash('success', 'mon message test.');
-        } elseif ('danger' == $label) {
-            $this->addFlash('danger', 'mon message test.');
-        }
+        $msg = 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Consequuntur recusandae libero optio iusto tenetur cum nulla accusantium ipsum dicta laudantium eligendi, delectus, culpa tempora, natus laboriosam cupiditate expedita eum magni.';
+        $this->addFlash($label, $msg);
 
         return $this->redirectToRoute('test_index');
     }

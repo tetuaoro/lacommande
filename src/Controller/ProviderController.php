@@ -51,7 +51,7 @@ class ProviderController extends AbstractController
             ]);
         }
 
-        if (!$security->isGranted('USER_MANAGE', $this->getUser())) {
+        if (!$security->isGranted('ROLE_PROVIDER')) {
             $provider->plusOneViewer();
             $this->getDoctrine()->getManager()->flush();
         }

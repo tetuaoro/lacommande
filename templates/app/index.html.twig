@@ -25,8 +25,9 @@
 												{{ meal.name }}
 											</a>
 
-											<span class="txt29">
-												({{ "commandé " ~ meal.totalcommand | number_format ~ " fois" }})
+											<span class="txt14" data-toggle="tooltip" data-placement="top" title="total des commandes">
+												<i class="fas fa-shopping-cart mr-2" aria-hidden="true"></i>
+												{{meal.totalcommand|number_format}}
 											</span>
 										</li>
 									{% endfor %}

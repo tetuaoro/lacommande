@@ -8,7 +8,19 @@
 <hr class="mx-auto size28 bg-dark mb-lg-5 mb-md-3 mb-2">
 <div class="row">
 	<div class="col-md">
-		{{ form_row(form.ntahiti, {'label': false, 'attr': {'placeholder': 'N° T.A.H.I.T.I'}}) }}
+		<div>
+			<div class="input-group mb-2">
+				{{ form_errors(form.ntahiti) }}
+				{{ form_widget(form.ntahiti, {'attr': {'placeholder': 'N° T.A.H.I.T.I'}}) }}
+				<div class="input-group-prepend">
+					<div class="input-group-text border-0 bg-transparent position-relative" style="right:1.5rem;">
+						<button type="button" class="" data-toggle="tooltip" title="Vous n'êtes pas une entreprise ? Entre le n° ARII : 9999999.">
+							<i class="fas fa-info" aria-hidden="true"></i>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 	<div class="col-md">
 		{{ form_row(form.phone, {'label': false, 'help': '+68987XXXXXX'}) }}

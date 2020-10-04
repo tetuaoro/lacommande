@@ -11,6 +11,7 @@ use App\Repository\UserRepository;
 use App\Service\BitlyService;
 use App\Service\Mailer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -39,7 +40,7 @@ class UserController extends AbstractController
     /**
      * @Route("/new", name="new", methods={"GET","POST"})
      */
-    public function new(Request $request, BitlyService $bitlyService, Mailer $mailer, UserPasswordEncoderInterface $password): Response
+    public function new(Request $request, UserRepository $userRepository, BitlyService $bitlyService, Mailer $mailer, UserPasswordEncoderInterface $password): Response
     {
         $this->denyAccessUnlessGranted('IS_ANONYMOUS');
 
@@ -47,48 +48,55 @@ class UserController extends AbstractController
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
+        if ($form->isSubmitted()) {
+            $ntahiti = $form->get('ntahiti')->getData();
+            if ('9999999' != $ntahiti && $userRepository->findOneBy(['ntahiti' => $ntahiti])) {
+                $form->get('ntahiti')->addError(new FormError('Ce numéro tahiti est déjà attribué !'));
+            }
 
-            $provider = new Provider();
-            $provider->setName($user->getName())
-                ->setOpenHours([
-                    'monday' => ['09:00-12:00', '13:00-18:00'],
-                    'tuesday' => ['09:00-12:00', '13:00-18:00'],
-                    'wednesday' => ['09:00-12:00'],
-                    'thursday' => ['09:00-12:00', '13:00-18:00'],
-                    'friday' => ['09:00-12:00', '13:00-20:00'],
-                    'saturday' => ['09:00-12:00', '13:00-16:00'],
-                    'sunday' => [],
-                ])
-                ->setMinPriceDelivery(2500)
-                ->setCity($form->get('city')->getData())
-                ->setViewer(0)
+            if ($form->isValid()) {
+                $entityManager = $this->getDoctrine()->getManager();
+
+                $provider = new Provider();
+                $provider->setName($user->getName())
+                    ->setOpenHours([
+                        'monday' => ['09:00-12:00', '13:00-18:00'],
+                        'tuesday' => ['09:00-12:00', '13:00-18:00'],
+                        'wednesday' => ['09:00-12:00'],
+                        'thursday' => ['09:00-12:00', '13:00-18:00'],
+                        'friday' => ['09:00-12:00', '13:00-20:00'],
+                        'saturday' => ['09:00-12:00', '13:00-16:00'],
+                        'sunday' => [],
+                    ])
+                    ->setMinPriceDelivery(2500)
+                    ->setCity($form->get('city')->getData())
+                    ->setViewer(0)
+                    ;
+
+                $roles = $user->getRoles();
+                $roles[] = 'ROLE_PROVIDER';
+                // password
+                $user->setPassword($password->encodePassword($user, $user->getPassword()))
+                    ->setRoles($roles)
+                    ->setProvider($provider)
+                    ->setValidate(true)
+                    ->setConfirmationEmail(rtrim(strtr(base64_encode(random_bytes(32)), '+/', '-_'), '='))
                 ;
 
-            $roles = $user->getRoles();
-            $roles[] = 'ROLE_PROVIDER';
-            // password
-            $user->setPassword($password->encodePassword($user, $user->getPassword()))
-                ->setRoles($roles)
-                ->setProvider($provider)
-                ->setValidate(true)
-                ->setConfirmationEmail(rtrim(strtr(base64_encode(random_bytes(32)), '+/', '-_'), '='))
-            ;
+                $entityManager->persist($user);
+                $entityManager->flush();
 
-            $entityManager->persist($user);
-            $entityManager->flush();
+                $provider->setBitly(
+                    $bitlyService->bitThis($this->generateUrl('provider_show', ['id' => $provider->getId(), 'slug' => $provider->getSlug()], UrlGenerator::ABSOLUTE_URL), $provider->getName())
+                );
+                $entityManager->flush();
 
-            $provider->setBitly(
-                $bitlyService->bitThis($this->generateUrl('provider_show', ['id' => $provider->getId(), 'slug' => $provider->getSlug()], UrlGenerator::ABSOLUTE_URL), $provider->getName())
-            );
-            $entityManager->flush();
+                $this->dispatchMessage(new SendEmailMessage(1, $user->getId(), 1, 1));
 
-            $this->dispatchMessage(new SendEmailMessage(1, $user->getId(), 1, 1));
+                $this->addFlash('success', 'L\'utilisateur a bien été créé. Veuillez confirmer votre adresse mail pour bénéficier des avantages sur Arii Food.');
 
-            $this->addFlash('success', 'L\'utilisateur a bien été créé. Veuillez confirmer votre adresse mail pour bénéficier des avantages sur Arii Food.');
-
-            return $this->redirectToRoute('app_login');
+                return $this->redirectToRoute('app_login');
+            }
         }
 
         return $this->render('user/new.html.twig', [

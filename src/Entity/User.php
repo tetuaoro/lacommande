@@ -15,7 +15,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @UniqueEntity("email", message ="Vous êtes déjà enregistré(e) ?")
  * @UniqueEntity("username", message ="Ce nom d'utilisateur est déjà utilisé.")
  * @UniqueEntity("name", message ="Ce nom est déjà utilisé.")
- * @UniqueEntity("ntahiti", message ="Ce numéro tahiti est déjà utilisé.")
  */
 class User implements UserInterface
 {

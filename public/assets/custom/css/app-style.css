@@ -128,7 +128,8 @@ label.required::after {
   position: fixed;
   bottom: 15px;
   left: 15px;
-  max-width: 300px;
+  min-width: 300px;
+  background-color: var(--appcolor1);
 }
 
 /* // Medium devices (tablets, 768px and up) */
@@ -136,8 +137,6 @@ label.required::after {
   #flash {
     left: 50%;
     transform: translateX(-50%);
-    max-width: max-content;
-    min-width: 300px;
   }
 }
 
@@ -194,7 +193,7 @@ a.cart-items {
   background-color: var(--appcolor1);
 }
 
-/* chef icon */
+/* Chef icon */
 .chef-svg {
   display: inline-block;
   width: 14px;
@@ -202,11 +201,26 @@ a.cart-items {
   background-size: cover;
 }
 .chef-icon {
-  background-image: url("../fonts/chef-white.svg")
+  background-image: url("../fonts/chef-white.svg");
 }
 .chef-icon-o {
-  background-image: url("../fonts/chef.svg")
+  background-image: url("../fonts/chef.svg");
 }
-.chef-parent:hover .chef-icon {
-  background-image: url("../fonts/chef-app.svg")
+.chef-parent:hover .chef-icon,
+.chef-parent:hover .chef-icon-o {
+  background-image: url("../fonts/chef-app.svg");
+}
+
+/* Badge link */
+.link-a {
+  font-family: none;
+  font-weight: 700;
+  font-size: 0.76rem;
+  line-height: 1;
+  color: inherit;
+  margin: 0;
+  transition: none;
+  -webkit-transition: none;
+  -o-transition: none;
+  -moz-transition: none;
 }
