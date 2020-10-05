@@ -17,6 +17,6 @@ export const COMMANDCUSTOMMESS = "/api/command/message-";
 
 export const SUBNEW = "/api/sub/new";
 
-export const NOTIFICATIONS = "/api/notification";
+export const NOTIFICATIONS = "/api/notification/";
 export const NOTIFICATIONCOUNT = "/api/notification/count";
 export const NOTIFICATIONDELETE = "/api/notification/delete-notif-";
