@@ -7,6 +7,7 @@ use App\Entity\User;
 use App\Form\Type\RegisterType;
 use App\Form\Type\UserType;
 use App\Message\SendEmailMessage;
+use App\Repository\NotificationRepository;
 use App\Repository\UserRepository;
 use App\Service\BitlyService;
 use App\Service\Mailer;
@@ -40,7 +41,7 @@ class UserController extends AbstractController
     /**
      * @Route("/new", name="new", methods={"GET","POST"})
      */
-    public function new(Request $request, UserRepository $userRepository, BitlyService $bitlyService, Mailer $mailer, UserPasswordEncoderInterface $password): Response
+    public function new(Request $request, UserRepository $userRepository, NotificationRepository $notificationRepository, BitlyService $bitlyService, Mailer $mailer, UserPasswordEncoderInterface $password): Response
     {
         $this->denyAccessUnlessGranted('IS_ANONYMOUS');
 
@@ -71,6 +72,7 @@ class UserController extends AbstractController
                     ->setMinPriceDelivery(2500)
                     ->setCity($form->get('city')->getData())
                     ->setViewer(0)
+                    ->addNotification($notificationRepository->find(1))
                     ;
 
                 $roles = $user->getRoles();

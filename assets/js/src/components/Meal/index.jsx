@@ -125,7 +125,7 @@ export default function Meal() {
                 <i className="fas fa-plus fa-2x" aria-hidden="true"></i>
             </Button>
             <Fragment>
-                {meals.items > 0 && meals.page > 0 &&
+                {meals.totalPage > 1 && meals.page > 0 &&
                     <Pagination className="d-flex justify-content-center mb-2">
                         {meals.page > 1 &&
                             <Fragment>

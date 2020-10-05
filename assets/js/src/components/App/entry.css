@@ -15,3 +15,7 @@
   bottom: 1rem;
   z-index: 1000;
 }
+
+.btn:focus {
+  box-shadow: none;
+}

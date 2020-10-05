@@ -54,12 +54,18 @@ function AppTable({ compare = "=", orderBy = "DESC" }) {
 
         fetchCommands(form);
 
-        const si = setInterval(() => {
-            fetchBackG(form);
-        }, 30000);
+        var si;
+
+        if (compare == "=") {
+            si = setInterval(() => {
+                fetchBackG(form);
+            }, 30000);
+        }
 
         return () => {
-            clearInterval(si);
+            if (compare == "=") {
+                clearInterval(si);
+            }
         }
     }, []);
 
@@ -157,7 +163,7 @@ function AppTable({ compare = "=", orderBy = "DESC" }) {
             <Table hover responsive>
                 <thead>
                     <tr>
-                        <th scope="col" className="border-top-0">#</th>
+                        <th scope="col" className="border-top-0"></th>
                         <th scope="col" className="border-top-0">Nom</th>
                         <th scope="col" className="border-top-0">Action</th>
                     </tr>

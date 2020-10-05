@@ -34,7 +34,8 @@ const App = React.createContext({
     setLoading: () => { },
     setModalContent: () => { },
     setShow: () => { },
-    setModalTitle: () => { }
+    setModalTitle: () => { },
+    setBadge: () => { },
 });
 
 export { SFContext, App };

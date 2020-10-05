@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import dompurify from 'dompurify';
-import { Alert, Col, Container, Modal, Nav, Row, Table } from 'react-bootstrap';
+import { Alert, Badge, Col, Container, Modal, Nav, Row, Table } from 'react-bootstrap';
 import { App as AppContext } from '../../stores/context';
+import * as API from '../../stores/api';
 import Command from '../Command';
 import Meal from '../Meal';
 import Menu from '../Menu';
@@ -21,6 +22,7 @@ export default function App() {
     const [content, setModalContent] = useState("");
     const [modalTitle, setModalTitle] = useState("");
     const [show, setShow] = useState(false);
+    const [badges, setNotifs] = useState(0);
 
     useEffect(() => {
         if (loading[0]) {
@@ -36,6 +38,17 @@ export default function App() {
             setError(false);
         }
     }, [content]);
+
+    useEffect(() => {
+        fetchNotifs();
+        const si = setInterval(() => {
+            fetchNotifs();
+        }, 60000);
+
+        return () => {
+            clearInterval(si);
+        }
+    }, []);
 
     const clear = () => {
         if (show) {
@@ -66,6 +79,21 @@ export default function App() {
         }
     }
 
+    const fetchNotifs = () => {
+        fetch(API.NOTIFICATIONCOUNT)
+            .then((response) => response.json())
+            .then((count) => setNotifs(count))
+            .catch(() => handleError());
+    }
+
+    const notifBadge = () => {
+        if (badges > 0) {
+            setNotifs(badges - 1);
+        } else {
+            fetchNotifs();
+        }
+    }
+
     return (
         <Container>
             {error && <Alert onClose={() => setError(false)} variant="danger" dismissible>{error}</Alert>}
@@ -74,7 +102,7 @@ export default function App() {
                     <Table responsive="md">
                         <Nav variant="pills" className="flex-md-column d-md-ruby" defaultActiveKey={2}>
                             {["Assiettes", "Carte/Menu", "Mes commandes", "Suppléant", "Notfication"].map((name, index) => (
-                                <Nav.Link key={index} className="btn mb-2" eventKey={index} onClick={() => handleComponent(index)}>{name}</Nav.Link>
+                                <Nav.Link key={index} className="btn mb-2" eventKey={index} onClick={() => handleComponent(index)}>{name} {index == 4 && badges > 0 && <Badge variant="light">{badges}</Badge>}</Nav.Link>
                             ))}
                         </Nav>
                     </Table>
@@ -83,12 +111,13 @@ export default function App() {
                     <AppContext.Provider value={{
                         show: show,
                         loading: loading,
+                        content: content,
+                        setBadge: notifBadge,
                         setShow: setShow,
                         setLoading: setLoading,
                         handleError: handleError,
                         setModalTitle: setModalTitle,
                         setModalContent: setModalContent,
-                        content: content
                     }}>
                         {component == 0 && <Meal />}
                         {component == 1 && <Menu />}

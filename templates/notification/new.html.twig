@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Notification
+{% endblock %}
+
+{% block body %}
+	<section class="notification-new p-t-110 p-b-90">
+		<h1>Create new Notification</h1>
+
+		{{ include('notification/_form.html.twig') }}
+
+		<a href="{{ path('notification_index') }}">back to list</a>
+	</section>
+{% endblock %}
+
+{% block javascripts %}
+	<script src="{{asset('assets/vendor/autosize/autosize.min.js')}}"></script>
+	<script>
+		autosize($('textarea'));
+	</script>
+{% endblock %}

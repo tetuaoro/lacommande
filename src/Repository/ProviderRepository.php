@@ -25,6 +25,7 @@ class ProviderRepository extends ServiceEntityRepository
             ->select('AVG(m.price)')
             ->leftJoin('p.meals', 'm')
             ->where('p = :id')
+            ->andWhere('m.isDelete = FALSE')
             ->setParameter('id', $provider->getId())
             ->getQuery()
             ->getSingleScalarResult()

@@ -130,6 +130,11 @@ class Provider
      */
     private $viewer;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Notification::class, mappedBy="providers")
+     */
+    private $notifications;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
@@ -137,6 +142,7 @@ class Provider
         $this->menus = new ArrayCollection();
         $this->subusers = new ArrayCollection();
         $this->commands = new ArrayCollection();
+        $this->notifications = new ArrayCollection();
     }
 
     public function __toString()
@@ -522,6 +528,34 @@ class Provider
     public function plusOneViewer(): self
     {
         ++$this->viewer;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Notification[]
+     */
+    public function getNotifications(): Collection
+    {
+        return $this->notifications;
+    }
+
+    public function addNotification(Notification $notification): self
+    {
+        if (!$this->notifications->contains($notification)) {
+            $this->notifications[] = $notification;
+            $notification->addProvider($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNotification(Notification $notification): self
+    {
+        if ($this->notifications->contains($notification)) {
+            $this->notifications->removeElement($notification);
+            $notification->removeProvider($this);
+        }
 
         return $this;
     }
