@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Subuser;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -41,6 +42,16 @@ class UserRepository extends ServiceEntityRepository
             ->leftJoin('provider.commands', 'commands')
             ->getQuery()
             ->getOneOrNullResult()
+        ;
+    }
+
+    public function getSubBySub(Subuser $subuser)
+    {
+        return $this->createQueryBuilder('u')
+            ->innerJoin('u.subuser', 's', 'WITH', 's = :id')
+            ->setParameter('id', $subuser->getId())
+            ->getQuery()
+            ->getSingleResult()
         ;
     }
 

@@ -29,6 +29,7 @@ class LambdaType extends AbstractType
             ->add('name', TextType::class, [
             ])
             ->add('email', EmailType::class, [
+                'required' => true,
             ])
             ->add('username', TextType::class, [
             ])

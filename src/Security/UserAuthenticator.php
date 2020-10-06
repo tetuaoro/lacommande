@@ -78,6 +78,10 @@ class UserAuthenticator extends AbstractFormLoginAuthenticator
             throw new CustomUserMessageAuthenticationException('Votre email n\'a pas été confirmé.');
         }
 
+        if (!$user->getValidate()) {
+            throw new CustomUserMessageAuthenticationException('Votre compte a été gelé. Contactez-nous via le mail support@ariifood.pf pour en connaître les raisons !');
+        }
+
         return $user;
     }
 
@@ -96,7 +100,7 @@ class UserAuthenticator extends AbstractFormLoginAuthenticator
         }
         /** @var \App\Entity\User $user */
         $user = $token->getUser();
-        if ($user->getProvider() || $user->getSubuser()) {
+        if ($user->getProvider()) {
             return new RedirectResponse($this->urlGenerator->generate('user_manage', ['id' => $user->getId()]));
         }
 

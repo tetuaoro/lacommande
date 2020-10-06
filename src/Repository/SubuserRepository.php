@@ -31,6 +31,16 @@ class SubuserRepository extends ServiceEntityRepository
         ;
     }
 
+    public function getSubUsers(Provider $provider)
+    {
+        return $this->createQueryBuilder('s')
+            ->innerJoin('s.provider', 'p', 'WITH', 'p = :pid')
+            ->setParameter('pid', $provider->getId())
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     // /**
     //  * @return Subuser[] Returns an array of Subuser objects
     //  */

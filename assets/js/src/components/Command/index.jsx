@@ -52,15 +52,13 @@ function AppTable({ compare = "=", orderBy = "DESC" }) {
 
         setFData(form);
 
-        fetchCommands(form);
-
         var si;
-
         if (compare == "=") {
             si = setInterval(() => {
-                fetchBackG(form);
+                fetchBackG(form, si);
             }, 30000);
         }
+        fetchCommands(form, si);
 
         return () => {
             if (compare == "=") {
@@ -86,10 +84,8 @@ function AppTable({ compare = "=", orderBy = "DESC" }) {
                 setShow(false);
             })
             .catch(err => {
-                if (err.response.status == 400) {
-                    setModalContent(err.response.data);
-                    setState(state + 1);
-                }
+                setModalContent(err.response.data);
+                setState(state + 1);
             })
             .finally(() => setLoading([false, ".modal-content"]));
     }
@@ -103,10 +99,14 @@ function AppTable({ compare = "=", orderBy = "DESC" }) {
             ;
     }
 
-    const fetchBackG = (form) => {
+    const fetchBackG = (form, si) => {
         axios.post(API.COMMANDS, form, { headers: { "X-Requested-With": "XMLHttpRequest" } })
             .then(res => setCommands(res.data))
-            .catch(err => handleError())
+            .catch(err => {
+                console.log(err.response);
+                handleError();
+                clearInterval(si);
+            })
             ;
     }
 
@@ -126,22 +126,27 @@ function AppTable({ compare = "=", orderBy = "DESC" }) {
     }
 
     const getForm = (id, bool) => {
-        fetch(bool == 2 ? API.COMMANDCUSTOMMESS + id : API.COMMANDVALIDATE + id + "-" + bool)
-            .then((response) => response.text())
-            .then((form) => {
-                setModalContent(form);
+        axios.get(bool == 2 ? API.COMMANDCUSTOMMESS + id : API.COMMANDVALIDATE + id + "-" + bool)
+            .then((response) => {
+                setModalContent(response.data);
                 setState(state + 1);
             })
-            .catch(() => handleError());
+            .catch((err) => {
+                handleError(err.response.data.detail);
+                setShow(false);
+            });
     }
 
     const getInfo = (id) => {
-        setLoading[true, ".modal-content"];
-        fetch(API.COMMANDINFO + id)
-            .then(res => res.text())
-            .then(info => setModalContent(info))
-            .catch(err => handleError())
-            .finally(() => setLoading([false, ".modal-content"]))
+        axios.get(API.COMMANDINFO + id)
+            .then((response) => {
+                setModalContent(response.data);
+            })
+            .catch((err) => {
+                handleError(err.response.data.detail);
+                setShow(false);
+            })
+            ;
     }
 
     const bgColor = (bool) => {

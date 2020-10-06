@@ -48,10 +48,12 @@ export default function Menu() {
     }
 
     const getForm = (id) => {
-        fetch(id ? API.MENUEDIT + id : API.MENUNEW)
-            .then((response) => response.text())
-            .then((form) => setModalContent(form))
-            .catch(() => handleError());
+        axios.get(id ? API.MENUEDIT + id : API.MENUNEW)
+            .then((response) => setModalContent(response.data))
+            .catch((err) => {
+                handleError(err.response.data.detail);
+                setShow(false);
+            });
     }
 
     const formSubmitted = (evt) => {

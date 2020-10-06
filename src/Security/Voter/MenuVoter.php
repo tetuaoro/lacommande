@@ -2,7 +2,9 @@
 
 namespace App\Security\Voter;
 
+use App\Entity\Meal;
 use App\Entity\Menu;
+use App\Entity\User;
 use App\Repository\UserRepository;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
@@ -17,7 +19,6 @@ class MenuVoter extends Voter
     public const DELETE = 'MENU_DELETE';
 
     private $security;
-    private $user;
 
     public function __construct(Security $security, UserRepository $userRepository)
     {
@@ -74,4 +75,18 @@ class MenuVoter extends Voter
 
         return false;
     }
+
+    /* protected function check(string $mode, User $user, Meal $subject)
+    {
+        if ($this->security->isGranted('ROLE_SUBUSER')) {
+            if (self::VALIDATE == $mode) {
+                return $user->getSubuser()->getProvider() == $subject->getProvider() && array_key_exists(self::KEYMEAL, $user->getSubuser()->getRoles());
+            }
+            if (self::CREATE == $mode) {
+                return array_key_exists(self::KEYMEAL, $user->getSubuser()->getRoles());
+            }
+        }
+
+        return $user->getProvider() == $subject->getProvider();
+    } */
 }

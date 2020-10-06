@@ -1,5 +1,5 @@
 import React, { useState, useEffect, Fragment, useContext } from 'react';
-import { Button, Modal, CardColumns, Card, Pagination } from 'react-bootstrap';
+import { Button, Badge, CardColumns, Card, Pagination } from 'react-bootstrap';
 import axios from 'axios';
 import { App } from '../../stores/context';
 import * as API from '../../stores/api';
@@ -12,15 +12,13 @@ export default function Meal() {
     const [meals, setMeals] = useState({
         totalPage: 0,
         items: 0,
+        quota: 0,
         page: 0,
         data: []
     });
 
     useEffect(() => {
         fetchMeals();
-        return () => {
-            setLoading([false, "body"]);
-        };
     }, [pagination]);
 
     useEffect(() => {
@@ -63,10 +61,10 @@ export default function Meal() {
             .catch((err) => {
                 if (err.response.status == 409) {
                     handleError(err.response.data);
-                    setShow(false);
                 } else {
-                    handleError();
+                    handleError(err.response.data.detail);
                 }
+                setShow(false);
             });
     }
 
@@ -75,18 +73,8 @@ export default function Meal() {
         setLoading([true, ".modal-content"]);
         axios.post($(evt.target).attr("action"), (new FormData(evt.target)), { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
             .then(response => {
-                if (response.status == 201) {
-                    setMeals({
-                        ...meals,
-                        data: [...meals.data, response.data]
-                    });
-                }
-                if (response.status == 202) {
-                    meals.data.splice((meals.data.findIndex(meal => meal.id == response.data.id)), 1, response.data);
-                    setMeals({
-                        ...meals,
-                        data: [...meals.data]
-                    });
+                if (response.status == 201 || response.status == 202) {
+                    fetchMeals();
                 }
                 setShow(false);
             })
@@ -100,14 +88,10 @@ export default function Meal() {
 
     const deleteMeal = (id) => {
         setLoading([true, "body"]);
-        axios.delete(`${API.MEALDELETE}${id}`, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+        axios.delete(API.MEALDELETE + id, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
             .then((response) => {
                 if (response.status == 202) {
-                    meals.data.splice((meals.data.findIndex(meal => meal.id == id)), 1);
-                    setMeals({
-                        ...meals,
-                        data: [...meals.data]
-                    });
+                    fetchMeals();
                 }
             })
             .catch((err) => {
@@ -120,10 +104,15 @@ export default function Meal() {
 
     return (
         <Fragment>
-            <Button onClick={() => handleShow()} title="ajouter une assiete" className="mb-2 btn-bs btn-warning d-none d-md-block">Ajouter une assiete</Button>
-            <Button onClick={() => handleShow()} title="ajouter une assiete" className="btn-bs btn-warning d-md-none d-btn-fixed rounded-circle">
-                <i className="fas fa-plus fa-2x" aria-hidden="true"></i>
-            </Button>
+            {meals.items < meals.quota &&
+                <Fragment>
+                    <Button onClick={() => handleShow()} title="ajouter une assiete" className="mb-2 btn-bs btn-warning d-none d-md-inline-block">Ajouter une assiete</Button>
+                    <Button onClick={() => handleShow()} title="ajouter une assiete" className="btn-bs btn-warning bg-warning text-light d-md-none d-btn-fixed rounded-circle">
+                        <i className="fas fa-plus fa-2x" aria-hidden="true"></i>
+                    </Button>
+                </Fragment>
+            }
+            <h3 className="ml-1 d-inline-block align-top"><Badge variant="info">Quota {meals.items}/{meals.quota}</Badge></h3>
             <Fragment>
                 {meals.totalPage > 1 && meals.page > 0 &&
                     <Pagination className="d-flex justify-content-center mb-2">

@@ -86,6 +86,12 @@
 											{{"Administrer"|trans({}, 'nav')}}
 										</a>
 									{% endif %}
+									{% if is_granted('ROLE_SUBUSER') %}
+										<a class="dropdown-item text-dark" href="{{path('user_manage', {id: app.user.subuser.provider.user.id})}}">
+											<i class="fas fa-cogs mr-lg-1" aria-hidden="true"></i>
+											{{"Administrer"|trans({}, 'nav')}}
+										</a>
+									{% endif %}
 									<div class="dropdown-divider"></div>
 									<a class="dropdown-item text-dark text-justify" href="{{path('app_logout')}}">
 										<i class="fas fa-sign-out-alt mr-lg-1" aria-hidden="true"></i>
@@ -125,6 +131,14 @@
 			{% if is_granted('ROLE_PROVIDER') %}
 				<li class="t-center m-b-13">
 					<a class="txt19" href="{{path('user_manage', {id: app.user.id})}}">
+						<i class="fas fa-cogs" aria-hidden="true"></i>
+						{{"Administrer"|trans({}, 'nav')}}
+					</a>
+				</li>
+			{% endif %}
+			{% if is_granted('ROLE_SUBUSER') %}
+				<li class="t-center m-b-13">
+					<a class="txt19" href="{{path('user_manage', {id: app.user.subuser.provider.user.id})}}">
 						<i class="fas fa-cogs" aria-hidden="true"></i>
 						{{"Administrer"|trans({}, 'nav')}}
 					</a>

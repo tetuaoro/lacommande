@@ -2,6 +2,7 @@
 
 namespace App\Security\Voter;
 
+use App\Entity\Subuser;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -9,13 +10,13 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class UserVoter extends Voter
+class SubuserVoter extends Voter
 {
-    public const CREATE = 'USER_CREATE';
-    public const EDIT = 'USER_EDIT';
-    public const VIEW = 'USER_VIEW';
-    public const DELETE = 'USER_DELETE';
-    public const MANAGE = 'USER_MANAGE';
+    public const CREATE = 'SUBUSER_CREATE';
+    public const EDIT = 'SUBUSER_EDIT';
+    public const VIEW = 'SUBUSER_VIEW';
+    public const DELETE = 'SUBUSER_DELETE';
+    public const MANAGE = 'SUBUSER_MANAGE';
 
     private $security;
 
@@ -30,14 +31,14 @@ class UserVoter extends Voter
         // replace with your own logic
         // https://symfony.com/doc/current/security/voters.html
         return in_array($attribute, [self::CREATE, self::EDIT, self::VIEW, self::DELETE, self::MANAGE])
-            && $subject instanceof User;
+            && $subject instanceof Subuser;
     }
 
     /**
      * Undocumented function.
      *
      * @param [type]           $attribute
-     * @param \App\Entity\User $subject
+     * @param \App\Entity\Subuser $subject
      */
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
     {
@@ -59,11 +60,11 @@ class UserVoter extends Voter
 
                 break;
             case self::EDIT:
-                return $subject === $user;
+                return $subject === $user->getSubuser();
 
                 break;
             case self::DELETE:
-                return $subject === $user;
+                return $subject === $user->getSubuser();
 
                 break;
             case self::VIEW:
@@ -71,28 +72,11 @@ class UserVoter extends Voter
 
                 break;
             case self::MANAGE:
-                return $this->check(self::MANAGE, $user, $subject);
+                return $subject->getProvider() === $user->getProvider();
 
                 break;
         }
 
         return false;
-    }
-
-    protected function check(string $mode, User $user, User $subject)
-    {
-        if ($this->security->isGranted('ROLE_SUBUSER')) {
-            // access react
-            if ($subject === $user) {
-                return true;
-            }
-
-            // access manage's page
-            $subusers = $subject->getProvider()->getSubusers();
-
-            return in_array($user->getSubuser(), $subusers->toArray());
-        }
-
-        return $subject === $user;
     }
 }

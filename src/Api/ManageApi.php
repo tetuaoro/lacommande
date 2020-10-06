@@ -17,28 +17,37 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGenerator;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
-use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * @Route("/manage", name="manage_")
  */
 class ManageApi extends AbstractController
 {
+    protected const QUOTAMEAL = 20;
+
     /**
      * @Route("/meals", name="meals", methods={"GET"})
      */
-    public function meals(MealRepository $mealRepository, SerializerInterface $serializerInterface, NormalizerInterface $normalizerInterface, PaginatorInterface $paginator, Request $request)
+    public function meals(MealRepository $mealRepository, Security $security, NormalizerInterface $normalizerInterface, PaginatorInterface $paginator, Request $request)
     {
         /** @var \App\Entity\User $user */
         $user = $this->getUser();
 
         $this->denyAccessUnlessGranted('USER_MANAGE', $user);
 
+        $provider = '';
+        if ($security->isGranted('ROLE_SUBUSER')) {
+            $provider = $user->getSubuser()->getProvider();
+        } elseif ($security->isGranted('ROLE_PROVIDER')) {
+            $provider = $user->getProvider();
+        }
+
         $nb_items = 15;
         $meals = $paginator->paginate(
-            $mealRepository->getMealByProvider($user->getProvider()),
+            $mealRepository->getMealByProvider($provider),
             $request->query->get('page', 1),
             $nb_items,
             [
@@ -58,6 +67,7 @@ class ManageApi extends AbstractController
 
         $data = [
             'totalPage' => floor($totalPage) == $totalPage ? $totalPage : floor($totalPage) + 1,
+            'quota' => self::QUOTAMEAL,
             'items' => $meals->getTotalItemCount(),
             'page' => $meals->getCurrentPageNumber(),
             'data' => $normalizerInterface->normalize($meals, 'json', $defaultContext),
@@ -69,31 +79,34 @@ class ManageApi extends AbstractController
     /**
      * @Route("/new-meal", name="meal_new", methods={"GET", "POST"})
      */
-    public function mealNew(AjaxService $ajaxService, MealRepository $mealRepository, Request $request, Storage $storage, BitlyService $bitlyService)
+    public function mealNew(AjaxService $ajaxService, Security $security, MealRepository $mealRepository, Request $request, Storage $storage, BitlyService $bitlyService)
     {
-        $this->denyAccessUnlessGranted('ROLE_PROVIDER');
+        $meal = new Meal();
+
+        $this->denyAccessUnlessGranted('MEAL_CREATE', $meal);
 
         /** @var \App\Entity\User $user */
         $user = $this->getUser();
 
-        if ($mealRepository->getCountMeals($user->getProvider()) >= 20) {
-            return new Response('Le quota de 20 assiettes a été atteint ! Vous ne pouvez plus en ajouter.', Response::HTTP_CONFLICT);
+        $provider = '';
+        if ($security->isGranted('ROLE_SUBUSER')) {
+            $provider = $user->getSubuser()->getProvider();
+        } elseif ($security->isGranted('ROLE_PROVIDER')) {
+            $provider = $user->getProvider();
         }
 
-        $meal = new Meal();
+        if ($mealRepository->getCountMeals($provider) >= self::QUOTAMEAL) {
+            return new Response('Le quota de '.self::QUOTAMEAL.' assiettes a été atteint ! Vous ne pouvez plus en ajouter.', Response::HTTP_CONFLICT);
+        }
 
         $form = $ajaxService->mealForm($meal);
 
         if ($request->isXmlHttpRequest()) {
             $form->handleRequest($request);
 
-            /** @var \App\Entity\User $user */
-            $user = $this->getUser();
-
             if ($form->isSubmitted() && $form->isValid()) {
                 $entityManager = $this->getDoctrine()->getManager();
                 $image = $form->get('image')->getData();
-                $provider = $user->getProvider();
                 $info = $storage->uploadMealImage($image, $provider, $meal);
                 $meal->setImg($info['mediaLink'])
                     ->setProvider($provider)
@@ -114,14 +127,7 @@ class ManageApi extends AbstractController
                 );
                 $entityManager->flush();
 
-                $defaultContext = [
-                    AbstractNormalizer::CIRCULAR_REFERENCE_HANDLER => function ($object, $format, $context) {
-                        return $object->getId();
-                    },
-                    AbstractNormalizer::GROUPS => 'mealjs',
-                ];
-
-                return $this->json($meal, Response::HTTP_CREATED, [], $defaultContext);
+                return new Response('sucess', Response::HTTP_CREATED);
             }
             if ($form->isSubmitted() && !$form->isValid()) {
                 return $this->render(
@@ -142,9 +148,9 @@ class ManageApi extends AbstractController
     /**
      * @Route("/edit-meal-{id}", name="meal_edit", methods={"GET", "POST"})
      */
-    public function mealEdit(Meal $meal, AjaxService $ajaxService, Request $request, Storage $storage)
+    public function mealEdit(Meal $meal, Security $security, AjaxService $ajaxService, Request $request, Storage $storage)
     {
-        $this->denyAccessUnlessGranted('MEAL_EDIT', $meal);
+        $this->denyAccessUnlessGranted('MEAL_VALIDATE', $meal);
 
         $form = $ajaxService->mealForm($meal);
 
@@ -154,11 +160,18 @@ class ManageApi extends AbstractController
             /** @var \App\Entity\User $user */
             $user = $this->getUser();
 
+            $provider = '';
+            if ($security->isGranted('ROLE_SUBUSER')) {
+                $provider = $user->getSubuser()->getProvider();
+            } elseif ($security->isGranted('ROLE_PROVIDER')) {
+                $provider = $user->getProvider();
+            }
+
             if ($form->isSubmitted() && $form->isValid()) {
                 $entityManager = $this->getDoctrine()->getManager();
                 $image = $form->get('image')->getData();
                 if ($image) {
-                    $info = $storage->uploadMealImage($image, $user->getProvider(), $meal);
+                    $info = $storage->uploadMealImage($image, $provider, $meal);
                     $meal->setImg($info['mediaLink'])
                         ->setImgInfo($info)
                     ;
@@ -166,16 +179,9 @@ class ManageApi extends AbstractController
                     ;
                 }
 
-                $defaultContext = [
-                    AbstractNormalizer::CIRCULAR_REFERENCE_HANDLER => function ($object, $format, $context) {
-                        return $object->getId();
-                    },
-                    AbstractNormalizer::GROUPS => 'mealjs',
-                ];
-
                 $entityManager->flush();
 
-                return $this->json($meal, Response::HTTP_ACCEPTED, [], $defaultContext);
+                return new Response('sucess', Response::HTTP_ACCEPTED);
             }
             if ($form->isSubmitted() && !$form->isValid()) {
                 return $this->render(
@@ -198,7 +204,7 @@ class ManageApi extends AbstractController
      */
     public function mealDelete(Meal $meal, Request $request, Storage $storage)
     {
-        $this->denyAccessUnlessGranted('MEAL_DELETE', $meal);
+        $this->denyAccessUnlessGranted('MEAL_VALIDATE', $meal);
 
         if ($request->isXmlHttpRequest()) {
             $entityManager = $this->getDoctrine()->getManager();
@@ -219,12 +225,19 @@ class ManageApi extends AbstractController
     /**
      * @Route("/menus", name="menus", methods={"GET"})
      */
-    public function menus(MenuRepository $menuRepository)
+    public function menus(MenuRepository $menuRepository, Security $security)
     {
         /** @var \App\Entity\User $user */
         $user = $this->getUser();
 
         $this->denyAccessUnlessGranted('USER_MANAGE', $user);
+
+        $provider = '';
+        if ($security->isGranted('ROLE_SUBUSER')) {
+            $provider = $user->getSubuser()->getProvider();
+        } elseif ($security->isGranted('ROLE_PROVIDER')) {
+            $provider = $user->getProvider();
+        }
 
         $defaultContext = [
             AbstractNormalizer::CIRCULAR_REFERENCE_HANDLER => function ($object, $format, $context) {
@@ -234,7 +247,7 @@ class ManageApi extends AbstractController
         ];
 
         return $this->json(
-            $menuRepository->findMyMenu($user->getProvider()),
+            $menuRepository->findMyMenu($provider),
             JsonResponse::HTTP_OK,
             [],
             $defaultContext
@@ -244,15 +257,21 @@ class ManageApi extends AbstractController
     /**
      * @Route("/new-menu", name="menu_new", methods={"GET", "POST"})
      */
-    public function menuNew(Request $request, AjaxService $ajaxService): Response
+    public function menuNew(Request $request, Security $security, AjaxService $ajaxService): Response
     {
-        $this->denyAccessUnlessGranted('ROLE_PROVIDER');
-
         $menu = new Menu();
+        $this->denyAccessUnlessGranted('MENU_CREATE', $menu);
 
         /** @var \App\Entity\User $user */
         $user = $this->getUser();
-        $provider = $user->getProvider();
+
+        $provider = '';
+        if ($security->isGranted('ROLE_SUBUSER')) {
+            $provider = $user->getSubuser()->getProvider();
+        } elseif ($security->isGranted('ROLE_PROVIDER')) {
+            $provider = $user->getProvider();
+        }
+
         $form = $ajaxService->menuForm($menu, $provider);
 
         if ($request->isXmlHttpRequest()) {
@@ -298,13 +317,20 @@ class ManageApi extends AbstractController
     /**
      * @Route("/edit-menu-{id}", name="menu_edit", methods={"GET", "POST"})
      */
-    public function menuEdit(Menu $menu, Request $request, AjaxService $ajaxService): Response
+    public function menuEdit(Menu $menu, Security $security, Request $request, AjaxService $ajaxService): Response
     {
         $this->denyAccessUnlessGranted('MENU_EDIT', $menu);
 
         /** @var \App\Entity\User $user */
         $user = $this->getUser();
-        $provider = $user->getProvider();
+
+        $provider = '';
+        if ($security->isGranted('ROLE_SUBUSER')) {
+            $provider = $user->getSubuser()->getProvider();
+        } elseif ($security->isGranted('ROLE_PROVIDER')) {
+            $provider = $user->getProvider();
+        }
+
         $form = $ajaxService->menuForm($menu, $provider);
 
         if ($request->isXmlHttpRequest()) {

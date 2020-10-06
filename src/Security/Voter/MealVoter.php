@@ -3,6 +3,7 @@
 namespace App\Security\Voter;
 
 use App\Entity\Meal;
+use App\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\Security;
@@ -14,6 +15,9 @@ class MealVoter extends Voter
     public const EDIT = 'MEAL_EDIT';
     public const VIEW = 'MEAL_VIEW';
     public const DELETE = 'MEAL_DELETE';
+    public const VALIDATE = 'MEAL_VALIDATE';
+
+    public const KEYMEAL = 'meal-crud';
 
     private $security;
 
@@ -26,7 +30,7 @@ class MealVoter extends Voter
     {
         // replace with your own logic
         // https://symfony.com/doc/current/security/voters.html
-        return in_array($attribute, [self::CREATE, self::EDIT, self::VIEW, self::DELETE])
+        return in_array($attribute, [self::VALIDATE, self::CREATE])
             && $subject instanceof Meal;
     }
 
@@ -51,24 +55,34 @@ class MealVoter extends Voter
 
         // ... (check conditions and return true to grant permission) ...
         switch ($attribute) {
+            case self::VALIDATE:
+                return $this->check(self::VALIDATE, $user, $subject);
+
+                break;
             case self::CREATE:
-                return $this->security->isGranted('ROLE_PROVIDER');
-
-                break;
-            case self::EDIT:
-                return $subject->getProvider() === $user->getProvider();
-
-                break;
-            case self::DELETE:
-                return $subject->getProvider() === $user->getProvider();
-
-                break;
-            case self::VIEW:
-                return $subject->getProvider() === $user->getProvider();
+                return $this->check(self::CREATE, $user, $subject);
 
                 break;
         }
 
         return false;
+    }
+
+    protected function check(string $mode, User $user, Meal $subject)
+    {
+        if ($this->security->isGranted('ROLE_SUBUSER')) {
+            if (self::VALIDATE == $mode) {
+                return $user->getSubuser()->getProvider() == $subject->getProvider() && array_key_exists(self::KEYMEAL, $user->getSubuser()->getRoles());
+            }
+            if (self::CREATE == $mode) {
+                return array_key_exists(self::KEYMEAL, $user->getSubuser()->getRoles());
+            }
+        }
+
+        if (self::CREATE == $mode) {
+            return $this->security->isGranted('ROLE_PROVIDER');
+        }
+
+        return $user->getProvider() == $subject->getProvider();
     }
 }

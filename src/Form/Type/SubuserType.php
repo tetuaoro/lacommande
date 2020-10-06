@@ -15,12 +15,8 @@ class SubuserType extends AbstractType
     {
         $builder
             ->add('name', TextType::class)
-            ->add('username', TextType::class, [
-                'mapped' => false,
-            ])
-            ->add('password', PasswordType::class, [
-                'mapped' => false,
-            ])
+            ->add('username', TextType::class)
+            ->add('password', PasswordType::class)
         ;
     }
 
@@ -29,6 +25,9 @@ class SubuserType extends AbstractType
         $resolver->setDefaults([
             'translation_domain' => 'connect',
             'data_class' => User::class,
+            'attr' => [
+                'id' => 'subForm',
+            ],
         ]);
     }
 }

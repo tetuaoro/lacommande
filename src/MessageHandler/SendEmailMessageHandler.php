@@ -33,11 +33,13 @@ final class SendEmailMessageHandler implements MessageHandlerInterface
 
     public function __invoke(SendEmailMessage $message)
     {
-        if (1 == $message->getMode()) {
+        $mode = $message->getMode();
+        
+        if (1 == $mode) {
             $this->mailerInterface->send($this->mailer->sendConfirmationNewUser($this->userRepo->find($message->getUser())));
-        } elseif (2 == $message->getMode()) {
+        } elseif (2 == $mode) {
             $this->mailerInterface->send($this->mailer->sendCommand($this->commandRepo->find($message->getCommand())));
-        } elseif (3 == $message->getMode()) {
+        } elseif (3 == $mode) {
             $this->mailerInterface->send($this->mailer->validateCommand($this->commandRepo->find($message->getCommand()), $message->getBool(), $this->userRepo->find($message->getUser())));
         }
     }

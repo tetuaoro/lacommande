@@ -23,7 +23,7 @@ class NotificationRepository extends ServiceEntityRepository
     public function findNotificationByProvider(Provider $provider)
     {
         return $this->createQueryBuilder('n')
-            ->innerJoin('n.providers', 'p', 'WITH', 'p = :pid')
+            ->where(':pid MEMBER OF n.providers')
             ->setParameter('pid', $provider->getId())
             ->orderBy('n.createdAt', 'DESC')
             ->getQuery()
@@ -35,16 +35,11 @@ class NotificationRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('n')
             ->select('COUNT(n)')
-            ->innerJoin('n.providers', 'p', 'WITH', 'p = :pid')
+            ->where(':pid MEMBER OF n.providers')
             ->setParameter('pid', $provider->getId())
             ->getQuery()
             ->getSingleScalarResult()
         ;
-    }
-
-    public function getNotifs()
-    {
-        return $this->createQueryBuilder('n')->getQuery()->getResult();
     }
 
     // /**

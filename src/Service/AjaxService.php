@@ -15,8 +15,10 @@ use App\Form\Type\MenuType;
 use App\Form\Type\NewLetterType;
 use App\Form\Type\ProviderType;
 use App\Form\Type\SubuserType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -46,7 +48,7 @@ class AjaxService
     {
         return $this->form->create(SubuserType::class, $subuser, [
             'method' => 'POST',
-            'action' => $this->router->generate('sub_new'),
+            'action' => ($subuser && $subuser->getId()) ? $this->router->generate('sub_edit', ['id' => $subuser->getSubuser()->getId()]) : $this->router->generate('sub_new'),
         ]);
     }
 
@@ -132,15 +134,6 @@ class AjaxService
         ]);
     }
 
-    public function test_create_menu(Menu $menu, Provider $provider)
-    {
-        return $this->form->create(MenuType::class, $menu, [
-            'method' => 'POST',
-            'action' => $this->router->generate('test_index'),
-            'provider' => $provider,
-        ]);
-    }
-
     public function menuForm(Menu $menu, Provider $provider)
     {
         return $this->form->create(MenuType::class, $menu, [
@@ -164,5 +157,24 @@ class AjaxService
             'method' => 'POST',
             'action' => $this->router->generate('provider_edit', ['id' => $provider->getId()]),
         ]);
+    }
+
+    public function editSubAuth()
+    {
+        return $this->form->create(FormType::class, null, [
+            'csrf_protection' => false,
+            'attr' => [
+                'id' => 'editAuthForm',
+            ],
+            'method' => 'POST',
+        ])
+            ->add('put', HiddenType::class)
+            ->add('command', CheckboxType::class, [
+                'required' => false,
+            ])
+            ->add('meal', CheckboxType::class, [
+                'required' => false,
+            ])
+            ;
     }
 }

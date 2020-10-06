@@ -6,13 +6,13 @@ use App\Entity\Command;
 use App\Message\SendEmailMessage;
 use App\Repository\CommandRepository;
 use App\Service\AjaxService;
-use App\Service\Mailer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 
 /**
@@ -23,12 +23,19 @@ class CommandApi extends AbstractController
     /**
      * @Route("/", name="index", methods={"POST"})
      */
-    public function index(CommandRepository $commandRepository, Request $request)
+    public function index(CommandRepository $commandRepository, Security $security, Request $request)
     {
         /** @var \App\Entity\User $user */
         $user = $this->getUser();
 
         $this->denyAccessUnlessGranted('USER_MANAGE', $user);
+
+        $provider = '';
+        if ($security->isGranted('ROLE_SUBUSER')) {
+            $provider = $user->getSubuser()->getProvider();
+        } elseif ($security->isGranted('ROLE_PROVIDER')) {
+            $provider = $user->getProvider();
+        }
 
         $form = $this->createForm(FormType::class, [], ['csrf_protection' => false])
             ->add('date')
@@ -48,7 +55,7 @@ class CommandApi extends AbstractController
                 ];
 
                 return $this->json(
-                    $commandRepository->findByProviderOrderByCommandDate($user->getProvider(), $form),
+                    $commandRepository->findByProviderOrderByCommandDate($provider, $form),
                     JsonResponse::HTTP_OK,
                     [],
                     $defaultContext
@@ -62,15 +69,22 @@ class CommandApi extends AbstractController
     /**
      * @Route("/show-{id}", name="show", methods={"GET"})
      */
-    public function show(Command $command, CommandRepository $commandRepository)
+    public function show(Command $command, Security $security, CommandRepository $commandRepository)
     {
         $this->denyAccessUnlessGranted('COMMAND_VIEW', $command);
 
         /** @var \App\Entity\User $user */
         $user = $this->getUser();
 
+        $provider = '';
+        if ($security->isGranted('ROLE_SUBUSER')) {
+            $provider = $user->getSubuser()->getProvider();
+        } elseif ($security->isGranted('ROLE_PROVIDER')) {
+            $provider = $user->getProvider();
+        }
+
         /** @var \App\Entity\Command $command */
-        $command = $commandRepository->getFiltererByProvider($command->getId(), $user->getProvider());
+        $command = $commandRepository->getFiltererByProvider($command->getId(), $provider);
         $details = $command->getDetails();
 
         $price = 0;
@@ -91,12 +105,16 @@ class CommandApi extends AbstractController
      *
      * @Route("/validate-{id}-{bool}", name="validate", methods={"POST", "GET"}, requirements={"bool": "0|1"})
      */
-    public function validate(Command $command, bool $bool, Mailer $mailer, Request $request, AjaxService $ajaxService)
+    public function validate(Command $command, Security $security, bool $bool, Request $request, AjaxService $ajaxService)
     {
         /** @var \App\Entity\User $user */
         $user = $this->getUser();
 
-        $this->denyAccessUnlessGranted('USER_MANAGE', $user);
+        $this->denyAccessUnlessGranted('COMMAND_VALIDATE', $command);
+
+        if ($security->isGranted('ROLE_SUBUSER')) {
+            $user = $user->getSubuser()->getProvider()->getUser();
+        }
 
         $form = $ajaxService->validateCommand($command, $bool, $user);
 
@@ -104,13 +122,11 @@ class CommandApi extends AbstractController
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
-                $em = $this->getDoctrine()->getManager();
-
-                $this->dispatchMessage(new SendEmailMessage(3, $user->getId(), $command->getId(), $bool));
-
                 $command->setValidate($bool);
 
-                $em->flush();
+                $this->getDoctrine()->getManager()->flush();
+
+                $this->dispatchMessage(new SendEmailMessage(3, $user->getId(), $command->getId(), $bool));
 
                 return new Response('success', Response::HTTP_CREATED);
             }
@@ -132,12 +148,16 @@ class CommandApi extends AbstractController
      *
      * @Route("/message-{id}", name="message", methods={"POST", "GET"})
      */
-    public function custom_message(Command $command, Mailer $mailer, Request $request, AjaxService $ajaxService)
+    public function custom_message(Command $command, Security $security, Request $request, AjaxService $ajaxService)
     {
         /** @var \App\Entity\User $user */
         $user = $this->getUser();
 
-        $this->denyAccessUnlessGranted('USER_MANAGE', $user);
+        $this->denyAccessUnlessGranted('COMMAND_VALIDATE', $command);
+
+        if ($security->isGranted('ROLE_SUBUSER')) {
+            $user = $user->getSubuser()->getProvider()->getUser();
+        }
 
         $form = $ajaxService->customMessageCommand($command, $user);
 
@@ -145,6 +165,7 @@ class CommandApi extends AbstractController
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
+                $this->getDoctrine()->getManager()->flush();
                 $this->dispatchMessage(new SendEmailMessage(3, $user->getId(), $command->getId(), 2));
 
                 return new Response('success', Response::HTTP_CREATED);

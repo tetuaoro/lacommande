@@ -69,6 +69,15 @@ class ProviderRepository extends ServiceEntityRepository
         ;
     }
 
+    public function getSubUsers()
+    {
+        return $this->createQueryBuilder('p')
+            ->select('s')
+            ->innerJoin('p.subusers', 's')
+            ->getQuery()
+        ;
+    }
+
     private function getAllowProvider()
     {
         return $this->createQueryBuilder('p')

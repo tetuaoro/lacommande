@@ -15,7 +15,11 @@ export const COMMANDINFO = "/api/command/show-";
 export const COMMANDVALIDATE = "/api/command/validate-";
 export const COMMANDCUSTOMMESS = "/api/command/message-";
 
+export const SUBS = "/api/sub/";
 export const SUBNEW = "/api/sub/new";
+export const SUBEDIT = "/api/sub/edit-sub-";
+export const SUBDELETE = "/api/sub/delete-sub-";
+export const SUBEDITAUTH = "/api/sub/edit-auth-sub-";
 
 export const NOTIFICATIONS = "/api/notification/";
 export const NOTIFICATIONCOUNT = "/api/notification/count";

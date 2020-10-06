@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\SubuserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Table(options={"auto_increment": 100})
@@ -15,11 +16,13 @@ class Subuser
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups("subjs")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("subjs")
      */
     private $name;
 
@@ -28,6 +31,12 @@ class Subuser
      * @ORM\JoinColumn(nullable=false)
      */
     private $provider;
+
+    /**
+     * @ORM\Column(type="array")
+     * @Groups("subjs")
+     */
+    private $roles = [];
 
     public function getId(): ?int
     {
@@ -54,6 +63,18 @@ class Subuser
     public function setProvider(?Provider $provider): self
     {
         $this->provider = $provider;
+
+        return $this;
+    }
+
+    public function getRoles(): ?array
+    {
+        return $this->roles;
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
 
         return $this;
     }

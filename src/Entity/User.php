@@ -116,7 +116,7 @@ class User implements UserInterface
     {
         $this->createdAt = new \DateTime();
         $this->roles = ['ROLE_USER'];
-        $this->salt = uniqid();
+        $this->salt = md5(uniqid());
     }
 
     public function getId(): ?int

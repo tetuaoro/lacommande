@@ -11,11 +11,13 @@ import Subuser from '../Subuser';
 
 import './entry.css';
 
+const KEYSHOW = 2;
+
 export default function App() {
 
     const sanitizer = dompurify.sanitize;
 
-    const [component, setComponent] = useState(2);
+    const [component, setComponent] = useState(KEYSHOW);
     const [loading, setLoading] = useState([false, "body"]);
     const [error, setError] = useState("");
 
@@ -23,6 +25,8 @@ export default function App() {
     const [modalTitle, setModalTitle] = useState("");
     const [show, setShow] = useState(false);
     const [badges, setNotifs] = useState(0);
+
+    const [disabledBtn, setDisabled] = useState(false);
 
     useEffect(() => {
         if (loading[0]) {
@@ -40,10 +44,10 @@ export default function App() {
     }, [content]);
 
     useEffect(() => {
-        fetchNotifs();
         const si = setInterval(() => {
-            fetchNotifs();
+            fetchNotifs(si);
         }, 60000);
+        fetchNotifs(si);
 
         return () => {
             clearInterval(si);
@@ -79,11 +83,14 @@ export default function App() {
         }
     }
 
-    const fetchNotifs = () => {
+    const fetchNotifs = (si) => {
         fetch(API.NOTIFICATIONCOUNT)
             .then((response) => response.json())
             .then((count) => setNotifs(count))
-            .catch(() => handleError());
+            .catch(() => {
+                setDisabled(true);
+                clearInterval(si);
+            });
     }
 
     const notifBadge = () => {
@@ -100,9 +107,9 @@ export default function App() {
             <Row>
                 <Col md={2}>
                     <Table responsive="md">
-                        <Nav variant="pills" className="flex-md-column d-md-ruby" defaultActiveKey={2}>
+                        <Nav variant="pills" className="flex-md-column d-md-ruby" defaultActiveKey={KEYSHOW}>
                             {["Assiettes", "Carte/Menu", "Mes commandes", "Suppléant", "Notfication"].map((name, index) => (
-                                <Nav.Link key={index} className="btn mb-2" eventKey={index} onClick={() => handleComponent(index)}>{name} {index == 4 && badges > 0 && <Badge variant="light">{badges}</Badge>}</Nav.Link>
+                                <Nav.Link key={index} className="btn mb-2" eventKey={index} disabled={(index == 4 || index == 3) && disabledBtn} onClick={() => handleComponent(index)}>{name} {index == 4 && badges > 0 && <Badge variant="light">{badges}</Badge>}</Nav.Link>
                             ))}
                         </Nav>
                     </Table>
@@ -124,7 +131,7 @@ export default function App() {
                         {component == 2 && <Command />}
                         {component == 3 && <Subuser />}
                         {component == 4 && <Notification />}
-                        <Modal show={show} onHide={clear} centered={true} scrollable={true}>
+                        <Modal show={show} onHide={() => clear()} centered={true} scrollable={true}>
                             <Modal.Header closeButton>
                                 <Modal.Title>{modalTitle}</Modal.Title>
                             </Modal.Header>

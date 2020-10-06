@@ -48,10 +48,8 @@ export default function Notification() {
                     setBadge();
                 }
             })
-            .catch((err) => {
-                if (err.response.status == 400) {
-                    handleError();
-                }
+            .catch(() => {
+                handleError();
             })
             .finally(() => setLoading([false, "body"]));
     };

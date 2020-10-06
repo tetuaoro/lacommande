@@ -19,8 +19,8 @@
   color: #fff;
   background-color: var(--warning);
 }
-.btn:hover,
-.btn-bs:hover {
+.btn:hover:not(.btn-bss),
+.btn-bs:hover:not(.btn-bss) {
   color: #fff;
   background-color: var(--warning);
 }
