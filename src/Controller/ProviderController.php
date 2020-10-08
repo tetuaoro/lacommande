@@ -51,7 +51,7 @@ class ProviderController extends AbstractController
             ]);
         }
 
-        if (!$security->isGranted('ROLE_PROVIDER') || !$security->isGranted('ROLE_SUBUSER')) {
+        if (!$security->isGranted('ROLE_PROVIDER') && !$security->isGranted('ROLE_SUBUSER')) {
             $provider->plusOneViewer();
             $this->getDoctrine()->getManager()->flush();
         }

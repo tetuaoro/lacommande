@@ -540,8 +540,12 @@ class Provider
         return $this->notifications;
     }
 
-    public function addNotification(Notification $notification): self
+    public function addNotification(?Notification $notification): self
     {
+        if (null === $notification) {
+            return $this;
+        }
+
         if (!$this->notifications->contains($notification)) {
             $this->notifications[] = $notification;
             $notification->addProvider($this);

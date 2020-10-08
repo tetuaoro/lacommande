@@ -20,6 +20,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 /**
  * @Route("/user", name="user_")
@@ -72,7 +73,7 @@ class UserController extends AbstractController
                     ->setMinPriceDelivery(2500)
                     ->setCity($form->get('city')->getData())
                     ->setViewer(0)
-                    ->addNotification($notificationRepository->find(1))
+                    ->addNotification($notificationRepository->findOneBy(['title' => 'Bienvenue']))
                     ;
 
                 $roles = $user->getRoles();
@@ -197,12 +198,13 @@ class UserController extends AbstractController
      * @param null|mixed $form
      * @param null|mixed $data
      */
-    public function manageUser(User $user)
+    public function manageUser(User $user, NormalizerInterface $normalizerInterface)
     {
         $this->denyAccessUnlessGranted('USER_MANAGE', $user);
 
         return $this->render('user/auth/manage.html.twig', [
             'user' => $user,
+            'props' => $normalizerInterface->normalize(['id' => $user->getProvider()->getId()]),
         ]);
     }
 }

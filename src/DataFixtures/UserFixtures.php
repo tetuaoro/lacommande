@@ -5,6 +5,7 @@ namespace App\DataFixtures;
 use App\Entity\Lambda;
 use App\Entity\Provider;
 use App\Entity\User;
+use App\Repository\NotificationRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
@@ -13,16 +14,19 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class UserFixtures extends Fixture
 {
     protected $password;
+    protected $notifRepo;
 
-    public function __construct(UserPasswordEncoderInterface $userPasswordEncoderInterface)
+    public function __construct(NotificationRepository $notificationRepository, UserPasswordEncoderInterface $userPasswordEncoderInterface)
     {
         $this->password = $userPasswordEncoderInterface;
+        $this->notifRepo = $notificationRepository;
     }
 
     public function load(ObjectManager $manager)
     {
         $faker = (new Factory())->create('fr_FR');
         $env = 'dev' == $_ENV['APP_ENV'];
+        $notif = $this->notifRepo->findOneBy(['title' => 'Bienvenue']);
 
         // Create User as PROVIDER
         for ($i = 0; $i < 30; ++$i) {
@@ -62,7 +66,9 @@ class UserFixtures extends Fixture
                     ->setLinkinsta('https://www.instagram.com')
                     ->setCreatedAt($user->getCreatedAt())
                     ->setViewer(0)
+                    ->addNotification($notif)
                 ;
+
                 $user->setRoles($roles)
                     ->setProvider($provider)
                 ;
@@ -90,10 +96,12 @@ class UserFixtures extends Fixture
             ->setPassword($this->password->encodePassword($user, 'LACOMMANDE'))
             ->setValidate(true)
             ;
+
         $roles[] = 'ROLE_PROVIDER';
         $roles[] = 'ROLE_ADMIN';
         $roles[] = 'ROLE_SUPERADMIN';
         $provider->setName($user->getName())
+            ->addNotification($notif)
             ->setCity('Paea noa')
             ->setMinPriceDelivery(1500)
             ->setBitly(['link' => $env ? 'https://bit.ly/2ZDJRpF' : 'https://bit.ly/2ZDJHyz'])

@@ -120,6 +120,12 @@ class Command
      */
     private $message;
 
+    /**
+     * @ORM\Column(type="array")
+     * @Groups({"commandjs"})
+     */
+    private $validation = [];
+
     public function __construct()
     {
         $this->meals = new ArrayCollection();
@@ -365,6 +371,25 @@ class Command
     public function setMessage(?string $message): self
     {
         $this->message = $message;
+
+        return $this;
+    }
+
+    public function getValidation(): ?array
+    {
+        return $this->validation;
+    }
+
+    public function setValidation(Provider $provider): self
+    {
+        $key_exist = array_key_exists($provider->getId(), $this->validation);
+        if (!$key_exist) {
+            $this->validation[$provider->getId()] = true;
+        } elseif ($key_exist && true == $this->validation[$provider->getId()]) {
+            $this->validation[$provider->getId()] = false;
+        } else {
+            $this->validation[$provider->getId()] = true;
+        }
 
         return $this;
     }

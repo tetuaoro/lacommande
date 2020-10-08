@@ -3,12 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Message\SendEmailMessage;
 use App\Service\Mailer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -31,31 +27,9 @@ class MailerController extends AbstractController
 
         // @var \App\Entity\User $user
         if ($user_ = $this->getUser()) {
-            return $this->redirectToRoute('user_show', ['id' => $user_->getId()]);
+            return $this->redirectToRoute('user_show', ['id' => $user_->getId(), 'slug' => $user->getSlug()]);
         }
 
         return $this->redirectToRoute('app_index');
-    }
-
-    /**
-     * @Route("/", name="index")
-     */
-    public function index(Request $request, Mailer $mailer)
-    {
-        $form = $this->createFormBuilder()
-            ->add('email', EmailType::class)
-            ->add('send', SubmitType::class)
-            ->getForm()
-        ;
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->dispatchMessage(new SendEmailMessage($mailer->sendConfirmationNewUser($this->getUser())))
-            ;
-        }
-
-        return $this->render('mailer/index.html.twig', [
-            'form' => $form->createView(),
-        ]);
     }
 }

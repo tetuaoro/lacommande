@@ -1,3 +1,4 @@
+import { number } from 'prop-types';
 import React from 'react';
 /**
  * This provider match all props from symfony Limenius bundle, and "context" for React's component
@@ -18,6 +19,7 @@ const SFContext = React.createContext({
     },
     initialProps: {
         nameSite: String,
+        id: Number,
         stores: Array
     },
 });

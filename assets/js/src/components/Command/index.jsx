@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState, Fragment } from 'react';
 import { Button, Nav, Table } from 'react-bootstrap';
 import axios from 'axios';
-import { App } from '../../stores/context';
+import { App, SFContext } from '../../stores/context';
 import * as API from '../../stores/api';
 import moment from 'moment';
 import { setInterval } from 'core-js';
@@ -38,7 +38,8 @@ export default function Command() {
 
 function AppTable({ compare = "=", orderBy = "DESC" }) {
 
-    const { setLoading, handleError, setShow, setModalContent, content, setModalTitle } = useContext(App);
+    const { setLoading, handleError, setShow, setModalContent, setModalTitle } = useContext(App);
+    const { id } = useContext(SFContext).initialProps;
 
     const [commands, setCommands] = useState([]);
     const [state, setState] = useState(0);
@@ -103,7 +104,6 @@ function AppTable({ compare = "=", orderBy = "DESC" }) {
         axios.post(API.COMMANDS, form, { headers: { "X-Requested-With": "XMLHttpRequest" } })
             .then(res => setCommands(res.data))
             .catch(err => {
-                console.log(err.response);
                 handleError();
                 clearInterval(si);
             })
@@ -149,14 +149,18 @@ function AppTable({ compare = "=", orderBy = "DESC" }) {
             ;
     }
 
-    const bgColor = (bool) => {
-        if (bool) {
+    const bgColor = (tab) => {
+        if (tab[id] == true) {
             return {
                 backgroundColor: 'rgba(25,255,25,0.5)',
             }
-        } else if (bool == false) {
+        } else if (tab[id] == false) {
             return {
                 backgroundColor: 'rgba(255,25,0,0.5)',
+            }
+        } else if (Object.keys(tab).length > 0) {
+            return {
+                backgroundColor: 'rgba(255,190,5,0.5)',
             }
         }
 
@@ -175,7 +179,7 @@ function AppTable({ compare = "=", orderBy = "DESC" }) {
                 </thead>
                 <tbody>
                     {commands && commands.map((command, index) => (
-                        <tr key={index} onClick={() => handleInfo(command.id)} style={bgColor(command.validate)}>
+                        <tr key={index} onClick={() => handleInfo(command.id)} style={bgColor(command.validation)}>
                             <th>{index + 1}</th>
                             <th className="text-capitalize">
                                 {
@@ -185,10 +189,10 @@ function AppTable({ compare = "=", orderBy = "DESC" }) {
                                 }
                             </th>
                             <td>
-                                <Button disabled={command.validate} title="valider cette commande" className="btn-bs btn-warning" onClick={(e) => handleCommand(command.id, 1, e)}>
+                                <Button disabled={command.validation[id]} title="valider cette commande" className="btn-bs btn-warning" onClick={(e) => handleCommand(command.id, 1, e)}>
                                     <i className="fas fa-check text-success" aria-hidden="true"></i>
                                 </Button>
-                                <Button disabled={command.validate == false} title="annuler cette commande" className="btn-bs btn-warning" onClick={(e) => handleCommand(command.id, 0, e)}>
+                                <Button disabled={command.validation[id] == false} title="annuler cette commande" className="btn-bs btn-warning" onClick={(e) => handleCommand(command.id, 0, e)}>
                                     <i className="fas fa-times text-danger" aria-hidden="true"></i>
                                 </Button>
                                 <Button title="envoyer un message" className="btn-bs btn-warning" onClick={(e) => handleCommand(command.id, 2, e)}>

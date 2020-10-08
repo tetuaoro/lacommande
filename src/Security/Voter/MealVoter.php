@@ -30,7 +30,7 @@ class MealVoter extends Voter
     {
         // replace with your own logic
         // https://symfony.com/doc/current/security/voters.html
-        return in_array($attribute, [self::VALIDATE, self::CREATE])
+        return in_array($attribute, [self::VALIDATE, self::CREATE, self::VIEW])
             && $subject instanceof Meal;
     }
 
@@ -55,6 +55,10 @@ class MealVoter extends Voter
 
         // ... (check conditions and return true to grant permission) ...
         switch ($attribute) {
+            case self::VIEW:
+                return $this->check(self::VALIDATE, $user, $subject);
+
+                break;
             case self::VALIDATE:
                 return $this->check(self::VALIDATE, $user, $subject);
 
