@@ -129,7 +129,7 @@ export default function Subuser() {
             )}
             <h3 className="ml-1 d-inline-block align-top">
                 <Badge variant="info">
-                    Quota {subs.data.length}/{subs.quota}
+                    {subs.data.length}/{subs.quota}
                 </Badge>
             </h3>
             <Fragment>

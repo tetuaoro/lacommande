@@ -112,7 +112,7 @@ export default function Meal() {
                     </Button>
                 </Fragment>
             }
-            <h3 className="ml-1 d-inline-block align-top"><Badge variant="info">Quota {meals.items}/{meals.quota}</Badge></h3>
+            <h3 className="ml-1 d-inline-block align-top"><Badge variant="info">{meals.items}/{meals.quota}</Badge></h3>
             <Fragment>
                 {meals.totalPage > 1 && meals.page > 0 &&
                     <Pagination className="d-flex justify-content-center mb-2">

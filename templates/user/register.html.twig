@@ -1,7 +1,7 @@
 {% extends "base.html.twig" %}
 
 {% block title %}
- Register
+	Register
 {% endblock %}
 
 {% block body %}
@@ -12,6 +12,49 @@
 				{{form_start(form)}}
 				{{form_rest(form)}}
 				{{form_end(form)}}
+			</div>
+			<div class="col-md"></div>
+		</div>
+		<div class="row">
+			<div class="col-md"></div>
+			<div class="col-md-9">
+				<h3 class="text-center tit7">{{ "Pourquoi " ~ nameSite ~ " ?" }}</h3>
+				<p class="text-justify my-3 mx-3">
+					Dédié particulièrement aux professionnels de la restauration, le site vous permettera de proposer vos produits en ligne que vos clients pourront commander en toute simplicité. L'interface se veut simple d'utilisation et permet également d'interagir facilement avec vos clients sur les réseaux sociaux. Ainsi vous disposerez d'une application belle, simple et
+					<strong>locale</strong>
+					en ligne qui accumulera automatiquement vos prochaines commandes sans appel, sans message privé, H24. Automatiser et concentrer vos commandes sur cette plateforme pour mieux gérer vos produits, moins gaspiller et être mieux préparer. Les coursiers professionnels indépendants pourront aussi satisfaire cette chaîne en passant contrat avec les traiteurs présents sur le site.
+				</p>
+				<ul class="list-group-flush">
+					<li class="list-group-item">
+						<i class="fas fa-globe text-primary"></i>
+						<span class="font-weight-bolder">Transformation numérique</span>
+						<i class="fas fa-check text-success float-right"></i>
+					</li>
+					<li class="list-group-item">
+						<i class="fas fa-shopping-cart text-danger"></i>
+						<span class="font-weight-bolder">Maîtrise de vos produits</span>
+						<i class="fas fa-check text-success float-right"></i>
+					</li>
+					<li class="list-group-item">
+						<i class="fas fa-phone-slash text-success"></i>
+						<span class="font-weight-bolder">Gain de temps</span>
+						<i class="fas fa-check text-success float-right"></i>
+					</li>
+					<li class="list-group-item">
+						<i class="far fa-eye"></i>
+						<span class="font-weight-bolder">Plus de visibilité, plus de client</span>
+						<i class="fas fa-check text-success float-right"></i>
+					</li>
+					<li class="list-group-item">
+						<i class="fas fa-euro-sign" style="color: #dcdc0a;"></i>
+						<span class="font-weight-normal">113 XPF / panier</span>
+						<em>*</em>
+						<i class="fas fa-building float-right"></i>
+					</li>
+				</ul>
+				<p>
+					<small class="small text-muted">* entreprise</small>
+				</p>
 			</div>
 			<div class="col-md"></div>
 		</div>
