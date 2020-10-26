@@ -122,7 +122,7 @@ class CommandApi extends AbstractController
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
-                $command->setValidation($user->getProvider());
+                $command->setValidation($user->getProvider(), $bool);
                 $this->getDoctrine()->getManager()->flush();
 
                 $this->dispatchMessage(new SendEmailMessage(3, $user->getId(), $command->getId(), $bool));

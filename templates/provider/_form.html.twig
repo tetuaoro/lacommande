@@ -1,32 +1,37 @@
 {{ form_start(form) }}
 <fieldset>
-	{% set half_first = form.openHours|slice(0, form.openHours|length / 2) %}
-	{% set half_second = form.openHours|slice(form.openHours|length / 2) %}
-	<div class="row">
-		{% for timeField in half_first %}
-			<div class="col-md">
-				{{form_row(timeField)}}
-			</div>
-		{% endfor %}
-	</div>
-	<div class="row">
-		{% for timeField in half_second %}
-			<div class="col-md">
-				{{form_row(timeField)}}
-			</div>
-		{% endfor %}
-	</div>
-	<hr>
+	{{ form_row(form.name) }}
 	{{ form_row(form.city) }}
+	{{ form_row(form.zoneDelivery) }}
+	{{ form_row(form.phone, {'help': '87XXXXXX'}) }}
 	{{ form_row(form.label) }}
 	{{ form_row(form.description) }}
 	{{ form_row(form.minPriceDelivery) }}
+	{{ form_row(form.minTimeCommand, {'help': 'en minutes'}) }}
 	{{ form_row(form.image) }}
 	<hr>
-	{{ form_row(form.linkinsta) }}
-	{{ form_row(form.linkfb) }}
-	{{ form_row(form.linktwitter) }}
+	<p class="h6 font-weight-bold">Réseaux/Contact</p>
+	<div class="form-group row">
+		{{form_label(form.linkinsta, '', {'label_attr': {'class': 'col-sm-3 col-form-label'}})}}
+		{{form_widget(form.linkinsta, {'attr': {'class': 'col-sm-9'}})}}
+	</div>
+	<div class="form-group row">
+		{{form_label(form.linkfb, '', {'label_attr': {'class': 'col-sm-3 col-form-label'}})}}
+		{{form_widget(form.linkfb, {'attr': {'class': 'col-sm-9'}})}}
+	</div>
+	<div class="form-group row">
+		{{form_label(form.linktwitter, '', {'label_attr': {'class': 'col-sm-3 col-form-label'}})}}
+		{{form_widget(form.linktwitter, {'attr': {'class': 'col-sm-9'}})}}
+	</div>
 	<hr>
+	<p class="h6 font-weight-bold">Horaires</p>
+	{% for timeField in form.openHours %}
+		<div class="form-group row">
+			{{form_label(timeField, '', {'label_attr': {'class': 'col-sm-3 col-form-label'}})}}
+			{{form_widget(timeField, {'attr': {'class': 'col-sm-9'}})}}
+		</div>
+	{% endfor %}
+	{{ form_errors(form) }}
 	<button class="btn">{{ button_label|default('Enregistrer') }}</button>
 </fieldset>
 {{ form_end(form) }}

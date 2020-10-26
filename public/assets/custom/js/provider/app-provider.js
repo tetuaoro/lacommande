@@ -18,8 +18,8 @@ $(document).ready(function () {
     spinner();
 
     xhr.onreadystatechange = function () {
-      spinner("hide");
       if (xhr.readyState == 4) {
+        spinner("hide");
         if (xhr.status == 201) {
           location.href = xhr.responseText;
         }

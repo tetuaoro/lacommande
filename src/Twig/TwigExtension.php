@@ -18,6 +18,7 @@ class TwigExtension extends AbstractExtension
             new TwigFilter('truncate', [$this, 'text_truncate']),
             new TwigFilter('uniqueG', [$this, 'unique_group']),
             new TwigFilter('htmldump', [$this, 'dump_html']),
+            new TwigFilter('phone', [$this, 'phone_plus']),
         ];
     }
 
@@ -55,5 +56,14 @@ class TwigExtension extends AbstractExtension
     public function dump_html($subject)
     {
         return strip_tags($subject);
+    }
+
+    public function phone_plus($subject)
+    {
+        if (false !== strpos($subject, '689')) {
+            return '+'.$subject;
+        }
+
+        return $subject;
     }
 }

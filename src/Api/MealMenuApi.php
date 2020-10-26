@@ -22,9 +22,9 @@ use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 /**
- * @Route("/manage", name="manage_")
+ * @Route("/mm", name="manage_")
  */
-class ManageApi extends AbstractController
+class MealMenuApi extends AbstractController
 {
     protected const QUOTAMEAL = 20;
 

@@ -28,12 +28,7 @@ class MealFixtures extends Fixture implements DependentFixtureInterface
         // $manager->persist($product);
 
         $faker = (new Factory())->create('fr_FR');
-        $images = [];
         $env = 'dev' == $_ENV['APP_ENV'];
-
-        for ($i = 0; $i < 11; ++$i) {
-            $images[] = 'https://lorempixel.com/1920/1920/food/'.$i.'/';
-        }
 
         $providers = $this->providerRepo->findAll();
         $tags = $this->tagsRepo->findAll();
@@ -64,10 +59,10 @@ class MealFixtures extends Fixture implements DependentFixtureInterface
                 ->setIsDelete(false)
                 ->setRecipe($paragraphs_recipe)
                 ->setDescription($paragraphs_description)
-                ->setImg($faker->randomElement($images))
+                ->setImg('https://via.placeholder.com/1920')
                 ->setImgInfo([
                     'name' => 'Aito.jpg',
-                    'size' => '200px',
+                    'size' => '1920px',
                     'metadata' => [
                         'fullname' => 'Aito.jpg',
                     ],

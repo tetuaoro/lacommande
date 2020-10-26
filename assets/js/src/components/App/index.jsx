@@ -10,6 +10,7 @@ import Notification from '../Notifications';
 import Subuser from '../Subuser';
 
 import './entry.css';
+import Setting from '../Setting';
 
 const KEYSHOW = 2;
 
@@ -108,8 +109,8 @@ export default function App() {
                 <Col md={2}>
                     <Table responsive="md">
                         <Nav variant="pills" className="flex-md-column d-md-ruby" defaultActiveKey={KEYSHOW}>
-                            {["Assiettes", "Carte/Menu", "Mes commandes", "Suppléant", "Notfication"].map((name, index) => (
-                                <Nav.Link key={index} className="btn mb-2" eventKey={index} disabled={(index == 4 || index == 3) && disabledBtn} onClick={() => handleComponent(index)}>{name} {index == 4 && badges > 0 && <Badge variant="light">{badges}</Badge>}</Nav.Link>
+                            {["Produits", "Carte/Menu", "Mes commandes", "Suppléants", "Notfication", "Paramètres"].map((name, index) => (
+                                <Nav.Link key={index} className="btn mb-2" eventKey={index} disabled={(index == 4 || index == 3 || index == 5) && disabledBtn} onClick={() => handleComponent(index)}>{name} {index == 4 && badges > 0 && <Badge variant="light">{badges}</Badge>}</Nav.Link>
                             ))}
                         </Nav>
                     </Table>
@@ -131,6 +132,7 @@ export default function App() {
                         {component == 2 && <Command />}
                         {component == 3 && <Subuser />}
                         {component == 4 && <Notification />}
+                        {component == 5 && <Setting />}
                         <Modal show={show} onHide={() => clear()} centered={true} scrollable={true}>
                             <Modal.Header closeButton>
                                 <Modal.Title>{modalTitle}</Modal.Title>

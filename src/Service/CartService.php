@@ -5,6 +5,7 @@ namespace App\Service;
 use App\Entity\Command;
 use App\Repository\MealRepository;
 use App\Repository\ProviderRepository;
+use DateTime;
 use Spatie\OpeningHours\OpeningHours;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
@@ -112,16 +113,17 @@ class CartService
         return ['check' => true];
     }
 
-    public function checkOpenHours(\DateTime $dateTime): array
+    public function checkOpenHours(DateTime $dateTime): array
     {
         $timezone = new \DateTimeZone('Pacific/Honolulu');
+        $date = new \DateTime('now', $timezone);
 
         foreach ($this->getCartByProvider() as $id => $tabs) {
             $provider = $this->providerRepo->find($id);
 
             $openingHours = OpeningHours::create($provider->getOpenHours(), $timezone);
 
-            if (!$openingHours->isOpenAt($dateTime)) {
+            if ($openingHours->isClosedAt($dateTime) || $date->modify('+'.$provider->getMinTimeCommand().' minutes') > $dateTime) {
                 return ['check' => false, 'provider' => $provider];
             }
         }

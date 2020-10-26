@@ -126,6 +126,11 @@ class Meal
      */
     private $isDelete;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $viewer;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
@@ -142,6 +147,13 @@ class Meal
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function plusOneViewer(): int
+    {
+        ++$this->viewer;
+
+        return $this->viewer;
     }
 
     public function getName(): ?string
@@ -439,6 +451,18 @@ class Meal
     public function setIsDelete(bool $isDelete): self
     {
         $this->isDelete = $isDelete;
+
+        return $this;
+    }
+
+    public function getViewer(): ?int
+    {
+        return $this->viewer;
+    }
+
+    public function setViewer(int $viewer): self
+    {
+        $this->viewer = $viewer;
 
         return $this;
     }

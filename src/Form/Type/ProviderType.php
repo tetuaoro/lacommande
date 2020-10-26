@@ -6,6 +6,7 @@ use App\Entity\Provider;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
@@ -20,16 +21,28 @@ class ProviderType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('name', TextType::class, [
+                'label' => 'Nom',
+            ])
             ->add('openHours', OpenHoursType::class)
             ->add('label', TextType::class, [
                 'required' => false,
                 'label' => 'Label',
             ])
             ->add('city', TextType::class)
+            ->add('zoneDelivery', TextType::class)
             ->add('description', TextareaType::class, [
                 'required' => false,
             ])
             ->add('minPriceDelivery', IntegerType::class, [
+                'attr' => [
+                    'min' => 0,
+                ],
+            ])
+            ->add('minTimeCommand', IntegerType::class, [
+                'attr' => [
+                    'min' => 0,
+                ],
             ])
             ->add('linkinsta', UrlType::class, [
                 'required' => false,
@@ -74,6 +87,13 @@ class ProviderType extends AbstractType
                     ]),
                 ],
             ])
+            ->add('phone', TelType::class, [
+                'required' => false,
+                'label' => 'Téléphone',
+                'attr' => [
+                    'pattern' => '^(?:\+689)?(87|89|92|40)(\d{6})$',
+                ],
+            ])
         ;
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
@@ -114,6 +134,9 @@ class ProviderType extends AbstractType
         $resolver->setDefaults([
             'translation_domain' => 'form',
             'data_class' => Provider::class,
+            'attr' => [
+                'id' => 'providerForm',
+            ],
         ]);
     }
 }

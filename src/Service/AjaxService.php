@@ -155,7 +155,7 @@ class AjaxService
     {
         return $this->form->create(ProviderType::class, $provider, [
             'method' => 'POST',
-            'action' => $this->router->generate('provider_edit', ['id' => $provider->getId()]),
+            'action' => $this->router->generate('setting_edit', ['id' => $provider->getId()]),
         ]);
     }
 

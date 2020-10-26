@@ -23,10 +23,7 @@
 		</div>
 	</div>
 	<div class="col-md">
-		{{ form_row(form.phone, {'label': false, 'help': '+68987XXXXXX'}) }}
-	</div>
-	<div class="col-md">
-		{{ form_row(form.city, {'label': false, 'help': 'pk18-Paea-Papara'}) }}
+		{{ form_row(form.city, {'label': false, 'help': 'Papeete, Rue St-Paul, Immeuble X'}) }}
 	</div>
 </div>
 <h2>{{ "Sécurité" | trans({}, 'connect') }}</h2>
@@ -39,9 +36,9 @@
 	<small>
 		<em>*
 		</em>En créant un compte sur
-		<a href="{{ path('app_index') }}">{{ nameSite}}</a>, vous acceptez les
-		<a href="{{path('app_credit')}}">Conditions d'utilisations</a>, ainsi que l'utilisattion des
-		<a href="{{path('app_rgpd')}}">Cookies</a>
+		<a style="font-size: 0.8rem;" href="{{ path('app_index') }}">{{ nameSite}}</a>, vous acceptez les
+		<a style="font-size: 0.8rem;" href="{{path('app_credit')}}">Conditions d'utilisations</a>, ainsi que l'utilisattion des
+		<a style="font-size: 0.8rem;" href="{{path('app_rgpd')}}">Cookies</a>
 		du site.</small>
 </p>
 {{ form_end(form) }}

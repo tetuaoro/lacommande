@@ -102,12 +102,6 @@ class User implements UserInterface
     private $subuser;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\Regex("/^(?:689)?(87|89|92|40)(\d{6})$/")
-     */
-    private $phone;
-
-    /**
      * @ORM\Column(type="boolean")
      */
     private $validate;
@@ -280,18 +274,6 @@ class User implements UserInterface
     public function setLambda(?Lambda $lambda): self
     {
         $this->lambda = $lambda;
-
-        return $this;
-    }
-
-    public function getPhone(): ?int
-    {
-        return $this->phone;
-    }
-
-    public function setPhone(?int $phone): self
-    {
-        $this->phone = $phone;
 
         return $this;
     }

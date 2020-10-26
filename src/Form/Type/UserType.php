@@ -31,13 +31,6 @@ class UserType extends AbstractType
             ->add('email', EmailType::class, [
                 'required' => true,
             ])
-            ->add('phone', TelType::class, [
-                'label' => false,
-                'attr' => [
-                    'placeholder' => 'tel',
-                    'pattern' => '^(?:\+689)?(87|89|92|40)(\d{6})$',
-                ],
-            ])
             ->add('city', TextType::class, [
                 'label' => false,
                 'mapped' => false,

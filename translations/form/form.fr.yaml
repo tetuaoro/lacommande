@@ -48,6 +48,8 @@ help order : Assurez-vous de coordonner parfaitement l'heure de livraison
 Label: Label
 Page Instagram: Page Instagram
 Min price delivery: Prix minimum de livraison
+Zone delivery: Zone de livraison
+Min time command: Temps minimum de commande
 le lien vers votre instagram: le lien vers votre instagram
 Page Facebook: Page Facebook
 le lien vers votre page facebook: le lien vers votre page facebook
@@ -86,4 +88,4 @@ Friday: Vendredi
 Saturday: Samedi
 Sunday: Dimanche
 
-City: Ville/Commune de livraison
+City: Adresse de l'entreprise

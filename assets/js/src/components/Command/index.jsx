@@ -120,7 +120,7 @@ function AppTable({ compare = "=", orderBy = "DESC" }) {
 
     const handleCommand = (id, bool, evt) => {
         evt.stopPropagation();
-        setModalTitle(bool == 2 ? "Envoyer un message" : bool == 1 ? "Valider" : "Annuler");
+        setModalTitle(bool == 2 ? "Envoyer un message" : bool == 1 ? "Valider cette commande" : "Annuler cette commande");
         setShow(true);
         getForm(id, bool);
     }

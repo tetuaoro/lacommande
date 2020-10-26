@@ -1,14 +1,14 @@
 
-export const MEALS = "/api/manage/meals";
-export const MEALNEW = "/api/manage/new-meal";
-export const MEALEDIT = "/api/manage/edit-meal-";
-export const MEALDELETE = "/api/manage/delete-meal-";
+export const MEALS = "/api/mm/meals";
+export const MEALNEW = "/api/mm/new-meal";
+export const MEALEDIT = "/api/mm/edit-meal-";
+export const MEALDELETE = "/api/mm/delete-meal-";
 export const MEALSHOW = "/fr/product/details/";
 
-export const MENUS = "/api/manage/menus";
-export const MENUNEW = "/api/manage/new-menu";
-export const MENUEDIT = "/api/manage/edit-menu-";
-export const MENUDELETE = "/api/manage/delete-menu-";
+export const MENUS = "/api/mm/menus";
+export const MENUNEW = "/api/mm/new-menu";
+export const MENUEDIT = "/api/mm/edit-menu-";
+export const MENUDELETE = "/api/mm/delete-menu-";
 
 export const COMMANDS = "/api/command/";
 export const COMMANDINFO = "/api/command/show-";
@@ -24,3 +24,6 @@ export const SUBEDITAUTH = "/api/sub/edit-auth-sub-";
 export const NOTIFICATIONS = "/api/notification/";
 export const NOTIFICATIONCOUNT = "/api/notification/count";
 export const NOTIFICATIONDELETE = "/api/notification/delete-notif-";
+
+export const SETTING = "/api/setting/";
+export const SETTINGEDIT = "/api/setting/edit-set-";

@@ -55,10 +55,11 @@
 						<div class="text-blo5 size34 t-center bo-rad-10 p-t-90 p-l-35 p-r-35 p-b-30">
 
 							<div class="btn-group-meal">
-
-								<a data-toggle="collapse" href="#collapseCommand" role="button" aria-expanded="false" aria-controls="collapseCommand">
-									<i class="fas fa-shopping-cart" aria-hidden="true" title="{% if meal_view %}Vous ne pouvez pas commander votre propre produit !{% else %}{{'Ajouter au panier' | trans}}{% endif %}"></i>
-								</a>
+								{% if false == meal_view %}
+									<a data-toggle="collapse" href="#collapseCommand" role="button" aria-expanded="false" aria-controls="collapseCommand">
+										<i class="fas fa-shopping-cart" aria-hidden="true" title="{% if meal_view %}Vous ne pouvez pas commander votre propre produit !{% else %}{{'Ajouter au panier' | trans}}{% endif %}"></i>
+									</a>
+								{% endif %}
 								<a target="_blank" href="https://www.facebook.com/dialog/share?app_id={{ get_env('OAUTH_FACEBOOK_ID') }}&display=popup&href={{meal.bitly.link}}">
 									<i class="fa fa-facebook m-l-21" aria-hidden="true" title="{{ 'Partager sur facebook' | trans }}"></i>
 								</a>
@@ -150,5 +151,7 @@
 	{% if false == meal_view %}
 		<script src="https://www.google.com/recaptcha/api.js?render={{get_env('RECAPTCHA_KEY_3')}}" type="text/javascript"></script>
 		<script src="{{asset('assets/custom/js/meal/app-command.js')}}"></script>
+	{% else %}
+		<script src="{{asset('assets/custom/js/copy.js')}}"></script>
 	{% endif %}
 {% endblock %}

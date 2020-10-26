@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * @Route("/product", name="meal_")
@@ -42,8 +43,13 @@ class MealController extends AbstractController
     /**
      * @Route("/details/{slug}-{id}", name="show", methods={"GET"}, requirements={"slug": "[a-z0-9\-]*"})
      */
-    public function show(string $slug, Meal $meal, AjaxService $ajaxService): Response
+    public function show(string $slug, Meal $meal, AjaxService $ajaxService, Security $security): Response
     {
+        if (!$security->isGranted('ROLE_PROVIDER') && !$security->isGranted('ROLE_SUBUSER')) {
+            $meal->plusOneViewer();
+            $this->getDoctrine()->getManager()->flush();
+        }
+
         if ($meal->getIsDelete()) {
             throw $this->createNotFoundException('Cette assiette n\'existe plus !');
         }

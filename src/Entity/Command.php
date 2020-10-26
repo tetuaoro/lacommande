@@ -380,16 +380,9 @@ class Command
         return $this->validation;
     }
 
-    public function setValidation(Provider $provider): self
+    public function setValidation(Provider $provider, bool $bool): self
     {
-        $key_exist = array_key_exists($provider->getId(), $this->validation);
-        if (!$key_exist) {
-            $this->validation[$provider->getId()] = true;
-        } elseif ($key_exist && true == $this->validation[$provider->getId()]) {
-            $this->validation[$provider->getId()] = false;
-        } else {
-            $this->validation[$provider->getId()] = true;
-        }
+        $this->validation[$provider->getId()] = $bool;
 
         return $this;
     }

@@ -54,17 +54,18 @@
 				</a>
 			</div>
 			<span class="bgImg-edit">
-				<span  data-toggle="tooltip" data-placement="top" title="les vues" class="badge badge-danger">
+				<span data-toggle="tooltip" data-placement="top" title="les vues" class="badge badge-danger">
 					<i class="fas fa-eye" aria-hidden="true"></i>
 					{{provider.viewer}}
 				</span>
-				<span  data-toggle="tooltip" data-placement="top" title="total des commandes" class="badge badge-warning">
+				<span data-toggle="tooltip" data-placement="top" title="total des commandes" class="badge badge-warning">
 					<i class="fas fa-shopping-cart" aria-hidden="true"></i>
 					{{commands|round}}
 				</span>
-				<span  data-toggle="tooltip" data-placement="top" title="moyenne des prix des produits" class="badge badge-info">
+				<span data-toggle="tooltip" data-placement="top" title="moyenne des prix des produits" class="badge badge-info">
 					<i class="fas fa-utensils" aria-hidden="true"></i>
-					{{avgPriceMeal|round}} XPF
+					{{avgPriceMeal|round}}
+					XPF
 				</span>
 				{% if edit %}
 					<a href="" data-toggle="modal" data-target="#providerModal">
@@ -74,7 +75,14 @@
 				{% endif %}
 			</span>
 		</section>
-
+		
+		{% if provider.description %}
+			<section id="description" class="bg2-pattern pos-relative p-t-5 p-b-25 t-center p-l-15 p-r-15">
+				<p class="t-center font-italic m-t-35 size32 m-l-r-auto">
+					{{provider.description}}
+				</p>
+			</section>
+		{% endif %}
 		{% if menus|length > 0 %}
 			<section id="menu" class="bg1-pattern section-mainmenu p-t-90 p-b-70">
 				<span class="tit2 t-center d-flex justify-content-center m-b-55">
@@ -156,7 +164,7 @@
 			<span class="tit2 t-center m-b-35">
 				Nos Horaires et Lieux de livraison
 			</span>
-			<h5 class="t-center text-bold my-2">{{provider.city}}</h5>
+			<h5 class="t-center text-bold my-2">{{provider.zoneDelivery}}</h5>
 			<ul class="list-group m-t-35 list-group-horizontal-md d-flex justify-content-center">
 				{% for key, times in provider.openHours %}
 					<li class="list-group-item border-0 bg-transparent">
@@ -249,9 +257,6 @@
 				<span class="tit2 t-center m-b-35">
 					Nos Réseaux sociaux
 				</span>
-				<p class="t-center m-t-35 size32 m-l-r-auto">
-					{{provider.description}}
-				</p>
 				<ul class="list-group list-group-horizontal-xl d-flex justify-content-center">
 					{% if provider.linkfb %}
 						<li class="list-group-item border-0 bg-transparent">

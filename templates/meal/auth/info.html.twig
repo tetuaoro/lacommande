@@ -11,8 +11,12 @@
 				<li class="list-group-item">
 					<span>Stock : {{meal.stock}}</span>
 				</li>
+				<li class="list-group-item">
+					<span>Vue : {{meal.viewer}}</span>
+				</li>
 				<li class="list-group-item">Lien :
-					<a href="{{meal.bitly.link}}">{{meal.bitly.link}}</a>
+					<span id="myInput" title="cliquer pour copier">{{meal.bitly.link}}</span>
+					<input value="{{meal.bitly.link}}" id="mySelect" type="text" class="d-none"/>
 				</li>
 				<li class="list-group-item">
 					<img src="{{ qr_code_url(meal.bitly.link, {size:150}) }}"/>

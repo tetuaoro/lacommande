@@ -38,7 +38,7 @@ class CommandType extends AbstractType
                     'placeholder' => 'tel',
                     'pattern' => '^(?:\+689)?(87|89|92|40)(\d{6})$',
                 ],
-                'data' => $user ? $user->getPhone() : '',
+                'data' => $user ? $user->getProvider()->getPhone() : '',
             ])
             ->add('email', EmailType::class, [
                 'translation_domain' => 'form',
@@ -112,6 +112,14 @@ class CommandType extends AbstractType
                 'error_bubbling' => false,
                 'attr' => [
                     'class' => 'min',
+                ],
+            ])
+            ->add('minTime', HiddenType::class, [
+                'mapped' => false,
+                'required' => false,
+                'error_bubbling' => false,
+                'attr' => [
+                    'class' => 'minTime',
                 ],
             ])
             ->add('openHours', HiddenType::class, [

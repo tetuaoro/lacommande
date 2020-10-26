@@ -7,26 +7,34 @@
 
 <footer class="bg1">
 	<div class="container p-t-40 p-b-70">
-			<div class="row">
-				<div id="contact" class="col-sm-6 col-md-4 p-t-50">
-					<h4 class="txt13 m-b-33">
-						Contact
-					</h4>
-		{% if controller_name is defined and controller_name == 'provider:show' %}
+		<div class="row">
+			<div id="contact" class="col-sm-6 col-md-4 p-t-50">
+				<h4 class="txt13 m-b-33">
+					Contact
+				</h4>
+				{% if controller_name is defined and controller_name == 'provider:show' %}
 					<ul class="m-b-70">
+
 						<li class="txt14 m-b-14">
 							<i class="fa fa-user fs-16 dis-inline-block size19" aria-hidden="true"></i>
 							{{provider.name}}
 						</li>
 
 						<li class="txt14 m-b-14">
+							<i class="fa fa-map-marker fs-16 dis-inline-block size19" aria-hidden="true"></i>
+							{{provider.city}}
+						</li>
+
+						<li class="txt14 m-b-14">
 							<i class="fa fa-phone fs-16 dis-inline-block size19" aria-hidden="true"></i>
-							{{provider.user.phone}}
+							<a href="tel:{{provider.phone|phone}}">
+								{{provider.phone|phone}}
+							</a>
 						</li>
 
 						<li class="txt14 m-b-14">
 							<i class="fa fa-envelope fs-13 dis-inline-block size19" aria-hidden="true"></i>
-							{{provider.user.email}}
+							<a href="mailto:{{provider.user.email}}">{{provider.user.email}}</a>
 						</li>
 					</ul>
 					<!-- - -->
@@ -47,8 +55,8 @@
 							{% endfor %}
 						</tbody>
 					</table>
-		{% else %}
-				<ul class="m-b-70">
+				{% else %}
+					<ul class="m-b-70">
 						<li class="txt14 m-b-14">
 							<i class="fa fa-map-marker fs-16 dis-inline-block size19" aria-hidden="true"></i>
 							Paea, Tahiti Polynésie Française
@@ -61,7 +69,7 @@
 
 						<li class="txt14 m-b-14">
 							<i class="fa fa-envelope fs-13 dis-inline-block size19" aria-hidden="true"></i>
-							support@ariifood.pf
+							<a href="mailto:support@ariifood.pf">support@ariifood.pf</a>
 						</li>
 					</ul>
 
@@ -79,17 +87,17 @@
 							Tous les jours
 						</li>
 					</ul>
-		{% endif %}
-		</div>
-				<div class="col-sm-6 col-md-4 p-t-50">
-					<h4 class="txt13 m-b-38">
-						Gallerie
-					</h4>
-
-					<!-- Gallery footer -->
-					{{ render(path('app_gallery')) }}
-				</div>
+				{% endif %}
 			</div>
+			<div class="col-sm-6 col-md-4 p-t-50">
+				<h4 class="txt13 m-b-38">
+					Gallerie
+				</h4>
+
+				<!-- Gallery footer -->
+				{{ render(path('app_gallery')) }}
+			</div>
+		</div>
 	</div>
 
 	<div class="end-footer bg2">

@@ -20,13 +20,13 @@ class Provider
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"commandjs"})
+     * @Groups({"commandjs", "settingjs"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"commandjs"})
+     * @Groups({"commandjs", "settingjs"})
      */
     private $name;
 
@@ -36,19 +36,19 @@ class Provider
     private $createdAt;
 
     /**
-     * @ORM\OneToMany(targetEntity=Meal::class, mappedBy="provider")
+     * @ORM\OneToMany(targetEntity=Meal::class, mappedBy="provider", orphanRemoval=true)
      */
     private $meals;
 
     /**
      * @Gedmo\Slug(fields={"name"})
      * @ORM\Column(type="string", length=255)
-     * @Groups({"commandjs"})
+     * @Groups({"commandjs", "settingjs"})
      */
     private $slug;
 
     /**
-     * @ORM\OneToMany(targetEntity=Menu::class, mappedBy="provider")
+     * @ORM\OneToMany(targetEntity=Menu::class, mappedBy="provider", orphanRemoval=true)
      */
     private $menus;
 
@@ -59,26 +59,31 @@ class Provider
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"settingjs"})
      */
     private $city;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"settingjs"})
      */
     private $bgImg;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"settingjs"})
      */
     private $linkfb;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"settingjs"})
      */
     private $linkinsta;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"settingjs"})
      */
     private $linktwitter;
 
@@ -91,11 +96,13 @@ class Provider
      * banière.
      *
      * @ORM\Column(type="text", nullable=true)
+     * @Groups({"settingjs"})
      */
     private $label;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups({"settingjs"})
      */
     private $description;
 
@@ -106,17 +113,20 @@ class Provider
 
     /**
      * @ORM\Column(type="integer")
-     * @Assert\GreaterThanOrEqual(100)
+     * @Assert\GreaterThanOrEqual(0)
+     * @Groups({"settingjs"})
      */
     private $minPriceDelivery;
 
     /**
      * @ORM\Column(type="array")
+     * @Groups({"settingjs"})
      */
     private $openHours = [];
 
     /**
      * @ORM\Column(type="array")
+     * @Groups({"settingjs"})
      */
     private $bitly = [];
 
@@ -134,6 +144,25 @@ class Provider
      * @ORM\ManyToMany(targetEntity=Notification::class, mappedBy="providers")
      */
     private $notifications;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Regex("/^(?:689)?(87|89|92|40)(\d{6})$/")
+     * @Groups({"settingjs"})
+     */
+    private $phone;
+
+    /**
+     * @ORM\Column(type="integer")
+     * @Groups({"settingjs"})
+     */
+    private $minTimeCommand;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"settingjs"})
+     */
+    private $zoneDelivery;
 
     public function __construct()
     {
@@ -153,6 +182,18 @@ class Provider
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getPhone(): ?int
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(?int $phone): self
+    {
+        $this->phone = $phone;
+
+        return $this;
     }
 
     public function getName(): ?string
@@ -525,11 +566,11 @@ class Provider
         return $this;
     }
 
-    public function plusOneViewer(): self
+    public function plusOneViewer(): int
     {
         ++$this->viewer;
 
-        return $this;
+        return $this->viewer;
     }
 
     /**
@@ -560,6 +601,30 @@ class Provider
             $this->notifications->removeElement($notification);
             $notification->removeProvider($this);
         }
+
+        return $this;
+    }
+
+    public function getMinTimeCommand(): ?int
+    {
+        return $this->minTimeCommand;
+    }
+
+    public function setMinTimeCommand(int $minTimeCommand): self
+    {
+        $this->minTimeCommand = $minTimeCommand;
+
+        return $this;
+    }
+
+    public function getZoneDelivery(): ?string
+    {
+        return $this->zoneDelivery;
+    }
+
+    public function setZoneDelivery(?string $zoneDelivery): self
+    {
+        $this->zoneDelivery = $zoneDelivery;
 
         return $this;
     }

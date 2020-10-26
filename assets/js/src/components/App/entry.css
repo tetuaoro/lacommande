@@ -19,3 +19,7 @@
 .btn:focus {
   box-shadow: none;
 }
+
+table.table-setting tbody th {
+  width: 35%;
+}
