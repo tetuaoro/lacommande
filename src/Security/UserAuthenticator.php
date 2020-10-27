@@ -70,6 +70,11 @@ class UserAuthenticator extends AbstractFormLoginAuthenticator
         $user = $this->entityManager->getRepository(User::class)->findOneBy(['username' => $credentials['username']]);
 
         if (!$user) {
+            // check by email
+            $user = $this->entityManager->getRepository(User::class)->findOneBy(['email' => $credentials['username']]);
+        }
+
+        if (!$user) {
             // fail authentication with a custom error
             throw new CustomUserMessageAuthenticationException('Username could not be found.');
         }
@@ -79,7 +84,7 @@ class UserAuthenticator extends AbstractFormLoginAuthenticator
         }
 
         if (!$user->getValidate()) {
-            throw new CustomUserMessageAuthenticationException('Votre compte a été gelé. Contactez-nous via le mail support@ariifood.pf pour en connaître les raisons !');
+            throw new CustomUserMessageAuthenticationException('Votre compte a été gelé. Contactez-nous via le mail support@ariifood.pf pour connaître les raisons !');
         }
 
         return $user;

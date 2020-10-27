@@ -84,7 +84,6 @@ class SubuserApi extends AbstractController
                     ->setNtahiti($user->getNtahiti().'#')
                     ->setSubuser($subuser)
                     ->setRoles($roles)
-                    ->setPhone($user->getPhone())
                     ->setValidate(true)
                 ;
 

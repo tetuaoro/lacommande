@@ -70,6 +70,7 @@ class UserController extends AbstractController
                         'saturday' => ['09:00-12:00', '13:00-16:00'],
                         'sunday' => [],
                     ])
+                    ->setMinTimeCommand(10)
                     ->setMinPriceDelivery(2500)
                     ->setCity($form->get('city')->getData())
                     ->setViewer(0)

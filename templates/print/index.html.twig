@@ -1,0 +1,15 @@
+{{form_start(form)}}
+{{form_row(form.date)}}
+<button class="btn btn-bs btn-warning">
+	Rechercher
+</button>
+{{form_end(form)}}
+
+{% if commands is defined %}
+	<p>Nous avons trouvé
+		{{commands}}
+		résultat(s).</p>
+	{% if commands > 0 %}
+		<a target="_blank" href="{{path('print_result', {date: date|date('d-m-Y'), id: provider.id})}}" class="btn btn-bs btn-warning">Imprimer</button>
+	{% endif %}
+{% endif %}

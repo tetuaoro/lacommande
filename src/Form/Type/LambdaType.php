@@ -34,6 +34,7 @@ class LambdaType extends AbstractType
             ->add('username', TextType::class, [
             ])
             ->add('phone', TelType::class, [
+                'mapped' => false,
                 'help' => '87XXXXXX ou 89XXXXXX',
                 'attr' => [
                     'placeholder' => 'tel',

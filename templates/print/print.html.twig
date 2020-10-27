@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<style>
+			body {
+				font-size: 12px;
+			}
+
+			table {
+				max-width: 2480px;
+				width: 100%;
+				border-collapse: collapse;
+			}
+			td {
+				padding: 1px 8px;
+				border-top: 1px solid black;
+			}
+		</style>
+
+		<title>Liste des commandes validées</title>
+	</head>
+	<body>
+
+		<h2>{{provider.name}}</h2>
+
+		<p>Liste des commandes validées du
+			{{date|date('d/m/y')}}
+			!
+			<i>(ordonné par référence)</i>
+		</p>
+
+		<table>
+			<thead>
+				<th>Nom</th>
+				<th>Réference</th>
+				<th>Adresse</th>
+				<th>Commentaire</th>
+				<th>Produit</th>
+				<th>Prix</th>
+			</thead>
+			<tbody>
+				{% for command in commands %}
+					{% set totalPrice = 0 %}
+					<tr>
+						<td>{{command.name}}</td>
+						<td>{{command.reference}}</td>
+						<td>{{command.address}}</td>
+						<td>{{command.comment}}</td>
+						<td>
+							{{command.meals|map(meal => meal.name ~ ' (' ~ command.details[meal.id] ~ 'X)')|join(', ', ' et ')}}
+						</td>
+						<td>
+							{% for meal in command.meals %}
+								{% set totalPrice = totalPrice + (command.details[meal.id] * meal.price) %}
+							{% endfor %}
+							{{totalPrice}}
+							XPF
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+
+		<script>
+			window.print();
+		</script>
+	</body>
+</html>

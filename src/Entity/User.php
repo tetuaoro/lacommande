@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -45,6 +46,7 @@ class User implements UserInterface
     /**
      * @Assert\Length(min=8, minMessage="l'identifiant doit faire 8 caractères minimum")
      * @ORM\Column(type="string", length=255, unique=true)
+     * @Groups({"settingjs"})
      */
     private $username;
 
@@ -67,12 +69,14 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255, unique=true, nullable=true)
      * @Assert\Email(message = "Une adresse mail.")
+     * @Groups({"settingjs"})
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\Length(min=6,max=9)
+     * @Groups({"settingjs"})
      */
     private $ntahiti;
 

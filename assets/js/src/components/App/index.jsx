@@ -133,12 +133,12 @@ export default function App() {
                         {component == 3 && <Subuser />}
                         {component == 4 && <Notification />}
                         {component == 5 && <Setting />}
-                        <Modal show={show} onHide={() => clear()} centered={true} scrollable={true}>
+                        <Modal show={show} onHide={clear} centered={true} scrollable={true}>
                             <Modal.Header closeButton>
                                 <Modal.Title>{modalTitle}</Modal.Title>
                             </Modal.Header>
                             <Modal.Body>
-                                {content && <div dangerouslySetInnerHTML={{ __html: sanitizer(content) }} />}
+                                {content && <div dangerouslySetInnerHTML={{ __html: sanitizer(content, {ADD_ATTR: ['target']}) }} />}
                             </Modal.Body>
                         </Modal>
                     </AppContext.Provider>

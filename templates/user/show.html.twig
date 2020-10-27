@@ -21,21 +21,29 @@
 							<th>Nom d'utilisateur</th>
 							<td>{{ user.username }}</td>
 						</tr>
-						{% if not is_granted('ROLE_LAMBDA') %}
-							<tr>
-								<th>N° T.A.H.I.T.I</th>
-								<td>{{ user.ntahiti }}</td>
-							</tr>
-						{% endif %}
-						<tr>
-							<th>Téléphone</th>
-							<td>{{ user.provider.phone }}</td>
-						</tr>
 						<tr>
 							<th>Email</th>
 							<td>{{ user.email }}</td>
 						</tr>
+						{% if is_granted('ROLE_LAMBDA') %}
+							<tr>
+								<th>Téléphone</th>
+								<td>{{ user.lambda.phone }}</td>
+							</tr>
+						{% endif %}
 						{% if is_granted('ROLE_PROVIDER') %}
+							<tr>
+								<th>N° T.A.H.I.T.I</th>
+								<td>{{ user.ntahiti }}</td>
+							</tr>
+							<tr>
+								<th>Téléphone</th>
+								<td>{{ user.provider.phone }}</td>
+							</tr>
+							<tr>
+								<th>Bitly</th>
+								<td>{{ user.provider.bitly.link }}</td>
+							</tr>
 							<tr>
 								<th>Qr Code</th>
 								<td>

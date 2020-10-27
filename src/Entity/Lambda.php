@@ -47,6 +47,11 @@ class Lambda
      */
     private $commands;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $phone;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
@@ -164,6 +169,18 @@ class Lambda
                 $command->setLambda(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(string $phone): self
+    {
+        $this->phone = $phone;
 
         return $this;
     }

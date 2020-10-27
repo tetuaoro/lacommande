@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Command;
 use App\Entity\Provider;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Form\FormInterface;
@@ -65,6 +66,59 @@ class CommandRepository extends ServiceEntityRepository
 
         return $q
             ->setParameter('id', $provider->getId())
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function getTotalOrderToPrint(Provider $provider, DateTime $date)
+    {
+        $tz = new \DateTimeZone('UTC');
+        $today = (clone $date)->setTimezone($tz)->setTime(0, 0);
+        $tomorrow = (clone $today)->modify('+1 days');
+
+        return $this->createQueryBuilder('c')
+            ->select('COUNT(c)')
+            ->leftJoin('c.providers', 'p')
+            ->where('p = :id')
+            ->andWhere('c.validation LIKE :bonjour')
+            ->andWhere('c.commandAt BETWEEN :today AND :tomorrow')
+            ->setParameters([
+                'id' => $provider->getId(),
+                // https://stackoverflow.com/questions/23875574/doctrine2-find-by-value-in-field-array
+                'bonjour' => '%{i:'.$provider->getId().';b:1;}%',
+                'today' => $today,
+                'tomorrow' => $tomorrow,
+            ])
+            ->getQuery()
+            ->getSingleScalarResult()
+        ;
+    }
+
+    public function getOrderToPrint(Provider $provider, DateTime $date)
+    {
+        $tz = new \DateTimeZone('UTC');
+        $today = (clone $date)->setTimezone($tz)->setTime(0, 0);
+        $tomorrow = (clone $today)->modify('+1 days');
+
+        $id = $provider->getId();
+
+        return $this->createQueryBuilder('c')
+            ->select('c, m')
+            ->leftJoin('c.providers', 'p')
+            ->leftJoin('c.meals', 'm')
+            ->where('m.provider = :id')
+            ->andWhere('p = :id')
+            ->andWhere('c.validation LIKE :bonjour')
+            ->andWhere('c.commandAt BETWEEN :today AND :tomorrow')
+            ->orderBy('c.reference', 'ASC')
+            ->setParameters([
+                'id' => $id,
+                // https://stackoverflow.com/questions/23875574/doctrine2-find-by-value-in-field-array
+                'bonjour' => '%{i:'.$id.';b:1;}%',
+                'today' => $today,
+                'tomorrow' => $tomorrow,
+            ])
             ->getQuery()
             ->getResult()
         ;

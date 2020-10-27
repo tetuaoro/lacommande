@@ -17,12 +17,6 @@ use Symfony\Component\Routing\RouterInterface;
 
 class UserType extends AbstractType
 {
-    protected $router;
-
-    public function __construct(RouterInterface $routerInterface)
-    {
-        $this->router = $routerInterface;
-    }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {

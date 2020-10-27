@@ -62,6 +62,10 @@ class CommandType extends AbstractType
                 'time_widget' => 'single_text',
                 'view_timezone' => 'Pacific/Honolulu',
                 'data' => new \DateTime('+1 hours'),
+                'attr' => [
+                    'min' => new \DateTime('now'),
+                    'max' => new \DateTime('+6 month'),
+                ],
                 'constraints' => [
                     new Assert\Range([
                         'min' => 'now',

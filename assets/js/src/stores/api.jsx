@@ -27,3 +27,5 @@ export const NOTIFICATIONDELETE = "/api/notification/delete-notif-";
 
 export const SETTING = "/api/setting/";
 export const SETTINGEDIT = "/api/setting/edit-set-";
+
+export const PRINT = "/api/print/"

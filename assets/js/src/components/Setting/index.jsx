@@ -41,6 +41,11 @@ export default function Setting() {
         },
         bitly: {
             link: ""
+        },
+        user: {
+            username: "",
+            email: "",
+            ntahiti: "",
         }
     });
 
@@ -114,6 +119,18 @@ export default function Setting() {
                         <td><Fragment>{setting.name}</Fragment></td>
                     </tr>
                     <tr>
+                        <th>Nom d'utilisateur</th>
+                        <td><Fragment>{setting.user.username}</Fragment></td>
+                    </tr>
+                    <tr>
+                        <th>Email pro</th>
+                        <td><Fragment>{setting.user.email}</Fragment></td>
+                    </tr>
+                    <tr>
+                        <th>N° T.A.H.I.T.I</th>
+                        <td><Fragment>{setting.user.ntahiti}</Fragment></td>
+                    </tr>
+                    <tr>
                         <th>Adresse d'entreprise</th>
                         <td><Fragment>{setting.city}</Fragment></td>
                     </tr>
@@ -134,14 +151,18 @@ export default function Setting() {
                         <td><Fragment>{setting.phone}</Fragment></td>
                     </tr>
                     <tr>
-                        <th>Description/Label</th>
+                        <th>Label</th>
+                        <td>{setting.label}</td>
+                    </tr>
+                    <tr>
+                        <th>Description</th>
                         <td>{setting.description}</td>
                     </tr>
                     <tr>
                         <th>Image de couverture</th>
                         <td>
                             <a href={setting.bgImg} target="_blank">
-                                <img src={setting.bgImg} width={200} height={200} alt="(IMG-BG-COVER)" />
+                                <img src={setting.bgImg} height={200} alt="(ajouté une image de couverture)" />
                             </a>
                         </td>
                     </tr>
@@ -160,7 +181,7 @@ export default function Setting() {
                                 {Object.entries(setting.openHours).map(([key, value], i) => (
                                     <li key={i}>
                                         {dayName[i]} : <span>{value.map((val, y) => (
-                                            <span key={y}>{val ? val : "(Fermé)"}, </span>
+                                            <span key={y}>{val}, </span>
                                         ))}</span>
                                     </li>
                                 ))}

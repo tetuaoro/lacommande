@@ -13,6 +13,7 @@ use App\Form\Type\CommandType;
 use App\Form\Type\MealType;
 use App\Form\Type\MenuType;
 use App\Form\Type\NewLetterType;
+use App\Form\Type\PrintType;
 use App\Form\Type\ProviderType;
 use App\Form\Type\SubuserType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -176,5 +177,13 @@ class AjaxService
                 'required' => false,
             ])
             ;
+    }
+
+    public function printSearch(Provider $provider)
+    {
+        return $this->form->create(PrintType::class, null, [
+            'method' => 'POST',
+            'action' => $this->router->generate('print_resolve', ['id' => $provider->getId()]),
+        ]);
     }
 }

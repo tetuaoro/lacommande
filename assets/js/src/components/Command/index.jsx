@@ -43,6 +43,7 @@ function AppTable({ compare = "=", orderBy = "DESC" }) {
 
     const [commands, setCommands] = useState([]);
     const [state, setState] = useState(0);
+    const [stateDate, setStateDate] = useState(0);
     const [formData, setFData] = useState('');
 
     useEffect(() => {
@@ -76,6 +77,13 @@ function AppTable({ compare = "=", orderBy = "DESC" }) {
         }
     }, [state]);
 
+    useEffect(() => {
+        const form_el = document.getElementById("printForm");
+        if (form_el) {
+            form_el.addEventListener("submit", formPrintable);
+        }
+    }, [stateDate]);
+
     const formSubmitted = (evt) => {
         evt.preventDefault();
         setLoading([true, ".modal-content"]);
@@ -87,6 +95,20 @@ function AppTable({ compare = "=", orderBy = "DESC" }) {
             .catch(err => {
                 setModalContent(err.response.data);
                 setState(state + 1);
+            })
+            .finally(() => setLoading([false, ".modal-content"]));
+    }
+
+    const formPrintable = (evt) => {
+        evt.preventDefault();
+        setLoading([true, ".modal-content"]);
+        axios.post($(evt.target).attr("action"), (new FormData(evt.target)), { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+            .then((res) => {
+                setModalContent(res.data);
+                setStateDate(stateDate + 1);
+            })
+            .catch(err => {
+                setModalContent(err.response.data);
             })
             .finally(() => setLoading([false, ".modal-content"]));
     }
@@ -123,6 +145,20 @@ function AppTable({ compare = "=", orderBy = "DESC" }) {
         setModalTitle(bool == 2 ? "Envoyer un message" : bool == 1 ? "Valider cette commande" : "Annuler cette commande");
         setShow(true);
         getForm(id, bool);
+    }
+
+    const handlePrint = () => {
+        axios.get(API.PRINT)
+            .then((response) => {
+                setModalContent(response.data);
+                setModalTitle('Imprimer les commandes');
+                setShow(true);
+                setStateDate(stateDate + 1);
+            })
+            .catch((err) => {
+                handleError(err.response.data.detail);
+                setShow(false);
+            });
     }
 
     const getForm = (id, bool) => {
@@ -169,11 +205,12 @@ function AppTable({ compare = "=", orderBy = "DESC" }) {
 
     return (
         <Fragment>
+            <Button onClick={handlePrint} className="btn btn-bs btn-warning ml-1"><i className="fas fa-print" aria-hidden="true"></i></Button>
             <Table hover responsive>
                 <thead>
                     <tr>
                         <th scope="col" className="border-top-0"></th>
-                        <th scope="col" className="border-top-0">Nom</th>
+                        <th scope="col" className="border-top-0">Nom ({commands.length} cmd)</th>
                         <th scope="col" className="border-top-0">Action</th>
                     </tr>
                 </thead>

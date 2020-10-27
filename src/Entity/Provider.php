@@ -132,6 +132,7 @@ class Provider
 
     /**
      * @ORM\OneToOne(targetEntity=User::class, mappedBy="provider", cascade={"persist", "remove"})
+     * @Groups({"settingjs"})
      */
     private $user;
 

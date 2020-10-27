@@ -7,7 +7,6 @@ use App\Entity\User;
 use App\Form\Type\LambdaType;
 use App\Message\SendEmailMessage;
 use App\Repository\LambdaRepository;
-use App\Service\Mailer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -34,7 +33,7 @@ class LambdaController extends AbstractController
     /**
      * @Route("/new", name="new", methods={"GET","POST"})
      */
-    public function new(Request $request, Mailer $mailer, UserPasswordEncoderInterface $password): Response
+    public function new(Request $request, UserPasswordEncoderInterface $password): Response
     {
         $this->denyAccessUnlessGranted('IS_ANONYMOUS');
 
@@ -46,7 +45,7 @@ class LambdaController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
 
             $lambda = new Lambda();
-            $lambda->setName($user->getName());
+            $lambda->setName($user->getName())->setPhone($form->get('phone')->getData());
 
             $roles = $user->getRoles();
             $roles[] = 'ROLE_LAMBDA';
