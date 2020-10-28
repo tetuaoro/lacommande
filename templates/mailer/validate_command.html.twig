@@ -7,7 +7,7 @@
 	<row>
 		<columns small="2" large="3">
 			<p>
-				{{command.message}}
+				{{command.message|length > 0 ? command.message : 'Validation automatique : votre date peut encore être modifiée.'}}
 			</p>
 			{% if bool == 1 %}
 				<p>

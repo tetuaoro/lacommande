@@ -4,7 +4,6 @@ namespace App\Form\Type;
 
 use App\Entity\Meal;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -62,15 +61,6 @@ class MealType extends AbstractType
                         'minWidth' => '480',
                         'minHeight' => '480',
                     ]),
-                ],
-            ])
-            ->add('delivery', ChoiceType::class, [
-                'translation_domain' => 'form',
-                'label' => 'livraison',
-                'data' => true,
-                'choices' => [
-                    'récupère sur place' => false,
-                    'livre chez toi' => true,
                 ],
             ])
         ;

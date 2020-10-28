@@ -21,6 +21,8 @@ export default function Setting() {
         phone: "",
         slug: "",
         city: "",
+        forceDelivery: false,
+        minPriceDelivery: 1500,
         zoneDelivery: "",
         bgImg: "",
         linkfb: "",
@@ -28,7 +30,6 @@ export default function Setting() {
         linktwitter: "",
         label: "",
         description: "",
-        minPriceDelivery: 1500,
         minTimeCommand: 0,
         openHours: {
             monday: [],
@@ -106,7 +107,7 @@ export default function Setting() {
                 handleError(err.response.data.detail);
                 setShow(false);
             })
-            .finally(() => {});
+            .finally(() => { });
     }
 
     return (
@@ -115,48 +116,16 @@ export default function Setting() {
             <Table responsive className="table-setting">
                 <tbody>
                     <tr>
-                        <th>Nom d'entreprise</th>
-                        <td><Fragment>{setting.name}</Fragment></td>
-                    </tr>
-                    <tr>
-                        <th>Nom d'utilisateur</th>
-                        <td><Fragment>{setting.user.username}</Fragment></td>
-                    </tr>
-                    <tr>
-                        <th>Email pro</th>
-                        <td><Fragment>{setting.user.email}</Fragment></td>
-                    </tr>
-                    <tr>
-                        <th>N° T.A.H.I.T.I</th>
-                        <td><Fragment>{setting.user.ntahiti}</Fragment></td>
-                    </tr>
-                    <tr>
-                        <th>Adresse d'entreprise</th>
-                        <td><Fragment>{setting.city}</Fragment></td>
-                    </tr>
-                    <tr>
-                        <th>Zone de livraison</th>
-                        <td><Fragment>{setting.zoneDelivery}</Fragment></td>
-                    </tr>
-                    <tr>
-                        <th>Prix min. de livraison</th>
-                        <td><Fragment>{setting.minPriceDelivery} XPF</Fragment></td>
-                    </tr>
-                    <tr>
-                        <th>Temps min. de commande</th>
-                        <td><Fragment>{setting.minTimeCommand} minutes</Fragment></td>
-                    </tr>
-                    <tr>
-                        <th>Téléphone</th>
-                        <td><Fragment>{setting.phone}</Fragment></td>
-                    </tr>
-                    <tr>
-                        <th>Label</th>
-                        <td>{setting.label}</td>
-                    </tr>
-                    <tr>
-                        <th>Description</th>
-                        <td>{setting.description}</td>
+                        <th>Entreprise</th>
+                        <td>
+                            <p><strong>nom</strong> : {setting.name}</p>
+                            <p><strong>nom utilisateur</strong> : {setting.user.username}</p>
+                            <p><strong>n° T.A.H.I.T.I</strong> : {setting.user.ntahiti}</p>
+                            <p><strong>adresse</strong> : {setting.city}</p>
+                            <hr/>
+                            <p><strong>label</strong> : {setting.label}</p>
+                            <p><strong>description</strong> : {setting.description}</p>
+                        </td>
                     </tr>
                     <tr>
                         <th>Image de couverture</th>
@@ -167,17 +136,38 @@ export default function Setting() {
                         </td>
                     </tr>
                     <tr>
+                        <th>Livraison</th>
+                        <td>
+                            <p><strong>zone de livraison</strong> : {setting.zoneDelivery}</p>
+                            <p><strong>min. de livraison</strong> : {setting.minPriceDelivery} XPF</p>
+                            <p><strong>imposer la livraison</strong><i className="fas fa-info ml-2" aria-hidden="true" title="si vrai, le prix minimum sera imposé"></i> : <i className={`fas ${setting.forceDelivery ? 'fa-check text-success' : 'fa-times text-danger'}`} aria-hidden="true"></i>
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Commande</th>
+                        <td>
+                            <p><strong>temps min. de commande</strong> : {setting.minTimeCommand} minutes
+                            </p>
+                            <p><strong>auto. validation de commande</strong><i className="fas fa-info ml-2" aria-hidden="true" title="si vrai, les commandes seront validées automatiquement"></i> : <i className={`fas ${setting.autoCommandValidation ? 'fa-check text-success' : 'fa-times text-danger'}`} aria-hidden="true"></i>
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
                         <th>Réseaux/Contact</th>
                         <td>
-                            <p>facebook : {setting.linkfb}</p>
-                            <p>instagramm : {setting.linkinsta}</p>
-                            <p>twitter : {setting.linktwitter}</p>
+                            <p><i className="fas fa-link" aria-hidden="true"></i> : {setting.bitly.link}</p>
+                            <p><i className="fas fa-phone" aria-hidden="true"></i> : {setting.phone}</p>
+                            <p><i className="fas fa-envelope" aria-hidden="true"></i> : {setting.user.email}</p>
+                            <p><i className="fab fa-facebook-f" aria-hidden="true"></i> : {setting.linkfb}</p>
+                            <p><i className="fab fa-instagram" aria-hidden="true"></i> : {setting.linkinsta}</p>
+                            <p><i className="fab fa-twitter" aria-hidden="true"></i> : {setting.linktwitter}</p>
                         </td>
                     </tr>
                     <tr>
                         <th>Horaires</th>
                         <td>
-                            <ul>
+                            <ul style={{paddingLeft: '16px',}}>
                                 {Object.entries(setting.openHours).map(([key, value], i) => (
                                     <li key={i}>
                                         {dayName[i]} : <span>{value.map((val, y) => (

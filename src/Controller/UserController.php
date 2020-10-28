@@ -61,6 +61,8 @@ class UserController extends AbstractController
 
                 $provider = new Provider();
                 $provider->setName($user->getName())
+                    ->setForceDelivery(false)
+                    ->setAutoCommandValidation(false)
                     ->setOpenHours([
                         'monday' => ['09:00-12:00', '13:00-18:00'],
                         'tuesday' => ['09:00-12:00', '13:00-18:00'],

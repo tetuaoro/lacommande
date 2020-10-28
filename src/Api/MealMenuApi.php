@@ -112,6 +112,7 @@ class MealMenuApi extends AbstractController
                     ->setProvider($provider)
                     ->setImgInfo($info)
                     ->setTotalcommand(0)
+                    ->setViewer(0)
                 ;
                 $gallery = new Gallery();
                 $gallery->setUrl($meal->getImg())

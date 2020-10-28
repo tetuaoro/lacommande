@@ -37,6 +37,7 @@
 				<th>Nom</th>
 				<th>Réference</th>
 				<th>Adresse</th>
+				<th>Téléphone</th>
 				<th>Commentaire</th>
 				<th>Produit</th>
 				<th>Prix</th>
@@ -48,6 +49,7 @@
 						<td>{{command.name}}</td>
 						<td>{{command.reference}}</td>
 						<td>{{command.address}}</td>
+						<td>{{command.phone}}</td>
 						<td>{{command.comment}}</td>
 						<td>
 							{{command.meals|map(meal => meal.name ~ ' (' ~ command.details[meal.id] ~ 'X)')|join(', ', ' et ')}}

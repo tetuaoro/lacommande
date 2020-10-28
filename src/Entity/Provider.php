@@ -165,6 +165,18 @@ class Provider
      */
     private $zoneDelivery;
 
+    /**
+     * @ORM\Column(type="boolean")
+     * @Groups({"settingjs"})
+     */
+    private $forceDelivery;
+
+    /**
+     * @ORM\Column(type="boolean")
+     * @Groups({"settingjs"})
+     */
+    private $autoCommandValidation;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
@@ -626,6 +638,30 @@ class Provider
     public function setZoneDelivery(?string $zoneDelivery): self
     {
         $this->zoneDelivery = $zoneDelivery;
+
+        return $this;
+    }
+
+    public function getForceDelivery(): ?bool
+    {
+        return $this->forceDelivery;
+    }
+
+    public function setForceDelivery(bool $forceDelivery): self
+    {
+        $this->forceDelivery = $forceDelivery;
+
+        return $this;
+    }
+
+    public function getAutoCommandValidation(): ?bool
+    {
+        return $this->autoCommandValidation;
+    }
+
+    public function setAutoCommandValidation(bool $autoCommandValidation): self
+    {
+        $this->autoCommandValidation = $autoCommandValidation;
 
         return $this;
     }

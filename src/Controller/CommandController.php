@@ -6,9 +6,9 @@ use App\Entity\Command;
 use App\Entity\Meal;
 use App\Message\SendEmailMessage;
 use App\Repository\CommandRepository;
+use App\Repository\ProviderRepository;
 use App\Service\AjaxService;
 use App\Service\CartService;
-use App\Service\Mailer;
 use App\Service\Recaptcha;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
@@ -36,7 +36,7 @@ class CommandController extends AbstractController
     /**
      * @Route("/new/", name="new", methods={"GET", "POST"})
      */
-    public function new(Request $request, CartService $cartService, Recaptcha $recaptcha, Mailer $mailer, AjaxService $ajaxService): Response
+    public function new(Request $request, CartService $cartService, Recaptcha $recaptcha, ProviderRepository $providerRepo, AjaxService $ajaxService): Response
     {
         $command = new Command();
         $form = $ajaxService->command_meal($command, $this->getUser());
@@ -46,12 +46,12 @@ class CommandController extends AbstractController
 
             $checked = $cartService->checkMinDelivery();
             if (!$checked['check']) {
-                $form->get('stock')->addError(new FormError('Le prix minimum de livraison pour '.$checked['provider']->getName().' est de '.$checked['provider']->getMinPriceDelivery().' XPF'));
+                $form->get('stock')->addError(new FormError('Le prix minimum de commande pour '.$checked['provider']->getName().' est de '.$checked['provider']->getMinPriceDelivery().' XPF'));
             }
 
             $checked = $cartService->checkOpenHours($form->get('commandAt')->getData());
             if (!$checked['check']) {
-                $form->get('openHours')->addError(new FormError('Verifier vos horaires de livraison pour '.$checked['provider']->getName()));
+                $form->get('openHours')->addError(new FormError('Verifier votre date pour '.$checked['provider']->getName().' (heure d\'ouverture, temps minimum pour commander, produit limité dans le temps...)'));
             }
 
             if ($g = $form->get('recaptcha')->getData()) {
@@ -97,11 +97,23 @@ class CommandController extends AbstractController
                 $string = str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZ');
 
                 $command->setReference($command->getId().'-'.substr($string, 24).'-'.substr($string, 1, 2));
-                $entityManager->flush();
+                $this->dispatchMessage(new SendEmailMessage(2, 1, $command->getId(), 1));
 
                 $this->addFlash('success', 'Votre commande a été envoyée !');
+
+                foreach ($cartService->getCartByProvider() as $id => $tabs) {
+                    /** @var \App\Entity\Provider $provider */
+                    $provider = $providerRepo->find($id);
+
+                    if ($provider->getAutoCommandValidation()) {
+                        $this->dispatchMessage(new SendEmailMessage(3, $provider->getUser()->getId(), $command->getId(), true));
+
+                        $command->setValidation($provider, true);
+                    }
+                }
+                $entityManager->flush();
+
                 $cartService->reset();
-                $this->dispatchMessage(new SendEmailMessage(2, 1, $command->getId(), 1));
 
                 return new Response($this->generateUrl('meal_index'), Response::HTTP_CREATED);
             }

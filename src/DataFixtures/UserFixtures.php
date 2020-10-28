@@ -35,7 +35,6 @@ class UserFixtures extends Fixture
             $user->setName($faker->company)
                 ->setEmail($faker->companyEmail)
                 ->setUsername($faker->userName)
-                ->setPhone('68987123456')
                 ->setNtahiti($faker->md5)
                 ->setValidate(true)
                 ->setPassword($this->password->encodePassword($user, 'LACOMMANDE'))
@@ -50,6 +49,8 @@ class UserFixtures extends Fixture
                 $roles[] = 'ROLE_PROVIDER';
                 $provider->setName($user->getName())
                     ->setMinPriceDelivery(2500)
+                    ->setAutoCommandValidation(false)
+                    ->setForceDelivery(false)
                     ->setCity('Papara-pk18')
                     ->setBitly(['link' => $env ? 'https://bit.ly/2ZDJRpF' : 'https://bit.ly/2ZDJHyz'])
                     ->setOpenHours([
@@ -91,7 +92,6 @@ class UserFixtures extends Fixture
         $user->setName('Rao Nagos')
             ->setEmail('tetuaoropro@gmail.com')
             ->setUsername('raonagos98')
-            ->setPhone('68987123456')
             ->setNtahiti('D75938')
             ->setPassword($this->password->encodePassword($user, 'LACOMMANDE'))
             ->setValidate(true)
@@ -102,6 +102,8 @@ class UserFixtures extends Fixture
         $roles[] = 'ROLE_SUPERADMIN';
         $provider->setName($user->getName())
             ->addNotification($notif)
+            ->setAutoCommandValidation(false)
+            ->setForceDelivery(false)
             ->setCity('Paea noa')
             ->setMinPriceDelivery(1500)
             ->setBitly(['link' => $env ? 'https://bit.ly/2ZDJRpF' : 'https://bit.ly/2ZDJHyz'])

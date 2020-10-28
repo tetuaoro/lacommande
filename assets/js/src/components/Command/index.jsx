@@ -12,13 +12,13 @@ export default function Command() {
         <Fragment>
             <Nav justify variant="tabs" className="my-2" role="tablist" defaultActiveKey="now">
                 <Nav.Item>
-                    <Nav.Link href="#yesterday" eventKey="yesterday" id="yesterday-tab" data-toggle="tab" href="#yesterday" role="tab" aria-controls="yesterday" aria-selected="true">Hier</Nav.Link>
+                    <Nav.Link href="#yesterday" eventKey="yesterday" id="yesterday-tab" data-toggle="tab" href="#yesterday" role="tab" aria-controls="yesterday" aria-selected="true">Avant(20)</Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
                     <Nav.Link href="#now" eventKey="now" id="now-tab" data-toggle="tab" href="#now" role="tab" aria-controls="now" aria-selected="true">Aujourd'hui</Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
-                    <Nav.Link href="#tomorrow" eventKey="tomorrow" id="tomorrow-tab" data-toggle="tab" href="#tomorrow" role="tab" aria-controls="tomorrow" aria-selected="true">Demain</Nav.Link>
+                    <Nav.Link href="#tomorrow" eventKey="tomorrow" id="tomorrow-tab" data-toggle="tab" href="#tomorrow" role="tab" aria-controls="tomorrow" aria-selected="true">Après</Nav.Link>
                 </Nav.Item>
             </Nav>
             <div className="tab-content" id="myTabContent">

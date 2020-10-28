@@ -99,14 +99,15 @@ class CartService
     public function checkMinDelivery(): array
     {
         foreach ($this->getCartByProvider() as $id => $tabs) {
-            $total = 0;
-            foreach ($tabs as $couple) {
-                $total += $couple['product']->getPrice() * $couple['quantity'];
-            }
-
             $provider = $this->providerRepo->find($id);
-            if ($total < $provider->getMinPriceDelivery()) {
-                return ['check' => false, 'provider' => $provider];
+            if ($provider->getForceDelivery()) {
+                $total = 0;
+                foreach ($tabs as $couple) {
+                    $total += $couple['product']->getPrice() * $couple['quantity'];
+                }
+                if ($total < $provider->getMinPriceDelivery()) {
+                    return ['check' => false, 'provider' => $provider];
+                }
             }
         }
 

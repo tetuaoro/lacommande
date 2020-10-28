@@ -82,7 +82,6 @@ class ProviderRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('p')
             ->leftJoin('p.user', 'u')
-            ->where('u.confirmationEmail IS NULL')
             ->andWhere('u.validate = true')
         ;
     }

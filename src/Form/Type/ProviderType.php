@@ -4,6 +4,7 @@ namespace App\Form\Type;
 
 use App\Entity\Provider;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
@@ -31,6 +32,12 @@ class ProviderType extends AbstractType
             ])
             ->add('city', TextType::class)
             ->add('zoneDelivery', TextType::class)
+            ->add('forceDelivery', CheckboxType::class, [
+                'required' => false,
+            ])
+            ->add('autoCommandValidation', CheckboxType::class, [
+                'required' => false,
+            ])
             ->add('description', TextareaType::class, [
                 'required' => false,
             ])

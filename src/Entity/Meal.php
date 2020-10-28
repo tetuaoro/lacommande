@@ -91,11 +91,6 @@ class Meal
     private $totalcommand;
 
     /**
-     * @ORM\Column(type="boolean")
-     */
-    private $delivery;
-
-    /**
      * @ORM\ManyToOne(targetEntity=Menu::class, inversedBy="meals")
      */
     private $menu;
