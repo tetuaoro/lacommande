@@ -4,6 +4,10 @@ namespace App\Message;
 
 final class SendEmailMessage
 {
+    const CONFIRM_NEW_USER = 1;
+    const SEND_COMMAND = 2;
+    const VALID_COMMAND = 3;
+
     private $command;
     private $bool;
     private $user;

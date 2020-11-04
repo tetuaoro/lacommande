@@ -65,11 +65,11 @@ class UserController extends AbstractController
                     ->setAutoCommandValidation(false)
                     ->setOpenHours([
                         'monday' => ['09:00-12:00', '13:00-18:00'],
-                        'tuesday' => ['09:00-12:00', '13:00-18:00'],
+                        'tuesday' => [],
                         'wednesday' => ['09:00-12:00'],
-                        'thursday' => ['09:00-12:00', '13:00-18:00'],
-                        'friday' => ['09:00-12:00', '13:00-20:00'],
-                        'saturday' => ['09:00-12:00', '13:00-16:00'],
+                        'thursday' => [],
+                        'friday' => [],
+                        'saturday' => [],
                         'sunday' => [],
                     ])
                     ->setMinTimeCommand(10)
@@ -97,7 +97,7 @@ class UserController extends AbstractController
                 );
                 $entityManager->flush();
 
-                $this->dispatchMessage(new SendEmailMessage(1, $user->getId(), 1, 1));
+                $this->dispatchMessage(new SendEmailMessage(SendEmailMessage::CONFIRM_NEW_USER, $user->getId(), 1, 1));
 
                 $this->addFlash('success', 'L\'utilisateur a bien été créé. Veuillez confirmer votre adresse mail pour bénéficier des avantages sur Arii Food.');
 

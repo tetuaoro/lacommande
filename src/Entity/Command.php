@@ -126,6 +126,11 @@ class Command
      */
     private $validation = [];
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $confirm_delete;
+
     public function __construct()
     {
         $this->meals = new ArrayCollection();
@@ -383,6 +388,18 @@ class Command
     public function setValidation(Provider $provider, bool $bool): self
     {
         $this->validation[$provider->getId()] = $bool;
+
+        return $this;
+    }
+
+    public function getConfirmDelete(): ?string
+    {
+        return $this->confirm_delete;
+    }
+
+    public function setConfirmDelete(?string $confirm_delete): self
+    {
+        $this->confirm_delete = $confirm_delete;
 
         return $this;
     }

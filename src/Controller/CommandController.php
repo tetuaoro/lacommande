@@ -83,6 +83,7 @@ class CommandController extends AbstractController
 
                 $command->setPrice($cartService->getTotal())
                     ->setDetails(array_replace(...$details))
+                    ->setConfirmDelete(rtrim(strtr(base64_encode(random_bytes(32)), '+/', '-_'), '='))
                 ;
 
                 /** @var \App\Entity\User $user */
@@ -97,7 +98,7 @@ class CommandController extends AbstractController
                 $string = str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZ');
 
                 $command->setReference($command->getId().'-'.substr($string, 24).'-'.substr($string, 1, 2));
-                $this->dispatchMessage(new SendEmailMessage(2, 1, $command->getId(), 1));
+                $this->dispatchMessage(new SendEmailMessage(SendEmailMessage::SEND_COMMAND, 1, $command->getId(), true));
 
                 $this->addFlash('success', 'Votre commande a été envoyée !');
 
@@ -106,7 +107,7 @@ class CommandController extends AbstractController
                     $provider = $providerRepo->find($id);
 
                     if ($provider->getAutoCommandValidation()) {
-                        $this->dispatchMessage(new SendEmailMessage(3, $provider->getUser()->getId(), $command->getId(), true));
+                        $this->dispatchMessage(new SendEmailMessage(SendEmailMessage::VALID_COMMAND, $provider->getUser()->getId(), $command->getId(), true));
 
                         $command->setValidation($provider, true);
                     }
@@ -141,19 +142,20 @@ class CommandController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="delete", methods={"DELETE"})
+     * @Route("/delete/{id}-{token}", name="delete", methods={"GET"}, requirements={"token": "[a-zA-Z0-9\-\_]*"})
      */
-    public function delete(Request $request, Command $command): Response
+    public function delete(string $token, Command $command): Response
     {
-        $this->denyAccessUnlessGranted('ROLE_ADMIN');
-
-        if ($this->isCsrfTokenValid('delete'.$command->getId(), $request->request->get('_token'))) {
+        if ($command->getConfirmDelete() == $token) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($command);
             $entityManager->flush();
+            $this->addFlash('success', 'La commande a été supprimée !');
+        } else {
+            $this->addFlash('danger', 'Impossible de supprimer cette commande. Prevenez directement les commerçants !');
         }
 
-        return $this->redirectToRoute('command_index');
+        return $this->redirectToRoute('app_index');
     }
 
     /**

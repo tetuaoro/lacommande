@@ -6,7 +6,7 @@
 		<columns small="2" large="3"></columns>
 		<columns small="8" large="6">
 			<p>
-				Votre commande a été envoyée aux traiteurs et est en
+				Votre commande a été envoyée aux commerçants et est en
 				<strong>attente d'approbation</strong>
 				!
 			</p>
@@ -70,7 +70,8 @@
 						{{meal['product'].name}}
 					</columns>
 					<columns>
-						{{meal['product'].price}} XPF
+						{{meal['product'].price}}
+						XPF
 					</columns>
 					<columns>
 						{{meal['quantity']}}
@@ -81,11 +82,12 @@
 				<columns></columns>
 				<columns></columns>
 				<columns>
-					{{price}} XPF
+					{{price}}
+					XPF
 				</columns>
 				<columns></columns>
 			</row>
-			{% else %}
+		{% else %}
 			<row>
 				<columns></columns>
 				<columns></columns>
@@ -121,7 +123,18 @@
 	</container>
 
 	<spacer size="12"></spacer>
-
+	
+	<container>
+		<row>
+			<columns>
+				<center>
+					<button class="btn btn-outline-danger" href="{{ url('command_delete', {token: command.confirmDelete, id: command.id}) }}">Annuler cette commande</button>
+				</center>
+			</columns>
+		</row>
+		<spacer size="12"></spacer>
+	</container>
+	
 	<container>
 		<row>
 			<columns small="2" large="3"></columns>

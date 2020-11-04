@@ -38,7 +38,7 @@ class CommandType extends AbstractType
                     'placeholder' => 'tel',
                     'pattern' => '^(?:\+689)?(87|89|92|40)(\d{6})$',
                 ],
-                'data' => $user ? $user->getProvider()->getPhone() : '',
+                'data' => $user ? $user->getLambda()->getPhone() : '',
             ])
             ->add('email', EmailType::class, [
                 'translation_domain' => 'form',

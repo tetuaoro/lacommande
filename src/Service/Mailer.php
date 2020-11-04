@@ -12,7 +12,7 @@ use Symfony\Component\Mime\Address;
 
 class Mailer
 {
-    public const EMAIL = 'noreply@ariifood.pf';
+    protected const EMAIL = 'noreply@ariifood.pf';
     protected $em;
     protected $user;
     protected $cart;
@@ -30,9 +30,23 @@ class Mailer
         $this->commandRepo = $commandRepository;
     }
 
+    public function sendConfirmationDeleteCommand(Command $command)
+    {
+        $this->em->flush();
+
+        return (new TemplatedEmail())
+            ->from(new Address(self::EMAIL, 'Arii Food'))
+            ->to(new Address($command->getEmail(), $command->getName()))
+            ->subject('Annuler une commande')
+            ->htmlTemplate('mailer/delete_command.html.twig')
+            ->context([
+                'command' => $command,
+            ])
+        ;
+    }
+
     public function sendConfirmationNewUser(User $user)
     {
-        
         $this->em->flush();
 
         return (new TemplatedEmail())
@@ -63,7 +77,7 @@ class Mailer
         return (new TemplatedEmail())
             ->from(new Address(self::EMAIL, 'Arii Food'))
             ->to(new Address($command->getEmail(), $command->getName()))
-            ->subject('REF #'.$command->getReference().' - Commande de plat')
+            ->subject('F2020'.$command->getReference().' - Commande de plat')
             ->htmlTemplate('mailer/command.html.twig')
             ->context([
                 'command' => $command,

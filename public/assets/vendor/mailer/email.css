@@ -48,3 +48,8 @@ p {
 span.email {
   color: #004baa;
 }
+
+/* bootstraping */
+.btn.btn-outline-danger {
+  background-color: #dc3545;
+}
