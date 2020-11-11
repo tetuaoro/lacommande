@@ -13,7 +13,7 @@
 				<p>
 					Date de livraison :
 					<strong>
-						{{command.commandAt|date("d M Y H:i")}}
+						{{command.commandAt|date("d M Y H:i", timezone)}}
 					</strong>
 				</p>
 			{% endif %}

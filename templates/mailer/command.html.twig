@@ -111,14 +111,14 @@
 			<columns>Date de livraison</columns>
 			<columns></columns>
 			<columns></columns>
-			<columns>{{command.commandAt|date("d/m/Y H:i")}}</columns>
+			<columns>{{command.commandAt|date("d/m/Y H:i", timezone)}}</columns>
 		</row>
 
 		<row>
 			<columns>Date de commande</columns>
 			<columns></columns>
 			<columns></columns>
-			<columns>{{command.createdAt|date("d/m/Y")}}</columns>
+			<columns>{{command.createdAt|date("d/m/Y", timezone)}}</columns>
 		</row>
 	</container>
 
