@@ -1,0 +1,55 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #f3f3f3;
+  font-family: Helvetica, Arial, sans-serif;
+}
+hr {
+  border: none;
+  border-top: 1px solid rgba(0, 0, 0, 0.6);
+}
+.header {
+  padding: 2em;
+}
+.welcome {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+.bottom {
+  background-color: #efefee;
+}
+.logo {
+  width: 110px;
+  height: 50px;
+}
+p.help {
+  font-size: 12px;
+}
+.text-center {
+  text-align: center;
+}
+table.button a {
+  background-color: #dcdc0a;
+}
+table.button table td {
+  background-color: #dcdc0a;
+  border: 2px solid #dcdc0a;
+}
+
+@media only screen and (max-width: 596px) {
+  p {
+    font-size: 21px;
+  }
+}
+
+p {
+  color: #6c757d;
+}
+
+span.email {
+  color: #004baa;
+}
+
+/* bootstraping */
+.btn.btn-outline-danger {
+  background-color: #dc3545;
+}

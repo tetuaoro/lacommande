@@ -63,3 +63,9 @@ services:
     App\EventSubscriber\LocaleSubscriber:
             arguments:
                 $defaultLocale: '%locale%'
+    App\MessageHandler\SendEmailMessageHandler:
+            arguments:
+                $crt: '%kernel.project_dir%/config/certificate/noreply@af.crt'
+                $key: '%kernel.project_dir%/config/certificate/noreply@af.key'
+                $templateFolder: '%kernel.project_dir%/templates'
+                $passphrase: '%env(CERT_PASSPHRASE)%'
