@@ -110,52 +110,58 @@ export default function Setting() {
             .finally(() => { });
     }
 
+    const tooltips = (name) => {
+        $("#" + name).tooltip("toggle");
+    }
+
     return (
         <Fragment>
             <Button className="btn btn-bs btn-warning mb-2" onClick={e => handleShow(setting.id)}>Modifier les informations</Button>
             <Table responsive className="table-setting">
                 <tbody>
                     <tr>
-                        <th>Entreprise</th>
                         <td>
+                            <h4><strong>Entreprise</strong></h4>
                             <p><strong>nom</strong> : {setting.name}</p>
                             <p><strong>nom utilisateur</strong> : {setting.user.username}</p>
                             <p><strong>n° T.A.H.I.T.I</strong> : {setting.user.ntahiti}</p>
                             <p><strong>adresse</strong> : {setting.city}</p>
-                            <hr/>
+                            <hr />
                             <p><strong>label</strong> : {setting.label}</p>
                             <p><strong>description</strong> : {setting.description}</p>
                         </td>
                     </tr>
                     <tr>
-                        <th>Image de couverture</th>
                         <td>
+                            <h4><strong>Image de couverture</strong></h4>
                             <a href={setting.bgImg} target="_blank">
                                 <img src={setting.bgImg} height={200} alt="(ajouté une image de couverture)" />
                             </a>
                         </td>
                     </tr>
                     <tr>
-                        <th>Livraison</th>
                         <td>
+                            <h4><strong>Livraison</strong></h4>
                             <p><strong>zone de livraison</strong> : {setting.zoneDelivery}</p>
                             <p><strong>min. de livraison</strong> : {setting.minPriceDelivery} XPF</p>
-                            <p><strong>imposer la livraison</strong><i className="fas fa-info ml-2" aria-hidden="true" title="si vrai, le prix minimum sera imposé"></i> : <i className={`fas ${setting.forceDelivery ? 'fa-check text-success' : 'fa-times text-danger'}`} aria-hidden="true"></i>
+                            <p><strong>imposer la livraison</strong>
+                                <i id="delivery" onClick={() => tooltips("delivery")} className="fas fa-info ml-2" aria-hidden="true" data-toggle="tooltip" title="si vrai, le prix minimum sera imposé"></i> : <i className={`fas ${setting.forceDelivery ? 'fa-check text-success' : 'fa-times text-danger'}`} aria-hidden="true"></i>
                             </p>
                         </td>
                     </tr>
                     <tr>
-                        <th>Commande</th>
                         <td>
+                            <h4><strong>Commande</strong></h4>
                             <p><strong>temps min. de commande</strong> : {setting.minTimeCommand} minutes
                             </p>
-                            <p><strong>auto. validation de commande</strong><i className="fas fa-info ml-2" aria-hidden="true" title="si vrai, les commandes seront validées automatiquement"></i> : <i className={`fas ${setting.autoCommandValidation ? 'fa-check text-success' : 'fa-times text-danger'}`} aria-hidden="true"></i>
+                            <p><strong>auto. validation de commande</strong>
+                                <i id="autoValid" onClick={() => tooltips("autoValid")} className="fas fa-info ml-2" aria-hidden="true" data-toggle="tooltip" title="si vrai, les commandes seront validées automatiquement"></i> : <i className={`fas ${setting.autoCommandValidation ? 'fa-check text-success' : 'fa-times text-danger'}`} aria-hidden="true"></i>
                             </p>
                         </td>
                     </tr>
                     <tr>
-                        <th>Réseaux/Contact</th>
                         <td>
+                            <h4><strong>Réseaux/Contact</strong></h4>
                             <p><i className="fas fa-link" aria-hidden="true"></i> : {setting.bitly.link}</p>
                             <p><i className="fas fa-phone" aria-hidden="true"></i> : {setting.phone}</p>
                             <p><i className="fas fa-envelope" aria-hidden="true"></i> : {setting.user.email}</p>
@@ -165,9 +171,9 @@ export default function Setting() {
                         </td>
                     </tr>
                     <tr>
-                        <th>Horaires</th>
                         <td>
-                            <ul style={{paddingLeft: '16px',}}>
+                            <h4><strong>Horaires</strong></h4>
+                            <ul style={{ paddingLeft: '16px', }}>
                                 {Object.entries(setting.openHours).map(([key, value], i) => (
                                     <li key={i}>
                                         {dayName[i]} : <span>{value.map((val, y) => (

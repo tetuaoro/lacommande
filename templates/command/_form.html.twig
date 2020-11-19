@@ -11,13 +11,13 @@
 {{ form_errors(form.commandAt) }}
 <div class="row">
 	<div class="col">
-		{{ form_row(form.commandAt.date) }}
+		{{ form_row(form.commandAt.date, {'attr': {'min':'now'|date('Y-m-d')}}) }}
 	</div>
 	<div class="col-1">
 		<span>à</span>
 	</div>
 	<div class="col">
-		{{ form_row(form.commandAt.time) }}
+		{{ form_row(form.commandAt.time, {'attr': {'class': 'timepicker'}}) }}
 	</div>
 </div>
 {{ form_help(form.commandAt) }}

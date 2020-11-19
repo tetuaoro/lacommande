@@ -24,7 +24,6 @@ class CommandType extends AbstractType
 
         $builder
             ->add('name', TextType::class, [
-                'translation_domain' => 'form',
                 'label' => false,
                 'attr' => [
                     'placeholder' => 'nom',
@@ -32,7 +31,6 @@ class CommandType extends AbstractType
                 'data' => $user ? $user->getName() : '',
             ])
             ->add('phone', TelType::class, [
-                'translation_domain' => 'form',
                 'label' => false,
                 'attr' => [
                     'placeholder' => 'tel',
@@ -41,7 +39,6 @@ class CommandType extends AbstractType
                 'data' => $user ? $user->getLambda()->getPhone() : '',
             ])
             ->add('email', EmailType::class, [
-                'translation_domain' => 'form',
                 'label' => false,
                 'attr' => [
                     'placeholder' => 'email',
@@ -49,27 +46,22 @@ class CommandType extends AbstractType
                 'data' => $user ? $user->getEmail() : '',
             ])
             ->add('address', TextType::class, [
-                'translation_domain' => 'form',
                 'label' => false,
                 'attr' => [
                     'placeholder' => 'address',
                 ],
             ])
             ->add('commandAt', DateTimeType::class, [
-                'translation_domain' => 'form',
                 'label' => false,
                 'date_widget' => 'single_text',
                 'time_widget' => 'single_text',
                 'view_timezone' => 'Pacific/Honolulu',
-                'data' => new \DateTime('+1 hours'),
-                'attr' => [
-                    'min' => new \DateTime('now'),
-                    'max' => new \DateTime('+6 month'),
-                ],
+                'data' => (new \DateTime('+1 hours'))
+                    ->setTime((new \DateTime('+1 hours'))->format('H'), 0),
                 'constraints' => [
                     new Assert\Range([
                         'min' => 'now',
-                        'max' => '+6 month',
+                        'max' => '+2 month',
                     ]),
                 ],
                 'help' => 'help order',
@@ -78,7 +70,6 @@ class CommandType extends AbstractType
                 ],
             ])
             ->add('comment', TextareaType::class, [
-                'translation_domain' => 'form',
                 'required' => false,
                 'label' => false,
                 'attr' => [
@@ -86,7 +77,6 @@ class CommandType extends AbstractType
                 ],
             ])
             ->add('code', TextType::class, [
-                'translation_domain' => 'form',
                 'required' => false,
                 'attr' => [
                     'class' => 'mx-lg-2',
@@ -140,6 +130,7 @@ class CommandType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
+            'translation_domain' => 'form',
             'user' => false,
             'data_class' => Command::class,
         ])

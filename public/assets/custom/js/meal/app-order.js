@@ -43,6 +43,15 @@ $(document).ready(function () {
         }
         if (xhr.status == 400) {
           form.html(xhr.responseText);
+          $(".timepicker").timepicker({
+            timeFormat: "HH:mm",
+            interval: 15,
+            maxTime: "6:00pm",
+            startTime: "07:00",
+            dynamic: true,
+            dropdown: true,
+            scrollbar: true,
+          });
         }
       }
     };

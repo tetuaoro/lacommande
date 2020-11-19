@@ -126,6 +126,16 @@ class Meal
      */
     private $viewer;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $preOrder;
+
+    /**
+     * @ORM\Column(type="datetimetz", nullable=true)
+     */
+    private $preOrderAt;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
@@ -458,6 +468,30 @@ class Meal
     public function setViewer(int $viewer): self
     {
         $this->viewer = $viewer;
+
+        return $this;
+    }
+
+    public function getPreOrder(): ?bool
+    {
+        return $this->preOrder;
+    }
+
+    public function setPreOrder(bool $preOrder): self
+    {
+        $this->preOrder = $preOrder;
+
+        return $this;
+    }
+
+    public function getPreOrderAt(): ?\DateTimeInterface
+    {
+        return $this->preOrderAt;
+    }
+
+    public function setPreOrderAt(?\DateTimeInterface $preOrderAt): self
+    {
+        $this->preOrderAt = $preOrderAt;
 
         return $this;
     }

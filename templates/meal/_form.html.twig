@@ -9,6 +9,11 @@
 		<i class="fas fa-plus-circle ml-1" aria-hidden="true"></i>
 	</button>
 	<div class="collapse multi-collapse multiCollapseMeal" id="multiCollapseMeal">
+		{{ form_row(form.preOrder, {'attr':{'class': 'mb-0'}}) }}
+		{{ form_row(form.preOrderAt.date, {'attr': {'min':'now'|date('Y-m-d')}}) }}
+		<div class="d-none">
+			{{ form_row(form.preOrderAt.time) }}
+		</div>
 		{{ form_row(form.description) }}
 		{{ form_row(form.tags) }}
 	</div>

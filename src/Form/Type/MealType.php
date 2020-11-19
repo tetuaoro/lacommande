@@ -4,6 +4,8 @@ namespace App\Form\Type;
 
 use App\Entity\Meal;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -12,6 +14,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Constraints\Image;
 
 class MealType extends AbstractType
@@ -20,27 +23,40 @@ class MealType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
-                'translation_domain' => 'form',
                 'empty_data' => 'Arii Food',
             ])
             ->add('price', IntegerType::class, [
-                'translation_domain' => 'form',
+            ])
+            ->add('preOrder', CheckboxType::class, [
+                'required' => false,
+            ])
+            ->add('preOrderAt', DateTimeType::class, [
+                'label' => false,
+                'date_widget' => 'single_text',
+                'view_timezone' => 'Pacific/Honolulu',
+                'data' => new \DateTime('+1 hours'),
+                'constraints' => [
+                    new Assert\Range([
+                        'min' => 'now',
+                        'max' => '+2 month',
+                    ]),
+                ],
+                'help' => 'help order',
+                'help_attr' => [
+                    'class' => 'mt-0 mb-2',
+                ],
             ])
             ->add('stock', IntegerType::class, [
-                'translation_domain' => 'form',
             ])
             ->add('tags', TagsType::class, [
-                'translation_domain' => 'form',
             ])
             ->add('description', TextareaType::class, [
-                'translation_domain' => 'form',
                 'required' => false,
                 'attr' => [
                     'class' => 'richTextEditor-hide',
                 ],
             ])
             ->add('image', FileType::class, [
-                'translation_domain' => 'form',
                 'required' => true,
                 'mapped' => false,
                 'data_class' => null,
@@ -72,7 +88,6 @@ class MealType extends AbstractType
             if ($meal->getId()) {
                 $event->getForm()->remove('image')
                     ->add('image', FileType::class, [
-                        'translation_domain' => 'form',
                         'required' => false,
                         'mapped' => false,
                         'data_class' => null,
@@ -100,6 +115,7 @@ class MealType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
+            'translation_domain' => 'form',
             'data_class' => Meal::class,
             'attr' => [
                 'id' => 'mealForm',

@@ -62,6 +62,8 @@ une image 1900x545: une image 1900x545
 Nom: Nom
 Meals: Assiettes
 Prix: Prix
+Stock: Quantité
+
 Catégorie: Catégorie
 
 Information: Information
@@ -77,9 +79,6 @@ Entrer votre code promo: Entrer votre code promo
 Message : Message
 Send to: Envoyé à
 Send from: De
-
-
-
 Monday: Lundi
 Tuesday: Mardi
 Wednesday: Mercredi
@@ -89,3 +88,7 @@ Saturday: Samedi
 Sunday: Dimanche
 
 City: Adresse de l'entreprise
+
+Pre order: Précommande ?
+Auto command validation: Validation auto. des commandes
+Force delivery: Imposer le prix minimum pour commander
